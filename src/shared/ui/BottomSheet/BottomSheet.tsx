@@ -73,7 +73,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       useTimingAnimation();
 
     const { animate: animateBackdrop, animation: backdropAnimation } =
-      useTimingAnimation(undefined, { duration: 450 });
+      useTimingAnimation(undefined, { duration: 350 });
 
     const handleSheetChanges = useCallback(
       (index: number) => {
@@ -179,6 +179,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
           enableOverDrag={false}
           enableContentPanningGesture={!staticMode}
           enableHandlePanningGesture={!staticMode}
+          enableDynamicSizing={true}
           index={initialIndex}
           handleStyle={{
             padding: 0,

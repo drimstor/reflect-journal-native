@@ -16,26 +16,21 @@ import { PreviewCard, ListItemPreview } from "@/src/features";
 import { FiltersPanel, Header } from "@/src/widgets";
 import { useT } from "@/src/shared/lib/hooks";
 import {
-  useAnimationStore,
   useChatStore,
   useDeviceStore,
   useThemeStore,
 } from "@/src/shared/store";
-import { Animated, Pressable, ScrollView, View } from "react-native";
+import { Animated, View } from "react-native";
 import {
   BookIcon,
   ClipboardCheckIcon,
-  ClipboardTextIcon,
   DirectIcon,
-  DotsIcon,
   EditPencilIcon,
   MailIcon,
   TrashIcon,
 } from "@/src/shared/ui/icons";
 import { styles } from "./LibraryScreen.styles";
-import { useGetPadding } from "@/src/shared/lib/hooks";
 import { PATHS } from "@/src/shared/const";
-import React, { useEffect } from "react";
 import {
   BookIcon as BookIconAnimated,
   MailIcon as MailIconAnimated,
@@ -49,17 +44,10 @@ type NavigationProps = BottomTabNavigationProp<any, typeof PATHS.LIBRARY_ITEM>;
 
 interface LibraryScreenProps {}
 
-type IconProps = {
-  color: string;
-  size: number;
-  animatedStyle: { stroke: Animated.AnimatedInterpolation<string | number> };
-};
-
 const LibraryScreen: FC<LibraryScreenProps> = () => {
   const t = useT();
   const { colors } = useThemeStore();
   const { window } = useDeviceStore();
-  const { paddingHorizontal } = useGetPadding();
   const bottomSheetRef = useRef<BottomSheetRef>(null);
   const navigation = useNavigation<NavigationProps>();
 
@@ -118,6 +106,9 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
 
   // --------------------- //
 
+  const defaultActionsRef = useRef<BottomSheetRef>(null);
+  const { setBottomSheetVisible } = useChatStore();
+
   const defaultActions = useMemo<BottomSheetAction[]>(
     () => [
       {
@@ -135,15 +126,13 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
     [colors.error]
   );
 
-  const { setBottomSheetVisible } = useChatStore();
-
-  const defaultActionsRef = useRef<BottomSheetRef>(null);
-
   const handleDotsPress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     defaultActionsRef.current?.snapToIndex(0);
     setBottomSheetVisible(true);
   };
+
+  // --------------------- //
 
   return (
     <Layout>

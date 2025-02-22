@@ -145,7 +145,6 @@ const ChatScreen: FC = () => {
           />
         </View>
       </View>
-
       <Portal>
         <BottomSheetActions ref={messageActionsRef} items={messageActions} />
       </Portal>
