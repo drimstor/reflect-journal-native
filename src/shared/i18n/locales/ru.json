@@ -1,0 +1,41 @@
+{
+  "profile": {
+    "title": "Профиль"
+  },
+  "home": {
+    "title": "Главная"
+  },
+  "menu": {
+    "title": "Меню"
+  },
+  "auth": {
+    "title": "Вход",
+    "signIn": {
+      "title": "Вход",
+      "submit": "Войти",
+      "withGoogle": "Войти через Google"
+    },
+    "signUp": {
+      "title": "Регистрация",
+      "submit": "Зарегистрироваться",
+      "withGoogle": "Зарегистрироваться через Google"
+    },
+    "email": {
+      "label": "Электронная почта",
+      "placeholder": "Введите почту"
+    },
+    "password": {
+      "label": "Пароль",
+      "placeholder": "Введите пароль",
+      "helper": "Пароль должен содержать не менее 8 символов"
+    },
+    "confirmPassword": {
+      "label": "Подтверждение пароля",
+      "placeholder": "Подтвердите пароль",
+      "helper": "Пароли должны совпадать"
+    },
+    "rememberMe": "Запомнить меня",
+    "forgotPassword": "Забыли пароль?",
+    "or": "или"
+  }
+} 

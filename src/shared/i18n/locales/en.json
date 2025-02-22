@@ -1,0 +1,41 @@
+{
+  "profile": {
+    "title": "Profile"
+  },
+  "home": {
+    "title": "Home"
+  },
+  "menu": {
+    "title": "Menu"
+  },
+  "auth": {
+    "title": "Sign In",
+    "signIn": {
+      "title": "Sign In",
+      "submit": "Sign In",
+      "withGoogle": "Sign In with Google"
+    },
+    "signUp": {
+      "title": "Sign Up",
+      "submit": "Sign Up",
+      "withGoogle": "Sign Up with Google"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Enter email"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter password",
+      "helper": "Password must be at least 8 characters"
+    },
+    "confirmPassword": {
+      "label": "Confirm Password",
+      "placeholder": "Confirm your password",
+      "helper": "Passwords must match"
+    },
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "or": "or"
+  }
+} 
