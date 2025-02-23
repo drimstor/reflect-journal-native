@@ -1,8 +1,6 @@
 import { FC, useMemo, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-// import { Portal } from "@gorhom/portal";
-import { BottomSheetAction } from "@/src/widgets";
 import {
   Divider,
   Layout,
@@ -15,15 +13,12 @@ import {
 import { PreviewCard, ListItemPreview } from "@/src/features";
 import { FiltersPanel, Header } from "@/src/widgets";
 import { useT } from "@/src/shared/lib/hooks";
-import {
-  useChatStore,
-  useDeviceStore,
-  useThemeStore,
-} from "@/src/shared/store";
+import { useDeviceStore, useThemeStore } from "@/src/shared/store";
 import { Animated, View } from "react-native";
 import {
   BookIcon,
   ClipboardCheckIcon,
+  ClipboardTextIcon,
   DirectIcon,
   EditPencilIcon,
   MailIcon,
@@ -39,6 +34,7 @@ import {
 } from "@/src/shared/ui/iconsAnimated";
 import { AnimatedIconProps } from "@/src/shared/ui/iconsAnimated/types";
 import * as Haptics from "expo-haptics";
+import { useBottomSheetStore } from "@/src/shared/store/bottomSheet.store";
 
 type NavigationProps = BottomTabNavigationProp<any, typeof PATHS.LIBRARY_ITEM>;
 
@@ -106,30 +102,30 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
 
   // --------------------- //
 
-  const defaultActionsRef = useRef<BottomSheetRef>(null);
-  const { setBottomSheetVisible } = useChatStore();
+  const { setActions, setBottomSheetVisible } = useBottomSheetStore();
 
-  const defaultActions = useMemo<BottomSheetAction[]>(
-    () => [
+  const handleDotsPress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    setBottomSheetVisible(true);
+    setActions([
       {
         text: "Edit",
         IconComponent: EditPencilIcon,
-        onPress: () => {},
+        onPress: () => {
+          // ваш код
+          console.log("Edit");
+        },
       },
       {
         text: "Delete",
         IconComponent: TrashIcon,
-        onPress: () => {},
         iconColor: colors.error,
+        onPress: () => {
+          // ваш код
+          console.log("Delete");
+        },
       },
-    ],
-    [colors.error]
-  );
-
-  const handleDotsPress = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    // defaultActionsRef.current?.snapToIndex(0);
-    setBottomSheetVisible(true);
+    ]);
   };
 
   // --------------------- //
@@ -256,9 +252,6 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
           </View>
         </View>
       </BottomSheet>
-      {/* <Portal>
-        <BottomSheetActions ref={defaultActionsRef} items={defaultActions} />
-      </Portal> */}
     </Layout>
   );
 };

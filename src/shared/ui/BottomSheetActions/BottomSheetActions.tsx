@@ -1,21 +1,23 @@
 import { BottomSheet, List } from "@/src/shared/ui";
 import { useThemeStore } from "@/src/shared/store";
-import type { BottomSheetActionsProps } from "./model/types";
 import { useBottomSheetVisibility } from "./lib/hooks/useBottomSheetVisibility";
+import { useBottomSheetStore } from "@/src/shared/store/bottomSheet.store";
 
-const BottomSheetActions = ({ items }: BottomSheetActionsProps) => {
+const BottomSheetActions = () => {
   const { colors } = useThemeStore();
   const { ref, handleClose } = useBottomSheetVisibility();
+  const { actions, resetActions } = useBottomSheetStore();
 
   const handleAction = (action: () => void = () => {}) => {
     handleClose();
+    resetActions();
     action();
   };
 
   return (
     <BottomSheet
       ref={ref}
-      snapPoints={[200]}
+      snapPoints={[actions.length * 52 + 40]}
       backgroundColor={colors.secondary}
       borderColor={colors.alternate}
       animateOnMount={false}
@@ -23,11 +25,14 @@ const BottomSheetActions = ({ items }: BottomSheetActionsProps) => {
       initialIndex={-1}
       indicatorColor={colors.alternate}
       withBackdrop
-      onClose={handleClose}
+      onClose={() => {
+        handleClose();
+        resetActions();
+      }}
     >
       <List
         style={{ paddingBottom: 40 }}
-        items={items.map(({ text, IconComponent, onPress, iconColor }) => ({
+        items={actions.map(({ text, IconComponent, onPress, iconColor }) => ({
           text,
           onPress: () => handleAction(onPress),
           IconComponent: (props) => (

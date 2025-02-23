@@ -115,7 +115,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
           <BottomSheetBackdrop
             {...props}
             disappearsOnIndex={-1}
-            appearsOnIndex={withBackdrop ? 0 : -1}
+            appearsOnIndex={0}
             onPress={onClose}
           />
         );

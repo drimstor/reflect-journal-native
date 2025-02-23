@@ -3,4 +3,4 @@ export { useDeviceStore } from "./device.store";
 export { useAuthStore } from "./auth.store";
 export { useI18nStore } from "./i18n.store";
 export { useAnimationStore } from "./animation.store";
-export { useChatStore } from "./chat.store";
+export { useBottomSheetStore } from "./bottomSheet.store";

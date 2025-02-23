@@ -18,13 +18,20 @@ import PaddingLayout from "./Layout/PaddingLayout";
 import InfoBox from "./InfoBox/InfoBox";
 import ProgressBar from "./ProgressBar/ProgressBar";
 import Carousel from "./Slider/Carousel";
-import type { BottomSheetRef } from "./BottomSheet/BottomSheet";
 import AnimatedText from "./Text/AnimatedText";
 import ListItem from "./List/ListItem";
 import List from "./List/List";
+import type { BottomSheetRef } from "./BottomSheet/BottomSheet";
+import UILayout from "./Layout/UILayout";
+import BottomSheetActions from "./BottomSheetActions/BottomSheetActions";
+import type { BottomSheetAction } from "./BottomSheetActions/model/types";
+
 export {
   BottomSheet,
   type BottomSheetRef,
+  type BottomSheetAction,
+  UILayout,
+  BottomSheetActions,
   Button,
   CheckBox,
   Divider,

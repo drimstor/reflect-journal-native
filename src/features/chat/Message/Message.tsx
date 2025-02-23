@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
 import { Animated } from "react-native";
-import { useChatStore } from "@/src/shared/store";
+import { useBottomSheetStore } from "@/src/shared/store";
 import { Portal } from "@gorhom/portal";
 import { LongPressGestureHandler, State } from "react-native-gesture-handler";
 import RenderBubble from "./ui/RenderBubble";
@@ -10,7 +10,7 @@ import { useMessageAnimation } from "./lib/hooks/useMessageAnimation";
 import { useMessageMeasure } from "./lib/hooks/useMessageMeasure";
 
 const Message: FC<ExtendedBubbleProps> = (props) => {
-  const { isBottomSheetVisible, setBottomSheetVisible } = useChatStore();
+  const { isBottomSheetVisible, setBottomSheetVisible } = useBottomSheetStore();
 
   const { animatedStyle, scaleAnimation, translateAnimation } =
     useMessageAnimation();

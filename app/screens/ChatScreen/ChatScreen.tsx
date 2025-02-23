@@ -1,19 +1,10 @@
-import React, { FC, useState, useCallback, useEffect, useRef } from "react";
+import React, { FC, useState, useCallback, useEffect } from "react";
 import { View } from "react-native";
 import { createStyles } from "./ChatScreen.styles";
-import {
-  BottomSheet,
-  Layout,
-  List,
-  type BottomSheetRef,
-} from "@/src/shared/ui";
+import { Layout } from "@/src/shared/ui";
 import { Header } from "@/src/widgets";
 import { GiftedChat, IMessage } from "react-native-gifted-chat";
-import {
-  useDeviceStore,
-  useThemeStore,
-  useChatStore,
-} from "@/src/shared/store";
+import { useDeviceStore, useThemeStore } from "@/src/shared/store";
 import { MOCK_CHAT_MESSAGES } from "./const/static";
 import {
   DateChip,
@@ -24,17 +15,17 @@ import {
 import { useDateChip } from "./lib/hooks/useDateChip";
 import { useKeyboard } from "@/src/shared/lib/hooks/useKeyboard";
 import * as Haptics from "expo-haptics";
-import { Portal } from "@gorhom/portal";
 import {
   ClipboardTextIcon,
   EditPencilIcon,
   TrashIcon,
 } from "@/src/shared/ui/icons";
+import { useBottomSheetStore } from "@/src/shared/store";
 
 const ChatScreen: FC = () => {
   const { colors } = useThemeStore();
   const { isAndroid } = useDeviceStore();
-  const { setBottomSheetVisible } = useChatStore();
+  const { setBottomSheetVisible, setActions } = useBottomSheetStore();
   const styles = createStyles(colors);
   const { isKeyboardVisible } = useKeyboard();
 
@@ -69,6 +60,24 @@ const ChatScreen: FC = () => {
   const handleLongPress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     setBottomSheetVisible(true);
+    setActions([
+      {
+        text: "Copy",
+        IconComponent: ClipboardTextIcon,
+        onPress: () => {},
+      },
+      {
+        text: "Edit",
+        IconComponent: EditPencilIcon,
+        onPress: () => {},
+      },
+      {
+        text: "Delete",
+        IconComponent: TrashIcon,
+        onPress: () => {},
+        iconColor: colors.error,
+      },
+    ]);
   };
 
   return (
@@ -117,51 +126,6 @@ const ChatScreen: FC = () => {
           />
         </View>
       </View>
-
-      {/* <Portal>
-        <BottomSheet
-          ref={bottomSheetRef}
-          snapPoints={[190]}
-          backgroundColor={colors.secondary}
-          borderColor={colors.alternate}
-          animateOnMount={false}
-          style={{ paddingTop: 0 }}
-          initialIndex={-1}
-          indicatorColor={colors.alternate}
-          withBackdrop
-          onClose={() => setBottomSheetVisible(false)}
-        >
-          <List
-            style={{ paddingBottom: 40 }}
-            items={[
-              {
-                text: "Copy",
-                IconComponent: ClipboardTextIcon,
-                onPress: () => {
-                  bottomSheetRef.current?.close();
-                  setBottomSheetVisible(false);
-                },
-              },
-              {
-                text: "Edit",
-                IconComponent: EditPencilIcon,
-                onPress: () => {
-                  bottomSheetRef.current?.close();
-                  setBottomSheetVisible(false);
-                },
-              },
-              {
-                text: "Delete",
-                IconComponent: () => <TrashIcon color={colors.error} />,
-                onPress: () => {
-                  bottomSheetRef.current?.close();
-                  setBottomSheetVisible(false);
-                },
-              },
-            ]}
-          />
-        </BottomSheet>
-      </Portal> */}
     </Layout>
   );
 };
