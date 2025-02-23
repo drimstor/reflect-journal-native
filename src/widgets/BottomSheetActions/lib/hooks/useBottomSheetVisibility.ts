@@ -1,8 +1,9 @@
-import { useEffect, useRef, ForwardedRef } from "react";
+import { useEffect, useRef } from "react";
 import { useChatStore } from "@/src/shared/store";
 import type { BottomSheetRef } from "@/src/shared/ui";
 
-export const useBottomSheetVisibility = (ref: ForwardedRef<BottomSheetRef>) => {
+export const useBottomSheetVisibility = () => {
+  const ref = useRef<BottomSheetRef>(null);
   const isInitialRender = useRef(true);
   const { setBottomSheetVisible, isBottomSheetVisible } = useChatStore();
 
@@ -12,8 +13,10 @@ export const useBottomSheetVisibility = (ref: ForwardedRef<BottomSheetRef>) => {
       return;
     }
 
-    if (!isBottomSheetVisible) {
-      if (typeof ref === "object" && ref?.current) ref.current.close();
+    if (isBottomSheetVisible) {
+      ref.current?.snapToIndex(1);
+    } else {
+      ref.current?.close();
     }
   }, [isBottomSheetVisible]);
 
@@ -21,8 +24,5 @@ export const useBottomSheetVisibility = (ref: ForwardedRef<BottomSheetRef>) => {
     setBottomSheetVisible(false);
   };
 
-  return {
-    isBottomSheetVisible,
-    handleClose,
-  };
+  return { handleClose, ref };
 };

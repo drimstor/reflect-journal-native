@@ -1,37 +1,35 @@
-import {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  withTiming,
-} from "react-native-reanimated";
-import { ANIMATION_DELAY } from "../../const/static";
+import { useTimingAnimation } from "@/src/shared/lib/hooks";
 
 export const useMessageAnimation = () => {
-  const scale = useSharedValue(1);
-  const translateY = useSharedValue(0);
+  const { animation: translateY, animate: animateTranslate } =
+    useTimingAnimation(undefined, {
+      initialValue: 0,
+      useNativeDriver: true,
+    });
 
-  const startPressAnimation = () => {
-    scale.value = withTiming(0.95, { duration: ANIMATION_DELAY });
+  const { animation: scale, animate: animateScale } = useTimingAnimation(
+    undefined,
+    {
+      initialValue: 1,
+      useNativeDriver: true,
+    }
+  );
+
+  const scaleAnimation = (scale: number) => {
+    animateScale(scale);
   };
 
-  const resetAnimation = () => {
-    scale.value = withSpring(1);
+  const translateAnimation = (offset: number) => {
+    animateTranslate(offset);
   };
 
-  const translateMessage = (offset: number) => {
-    translateY.value = withTiming(offset, { duration: ANIMATION_DELAY });
+  const animatedStyle = {
+    transform: [{ scale }, { translateY }],
   };
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ scale: scale.value }, { translateY: translateY.value }],
-    };
-  });
 
   return {
     animatedStyle,
-    startPressAnimation,
-    resetAnimation,
-    translateMessage,
+    translateAnimation,
+    scaleAnimation,
   };
 };

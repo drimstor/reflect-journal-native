@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from "react";
+import { Animated } from "react-native";
 import { useChatStore } from "@/src/shared/store";
 import { Portal } from "@gorhom/portal";
 import { LongPressGestureHandler, State } from "react-native-gesture-handler";
-import Reanimated, { runOnJS } from "react-native-reanimated";
 import RenderBubble from "./ui/RenderBubble";
 import { ANIMATION_DELAY } from "./const/static";
 import { ExtendedBubbleProps } from "./model/types";
@@ -12,12 +12,8 @@ import { useMessageMeasure } from "./lib/hooks/useMessageMeasure";
 const Message: FC<ExtendedBubbleProps> = (props) => {
   const { isBottomSheetVisible, setBottomSheetVisible } = useChatStore();
 
-  const {
-    animatedStyle,
-    startPressAnimation,
-    resetAnimation,
-    translateMessage,
-  } = useMessageAnimation();
+  const { animatedStyle, scaleAnimation, translateAnimation } =
+    useMessageAnimation();
 
   const {
     bubbleLayout,
@@ -29,8 +25,7 @@ const Message: FC<ExtendedBubbleProps> = (props) => {
 
   useEffect(() => {
     if (!isBottomSheetVisible) {
-      resetAnimation();
-      translateMessage(0);
+      translateAnimation(0);
       setTimeout(resetBubblePosition, ANIMATION_DELAY);
     }
   }, [isBottomSheetVisible]);
@@ -40,13 +35,13 @@ const Message: FC<ExtendedBubbleProps> = (props) => {
 
     if (nativeEvent.state === State.BEGAN) {
       setBubblePosition();
-      startPressAnimation();
+      scaleAnimation(0.95);
     } else if (nativeEvent.state === State.ACTIVE) {
-      resetAnimation();
-      if (isNeedTranslate) translateMessage(offset);
-      if (props.onLongPress) runOnJS(props.onLongPress)();
+      scaleAnimation(1);
+      if (isNeedTranslate) translateAnimation(offset);
+      props.onLongPress?.();
     } else {
-      resetAnimation();
+      scaleAnimation(1);
       if (!isBottomSheetVisible) resetBubblePosition();
     }
   };
@@ -57,14 +52,14 @@ const Message: FC<ExtendedBubbleProps> = (props) => {
         onHandlerStateChange={handleStateChange}
         minDurationMs={ANIMATION_DELAY}
       >
-        <Reanimated.View ref={ref} style={animatedStyle}>
+        <Animated.View ref={ref} style={animatedStyle}>
           <RenderBubble {...props} />
-        </Reanimated.View>
+        </Animated.View>
       </LongPressGestureHandler>
 
       {bubbleLayout.x !== 0 && bubbleLayout.y !== 0 && (
         <Portal>
-          <Reanimated.View
+          <Animated.View
             style={[
               {
                 position: "absolute",
@@ -78,7 +73,7 @@ const Message: FC<ExtendedBubbleProps> = (props) => {
             onTouchEnd={() => setBottomSheetVisible(false)}
           >
             <RenderBubble {...props} />
-          </Reanimated.View>
+          </Animated.View>
         </Portal>
       )}
     </>

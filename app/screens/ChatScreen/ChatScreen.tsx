@@ -1,15 +1,13 @@
-import React, {
-  FC,
-  useState,
-  useCallback,
-  useEffect,
-  useRef,
-  useMemo,
-} from "react";
+import React, { FC, useState, useCallback, useEffect, useRef } from "react";
 import { View } from "react-native";
 import { createStyles } from "./ChatScreen.styles";
-import { Layout } from "@/src/shared/ui";
-import { BottomSheetActions, Header } from "@/src/widgets";
+import {
+  BottomSheet,
+  Layout,
+  List,
+  type BottomSheetRef,
+} from "@/src/shared/ui";
+import { Header } from "@/src/widgets";
 import { GiftedChat, IMessage } from "react-native-gifted-chat";
 import {
   useDeviceStore,
@@ -27,13 +25,11 @@ import { useDateChip } from "./lib/hooks/useDateChip";
 import { useKeyboard } from "@/src/shared/lib/hooks/useKeyboard";
 import * as Haptics from "expo-haptics";
 import { Portal } from "@gorhom/portal";
-import type { BottomSheetRef } from "@/src/shared/ui";
 import {
   ClipboardTextIcon,
   EditPencilIcon,
   TrashIcon,
 } from "@/src/shared/ui/icons";
-import type { BottomSheetAction } from "@/src/widgets";
 
 const ChatScreen: FC = () => {
   const { colors } = useThemeStore();
@@ -41,7 +37,6 @@ const ChatScreen: FC = () => {
   const { setBottomSheetVisible } = useChatStore();
   const styles = createStyles(colors);
   const { isKeyboardVisible } = useKeyboard();
-  const messageActionsRef = useRef<BottomSheetRef>(null);
 
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [text, setText] = useState("");
@@ -73,31 +68,8 @@ const ChatScreen: FC = () => {
 
   const handleLongPress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    messageActionsRef.current?.snapToIndex(0);
     setBottomSheetVisible(true);
   };
-
-  const messageActions = useMemo<BottomSheetAction[]>(
-    () => [
-      {
-        text: "Copy",
-        IconComponent: ClipboardTextIcon,
-        onPress: () => {},
-      },
-      {
-        text: "Edit",
-        IconComponent: EditPencilIcon,
-        onPress: () => {},
-      },
-      {
-        text: "Delete",
-        IconComponent: TrashIcon,
-        onPress: () => {},
-        iconColor: colors.error,
-      },
-    ],
-    [colors.error]
-  );
 
   return (
     <Layout style={{ flex: 1 }}>
@@ -145,9 +117,51 @@ const ChatScreen: FC = () => {
           />
         </View>
       </View>
-      <Portal>
-        <BottomSheetActions ref={messageActionsRef} items={messageActions} />
-      </Portal>
+
+      {/* <Portal>
+        <BottomSheet
+          ref={bottomSheetRef}
+          snapPoints={[190]}
+          backgroundColor={colors.secondary}
+          borderColor={colors.alternate}
+          animateOnMount={false}
+          style={{ paddingTop: 0 }}
+          initialIndex={-1}
+          indicatorColor={colors.alternate}
+          withBackdrop
+          onClose={() => setBottomSheetVisible(false)}
+        >
+          <List
+            style={{ paddingBottom: 40 }}
+            items={[
+              {
+                text: "Copy",
+                IconComponent: ClipboardTextIcon,
+                onPress: () => {
+                  bottomSheetRef.current?.close();
+                  setBottomSheetVisible(false);
+                },
+              },
+              {
+                text: "Edit",
+                IconComponent: EditPencilIcon,
+                onPress: () => {
+                  bottomSheetRef.current?.close();
+                  setBottomSheetVisible(false);
+                },
+              },
+              {
+                text: "Delete",
+                IconComponent: () => <TrashIcon color={colors.error} />,
+                onPress: () => {
+                  bottomSheetRef.current?.close();
+                  setBottomSheetVisible(false);
+                },
+              },
+            ]}
+          />
+        </BottomSheet>
+      </Portal> */}
     </Layout>
   );
 };

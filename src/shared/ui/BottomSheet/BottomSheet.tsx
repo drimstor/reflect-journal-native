@@ -7,19 +7,14 @@ import React, {
   useImperativeHandle,
   useMemo,
 } from "react";
+import { StyleProp, ViewStyle, Animated } from "react-native";
 import {
-  StyleProp,
-  ViewStyle,
-  Animated,
-  TouchableWithoutFeedback,
-} from "react-native";
-import { BlurView } from "expo-blur";
-import {
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps,
   default as BottomSheetLibrary,
   BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
 import { useGetPadding, useTimingAnimation } from "@/src/shared/lib/hooks";
-import { useThemeStore } from "@/src/shared/store";
 import { getExpandAnimatedStyle } from "./lib/helpers/getExpandAnimatedStyle";
 
 export interface BottomSheetRef {
@@ -67,42 +62,22 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
     const outsideRef = useRef<BottomSheetLibrary>(null);
     const { paddingHorizontal } = useGetPadding();
     const [isFullyExpanded, setIsFullyExpanded] = useState(false);
-    const { theme } = useThemeStore();
 
     const { animate: animateExpand, animation: expandAnimation } =
       useTimingAnimation();
-
-    const { animate: animateBackdrop, animation: backdropAnimation } =
-      useTimingAnimation(undefined, { duration: 350 });
 
     const handleSheetChanges = useCallback(
       (index: number) => {
         const isExpanded = index === snapPoints.length - 1;
         setIsFullyExpanded(isExpanded);
 
-        if (withBackdrop) {
-          animateBackdrop(index >= 0 ? 1 : 0);
-        }
+        if (topElement) animateExpand(isExpanded ? 1 : 0);
 
-        if (topElement) {
-          animateExpand(isExpanded ? 1 : 0);
-        }
-
-        if (index === -1) {
-          if (withBackdrop) animateBackdrop(0);
-          onClose?.();
-        }
+        if (index === -1) onClose?.();
 
         onChange?.(index);
       },
-      [
-        snapPoints.length,
-        topElement,
-        animateExpand,
-        withBackdrop,
-        animateBackdrop,
-        onChange,
-      ]
+      [snapPoints.length, topElement, animateExpand, withBackdrop, onChange]
     );
 
     const handleScroll = useCallback(
@@ -119,17 +94,13 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
 
     useImperativeHandle(ref, () => ({
       snapToIndex: (index: number) => {
-        if (withBackdrop) animateBackdrop(1);
         outsideRef.current?.snapToIndex(index);
       },
       snapToPosition: (position: number) => {
-        if (withBackdrop) animateBackdrop(1);
         outsideRef.current?.snapToPosition(position);
       },
       close: () => {
-        if (withBackdrop) animateBackdrop(0);
-        outsideRef.current?.snapToPosition(-5);
-        onClose?.();
+        outsideRef.current?.snapToPosition(-1);
       },
     }));
 
@@ -138,108 +109,89 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       [expandAnimation]
     );
 
+    const backdropComponent = (props: BottomSheetBackdropProps) => {
+      if (withBackdrop) {
+        return (
+          <BottomSheetBackdrop
+            {...props}
+            disappearsOnIndex={-1}
+            appearsOnIndex={withBackdrop ? 0 : -1}
+            onPress={onClose}
+          />
+        );
+      }
+      return null;
+    };
+
     return (
-      <>
-        {withBackdrop && (
+      <BottomSheetLibrary
+        ref={outsideRef}
+        snapPoints={snapPoints}
+        onChange={handleSheetChanges}
+        animateOnMount={animateOnMount}
+        enablePanDownToClose={!staticMode && snapPoints.length === 1}
+        enableOverDrag={false}
+        enableContentPanningGesture={!staticMode}
+        enableHandlePanningGesture={!staticMode}
+        enableDynamicSizing={true}
+        backdropComponent={backdropComponent}
+        index={initialIndex}
+        handleStyle={{
+          padding: 0,
+          margin: 0,
+          paddingTop: indicatorColor ? 8 : 0,
+        }}
+        handleIndicatorStyle={{
+          backgroundColor: indicatorColor || "#E0E0E0",
+          width: 40,
+          height: 4,
+          display: staticMode ? "none" : indicatorColor ? "flex" : "none",
+        }}
+        backgroundStyle={[
+          {
+            backgroundColor,
+            borderTopLeftRadius: 24,
+            borderTopRightRadius: 24,
+            padding: 0,
+          },
+          borderColor ? { borderColor, borderWidth: 1 } : {},
+          style,
+        ]}
+      >
+        {topElement && (
           <Animated.View
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              overflow: "hidden",
-              opacity: backdropAnimation.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, 1],
-              }),
-            }}
+            style={[
+              { opacity: expandAnimation, paddingHorizontal },
+              expandAnimatedStyle,
+            ]}
           >
-            <TouchableWithoutFeedback
-              onPress={() => {
-                animateBackdrop(0);
-                outsideRef.current?.close();
-                onClose?.();
-              }}
-            >
-              <BlurView
-                style={{ flex: 1 }}
-                intensity={15}
-                tint={theme === "dark" ? "dark" : "light"}
-              />
-            </TouchableWithoutFeedback>
+            {topElement}
           </Animated.View>
         )}
-        <BottomSheetLibrary
-          ref={outsideRef}
-          snapPoints={snapPoints}
-          onChange={handleSheetChanges}
-          animateOnMount={animateOnMount}
-          enablePanDownToClose={!staticMode && snapPoints.length === 1}
-          enableOverDrag={false}
-          enableContentPanningGesture={!staticMode}
-          enableHandlePanningGesture={!staticMode}
-          enableDynamicSizing={true}
-          index={initialIndex}
-          handleStyle={{
-            padding: 0,
-            margin: 0,
-            paddingTop: indicatorColor ? 8 : 0,
-          }}
-          handleIndicatorStyle={{
-            backgroundColor: indicatorColor || "#E0E0E0",
-            width: 40,
-            height: 4,
-            display: staticMode ? "none" : indicatorColor ? "flex" : "none",
-          }}
-          backgroundStyle={[
-            {
-              backgroundColor,
-              borderTopLeftRadius: 24,
-              borderTopRightRadius: 24,
-              padding: 0,
-            },
-            borderColor ? { borderColor, borderWidth: 1 } : {},
-            style,
-          ]}
-        >
-          {topElement && (
-            <Animated.View
-              style={[
-                { opacity: expandAnimation, paddingHorizontal },
-                expandAnimatedStyle,
-              ]}
-            >
-              {topElement}
-            </Animated.View>
-          )}
 
-          {pinnedElement && (
-            <Animated.View
-              style={[
-                { paddingHorizontal },
-                topElement ? expandAnimatedStyle : undefined,
-              ]}
-            >
-              {pinnedElement}
-            </Animated.View>
-          )}
-
+        {pinnedElement && (
           <Animated.View
-            style={
-              topElement ? [expandAnimatedStyle, { paddingBottom: 80 }] : {}
-            }
+            style={[
+              { paddingHorizontal },
+              topElement ? expandAnimatedStyle : undefined,
+            ]}
           >
-            <BottomSheetScrollView
-              onScroll={handleScroll}
-              scrollEnabled={isFullyExpanded}
-              style={[style, { paddingHorizontal }]}
-            >
-              {children}
-            </BottomSheetScrollView>
+            {pinnedElement}
           </Animated.View>
-        </BottomSheetLibrary>
-      </>
+        )}
+
+        <Animated.View
+          style={topElement ? [expandAnimatedStyle, { paddingBottom: 80 }] : {}}
+        >
+          <BottomSheetScrollView
+            onScroll={handleScroll}
+            scrollEnabled={isFullyExpanded}
+            style={[style, { paddingHorizontal }]}
+          >
+            {children}
+          </BottomSheetScrollView>
+        </Animated.View>
+      </BottomSheetLibrary>
     );
   }
 );

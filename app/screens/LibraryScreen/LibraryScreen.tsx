@@ -1,8 +1,8 @@
 import { FC, useMemo, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { Portal } from "@gorhom/portal";
-import { BottomSheetAction, BottomSheetActions } from "@/src/widgets";
+// import { Portal } from "@gorhom/portal";
+import { BottomSheetAction } from "@/src/widgets";
 import {
   Divider,
   Layout,
@@ -128,7 +128,7 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
 
   const handleDotsPress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    defaultActionsRef.current?.snapToIndex(0);
+    // defaultActionsRef.current?.snapToIndex(0);
     setBottomSheetVisible(true);
   };
 
@@ -256,9 +256,9 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
           </View>
         </View>
       </BottomSheet>
-      <Portal>
+      {/* <Portal>
         <BottomSheetActions ref={defaultActionsRef} items={defaultActions} />
-      </Portal>
+      </Portal> */}
     </Layout>
   );
 };
