@@ -106,7 +106,9 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
 
   const handleDotsPress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    setBottomSheetVisible(true);
+    setTimeout(() => {
+      setBottomSheetVisible(true);
+    }, 0);
     setActions([
       {
         text: "Edit",

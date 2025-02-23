@@ -59,7 +59,7 @@ const ChatScreen: FC = () => {
 
   const handleLongPress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    setBottomSheetVisible(true);
+
     setActions([
       {
         text: "Copy",
@@ -78,6 +78,10 @@ const ChatScreen: FC = () => {
         iconColor: colors.error,
       },
     ]);
+
+    setTimeout(() => {
+      setBottomSheetVisible(true);
+    }, 0);
   };
 
   return (
