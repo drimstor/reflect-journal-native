@@ -1,4 +1,4 @@
-import React, {
+import {
   ReactNode,
   useCallback,
   useRef,
@@ -77,7 +77,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
 
         onChange?.(index);
       },
-      [snapPoints.length, topElement, animateExpand, withBackdrop, onChange]
+      [snapPoints.length, topElement, animateExpand, onChange]
     );
 
     const handleScroll = useCallback(
@@ -123,6 +123,8 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       return null;
     };
 
+    console.log({ snapPoints });
+
     return (
       <BottomSheetLibrary
         ref={outsideRef}
@@ -133,7 +135,6 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
         enableOverDrag={false}
         enableContentPanningGesture={!staticMode}
         enableHandlePanningGesture={!staticMode}
-        enableDynamicSizing={true}
         backdropComponent={backdropComponent}
         index={initialIndex}
         handleStyle={{

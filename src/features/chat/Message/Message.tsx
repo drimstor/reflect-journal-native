@@ -35,13 +35,13 @@ const Message: FC<ExtendedBubbleProps> = (props) => {
 
     if (nativeEvent.state === State.BEGAN) {
       setBubblePosition();
-      scaleAnimation(0.95);
+      if (!isNeedTranslate) scaleAnimation(0.95);
     } else if (nativeEvent.state === State.ACTIVE) {
-      scaleAnimation(1);
+      if (!isNeedTranslate) scaleAnimation(1);
       if (isNeedTranslate) translateAnimation(offset);
       props.onLongPress?.();
     } else {
-      scaleAnimation(1);
+      if (!isNeedTranslate) scaleAnimation(1);
       if (!isBottomSheetVisible) resetBubblePosition();
     }
   };

@@ -14,11 +14,10 @@ import { PreviewCard, ListItemPreview } from "@/src/features";
 import { FiltersPanel, Header } from "@/src/widgets";
 import { useT } from "@/src/shared/lib/hooks";
 import { useDeviceStore, useThemeStore } from "@/src/shared/store";
-import { Animated, View } from "react-native";
+import { View } from "react-native";
 import {
   BookIcon,
   ClipboardCheckIcon,
-  ClipboardTextIcon,
   DirectIcon,
   EditPencilIcon,
   MailIcon,
@@ -106,9 +105,7 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
 
   const handleDotsPress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-    setTimeout(() => {
-      setBottomSheetVisible(true);
-    }, 0);
+
     setActions([
       {
         text: "Edit",
@@ -128,6 +125,10 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
         },
       },
     ]);
+
+    setTimeout(() => {
+      setBottomSheetVisible(true);
+    }, 0);
   };
 
   // --------------------- //

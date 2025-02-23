@@ -17,7 +17,7 @@ const BottomSheetActions = () => {
   return (
     <BottomSheet
       ref={ref}
-      snapPoints={[actions.length * 52 + 40]}
+      snapPoints={[actions.length * 52 + 53]}
       backgroundColor={colors.secondary}
       borderColor={colors.alternate}
       animateOnMount={false}
