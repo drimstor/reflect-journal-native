@@ -2,22 +2,22 @@
   "expo": {
     "name": "ReflectJournal",
     "slug": "reflect-journal",
+    "scheme": "reflect-journal",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "reflect-journal",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mintraccoon.app"
+      "bundleIdentifier": "com.anonymous.reflectjournal"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.mintraccoon.app"
+      "package": "com.anonymous.reflectjournal"
     },
     "plugins": [
       [
@@ -34,6 +34,11 @@
     "experiments": {
       "typedRoutes": true
     },
-    "entryPoint": "./index.js"
+    "entryPoint": "./index.js",
+    "extra": {
+      "eas": {
+        "projectId": "dc34c5dd-1225-458c-b831-70832ef91cda"
+      }
+    }
   }
 }

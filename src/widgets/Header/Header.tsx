@@ -2,28 +2,31 @@ import { View } from "react-native";
 import { styles } from "./Header.styles";
 import { IconButton, Text } from "@/src/shared/ui";
 import { useDeviceStore, useThemeStore } from "@/src/shared/store";
-import { useLang } from "@/src/shared/lib/hooks";
-import { ArrowRightIcon, HeartIcon } from "@/src/shared/ui/icons";
+import { ArrowLeftIcon } from "@/src/shared/ui/icons";
 import { useGetPadding } from "@/src/shared/lib/hooks";
 import { useNavigation } from "@react-navigation/native";
-import { PATHS } from "@/src/shared/const";
+import { HeaderProps } from "./model/types";
+import { useHeaderStore } from "./store/header.store";
+import { NavigationProps } from "@/src/shared/model/types";
 
-interface HeaderProps {
-  title?: string;
-  subtitle?: string;
-}
-
-const Header = ({ title, subtitle }: HeaderProps) => {
-  const { toggleTheme, colors } = useThemeStore();
-  const { toggleLanguage } = useLang();
+const Header = ({
+  title,
+  subtitle,
+  leftIcon,
+  rightIcon,
+  backButton,
+}: HeaderProps) => {
+  const { colors } = useThemeStore();
   const { paddingHorizontal } = useGetPadding();
   const { isTablet, isIOS } = useDeviceStore();
+  const navigation = useNavigation<NavigationProps>();
 
-  const navigation = useNavigation();
-  const handleBack = () => {
-    // navigation.goBack();
-    navigation.goBack();
+  const backIcon = {
+    icon: <ArrowLeftIcon color={colors.contrast} />,
+    onPress: navigation.goBack,
   };
+
+  const leftIconProps = backButton ? backIcon : leftIcon;
 
   return (
     <View
@@ -32,9 +35,13 @@ const Header = ({ title, subtitle }: HeaderProps) => {
         { paddingHorizontal, paddingTop: isTablet && isIOS ? 30 : 10 },
       ]}
     >
-      <IconButton style={styles.headerLeftIcon} isOpacity onPress={handleBack}>
-        <ArrowRightIcon color={colors.contrast} />
-      </IconButton>
+      <View style={styles.headerIconBox}>
+        {leftIconProps && (
+          <IconButton isOpacity onPress={leftIconProps.onPress}>
+            {leftIconProps.icon}
+          </IconButton>
+        )}
+      </View>
 
       <View style={styles.headerTextBox}>
         {title && (
@@ -54,14 +61,13 @@ const Header = ({ title, subtitle }: HeaderProps) => {
         )}
       </View>
 
-      <IconButton isOpacity onPress={toggleTheme}>
-        <HeartIcon size={30} color={colors.contrast} />
-        {/* <ConfigureIcon size={30} color={colors.contrast} /> */}
-        {/* <BellIcon size={30} color={colors.contrast} /> */}
-        {/* <SearchIcon color={colors.contrast} /> */}
-        {/* <BurgerMenuIcon size={30} color={colors.contrast} /> */}
-        {/* <DotsIcon color={colors.contrast} /> */}
-      </IconButton>
+      <View style={styles.headerIconBox}>
+        {rightIcon && (
+          <IconButton isOpacity onPress={rightIcon.onPress}>
+            {rightIcon.icon}
+          </IconButton>
+        )}
+      </View>
     </View>
   );
 };

@@ -13,6 +13,7 @@ interface CheckBoxProps {
   checkedColor?: string;
   text?: string;
   textStyle?: StyleProp<TextStyle>;
+  textDecoration?: boolean;
 }
 
 const CheckBox: FC<CheckBoxProps> = ({
@@ -22,6 +23,7 @@ const CheckBox: FC<CheckBoxProps> = ({
   checkedColor,
   text,
   textStyle,
+  textDecoration,
 }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const textOpacity = useRef(new Animated.Value(1)).current;
@@ -35,7 +37,7 @@ const CheckBox: FC<CheckBoxProps> = ({
         useNativeDriver: true,
       }),
       Animated.timing(textOpacity, {
-        toValue: checked ? 0.5 : 1,
+        toValue: checked && textDecoration ? 0.5 : 1,
         duration: 150,
         useNativeDriver: true,
       }),
@@ -58,7 +60,10 @@ const CheckBox: FC<CheckBoxProps> = ({
         <Text
           color={colors.contrast}
           style={[
-            { textDecorationLine: checked ? "line-through" : "none" },
+            {
+              textDecorationLine:
+                checked && textDecoration ? "line-through" : "none",
+            },
             textStyle,
           ]}
         >

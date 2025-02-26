@@ -5,6 +5,7 @@ export const useMessageAnimation = () => {
     useTimingAnimation(undefined, {
       initialValue: 0,
       useNativeDriver: true,
+      duration: 300,
     });
 
   const { animation: scale, animate: animateScale } = useTimingAnimation(
@@ -12,6 +13,7 @@ export const useMessageAnimation = () => {
     {
       initialValue: 1,
       useNativeDriver: true,
+      duration: 400,
     }
   );
 

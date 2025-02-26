@@ -25,6 +25,7 @@ import type { BottomSheetRef } from "./BottomSheet/BottomSheet";
 import UILayout from "./Layout/UILayout";
 import BottomSheetActions from "./BottomSheetActions/BottomSheetActions";
 import type { BottomSheetAction } from "./BottomSheetActions/model/types";
+import BackgroundLayout from "./Layout/BackgroundLayout";
 
 export {
   BottomSheet,
@@ -54,4 +55,5 @@ export {
   AnimatedText,
   ListItem,
   List,
+  BackgroundLayout,
 };

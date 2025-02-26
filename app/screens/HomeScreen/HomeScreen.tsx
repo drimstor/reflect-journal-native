@@ -9,7 +9,7 @@ import { styles } from "./HomeScreen.styles";
 import {
   CalendarIcon,
   UserBorderIcon,
-  ArrowRightIcon,
+  ArrowLeftIcon,
 } from "@/src/shared/ui/icons";
 import { useGetPadding } from "@/src/shared/lib/hooks";
 import {
@@ -75,7 +75,7 @@ const HomeScreen: FC<HomeScreenProps> = () => {
           <TitleText
             text="All Tasks"
             textColor={colors.contrast}
-            element={<ArrowRightIcon color={colors.contrast} size={26} />}
+            element={<ArrowLeftIcon color={colors.contrast} size={26} />}
           />
         </PaddingLayout>
 
@@ -98,6 +98,7 @@ const HomeScreen: FC<HomeScreenProps> = () => {
         <PaddingLayout style={[styles.previewBox]}>
           <PreviewBlock
             colors={colors}
+            backgroundColor={colors.secondary}
             title="Plan for the next month"
             value="Prepare a content plan for Dribbble for September"
             element={
@@ -124,6 +125,7 @@ const HomeScreen: FC<HomeScreenProps> = () => {
           />
           <PreviewBlock
             colors={colors}
+            backgroundColor={colors.secondary}
             title="Plan for the next month"
             value="Prepare a content plan for Dribbble for September"
             element={<Chip color={colors.alternate} title="Priority" />}

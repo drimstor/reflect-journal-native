@@ -17,8 +17,9 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     gap: 2,
   },
-  headerLeftIcon: {
-    transform: [{ rotate: "180deg" }],
+  headerIconBox: {
+    width: 55,
+    height: 55,
   },
   headerTitle: {
     textAlign: "center",

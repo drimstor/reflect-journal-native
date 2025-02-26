@@ -17,6 +17,7 @@ import { useKeyboard } from "@/src/shared/lib/hooks/useKeyboard";
 import * as Haptics from "expo-haptics";
 import {
   ClipboardTextIcon,
+  DotsIcon,
   EditPencilIcon,
   TrashIcon,
 } from "@/src/shared/ui/icons";
@@ -87,7 +88,14 @@ const ChatScreen: FC = () => {
   return (
     <Layout style={{ flex: 1 }}>
       <ChatBackground />
-      <Header title="Chat" />
+      <Header
+        title="Chat"
+        backButton
+        rightIcon={{
+          icon: <DotsIcon color={colors.contrast} />,
+          onPress: () => {},
+        }}
+      />
       <View style={styles.globalBox}>
         <View
           style={[

@@ -10,6 +10,15 @@
   },
   "auth": {
     "title": "Вход",
+    "validation": {
+      "emailRequired": "Email обязателен",
+      "emailInvalid": "Некорректный email",
+      "passwordRequired": "Пароль обязателен",
+      "passwordTooShort": "Пароль должен быть не менее 6 символов",
+      "nameRequired": "Имя обязательно",
+      "confirmPasswordRequired": "Подтвердите пароль",
+      "passwordsDoNotMatch": "Пароли не совпадают"
+    },
     "signIn": {
       "title": "Вход",
       "submit": "Войти",
@@ -23,6 +32,10 @@
     "email": {
       "label": "Электронная почта",
       "placeholder": "Введите почту"
+    },
+    "name": {
+      "label": "Имя",
+      "placeholder": "Введите имя"
     },
     "password": {
       "label": "Пароль",

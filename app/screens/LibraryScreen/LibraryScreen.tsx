@@ -1,4 +1,4 @@
-import { FC, useMemo, useRef, useState } from "react";
+import React, { FC, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import {
@@ -10,18 +10,20 @@ import {
   type BottomSheetRef,
   Chip,
 } from "@/src/shared/ui";
-import { PreviewCard, ListItemPreview } from "@/src/features";
-import { FiltersPanel, Header } from "@/src/widgets";
+import { PreviewCard, ListItemPreview, PreviewBlock } from "@/src/features";
+import { FiltersPanel, Header, useHeaderStore } from "@/src/widgets";
 import { useT } from "@/src/shared/lib/hooks";
 import { useDeviceStore, useThemeStore } from "@/src/shared/store";
 import { View } from "react-native";
 import {
   BookIcon,
+  CalendarIcon,
   ClipboardCheckIcon,
   DirectIcon,
   EditPencilIcon,
   MailIcon,
   TrashIcon,
+  UserBorderIcon,
 } from "@/src/shared/ui/icons";
 import { styles } from "./LibraryScreen.styles";
 import { PATHS } from "@/src/shared/const";
@@ -33,9 +35,8 @@ import {
 } from "@/src/shared/ui/iconsAnimated";
 import { AnimatedIconProps } from "@/src/shared/ui/iconsAnimated/types";
 import * as Haptics from "expo-haptics";
-import { useBottomSheetStore } from "@/src/shared/store/bottomSheet.store";
-
-type NavigationProps = BottomTabNavigationProp<any, typeof PATHS.LIBRARY_ITEM>;
+import { useBottomSheetStore } from "@/src/shared/store/zustand/bottomSheet.store";
+import { NavigationProps } from "@/src/shared/model/types";
 
 interface LibraryScreenProps {}
 
@@ -48,7 +49,7 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
 
   // --------------------- //
 
-  const itemTitles = ["Journal", "Chats", "Goals", "Summary"];
+  const itemTitles = ["Journals", "Chats", "Goals", "Summary"];
 
   const itemColors = [colors.blue, colors.purple, colors.green, colors.orange];
 
@@ -60,6 +61,10 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    setSubtitle(itemTitles[currentIndex]);
+  }, [currentIndex]);
 
   // --------------------- //
 
@@ -81,7 +86,7 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
     bottomSheetRef.current?.snapToIndex(1);
 
     setTimeout(() => {
-      navigation.navigate(PATHS.LIBRARY_ITEM);
+      return navigation.navigate(PATHS.LIBRARY_LIST);
     }, 260);
   };
 
@@ -100,6 +105,55 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
   );
 
   // --------------------- //
+
+  const JournalPreview = () => (
+    <>
+      <PreviewBlock
+        colors={colors}
+        title="Plan for the next month"
+        value="Prepare a content plan for Dribbble for September"
+        backgroundColor={colors.light}
+        backgroundColorForAnimate={colors.alternate}
+        onPress={onOpenListItem}
+        element={
+          <Chip
+            textColor={colors.white}
+            color={colors.error}
+            title="High Priority"
+          />
+        }
+        infoBoxes={[
+          {
+            label: "Due date",
+            value: "Aug 25",
+            icon: <CalendarIcon variant="outlined" color={colors.contrast} />,
+          },
+          {
+            label: "Assigned to",
+            value: "Tony Ware",
+            icon: <UserBorderIcon color={colors.contrast} />,
+          },
+        ]}
+      />
+
+      <PreviewBlock
+        colors={colors}
+        title="Plan for the next month"
+        value="Prepare a content plan for Dribbble for September"
+        element={<Chip color={colors.alternate} title="Priority" />}
+        backgroundColor={colors.light}
+        backgroundColorForAnimate={colors.alternate}
+        onPress={onOpenListItem}
+        infoBoxes={[
+          {
+            label: "Due date",
+            value: "Aug 25",
+            icon: <CalendarIcon variant="outlined" color={colors.contrast} />,
+          },
+        ]}
+      />
+    </>
+  );
 
   const { setActions, setBottomSheetVisible } = useBottomSheetStore();
 
@@ -131,6 +185,114 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
     }, 0);
   };
 
+  const { setSubtitle } = useHeaderStore();
+
+  // --------------------- //
+
+  const JouranlsPreview = () => (
+    <>
+      <View style={[styles.globalViewHorizontal]}>
+        <TitleText
+          text="Last journal entries"
+          textColor={colors.contrast}
+          // element={<DotsIcon color={colors.contrast} size={22} />}
+          variant="subTitle"
+          style={styles.titleText}
+        />
+        <View style={[styles.listItemPreviewBox, styles.bigGap]}>
+          <JournalPreview />
+          <JournalPreview />
+        </View>
+
+        <Divider color={colors.alternate} />
+
+        <TitleText
+          text="This month"
+          textColor={colors.contrast}
+          // element={<DotsIcon color={colors.contrast} size={22} />}
+          variant="subTitle"
+          style={[styles.titleText, { marginTop: -8 }]}
+        />
+        <View style={[styles.listItemPreviewBox, styles.bigGap]}>
+          <JournalPreview />
+          <JournalPreview />
+          <JournalPreview />
+          <JournalPreview />
+        </View>
+        <Divider color={colors.alternate} />
+
+        <TitleText
+          text="Last month"
+          textColor={colors.contrast}
+          // element={<DotsIcon color={colors.contrast} size={22} />}
+          variant="subTitle"
+          style={[styles.titleText, { marginTop: -8 }]}
+        />
+        <View style={[styles.listItemPreviewBox, styles.bigGap]}>
+          <JournalPreview />
+          <JournalPreview />
+          <JournalPreview />
+          <JournalPreview />
+        </View>
+      </View>
+    </>
+  );
+
+  // --------------------- //
+
+  const ChatsPreview = () => (
+    <>
+      <View style={[styles.globalViewHorizontal]}>
+        <TitleText
+          text="Last journal entries"
+          textColor={colors.contrast}
+          // element={<DotsIcon color={colors.contrast} size={22} />}
+          variant="subTitle"
+          style={styles.titleText}
+        />
+        <View style={styles.listItemPreviewBox}>
+          <ListItem />
+          <ListItem />
+          <ListItem />
+        </View>
+
+        <Divider color={colors.alternate} />
+
+        <TitleText
+          text="This month"
+          textColor={colors.contrast}
+          // element={<DotsIcon color={colors.contrast} size={22} />}
+          variant="subTitle"
+          style={[styles.titleText, { marginTop: -8 }]}
+        />
+        <View style={styles.listItemPreviewBox}>
+          <ListItem />
+          <ListItem />
+          <ListItem />
+          <ListItem />
+          <ListItem />
+          <ListItem />
+        </View>
+        <Divider color={colors.alternate} />
+
+        <TitleText
+          text="Last month"
+          textColor={colors.contrast}
+          // element={<DotsIcon color={colors.contrast} size={22} />}
+          variant="subTitle"
+          style={[styles.titleText, { marginTop: -8 }]}
+        />
+        <View style={styles.listItemPreviewBox}>
+          <ListItem />
+          <ListItem />
+          <ListItem />
+          <ListItem />
+          <ListItem />
+          <ListItem />
+        </View>
+      </View>
+    </>
+  );
   // --------------------- //
 
   return (
@@ -205,55 +367,7 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
           </View>
         }
       >
-        <View style={[styles.globalViewHorizontal]}>
-          <TitleText
-            text="Last journal entries"
-            textColor={colors.contrast}
-            // element={<DotsIcon color={colors.contrast} size={22} />}
-            variant="subTitle"
-            style={styles.titleText}
-          />
-          <View style={styles.listItemPreviewBox}>
-            <ListItem />
-            <ListItem />
-            <ListItem />
-          </View>
-
-          <Divider color={colors.alternate} />
-
-          <TitleText
-            text="This month"
-            textColor={colors.contrast}
-            // element={<DotsIcon color={colors.contrast} size={22} />}
-            variant="subTitle"
-            style={[styles.titleText, { marginTop: -8 }]}
-          />
-          <View style={styles.listItemPreviewBox}>
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-          </View>
-          <Divider color={colors.alternate} />
-
-          <TitleText
-            text="Last month"
-            textColor={colors.contrast}
-            // element={<DotsIcon color={colors.contrast} size={22} />}
-            variant="subTitle"
-            style={[styles.titleText, { marginTop: -8 }]}
-          />
-          <View style={styles.listItemPreviewBox}>
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-            <ListItem />
-          </View>
-        </View>
+        {currentIndex === 0 ? <JouranlsPreview /> : <ChatsPreview />}
       </BottomSheet>
     </Layout>
   );

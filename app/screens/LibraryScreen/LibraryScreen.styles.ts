@@ -37,4 +37,7 @@ export const styles = StyleSheet.create({
     paddingTop: 12,
     paddingBottom: 11,
   },
+  bigGap: {
+    gap: 20,
+  },
 });

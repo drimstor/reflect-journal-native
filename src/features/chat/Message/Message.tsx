@@ -8,6 +8,7 @@ import { ANIMATION_DELAY } from "./const/static";
 import { ExtendedBubbleProps } from "./model/types";
 import { useMessageAnimation } from "./lib/hooks/useMessageAnimation";
 import { useMessageMeasure } from "./lib/hooks/useMessageMeasure";
+import { runOnJS } from "react-native-reanimated";
 
 const Message: FC<ExtendedBubbleProps> = (props) => {
   const { isBottomSheetVisible, setBottomSheetVisible } = useBottomSheetStore();
@@ -35,9 +36,8 @@ const Message: FC<ExtendedBubbleProps> = (props) => {
 
     if (nativeEvent.state === State.BEGAN) {
       setBubblePosition();
-      if (!isNeedTranslate) scaleAnimation(0.95);
+      if (!isNeedTranslate) scaleAnimation(0.94);
     } else if (nativeEvent.state === State.ACTIVE) {
-      if (!isNeedTranslate) scaleAnimation(1);
       if (isNeedTranslate) translateAnimation(offset);
       props.onLongPress?.();
     } else {

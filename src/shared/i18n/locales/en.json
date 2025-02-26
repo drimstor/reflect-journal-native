@@ -10,6 +10,15 @@
   },
   "auth": {
     "title": "Sign In",
+    "validation": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email",
+      "passwordRequired": "Password is required",
+      "passwordTooShort": "Password must be at least 6 characters",
+      "nameRequired": "Name is required",
+      "confirmPasswordRequired": "Please confirm password",
+      "passwordsDoNotMatch": "Passwords do not match"
+    },
     "signIn": {
       "title": "Sign In",
       "submit": "Sign In",
@@ -23,6 +32,10 @@
     "email": {
       "label": "Email",
       "placeholder": "Enter email"
+    },
+    "name": {
+      "label": "Name",
+      "placeholder": "Enter name"
     },
     "password": {
       "label": "Password",

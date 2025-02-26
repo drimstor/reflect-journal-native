@@ -7,4 +7,6 @@ export enum PATHS {
   AUTH = "/auth",
   MAIN_STACK = "/main-stack",
   CHAT = "/chat",
+  MOCK = "/mock",
+  LIBRARY_LIST = "/library-list",
 }

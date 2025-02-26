@@ -8,6 +8,9 @@ import { useSpringAnimation } from "./animation/useSpringAnimation";
 import { useTimingAnimation } from "./animation/useTimingAnimation";
 import { useAnimate } from "./animation/useAnimate";
 import { usePullToAction } from "./usePullToAction";
+import { useAppInit } from "./useAppInit";
+import { usePrefetch } from "./usePrefetch";
+import { useFonts } from "./useFonts";
 
 export {
   useDebounce,
@@ -21,4 +24,7 @@ export {
   useTimingAnimation,
   useAnimate,
   usePullToAction,
+  useAppInit,
+  usePrefetch,
+  useFonts,
 };

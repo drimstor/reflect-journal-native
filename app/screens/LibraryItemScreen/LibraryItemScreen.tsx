@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   CheckBox,
   CheckboxList,
@@ -13,13 +13,7 @@ import {
 import { Header } from "@/src/widgets";
 import { usePullToAction, useT } from "@/src/shared/lib/hooks";
 import { useDeviceStore, useThemeStore } from "@/src/shared/store";
-import {
-  ScrollView,
-  View,
-  Animated,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
-} from "react-native";
+import { ScrollView, View, Animated } from "react-native";
 import {
   CalendarIcon,
   UserBorderIcon,
@@ -29,6 +23,7 @@ import {
 import { createStyles } from "./LibraryItemScreen.styles";
 import { useNavigation } from "@react-navigation/native";
 import { MOCK_CHECKBOXES } from "./const/static";
+import { NavigationProps } from "@/src/shared/model/types";
 
 interface LibraryItemScreenProps {}
 
@@ -40,14 +35,13 @@ interface CheckboxItem {
 
 const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
   const t = useT();
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProps>();
   const { colors } = useThemeStore();
   const { window } = useDeviceStore();
   const styles = createStyles(colors);
   const { handleScroll, handleScrollEnd, visibleAnimation } = usePullToAction({
     onAction: navigation.goBack,
   });
-
   const [checkboxes, setCheckboxes] = useState<CheckboxItem[]>(MOCK_CHECKBOXES);
 
   const handleCheckboxToggle = (id: string) => {
@@ -60,7 +54,7 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
 
   return (
     <Layout>
-      <Header title="August 25" subtitle="Wednesday" />
+      <Header title="August 25" backButton subtitle="Wednesday" />
       <BottomSheet
         snapPoints={[window.height - 85]}
         backgroundColor={colors.secondary}
@@ -124,6 +118,7 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
             <CheckboxList>
               {checkboxes.map((item) => (
                 <CheckBox
+                  textDecoration
                   key={item.id}
                   checked={item.checked}
                   onPress={() => handleCheckboxToggle(item.id)}

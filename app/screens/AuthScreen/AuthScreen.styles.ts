@@ -4,10 +4,11 @@ import { StyleSheet } from "react-native";
 export const createStyles = (colors: ThemeColors) =>
   StyleSheet.create({
     container: {
-      flexGrow: 1,
-      paddingTop: "25%",
       width: "100%",
       gap: 12,
+      alignSelf: "center",
+      marginVertical: "auto",
+      transform: [{ translateY: -80 }],
     },
     rememberMeContainer: {
       width: "100%",

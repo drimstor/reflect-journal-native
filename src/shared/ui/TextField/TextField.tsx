@@ -1,32 +1,11 @@
-import { FC, memo, ReactNode } from "react";
-import { View, TextInput } from "react-native";
-import { PaletteColor } from "@/src/shared/model/types";
+import { FC, memo } from "react";
+import { View, TextInput, Pressable } from "react-native";
 import Text from "../Text/Text";
 import { createStyles, sizeStyles } from "./TextField.styles";
 import { useThemeStore } from "@/src/shared/store";
-import { getContrastColor } from "@/src/shared/lib/helpers/getContrastColor";
-
-interface TextFieldProps {
-  value: string;
-  label?: string;
-  editable?: boolean;
-  multiline?: boolean;
-  onChangeText: (text: string) => void;
-  placeholder?: string;
-  stateType?: null | "success" | "error";
-  helperText?: string;
-  phone?: boolean;
-  width?: number | string;
-  keyboardType?: "numeric" | "default";
-  backgroundColor: PaletteColor;
-  startIcon?: ReactNode;
-  size?: "small" | "medium";
-  secureTextEntry?: boolean;
-  labelColor?: PaletteColor;
-  placeholderColor?: PaletteColor;
-  textColor?: PaletteColor;
-  helperTextColor?: PaletteColor;
-}
+import { EyeIcon, EyeSlashIcon } from "../icons";
+import { useToggle } from "../../lib/hooks";
+import { TextFieldProps } from "./model/types";
 
 const TextField: FC<TextFieldProps> = ({
   value,
@@ -49,7 +28,7 @@ const TextField: FC<TextFieldProps> = ({
 }) => {
   const { colors } = useThemeStore();
   const styles = createStyles(colors);
-  const contrastTextColor = getContrastColor("#FFF");
+  const { value: showPassword, toggle: toggleShowPassword } = useToggle(false);
 
   return (
     <View style={styles.textFieldWrapper}>
@@ -68,8 +47,8 @@ const TextField: FC<TextFieldProps> = ({
       >
         {startIcon ?? null}
         <TextInput
-          secureTextEntry={secureTextEntry}
-          style={styles.textField}
+          secureTextEntry={secureTextEntry ? !showPassword : secureTextEntry}
+          style={[styles.textField, secureTextEntry && { paddingRight: 50 }]}
           maxLength={phone ? 10 : undefined}
           value={phone ? value.replace(/[^0-9]/g, "") : value}
           editable={editable}
@@ -78,8 +57,19 @@ const TextField: FC<TextFieldProps> = ({
           onChangeText={onChangeText}
           multiline={multiline}
           keyboardType={phone ? "numeric" : "default"}
-          textContentType={phone ? "telephoneNumber" : undefined}
+          textContentType={
+            phone ? "telephoneNumber" : secureTextEntry ? "password" : undefined
+          }
         />
+        {secureTextEntry && (
+          <Pressable onPress={toggleShowPassword}>
+            {showPassword ? (
+              <EyeIcon color={colors.contrast + 80} size={20} />
+            ) : (
+              <EyeSlashIcon color={colors.contrast + 80} size={20} />
+            )}
+          </Pressable>
+        )}
       </View>
       {helperText && (
         <Text size="small" color={helperTextColor ?? colors.contrast}>
@@ -90,4 +80,4 @@ const TextField: FC<TextFieldProps> = ({
   );
 };
 
-export default TextField;
+export default memo(TextField);

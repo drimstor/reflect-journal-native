@@ -123,8 +123,6 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       return null;
     };
 
-    console.log({ snapPoints });
-
     return (
       <BottomSheetLibrary
         ref={outsideRef}

@@ -5,7 +5,7 @@ import MenuIcon from "./MenuIcon";
 import HomeIcon from "./HomeIcon";
 import CalendarIcon from "./CalendarIcon";
 import UserBorderIcon from "./UserBorderIcon";
-import ArrowRightIcon from "./ArrowRightIcon";
+import ArrowLeftIcon from "./ArrowLeftIcon";
 import ArrowRightLongIcon from "./ArrowRightLongIcon";
 import BookIcon from "./BookIcon";
 import BurgerMenuIcon from "./BurgerMenuIcon";
@@ -37,7 +37,7 @@ export {
   HomeIcon,
   CalendarIcon,
   UserBorderIcon,
-  ArrowRightIcon,
+  ArrowLeftIcon,
   ArrowRightLongIcon,
   BookIcon,
   BurgerMenuIcon,

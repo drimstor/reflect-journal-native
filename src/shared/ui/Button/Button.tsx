@@ -52,7 +52,10 @@ const Button = ({
       ]}
     >
       {isLoading ? (
-        <ActivityIndicator size="small" color={colors.white} />
+        <ActivityIndicator
+          size="small"
+          color={textColor ?? contrastTextColor}
+        />
       ) : (
         <Text
           font="bold"

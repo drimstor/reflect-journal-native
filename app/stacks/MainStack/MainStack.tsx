@@ -94,8 +94,8 @@ export const MainStack = () => {
         }}
       />
       <BottomTabs.Screen
-        name={PATHS.PROFILE}
-        component={ProfileScreen}
+        name={PATHS.MOCK}
+        component={AuthScreen}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
@@ -110,8 +110,8 @@ export const MainStack = () => {
         }}
       />
       <BottomTabs.Screen
-        name={PATHS.AUTH}
-        component={AuthScreen}
+        name={PATHS.PROFILE}
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({ focused }) => {
             return (

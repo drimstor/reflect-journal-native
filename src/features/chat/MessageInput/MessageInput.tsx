@@ -26,7 +26,7 @@ const MessageInput: FC<MessageInputProps> = ({
 }) => {
   const { colors, theme } = useThemeStore();
   const styles = createStyles(colors, theme);
-  const { isVisible: isAttachmentsVisible, toggle: toggleAttachments } =
+  const { value: isAttachmentsVisible, toggle: toggleAttachments } =
     useToggle();
 
   return (

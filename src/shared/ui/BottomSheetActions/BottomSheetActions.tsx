@@ -1,7 +1,7 @@
 import { BottomSheet, List } from "@/src/shared/ui";
 import { useThemeStore } from "@/src/shared/store";
 import { useBottomSheetVisibility } from "./lib/hooks/useBottomSheetVisibility";
-import { useBottomSheetStore } from "@/src/shared/store/bottomSheet.store";
+import { useBottomSheetStore } from "@/src/shared/store/zustand/bottomSheet.store";
 
 const BottomSheetActions = () => {
   const { colors } = useThemeStore();

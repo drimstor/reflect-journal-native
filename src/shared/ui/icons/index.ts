@@ -5,7 +5,7 @@ import MenuIcon from "./MenuIcon";
 import HomeIcon from "./HomeIcon";
 import CalendarIcon from "./CalendarIcon";
 import UserBorderIcon from "./UserBorderIcon";
-import ArrowRightIcon from "./ArrowRightIcon";
+import ArrowLeftIcon from "./ArrowLeftIcon";
 import ArrowRightLongIcon from "./ArrowRightLongIcon";
 import BookIcon from "./BookIcon";
 import BurgerMenuIcon from "./BurgerMenuIcon";
@@ -38,6 +38,9 @@ import MicrophoneSlashIcon from "./MicrophoneSlashIcon";
 import TrashIcon from "./TrashIcon";
 import ClipboardTextIcon from "./ClipboardTextIcon";
 import EditPencilIcon from "./EditPencilIcon";
+import ConvertShapeIcon from "./ConvertShapeIcon";
+import MessageIcon from "./MessageIcon";
+import { EyeIcon, EyeSlashIcon } from "./EyeIcon";
 
 export {
   BellIcon,
@@ -47,7 +50,7 @@ export {
   HomeIcon,
   CalendarIcon,
   UserBorderIcon,
-  ArrowRightIcon,
+  ArrowLeftIcon,
   ArrowRightLongIcon,
   BookIcon,
   BurgerMenuIcon,
@@ -80,4 +83,8 @@ export {
   TrashIcon,
   ClipboardTextIcon,
   EditPencilIcon,
+  ConvertShapeIcon,
+  MessageIcon,
+  EyeIcon,
+  EyeSlashIcon,
 };
