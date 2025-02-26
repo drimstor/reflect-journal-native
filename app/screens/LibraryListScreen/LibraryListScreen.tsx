@@ -1,29 +1,16 @@
-import { FC, useEffect, useState } from "react";
-import {
-  CheckBox,
-  CheckboxList,
-  Divider,
-  Layout,
-  Text,
-  Chip,
-  TitleText,
-  InfoBox,
-  BottomSheet,
-  Button,
-  PaddingLayout,
-} from "@/src/shared/ui";
+import { FC } from "react";
+import { Divider, Layout, Chip, BottomSheet } from "@/src/shared/ui";
 import { FiltersPanel, Header, useHeaderStore } from "@/src/widgets";
 import { usePullToAction, useT } from "@/src/shared/lib/hooks";
 import { useDeviceStore, useThemeStore } from "@/src/shared/store";
-import { ScrollView, View, Animated, Pressable } from "react-native";
+import { ScrollView, View, Animated } from "react-native";
 import {
   CalendarIcon,
   UserBorderIcon,
-  DotsIcon,
   BackSquareIcon,
 } from "@/src/shared/ui/icons";
 import { createStyles } from "./LibraryListScreen.styles";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { NavigationProps } from "@/src/shared/model/types";
 import { PreviewBlock } from "@/src/features";
 import { PATHS } from "@/src/shared/const";

@@ -6,28 +6,20 @@ import { useThemeStore } from "@/src/shared/store";
 import { useGetPadding, useToggle } from "@/src/shared/lib/hooks";
 import { useT } from "@/src/shared/lib/hooks";
 import { ConvertShapeIcon, MessageIcon } from "@/src/shared/ui/icons";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSubmit } from "./lib/hooks/useSubmit";
 import { TextFields, ValidationErrors, Variant } from "./model/types";
 import { initialValues } from "./const/static";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useGoogleAuth } from "./lib/hooks/useGoogleAuth";
 
-import * as WebBrowser from "expo-web-browser";
-import * as Google from "expo-auth-session/providers/google";
-import { useLoginMutation, useRegisterMutation } from "@/src/entities";
-import { PATHS } from "@/src/shared/const";
-import { useNavigation } from "@react-navigation/native";
-import { NavigationProps } from "@/src/shared/model/types";
-
-WebBrowser.maybeCompleteAuthSession();
-
-const AuthScreen = ({}: {}) => {
+const AuthScreen = () => {
   const t = useT();
   const { colors, theme } = useThemeStore();
   const { paddingHorizontal } = useGetPadding();
   const styles = createStyles(colors);
   const { value: isRememberMe, toggle: toggleRememberMe } = useToggle(true);
   const [variant, setVariant] = useState<Variant>("signIn");
+  const { promptAsync } = useGoogleAuth();
 
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [textFields, setTextFields] = useState<TextFields>(initialValues);
@@ -40,96 +32,10 @@ const AuthScreen = ({}: {}) => {
   const handleFieldChange =
     (field: keyof typeof textFields) => (text: string) => {
       setTextFields((prev) => ({ ...prev, [field]: text }));
-      // Очищаем ошибку при изменении поля
       if (errors[field]) {
         setErrors((prev) => ({ ...prev, [field]: undefined }));
       }
     };
-
-  const navigation = useNavigation<NavigationProps>();
-
-  const [loginMutation, { isLoading: isLoginLoading }] = useLoginMutation();
-
-  const [registerMutation, { isLoading: isRegisterLoading }] =
-    useRegisterMutation();
-
-  console.log({ isRegisterLoading });
-
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    webClientId:
-      "308267307050-pghmdpm9d7crv6e0bvksomgbi5h1evni.apps.googleusercontent.com",
-    iosClientId:
-      "308267307050-mse62gb85rn0f2akgnoa99d7osdbmqss.apps.googleusercontent.com",
-    androidClientId:
-      "308267307050-5ge3nd796or4u5unjadds0ark58cvie5.apps.googleusercontent.com",
-  });
-
-  type User = {
-    id: string;
-    email: string;
-    verified_email: boolean;
-    name: string;
-    given_name: string;
-    family_name: string;
-    picture: string;
-  };
-
-  const getUserInfo = async (token: string) => {
-    if (!token) return;
-    try {
-      const response = await fetch(
-        "https://www.googleapis.com/userinfo/v2/me",
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      const user: User = await response.json();
-
-      registerMutation({
-        email: user.email,
-        name: user.name || user.given_name + " " + user.family_name,
-        avatar_url: user.picture,
-        password: user.id,
-      })
-        .unwrap()
-        .then(() => {
-          navigation.navigate(PATHS.MAIN_STACK);
-        })
-        .catch((error) => {
-          if (error.status === 409) {
-            loginMutation({
-              email: user.email,
-              password: user.id,
-            })
-              .unwrap()
-              .then(() => {
-                navigation.navigate(PATHS.MAIN_STACK);
-              })
-              .catch((error) => {
-                console.log({ error });
-              });
-          }
-        });
-    } catch (error) {
-      console.error("Error fetching user info:", error);
-    }
-  };
-
-  const handleSingInWithGoogle = async () => {
-    try {
-      if (
-        response?.type === "success" &&
-        response.authentication?.accessToken
-      ) {
-        await getUserInfo(response.authentication.accessToken);
-      }
-    } catch (error) {
-      console.error("Error signing in with Google:", error);
-    }
-  };
-
-  useEffect(() => {
-    handleSingInWithGoogle();
-  }, [response]);
 
   return (
     <Layout>
