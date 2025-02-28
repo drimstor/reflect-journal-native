@@ -1,4 +1,8 @@
-export { authApi } from "./auth/api/authApi";
-export { useTokenRefresh } from "./auth/hooks/useTokenRefresh";
-export { useLogOut } from "./auth/hooks/useLogOut";
 export * from "./auth/api/authApi";
+export * from "./auth/hooks/useLogOut";
+export * from "./auth/hooks/useTokenRefresh";
+export * from "./auth/model/types";
+export * from "./journals/api/journalsApi";
+export * from "./journals/model/types";
+export * from "./chat/api/chatsApi";
+export type { Chat } from "./chat/model/types";

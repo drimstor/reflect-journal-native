@@ -75,7 +75,11 @@ const HomeScreen: FC<HomeScreenProps> = () => {
           <TitleText
             text="All Tasks"
             textColor={colors.contrast}
-            element={<ArrowLeftIcon color={colors.contrast} size={26} />}
+            element={
+              <View style={styles.arrowLeftIconBox}>
+                <ArrowLeftIcon color={colors.contrast} size={26} />
+              </View>
+            }
           />
         </PaddingLayout>
 
@@ -97,7 +101,6 @@ const HomeScreen: FC<HomeScreenProps> = () => {
 
         <PaddingLayout style={[styles.previewBox]}>
           <PreviewBlock
-            colors={colors}
             backgroundColor={colors.secondary}
             title="Plan for the next month"
             value="Prepare a content plan for Dribbble for September"
@@ -124,7 +127,6 @@ const HomeScreen: FC<HomeScreenProps> = () => {
             ]}
           />
           <PreviewBlock
-            colors={colors}
             backgroundColor={colors.secondary}
             title="Plan for the next month"
             value="Prepare a content plan for Dribbble for September"
@@ -140,6 +142,43 @@ const HomeScreen: FC<HomeScreenProps> = () => {
             ]}
           />
         </PaddingLayout>
+
+        <PaddingLayout style={styles.titleBox}>
+          <TitleText
+            text="New Insights"
+            textColor={colors.contrast}
+            element={
+              <View style={styles.arrowLeftIconBox}>
+                <ArrowLeftIcon color={colors.contrast} size={26} />
+              </View>
+            }
+          />
+        </PaddingLayout>
+
+        <View style={styles.shortPreviewScrollViewHorizontalBox}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={[
+              styles.shortPreviewScrollViewHorizontal,
+              { paddingHorizontal },
+            ]}
+          >
+            <ShortPreviewBlock
+              colors={colors}
+              title="Research plan"
+              value="Prepare a research plan for a new project"
+              opacityCaption="Due date"
+              caption="Aug 25"
+            />
+            <ShortPreviewBlock
+              colors={colors}
+              title="Plan next month"
+              value="Prepare a content plan for Dribbble for September"
+              caption="Today 11:00-12:00"
+            />
+          </ScrollView>
+        </View>
       </ScrollView>
     </Layout>
   );

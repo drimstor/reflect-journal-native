@@ -23,17 +23,27 @@ export const createStyles = (colors: ThemeColors) =>
     },
     titleText: {
       marginBottom: 10,
-      marginRight: 8,
+      justifyContent: "center",
     },
     globalViewHorizontal: {
-      paddingBottom: 200,
+      // paddingTop: 16,
+      paddingBottom: 230,
+      gap: 10,
       // borderWidth: 1,
       // borderColor: "red",
-      height: 720,
+      // height: 720,
+      // height: "100%",
     },
     previewBox: {
-      paddingVertical: 24,
-      gap: 24,
+      paddingTop: 16,
+      paddingBottom: 230,
+      gap: 20,
+    },
+    listItemPreviewBox: {
+      gap: 8,
+    },
+    bigGap: {
+      gap: 20,
     },
     divider: {
       marginVertical: 24,

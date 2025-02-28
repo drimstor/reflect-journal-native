@@ -7,7 +7,7 @@ import {
   useImperativeHandle,
   useMemo,
 } from "react";
-import { StyleProp, ViewStyle, Animated } from "react-native";
+import { StyleProp, ViewStyle, Animated, View } from "react-native";
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
@@ -38,6 +38,7 @@ interface BottomSheetProps {
   withBackdrop?: boolean;
   onChange?: (index: number) => void;
   onClose?: () => void;
+  scrollEnabled?: boolean;
 }
 
 const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
@@ -57,11 +58,12 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       withBackdrop = false,
       onChange,
       onClose,
+      scrollEnabled = true,
     } = props;
 
     const outsideRef = useRef<BottomSheetLibrary>(null);
     const { paddingHorizontal } = useGetPadding();
-    const [isFullyExpanded, setIsFullyExpanded] = useState(false);
+    // const [isFullyExpanded, setIsFullyExpanded] = useState(scrollEnabled);
 
     const { animate: animateExpand, animation: expandAnimation } =
       useTimingAnimation();
@@ -69,7 +71,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
     const handleSheetChanges = useCallback(
       (index: number) => {
         const isExpanded = index === snapPoints.length - 1;
-        setIsFullyExpanded(isExpanded);
+        // setIsFullyExpanded(isExpanded);
 
         if (topElement) animateExpand(isExpanded ? 1 : 0);
 
@@ -80,17 +82,17 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       [snapPoints.length, topElement, animateExpand, onChange]
     );
 
-    const handleScroll = useCallback(
-      (event: any) => {
-        const offsetY = event.nativeEvent.contentOffset.y;
+    // const handleScroll = useCallback(
+    //   (event: any) => {
+    //     const offsetY = event.nativeEvent.contentOffset.y;
 
-        if (offsetY > 0 && !isFullyExpanded) {
-          event?.preventDefault?.();
-          outsideRef.current?.snapToIndex(snapPoints.length - 1);
-        }
-      },
-      [isFullyExpanded, snapPoints.length, staticMode]
-    );
+    //     if (offsetY > 0 && !isFullyExpanded) {
+    //       event?.preventDefault?.();
+    //       outsideRef.current?.snapToIndex(snapPoints.length - 1);
+    //     }
+    //   },
+    //   [isFullyExpanded, snapPoints.length, staticMode]
+    // );
 
     useImperativeHandle(ref, () => ({
       snapToIndex: (index: number) => {
@@ -129,11 +131,12 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         animateOnMount={animateOnMount}
-        enablePanDownToClose={!staticMode && snapPoints.length === 1}
-        enableOverDrag={false}
-        enableContentPanningGesture={!staticMode}
-        enableHandlePanningGesture={!staticMode}
+        enablePanDownToClose={!staticMode && snapPoints.length === 1} // Включает возможность закрыть нижний лист свайпом вниз
+        enableOverDrag={false} // Отключает эффект "перетягивания" при достижении крайних точек
+        enableContentPanningGesture={!staticMode} // Включает возможность перетаскивания контента жестами
+        enableHandlePanningGesture={!staticMode} // Включает возможность перетаскивания за ручку нижнего листа
         backdropComponent={backdropComponent}
+        enableDynamicSizing={false}
         index={initialIndex}
         handleStyle={{
           padding: 0,
@@ -180,11 +183,14 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
         )}
 
         <Animated.View
-          style={topElement ? [expandAnimatedStyle, { paddingBottom: 80 }] : {}}
+          style={[
+            topElement ? [expandAnimatedStyle, { paddingBottom: 80 }] : {},
+          ]}
         >
           <BottomSheetScrollView
-            onScroll={handleScroll}
-            scrollEnabled={isFullyExpanded}
+            // onScroll={handleScroll}
+            // scrollEnabled={isFullyExpanded}
+            scrollEnabled={false}
             style={[style, { paddingHorizontal }]}
           >
             {children}

@@ -1,13 +1,9 @@
 import { FC } from "react";
 import Svg, { Path } from "react-native-svg";
 import { PALLETE_COLORS } from "@/src/shared/const";
+import { IconProps } from "../../model/types";
 
-interface BackSquareIconProps {
-  color?: string;
-  size?: number;
-}
-
-const BackSquareIcon: FC<BackSquareIconProps> = ({
+const BackSquareIcon: FC<IconProps> = ({
   color = PALLETE_COLORS.dark.contrast,
   size = 24,
 }) => {

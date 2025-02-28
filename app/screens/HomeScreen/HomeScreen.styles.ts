@@ -25,4 +25,7 @@ export const styles = StyleSheet.create({
   chipScrollViewHorizontalBox: {
     height: 44,
   },
+  arrowLeftIconBox: {
+    transform: [{ rotate: "180deg" }],
+  },
 });

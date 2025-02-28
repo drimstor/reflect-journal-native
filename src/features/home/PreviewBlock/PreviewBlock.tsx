@@ -1,16 +1,23 @@
 import { Animated, Pressable, View } from "react-native";
 import { createStyles } from "./PreviewBlock.styles";
-import { InfoBox, TitleText, Text } from "@/src/shared/ui";
-import { ThemeColors } from "@/src/shared/model/types";
+import { InfoBox, TitleText, Text, Chip } from "@/src/shared/ui";
 import { ReactNode } from "react";
-import { useGetPadding, useTimingAnimation } from "@/src/shared/lib/hooks";
+import { useTimingAnimation } from "@/src/shared/lib/hooks";
+import { useThemeStore } from "@/src/shared/store";
 import { stringToColor } from "@/src/shared/lib/helpers";
-
+import {
+  BoxSolidIcon,
+  BackSquareSolidIcon,
+  LifebuoySolidIcon,
+  MaskSolidIcon,
+  CloudSolidIcon,
+  GridSolidIcon,
+  CpuSolidIcon,
+} from "@/src/shared/ui/icons";
 interface PreviewBlockProps {
-  colors: ThemeColors;
-  title: string;
-  element: ReactNode;
-  value: string;
+  title?: string;
+  element?: ReactNode;
+  value?: string;
   infoBoxes: {
     label: string;
     value: string;
@@ -19,10 +26,10 @@ interface PreviewBlockProps {
   backgroundColor?: string;
   backgroundColorForAnimate?: string;
   onPress?: () => void;
+  tags?: string[];
 }
 
 const PreviewBlock = ({
-  colors,
   title,
   element,
   value,
@@ -30,17 +37,17 @@ const PreviewBlock = ({
   backgroundColor,
   backgroundColorForAnimate,
   onPress,
+  tags,
 }: PreviewBlockProps) => {
-  const { paddingHorizontal } = useGetPadding();
-  const styles = createStyles(colors, paddingHorizontal);
-
+  const { colors } = useThemeStore();
+  const styles = createStyles(colors);
   const { animate, animation } = useTimingAnimation();
 
   const animatedBackgroundColor = animation.interpolate({
     inputRange: [0, 1],
     outputRange: [
-      backgroundColor ?? colors.light,
-      backgroundColorForAnimate ?? colors.alternate,
+      backgroundColor || colors.light,
+      backgroundColorForAnimate || colors.alternate,
     ],
   });
 
@@ -62,19 +69,38 @@ const PreviewBlock = ({
           },
         ]}
       >
-        <TitleText
-          variant="subTitle"
-          text={title}
-          textColor={colors.contrast}
-          element={element}
-        />
-        <Text
-          withOpacity={70}
-          style={styles.subTitleBox}
-          color={colors.contrast}
-        >
-          {value}
-        </Text>
+        {title && (
+          <TitleText
+            variant="subTitle"
+            text={title}
+            textColor={colors.contrast}
+            element={element}
+            style={styles.titleBox}
+          />
+        )}
+
+        {value && (
+          <Text
+            withOpacity={title ? 70 : undefined}
+            style={styles.subTitleBox}
+            color={colors.contrast}
+          >
+            {value}
+          </Text>
+        )}
+
+        {tags && (
+          <View style={styles.tagsBox}>
+            {tags.map((tag) => (
+              <Chip
+                key={tag}
+                title={tag}
+                size="small"
+                color={stringToColor(tag)}
+              />
+            ))}
+          </View>
+        )}
 
         <View style={styles.infoTableBox}>
           {infoBoxes.map((infoBox) => (
@@ -86,6 +112,12 @@ const PreviewBlock = ({
               color={colors.contrast}
             />
           ))}
+        </View>
+        <View style={styles.backgroundIconBox}>
+          <BackSquareSolidIcon color={colors.contrast} size={220} />
+          {/* <BoxSolidIcon color={colors.contrast} size={220} /> */}
+          {/* <LifebuoySolidIcon color={colors.contrast} size={220} /> */}
+          {/* <CpuSolidIcon color={colors.contrast} size={220} /> */}
         </View>
       </Animated.View>
     </Pressable>

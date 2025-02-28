@@ -1,11 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { baseQueryWithReauth } from "@/src/shared/store";
 
 export const baseApi = createApi({
-  reducerPath: "api",
+  reducerPath: "baseApi",
   baseQuery: baseQueryWithReauth,
+  tagTypes: ["Journals"],
   endpoints: () => ({}),
-  tagTypes: [],
 });
 
 // Экспортируем хуки

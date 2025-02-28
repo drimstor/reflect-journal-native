@@ -29,7 +29,7 @@ export const authApi = createApi({
         method: "POST",
         body: data,
       }),
-      // invalidatesTags: ["User"],
+      invalidatesTags: ["User"],
       async onQueryStarted(_, { queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
@@ -43,6 +43,13 @@ export const authApi = createApi({
         method: "POST",
         body: { refresh_token },
       }),
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await tokenService.setTokens(data.access_token, data.refresh_token);
+          await tokenService.debugTokens();
+        } catch {}
+      },
     }),
     getCurrentUser: builder.query<UserResponse, void>({
       query: () => ({

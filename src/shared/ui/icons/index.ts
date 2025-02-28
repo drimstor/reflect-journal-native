@@ -41,7 +41,14 @@ import EditPencilIcon from "./EditPencilIcon";
 import ConvertShapeIcon from "./ConvertShapeIcon";
 import MessageIcon from "./MessageIcon";
 import { EyeIcon, EyeSlashIcon } from "./EyeIcon";
-
+import BackSquareSolidIcon from "./BackSquareSolidIcon";
+import BoxSolidIcon from "./BoxSolidIcon";
+import MaskSolidIcon from "./MaskSolidIcon";
+import CloudSolidIcon from "./CloudSolidIcon";
+import GlobalSolidIcon from "./GlobalSolidIcon";
+import GridSolidIcon from "./GridSolidIcon";
+import LifebuoySolidIcon from "./LifebuoySolidIcon";
+import CpuSolidIcon from "./CpuSolidIcon";
 export {
   BellIcon,
   OrderIcon,
@@ -87,4 +94,12 @@ export {
   MessageIcon,
   EyeIcon,
   EyeSlashIcon,
+  BackSquareSolidIcon,
+  BoxSolidIcon,
+  MaskSolidIcon,
+  CloudSolidIcon,
+  GlobalSolidIcon,
+  GridSolidIcon,
+  LifebuoySolidIcon,
+  CpuSolidIcon,
 };

@@ -1,18 +1,14 @@
 import { FC } from "react";
-import { Divider, Layout, Chip, BottomSheet } from "@/src/shared/ui";
+import { Divider, Layout, Chip, BottomSheet, TitleText } from "@/src/shared/ui";
 import { FiltersPanel, Header, useHeaderStore } from "@/src/widgets";
 import { usePullToAction, useT } from "@/src/shared/lib/hooks";
 import { useDeviceStore, useThemeStore } from "@/src/shared/store";
 import { ScrollView, View, Animated } from "react-native";
-import {
-  CalendarIcon,
-  UserBorderIcon,
-  BackSquareIcon,
-} from "@/src/shared/ui/icons";
+import { CalendarIcon, UserBorderIcon, DotsIcon } from "@/src/shared/ui/icons";
 import { createStyles } from "./LibraryListScreen.styles";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationProps } from "@/src/shared/model/types";
-import { PreviewBlock } from "@/src/features";
+import { JournalsList, PreviewBlock } from "@/src/features";
 import { PATHS } from "@/src/shared/const";
 
 interface LibraryListScreenProps {}
@@ -23,96 +19,42 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
   const { colors } = useThemeStore();
   const { window } = useDeviceStore();
   const styles = createStyles(colors);
-  const { subtitle } = useHeaderStore();
-  const { handleScroll, handleScrollEnd, visibleAnimation } = usePullToAction({
-    onAction: navigation.goBack,
-  });
+  const { subtitle, title } = useHeaderStore();
+  // const { handleScroll, handleScrollEnd, visibleAnimation } = usePullToAction({
+  //   onAction: navigation.goBack,
+  // });
 
   return (
     <Layout>
-      <Header backButton title={subtitle} />
+      <Header
+        backButton
+        title={title}
+        subtitle={subtitle}
+        rightIcon={{
+          icon: <DotsIcon color={colors.contrast} size={22} />,
+          onPress: () => {},
+        }}
+      />
       <BottomSheet
         snapPoints={[window.height - 85]}
         backgroundColor={colors.secondary}
         borderColor={colors.alternate}
         animateOnMount={false}
-        style={{ paddingTop: 25 }}
-        initialIndex={1}
+        style={{ paddingTop: 16 }}
+        initialIndex={0}
         staticMode
+        topElement={<View style={{ height: 41 }} />}
+        pinnedElement={
+          <View>
+            <FiltersPanel style={styles.filtersPanel} />
+            <Divider style={{ marginVertical: 0 }} color={colors.alternate} />
+          </View>
+        }
       >
-        <View style={styles.animatedView}>
-          <Animated.View style={[styles.pullIcon, visibleAnimation]}>
+        {/* <Animated.View style={[styles.pullIcon, visibleAnimation]}>
             <BackSquareIcon color={colors.contrast} size={24} />
-          </Animated.View>
-          <ScrollView
-            contentContainerStyle={styles.globalViewHorizontal}
-            showsVerticalScrollIndicator={false}
-            onScroll={handleScroll}
-            onScrollEndDrag={handleScrollEnd}
-            scrollEventThrottle={16}
-          >
-            <View>
-              <FiltersPanel style={styles.filtersPanel} />
-              <Divider style={{ marginVertical: 0 }} color={colors.alternate} />
-            </View>
-            <View style={styles.previewBox}>
-              <PreviewBlock
-                colors={colors}
-                title="Plan for the next month"
-                value="Prepare a content plan for Dribbble for September"
-                backgroundColor={colors.light}
-                backgroundColorForAnimate={colors.alternate}
-                onPress={() => navigation.navigate(PATHS.LIBRARY_ITEM)}
-                element={
-                  <Chip
-                    textColor={colors.white}
-                    color={colors.error}
-                    title="High Priority"
-                  />
-                }
-                infoBoxes={[
-                  {
-                    label: "Due date",
-                    value: "Aug 25",
-                    icon: (
-                      <CalendarIcon
-                        variant="outlined"
-                        color={colors.contrast}
-                      />
-                    ),
-                  },
-                  {
-                    label: "Assigned to",
-                    value: "Tony Ware",
-                    icon: <UserBorderIcon color={colors.contrast} />,
-                  },
-                ]}
-              />
-
-              <PreviewBlock
-                colors={colors}
-                title="Plan for the next month"
-                value="Prepare a content plan for Dribbble for September"
-                element={<Chip color={colors.alternate} title="Priority" />}
-                backgroundColor={colors.light}
-                backgroundColorForAnimate={colors.alternate}
-                onPress={() => navigation.navigate(PATHS.LIBRARY_ITEM)}
-                infoBoxes={[
-                  {
-                    label: "Due date",
-                    value: "Aug 25",
-                    icon: (
-                      <CalendarIcon
-                        variant="outlined"
-                        color={colors.contrast}
-                      />
-                    ),
-                  },
-                ]}
-              />
-            </View>
-          </ScrollView>
-        </View>
+          </Animated.View> */}
+        <JournalsList onPress={() => {}} />
       </BottomSheet>
     </Layout>
   );

@@ -63,6 +63,7 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
         style={{ paddingTop: 25 }}
         initialIndex={1}
         staticMode
+        scrollEnabled={false}
       >
         <View style={styles.animatedView}>
           <Animated.View style={[styles.pullIcon, visibleAnimation]}>

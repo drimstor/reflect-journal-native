@@ -11,7 +11,7 @@ import { baseQueryConfig } from "@/src/shared/store";
 const mutex = new Mutex();
 
 // Базовый запрос с конфигурацией
-const baseQuery = fetchBaseQuery(baseQueryConfig);
+export const baseQuery = fetchBaseQuery(baseQueryConfig);
 
 export const baseQueryWithReauth: BaseQueryFn<
   string | FetchArgs,

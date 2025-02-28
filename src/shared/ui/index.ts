@@ -26,6 +26,7 @@ import UILayout from "./Layout/UILayout";
 import BottomSheetActions from "./BottomSheetActions/BottomSheetActions";
 import type { BottomSheetAction } from "./BottomSheetActions/model/types";
 import BackgroundLayout from "./Layout/BackgroundLayout";
+import VirtualizedList from "./VirtualizedList/VirtualizedList";
 
 export {
   BottomSheet,
@@ -56,4 +57,5 @@ export {
   ListItem,
   List,
   BackgroundLayout,
+  VirtualizedList,
 };

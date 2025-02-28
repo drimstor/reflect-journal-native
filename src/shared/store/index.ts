@@ -7,3 +7,6 @@ export { useBottomSheetStore } from "./zustand/bottomSheet.store";
 export { useAppDispatch, useAppSelector } from "./lib/hooks/redux";
 export { baseQueryConfig } from "@/src/shared/store/api/baseQueryConfig";
 export { baseQueryWithReauth } from "@/src/shared/store/api/baseQueryWithReauth";
+export { useFiltersStore, type FiltersState } from "./zustand/filters.store";
+export { getFiltersParams } from "./lib/helpers/getFiltersParams";
+export { formatValidationErrors } from "./lib/helpers/formatValidationErrors";

@@ -8,5 +8,6 @@ export const styles = StyleSheet.create({
   infoBoxItem: {
     flexDirection: "row",
     gap: 8,
+    alignItems: "center",
   },
 });

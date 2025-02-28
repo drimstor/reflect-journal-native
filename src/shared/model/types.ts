@@ -15,3 +15,13 @@ export interface IconProps {
   opacity?: number;
   variant?: "outlined" | "filled";
 }
+
+export interface PaginationResponse<T> {
+  data: T[];
+  totalPages: number;
+  currentPage: number;
+  totalItems: number;
+}
+
+export type SortField = "name" | "created_at" | "updated_at";
+export type SortOrder = "asc" | "desc";
