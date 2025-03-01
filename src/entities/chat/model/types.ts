@@ -1,3 +1,5 @@
+import { PaginationResponse } from "@/src/shared/model/types";
+
 export interface Entity {
   // TODO: определить структуру Entity когда будет известна
   id: string;
@@ -39,3 +41,23 @@ export interface ChatResponse {
 
 export type SortField = "name" | "created_at" | "updated_at";
 export type SortOrder = "asc" | "desc";
+
+export interface Message {
+  id: string;
+  content: string;
+  user_id: string;
+  chat_id: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreateMessageRequest {
+  content: string;
+  chat_id: string;
+}
+
+export interface UpdateMessageRequest {
+  content: string;
+}
+
+export type MessageResponse = PaginationResponse<Message>;

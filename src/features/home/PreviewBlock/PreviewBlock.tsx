@@ -27,6 +27,7 @@ interface PreviewBlockProps {
   backgroundColorForAnimate?: string;
   onPress?: () => void;
   tags?: string[];
+  backgroundIcon?: boolean;
 }
 
 const PreviewBlock = ({
@@ -38,6 +39,7 @@ const PreviewBlock = ({
   backgroundColorForAnimate,
   onPress,
   tags,
+  backgroundIcon,
 }: PreviewBlockProps) => {
   const { colors } = useThemeStore();
   const styles = createStyles(colors);
@@ -51,14 +53,23 @@ const PreviewBlock = ({
     ],
   });
 
+  const animatedScale = animation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [1, 0.97],
+  });
+
   const background = backgroundColorForAnimate
     ? animatedBackgroundColor
     : backgroundColor;
 
   return (
     <Pressable
-      onPressIn={() => animate(1)}
-      onPressOut={() => animate(0)}
+      onPressIn={() => {
+        animate(1);
+      }}
+      onPressOut={() => {
+        animate(0);
+      }}
       onPress={onPress}
     >
       <Animated.View
@@ -66,6 +77,7 @@ const PreviewBlock = ({
           styles.globalBox,
           {
             backgroundColor: background,
+            transform: [{ scale: animatedScale }],
           },
         ]}
       >
@@ -89,7 +101,7 @@ const PreviewBlock = ({
           </Text>
         )}
 
-        {tags && (
+        {!!tags?.length && (
           <View style={styles.tagsBox}>
             {tags.map((tag) => (
               <Chip
@@ -113,12 +125,14 @@ const PreviewBlock = ({
             />
           ))}
         </View>
-        <View style={styles.backgroundIconBox}>
-          <BackSquareSolidIcon color={colors.contrast} size={220} />
-          {/* <BoxSolidIcon color={colors.contrast} size={220} /> */}
-          {/* <LifebuoySolidIcon color={colors.contrast} size={220} /> */}
-          {/* <CpuSolidIcon color={colors.contrast} size={220} /> */}
-        </View>
+        {backgroundIcon && (
+          <View style={styles.backgroundIconBox}>
+            <BackSquareSolidIcon color={colors.contrast} size={220} />
+            {/* <BoxSolidIcon color={colors.contrast} size={220} /> */}
+            {/* <LifebuoySolidIcon color={colors.contrast} size={220} /> */}
+            {/* <CpuSolidIcon color={colors.contrast} size={220} /> */}
+          </View>
+        )}
       </Animated.View>
     </Pressable>
   );

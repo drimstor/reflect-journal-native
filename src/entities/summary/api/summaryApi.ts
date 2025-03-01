@@ -1,0 +1,137 @@
+import {
+  baseQueryWithReauth,
+  formatValidationErrors,
+} from "@/src/shared/store";
+import type {
+  Summary,
+  SummaryResponse,
+  CreateSummaryRequest,
+  UpdateSummaryRequest,
+} from "../model/types";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { Alert } from "react-native";
+
+export const SUMMARY_TAG = "Summary" as const;
+type TagTypes = typeof SUMMARY_TAG;
+
+export const summaryApi = createApi({
+  reducerPath: "summaryApi",
+  baseQuery: baseQueryWithReauth,
+  tagTypes: [SUMMARY_TAG],
+  endpoints: (builder) => ({
+    getSummaries: builder.query<SummaryResponse, { params?: string }>({
+      query: ({ params }) => ({
+        url: `/summary${params ? `?${params}` : ""}`,
+        method: "GET",
+      }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.data.map(({ id }) => ({ type: SUMMARY_TAG, id })),
+              { type: SUMMARY_TAG, id: "LIST" },
+            ]
+          : [{ type: SUMMARY_TAG, id: "LIST" }],
+      serializeQueryArgs: ({ endpointName, queryArgs }) => {
+        const params = new URLSearchParams(queryArgs.params || "");
+        const hasOnlyPagination = Array.from(params.keys()).every(
+          (key) => key === "page" || key === "limit"
+        );
+
+        return hasOnlyPagination
+          ? endpointName
+          : `${endpointName}-${queryArgs.params}`;
+      },
+      merge: (currentCache, newItems, { arg }) => {
+        const params = new URLSearchParams(arg.params || "");
+        const hasOnlyPagination = Array.from(params.keys()).every(
+          (key) => key === "page" || key === "limit"
+        );
+
+        if (!hasOnlyPagination) {
+          return newItems;
+        }
+
+        if (currentCache) {
+          const existingIds = new Set(currentCache.data.map((item) => item.id));
+          const uniqueNewItems = newItems.data.filter(
+            (item) => !existingIds.has(item.id)
+          );
+
+          return {
+            ...newItems,
+            data: [...currentCache.data, ...uniqueNewItems],
+          };
+        }
+        return newItems;
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
+    }),
+
+    createSummary: builder.mutation<Summary, CreateSummaryRequest>({
+      query: (body) => ({
+        url: "/summary/by-topic",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [{ type: SUMMARY_TAG, id: "LIST" }],
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          await queryFulfilled;
+        } catch (error: any) {
+          Alert.alert(
+            "Ошибка",
+            formatValidationErrors(error.error?.data) ||
+              "Не удалось создать саммари"
+          );
+        }
+      },
+    }),
+
+    updateSummary: builder.mutation<
+      Summary,
+      { id: string; body: UpdateSummaryRequest }
+    >({
+      query: ({ id, body }) => ({
+        url: `/summary/${id}`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: SUMMARY_TAG, id },
+        { type: SUMMARY_TAG, id: "LIST" },
+      ],
+    }),
+
+    refreshSummary: builder.mutation<Summary, string>({
+      query: (id) => ({
+        url: `/summary/refresh/${id}`,
+        method: "PUT",
+      }),
+      invalidatesTags: (result, error, id) => [
+        { type: SUMMARY_TAG, id },
+        { type: SUMMARY_TAG, id: "LIST" },
+      ],
+    }),
+
+    deleteSummary: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `/summary/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, id) => [
+        { type: SUMMARY_TAG, id },
+        { type: SUMMARY_TAG, id: "LIST" },
+      ],
+    }),
+  }),
+});
+
+export const {
+  useGetSummariesQuery,
+  useCreateSummaryMutation,
+  useUpdateSummaryMutation,
+  useRefreshSummaryMutation,
+  useDeleteSummaryMutation,
+} = summaryApi;

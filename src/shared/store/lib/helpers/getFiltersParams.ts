@@ -1,6 +1,8 @@
 import { FiltersState } from "@/src/shared/store";
 
-export const getFiltersParams = (filters: FiltersState): string => {
+export const getFiltersParams = (
+  filters: FiltersState & { journal_id?: string }
+): string => {
   const params = new URLSearchParams();
 
   // Добавляем базовые параметры
@@ -41,8 +43,14 @@ export const getFiltersParams = (filters: FiltersState): string => {
   if (filters.related_topics) {
     params.append("related_topics", filters.related_topics);
   }
+
   if (filters.bookmarked !== undefined) {
     params.append("bookmarked", filters.bookmarked.toString());
+  }
+
+  // Добавляем journal_id если он установлен
+  if (filters.journal_id) {
+    params.append("journal_id", filters.journal_id);
   }
 
   return params.toString();

@@ -6,6 +6,7 @@ export const createStyles = (colors: ThemeColors) =>
   StyleSheet.create({
     titleBox: {
       justifyContent: "space-between",
+      alignItems: "center",
       flexDirection: "row",
       gap: 8,
       marginBottom: 18,
@@ -19,8 +20,15 @@ export const createStyles = (colors: ThemeColors) =>
     },
     infoTableBox: {
       flexDirection: "row",
+      flexWrap: "wrap",
       gap: 8,
+      rowGap: 18,
       paddingVertical: 4,
+    },
+    infoTableItem: {
+      width: "48%",
+      flexGrow: 1,
+      flexShrink: 0,
     },
     titleText: {
       marginBottom: 10,

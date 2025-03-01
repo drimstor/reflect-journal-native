@@ -18,7 +18,7 @@ const Header = ({
 }: HeaderProps) => {
   const { colors } = useThemeStore();
   const { paddingHorizontal } = useGetPadding();
-  const { isTablet, isIOS } = useDeviceStore();
+  const { isTablet, isIOS, window } = useDeviceStore();
   const navigation = useNavigation<NavigationProps>();
 
   const backIcon = {
@@ -47,9 +47,13 @@ const Header = ({
         {title && (
           <Text
             font="bold"
-            style={styles.headerTitle}
+            style={[
+              styles.headerTitle,
+              { maxWidth: window.width - (120 + paddingHorizontal * 2) },
+            ]}
             color={colors.contrast}
             size={subtitle ? "title" : "header"}
+            numberOfLines={1}
           >
             {title}
           </Text>

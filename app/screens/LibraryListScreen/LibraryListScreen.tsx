@@ -1,15 +1,28 @@
 import { FC } from "react";
-import { Divider, Layout, Chip, BottomSheet, TitleText } from "@/src/shared/ui";
 import { FiltersPanel, Header, useHeaderStore } from "@/src/widgets";
-import { usePullToAction, useT } from "@/src/shared/lib/hooks";
-import { useDeviceStore, useThemeStore } from "@/src/shared/store";
-import { ScrollView, View, Animated } from "react-native";
-import { CalendarIcon, UserBorderIcon, DotsIcon } from "@/src/shared/ui/icons";
+import { useT } from "@/src/shared/lib/hooks";
+import { View } from "react-native";
+import { CalendarIcon, DotsIcon } from "@/src/shared/ui/icons";
 import { createStyles } from "./LibraryListScreen.styles";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { NavigationProps } from "@/src/shared/model/types";
-import { JournalsList, PreviewBlock } from "@/src/features";
 import { PATHS } from "@/src/shared/const";
+import { JournalEntry, useGetJournalEntriesQuery } from "@/src/entities";
+import { PreviewBlock } from "@/src/features";
+import { formatDate, stringToColor } from "@/src/shared/lib/helpers";
+import {
+  getFiltersParams,
+  useDeviceStore,
+  useFiltersStore,
+  useThemeStore,
+} from "@/src/shared/store";
+import {
+  Divider,
+  Layout,
+  Chip,
+  BottomSheet,
+  VirtualizedList,
+} from "@/src/shared/ui";
 
 interface LibraryListScreenProps {}
 
@@ -19,17 +32,54 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
   const { colors } = useThemeStore();
   const { window } = useDeviceStore();
   const styles = createStyles(colors);
-  const { subtitle, title } = useHeaderStore();
-  // const { handleScroll, handleScrollEnd, visibleAnimation } = usePullToAction({
-  //   onAction: navigation.goBack,
-  // });
+  const { subtitle } = useHeaderStore();
+  const route = useRoute();
+  const { type, item } = route.params as any;
+  const title = item.name;
+
+  const filters = useFiltersStore();
+  const params = getFiltersParams({ ...filters, journal_id: item.id });
+
+  console.log({ params });
+
+  const { data, isLoading, isFetching } = useGetJournalEntriesQuery({ params });
+
+  const renderItem = ({ item }: { item: JournalEntry }) => {
+    const journal = item as JournalEntry;
+    return (
+      <PreviewBlock
+        key={journal.id}
+        value={journal.content}
+        backgroundColor={colors.light}
+        backgroundColorForAnimate={colors.alternate}
+        tags={journal.related_topics}
+        backgroundIcon
+        element={
+          journal.related_topics[0] && (
+            <Chip
+              color={stringToColor(journal.related_topics[0])}
+              title={journal.related_topics[0]}
+            />
+          )
+        }
+        onPress={() => navigation.navigate(PATHS.LIBRARY_ITEM, { type, item })}
+        infoBoxes={[
+          {
+            label: "Last updated",
+            value: formatDate(journal.updated_at),
+            icon: <CalendarIcon variant="outlined" color={colors.contrast} />,
+          },
+        ]}
+      />
+    );
+  };
 
   return (
     <Layout>
       <Header
         backButton
         title={title}
-        subtitle={subtitle}
+        subtitle="Список записей"
         rightIcon={{
           icon: <DotsIcon color={colors.contrast} size={22} />,
           onPress: () => {},
@@ -40,7 +90,6 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
         backgroundColor={colors.secondary}
         borderColor={colors.alternate}
         animateOnMount={false}
-        style={{ paddingTop: 16 }}
         initialIndex={0}
         staticMode
         topElement={<View style={{ height: 41 }} />}
@@ -51,10 +100,11 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
           </View>
         }
       >
-        {/* <Animated.View style={[styles.pullIcon, visibleAnimation]}>
-            <BackSquareIcon color={colors.contrast} size={24} />
-          </Animated.View> */}
-        <JournalsList onPress={() => {}} />
+        <VirtualizedList
+          data={data as any}
+          renderItem={renderItem}
+          isFetching={isFetching}
+        />
       </BottomSheet>
     </Layout>
   );

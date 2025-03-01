@@ -18,6 +18,7 @@ export interface TextProps {
   withOpacity?: number;
   color?: string;
   style?: StyleProp<TextStyle>;
+  numberOfLines?: number;
 }
 
 const { contrastReverse } = useThemeStore.getState().colors;
@@ -29,6 +30,7 @@ const Text: FC<TextProps> = ({
   color = contrastReverse,
   withOpacity,
   style,
+  numberOfLines,
 }) => {
   return (
     <RNText
@@ -39,6 +41,7 @@ const Text: FC<TextProps> = ({
         textStyles.text,
         style && style,
       ]}
+      numberOfLines={numberOfLines}
     >
       {children}
     </RNText>

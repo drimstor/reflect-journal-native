@@ -40,6 +40,7 @@ import * as Haptics from "expo-haptics";
 import { useBottomSheetStore } from "@/src/shared/store/zustand/bottomSheet.store";
 import { NavigationProps } from "@/src/shared/model/types";
 import { LibraryList, LibraryListVariant } from "@/src/widgets";
+import { Chat, Journal } from "@/src/entities";
 
 interface LibraryScreenProps {}
 
@@ -52,7 +53,7 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
 
   // --------------------- //
 
-  const itemTitles = ["Journals", "Chats", "Goals", "Summary"];
+  const itemTitles = ["Journals", "Chats", "Goals", "Summaries"];
   const itemColors = [colors.blue, colors.purple, colors.green, colors.orange];
 
   const icons = [
@@ -62,13 +63,9 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
     (props: AnimatedIconProps) => <DirectIconAnimated {...props} />,
   ];
   const { resetFilters } = useFiltersStore();
-  const { setSubtitle, setTitle } = useHeaderStore();
+  const { setTitle } = useHeaderStore();
 
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    setSubtitle(itemTitles[currentIndex]);
-  }, [currentIndex]);
 
   // --------------------- //
 
@@ -82,33 +79,43 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
     }, 260);
   });
 
-  const onOpenListItem = (title?: string) => {
-    if (currentIndex === 1) {
-      return navigation.navigate(PATHS.CHAT);
-    }
+  // --------------------- //
 
-    if (title) setTitle(title);
+  const onOpenListItem = (item: Journal | Chat) => {
+    if (currentIndex === 1) {
+      return navigation.navigate(PATHS.CHAT, { item });
+    }
 
     bottomSheetRef.current?.snapToIndex(1);
 
     setTimeout(() => {
-      return navigation.navigate(PATHS.LIBRARY_ITEM);
-    }, 500);
+      if (currentIndex === 0) {
+        return navigation.navigate(PATHS.LIBRARY_LIST, {
+          type: itemTitles[currentIndex],
+          item,
+        });
+      }
+
+      navigation.navigate(PATHS.LIBRARY_ITEM, {
+        type: itemTitles[currentIndex],
+        item,
+      });
+    }, 200);
   };
 
   // --------------------- //
 
-  const ListItem = () => (
-    <ListItemPreview
-      title="My journal"
-      subTitle="01/02/2025"
-      IconComponent={icons[currentIndex]}
-      backgroundColor={colors.light}
-      backgroundColorForAnimate={itemColors[currentIndex]}
-      onPress={onOpenListItem}
-      onDotsPress={handleDotsPress}
-    />
-  );
+  // const ListItem = () => (
+  //   <ListItemPreview
+  //     title="My journal"
+  //     subTitle="01/02/2025"
+  //     IconComponent={icons[currentIndex]}
+  //     backgroundColor={colors.light}
+  //     backgroundColorForAnimate={itemColors[currentIndex]}
+  //     onPress={onOpenListItem}
+  //     onDotsPress={handleDotsPress}
+  //   />
+  // );
 
   // --------------------- //
 
@@ -141,58 +148,6 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
       setBottomSheetVisible(true);
     }, 0);
   };
-
-  const ChatsPreview = () => (
-    <>
-      <TitleText
-        text="Last journal entries"
-        textColor={colors.contrast}
-        // element={<DotsIcon color={colors.contrast} size={22} />}
-        variant="subTitle"
-        style={styles.titleText}
-      />
-      <View style={styles.listItemPreviewBox}>
-        <ListItem />
-        <ListItem />
-        <ListItem />
-      </View>
-
-      <Divider color={colors.alternate} />
-
-      <TitleText
-        text="This month"
-        textColor={colors.contrast}
-        // element={<DotsIcon color={colors.contrast} size={22} />}
-        variant="subTitle"
-        style={[styles.titleText, { marginTop: -8 }]}
-      />
-      <View style={styles.listItemPreviewBox}>
-        <ListItem />
-        <ListItem />
-        <ListItem />
-        <ListItem />
-        <ListItem />
-        <ListItem />
-      </View>
-      <Divider color={colors.alternate} />
-
-      <TitleText
-        text="Last month"
-        textColor={colors.contrast}
-        // element={<DotsIcon color={colors.contrast} size={22} />}
-        variant="subTitle"
-        style={[styles.titleText, { marginTop: -8 }]}
-      />
-      <View style={styles.listItemPreviewBox}>
-        <ListItem />
-        <ListItem />
-        <ListItem />
-        <ListItem />
-        <ListItem />
-        <ListItem />
-      </View>
-    </>
-  );
   // --------------------- //
 
   return (
@@ -238,7 +193,7 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
             icon: <ClipboardCheckIcon color={colors.black} size={40} />,
           },
           {
-            title: "Summary",
+            title: "Summaries",
             subTitle: "List of your summaries",
             backgroundColor: colors.orange,
             icon: <DirectIcon color={colors.black} size={40} />,
@@ -268,8 +223,10 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
           </View>
         }
       >
-        <LibraryList variant={itemTitles[currentIndex] as LibraryListVariant} />
-        {/* <ChatsPreview /> */}
+        <LibraryList
+          onPress={onOpenListItem}
+          variant={itemTitles[currentIndex] as LibraryListVariant}
+        />
       </BottomSheet>
     </Layout>
   );

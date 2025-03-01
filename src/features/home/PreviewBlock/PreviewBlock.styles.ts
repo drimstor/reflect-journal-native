@@ -28,6 +28,9 @@ export const createStyles = (colors: ThemeColors) =>
     subTitleBox: {
       marginBottom: 12,
     },
+    tags: {
+      gap: 8,
+    },
     tagsBox: {
       flexDirection: "row",
       gap: 8,

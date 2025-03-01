@@ -5,7 +5,7 @@ import { Layout } from "@/src/shared/ui";
 import { Header } from "@/src/widgets";
 import { GiftedChat, IMessage } from "react-native-gifted-chat";
 import { useDeviceStore, useThemeStore } from "@/src/shared/store";
-import { MOCK_CHAT_MESSAGES } from "./const/static";
+import { Message as MessageType } from "@/src/entities/chat/model/types";
 import {
   DateChip,
   Message,
@@ -22,6 +22,8 @@ import {
   TrashIcon,
 } from "@/src/shared/ui/icons";
 import { useBottomSheetStore } from "@/src/shared/store";
+import { useRoute } from "@react-navigation/native";
+import { useGetChatMessagesQuery } from "@/src/entities";
 
 const ChatScreen: FC = () => {
   const { colors } = useThemeStore();
@@ -34,29 +36,86 @@ const ChatScreen: FC = () => {
   const [text, setText] = useState("");
   const { currentDate, chipAnimation, handleScroll } = useDateChip(messages);
 
+  const route = useRoute();
+  const { item } = route.params as any;
+
+  const {
+    data: messagesData,
+    isLoading: isLoadingMessages,
+    refetch: refetchMessages,
+  } = useGetChatMessagesQuery({
+    chat_id: item.id,
+    limit: 20,
+    page: 1,
+  });
+
+  const [isLoadingEarlier, setIsLoadingEarlier] = useState(false);
+  const [page, setPage] = useState(1);
+
+  // console.log(item);
+  console.log(messagesData);
+
+  const transformMessages = useCallback(
+    (messages: MessageType[]): IMessage[] => {
+      return messages.map((msg) => ({
+        _id: msg.id,
+        text: msg.content,
+        createdAt: new Date(msg.created_at),
+        user: {
+          _id: msg.user_id,
+        },
+      }));
+    },
+    []
+  );
+
   useEffect(() => {
-    setMessages(MOCK_CHAT_MESSAGES);
-  }, []);
+    if (messagesData?.data) {
+      const transformedMessages = transformMessages(messagesData.data);
+      setMessages(transformedMessages);
+    }
+  }, [messagesData]);
 
-  const onSend = useCallback((newMessages: IMessage[] = []) => {
-    setMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, newMessages)
-    );
-  }, []);
+  const handleLoadEarlier = useCallback(async () => {
+    if (isLoadingEarlier) return;
 
-  const handleSend = useCallback(() => {
-    if (text.trim()) {
-      onSend([
-        {
-          _id: Math.random(),
+    setIsLoadingEarlier(true);
+    try {
+      const nextPage = page + 1;
+      const result = await refetchMessages();
+
+      if (result.data?.data && result.data.data.length > 0) {
+        const transformedMessages = transformMessages(result.data.data);
+        setMessages((prevMessages) => [
+          ...transformedMessages,
+          ...prevMessages,
+        ]);
+        setPage(nextPage);
+      }
+    } catch (error) {
+      console.error("Error loading earlier messages:", error);
+    } finally {
+      setIsLoadingEarlier(false);
+    }
+  }, [page, isLoadingEarlier, refetchMessages, transformMessages]);
+
+  const handleSend = useCallback(
+    (newMessages: IMessage[] = []) => {
+      if (text.trim()) {
+        const messageToSend: IMessage = {
+          _id: Math.random().toString(),
           text: text.trim(),
           createdAt: new Date(),
-          user: { _id: 1 },
-        },
-      ]);
-      setText("");
-    }
-  }, [text]);
+          user: { _id: "1" },
+        };
+        setMessages((previousMessages) =>
+          GiftedChat.append(previousMessages, [messageToSend])
+        );
+        setText("");
+      }
+    },
+    [text]
+  );
 
   const handleLongPress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
@@ -89,7 +148,7 @@ const ChatScreen: FC = () => {
     <Layout style={{ flex: 1 }}>
       <ChatBackground />
       <Header
-        title="Chat"
+        title={item.name}
         backButton
         rightIcon={{
           icon: <DotsIcon color={colors.contrast} />,
@@ -108,8 +167,8 @@ const ChatScreen: FC = () => {
           <DateChip date={currentDate} animation={chipAnimation} />
           <GiftedChat
             messages={messages}
-            onSend={onSend}
-            user={{ _id: 1 }}
+            onSend={handleSend}
+            user={{ _id: "109a3ed8-9abb-4801-8436-a3a6436bbf14" }}
             renderAvatar={null}
             timeFormat="HH:mm"
             dateFormat="DD.MM.YY"
@@ -121,10 +180,18 @@ const ChatScreen: FC = () => {
                 {...props}
                 text={text}
                 onChangeText={setText}
-                onSend={handleSend}
+                onSend={() => handleSend([])}
               />
             )}
             minInputToolbarHeight={62}
+            loadEarlier={Boolean(
+              messagesData?.currentPage &&
+                messagesData?.totalPages &&
+                messagesData.currentPage < messagesData.totalPages
+            )}
+            isLoadingEarlier={isLoadingEarlier}
+            onLoadEarlier={handleLoadEarlier}
+            infiniteScroll={true}
             listViewProps={{
               onScroll: handleScroll,
               scrollEventThrottle: 16,

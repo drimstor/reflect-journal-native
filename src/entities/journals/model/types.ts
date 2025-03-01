@@ -16,6 +16,7 @@ export interface Journal {
   updated_at: string;
   related_topics: string[];
   related_entities: Entity[];
+  entries_count: number;
 }
 
 export interface CreateJournalRequest {
@@ -32,3 +33,35 @@ export interface UpdateJournalRequest {
 }
 
 export interface JournalResponse extends PaginationResponse<Journal> {}
+
+export interface JournalEntry {
+  id: string;
+  content: string;
+  user_id: string;
+  journal_id: string;
+  created_at: string;
+  updated_at: string;
+  related_topics: string[];
+  ai_response: string;
+  bookmarked: boolean;
+}
+
+export interface CreateJournalEntryRequest {
+  content: string;
+  journal_id: string;
+  related_topics?: string[];
+  bookmarked?: boolean;
+}
+
+export interface UpdateJournalEntryRequest {
+  content?: string;
+  related_topics?: string[];
+  bookmarked?: boolean;
+}
+
+export interface JournalEntryResponse {
+  data: JournalEntry[];
+  totalPages: number;
+  currentPage: number;
+  totalItems: number;
+}

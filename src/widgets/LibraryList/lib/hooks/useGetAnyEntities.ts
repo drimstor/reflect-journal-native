@@ -1,4 +1,8 @@
-import { useGetChatsQuery } from "@/src/entities";
+import {
+  useGetChatsQuery,
+  useGetGoalsQuery,
+  useGetSummariesQuery,
+} from "@/src/entities";
 import { useGetJournalsQuery } from "@/src/entities";
 import { LibraryListVariant } from "../../LibraryList";
 import { Chat } from "@/src/entities/chat/model/types";
@@ -20,25 +24,53 @@ export const useGetAnyEntities = <T extends LibraryListVariant>(
   params?: string
 ) => {
   const {
-    data: journals,
+    data: Journals,
     isLoading: isJournalsLoading,
     isFetching: isJournalsFetching,
   } = useGetJournalsQuery({ params }, { skip: variant !== "Journals" });
 
   const {
-    data: chats,
+    data: Chats,
     isLoading: isChatsLoading,
     isFetching: isChatsFetching,
   } = useGetChatsQuery({ params }, { skip: variant !== "Chats" });
 
-  const data = variant === "Journals" ? journals : chats;
-  const isLoading = variant === "Journals" ? isJournalsLoading : isChatsLoading;
-  const isFetching =
-    variant === "Journals" ? isJournalsFetching : isChatsFetching;
+  const {
+    data: Goals,
+    isLoading: isGoalsLoading,
+    isFetching: isGoalsFetching,
+  } = useGetGoalsQuery({ params }, { skip: variant !== "Goals" });
+
+  const {
+    data: Summaries,
+    isLoading: isSummariesLoading,
+    isFetching: isSummariesFetching,
+  } = useGetSummariesQuery({ params }, { skip: variant !== "Summaries" });
+
+  const dataConfig = {
+    Journals,
+    Chats,
+    Goals,
+    Summaries,
+  };
+
+  const loadingConfig = {
+    Journals: isJournalsLoading,
+    Chats: isChatsLoading,
+    Goals: isGoalsLoading,
+    Summaries: isSummariesLoading,
+  };
+
+  const fetchingConfig = {
+    Journals: isJournalsFetching,
+    Chats: isChatsFetching,
+    Goals: isGoalsFetching,
+    Summaries: isSummariesFetching,
+  };
 
   return {
-    data: data as PaginatedResponse<EntityType<T>>,
-    isLoading,
-    isFetching,
+    data: dataConfig[variant] as PaginatedResponse<EntityType<T>>,
+    isLoading: loadingConfig[variant],
+    isFetching: fetchingConfig[variant],
   };
 };

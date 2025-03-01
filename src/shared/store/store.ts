@@ -1,7 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { baseApi } from "../api/baseApi";
-import { authApi, chatsApi, journalsApi } from "@/src/entities";
+import {
+  authApi,
+  chatsApi,
+  journalsApi,
+  goalsApi,
+  summaryApi,
+  journalEntriesApi,
+  messagesApi,
+} from "@/src/entities";
 
 export const store = configureStore({
   reducer: {
@@ -9,13 +17,21 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [journalsApi.reducerPath]: journalsApi.reducer,
     [chatsApi.reducerPath]: chatsApi.reducer,
+    [goalsApi.reducerPath]: goalsApi.reducer,
+    [summaryApi.reducerPath]: summaryApi.reducer,
+    [journalEntriesApi.reducerPath]: journalEntriesApi.reducer,
+    [messagesApi.reducerPath]: messagesApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(baseApi.middleware)
       .concat(authApi.middleware)
       .concat(journalsApi.middleware)
-      .concat(chatsApi.middleware),
+      .concat(chatsApi.middleware)
+      .concat(goalsApi.middleware)
+      .concat(summaryApi.middleware)
+      .concat(journalEntriesApi.middleware)
+      .concat(messagesApi.middleware),
 });
 
 setupListeners(store.dispatch);
