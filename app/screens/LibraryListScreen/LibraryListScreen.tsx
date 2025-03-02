@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { FiltersPanel, Header, useHeaderStore } from "@/src/widgets";
 import { useT } from "@/src/shared/lib/hooks";
 import { View } from "react-native";
@@ -38,6 +38,11 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
   const title = item.name;
 
   const filters = useFiltersStore();
+
+  useEffect(() => {
+    filters.resetFilters();
+  }, []);
+
   const params = getFiltersParams({ ...filters, journal_id: item.id });
 
   console.log({ params });
@@ -46,6 +51,7 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
 
   const renderItem = ({ item }: { item: JournalEntry }) => {
     const journal = item as JournalEntry;
+
     return (
       <PreviewBlock
         key={journal.id}
@@ -53,7 +59,7 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
         backgroundColor={colors.light}
         backgroundColorForAnimate={colors.alternate}
         tags={journal.related_topics}
-        backgroundIcon
+        bookmarked={journal.bookmarked}
         element={
           journal.related_topics[0] && (
             <Chip
@@ -65,8 +71,8 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
         onPress={() => navigation.navigate(PATHS.LIBRARY_ITEM, { type, item })}
         infoBoxes={[
           {
-            label: "Last updated",
-            value: formatDate(journal.updated_at),
+            label: "Created",
+            value: formatDate(journal.created_at),
             icon: <CalendarIcon variant="outlined" color={colors.contrast} />,
           },
         ]}

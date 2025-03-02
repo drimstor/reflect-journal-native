@@ -9,9 +9,15 @@ import {
   TitleText,
   InfoBox,
   BottomSheet,
+  Carousel,
+  PaddingLayout,
 } from "@/src/shared/ui";
-import { Header, useHeaderStore } from "@/src/widgets";
-import { usePullToAction, useT } from "@/src/shared/lib/hooks";
+import { Header, TypedPreviewBlock, useHeaderStore } from "@/src/widgets";
+import {
+  usePullToAction,
+  useT,
+  useCarouselConfig,
+} from "@/src/shared/lib/hooks";
 import { useDeviceStore, useThemeStore } from "@/src/shared/store";
 import { ScrollView, View, Animated } from "react-native";
 import {
@@ -87,26 +93,22 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
         style={{ paddingTop: 25 }}
         initialIndex={0}
         staticMode
+        paddingHorizontal={0}
       >
-        <View style={styles.animatedView}>
-          <Animated.View style={[styles.pullIcon, visibleAnimation]}>
-            <BackSquareIcon color={colors.contrast} size={24} />
-          </Animated.View>
-          <ScrollView
-            contentContainerStyle={styles.globalViewHorizontal}
-            showsVerticalScrollIndicator={false}
-            onScroll={handleScroll}
-            onScrollEndDrag={handleScrollEnd}
-            scrollEventThrottle={16}
-            style={{ maxHeight: window.height - 160 }}
-          >
+        <Animated.View style={[styles.pullIcon, visibleAnimation]}>
+          <BackSquareIcon color={colors.contrast} size={24} />
+        </Animated.View>
+        <ScrollView
+          contentContainerStyle={styles.globalViewHorizontal}
+          showsVerticalScrollIndicator={false}
+          onScroll={handleScroll}
+          onScrollEndDrag={handleScrollEnd}
+          scrollEventThrottle={16}
+          style={{ maxHeight: window.height - 160 }}
+        >
+          <PaddingLayout>
             {type !== "Journals" && (
-              <View
-                style={[
-                  styles.titleBox,
-                  // { maxWidth: window.width - 60 }
-                ]}
-              >
+              <View style={[styles.titleBox]}>
                 <Text size="extraLarge" font="bold" color={colors.contrast}>
                   {item?.name}
                 </Text>
@@ -164,6 +166,28 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
                 <Divider style={styles.divider} color={colors.alternate} />
               </>
             )}
+            {item?.related_topics?.length && (
+              <>
+                <TitleText
+                  text="Related topics"
+                  textColor={colors.contrast}
+                  element={<DotsIcon color={colors.contrast} size={22} />}
+                  variant="subTitle"
+                  style={styles.titleText}
+                />
+                <View style={styles.tagsBox}>
+                  {item?.related_topics?.map((tag: string) => (
+                    <Chip
+                      key={tag}
+                      title={tag}
+                      size="medium"
+                      color={stringToColor(tag)}
+                    />
+                  ))}
+                </View>
+                <Divider style={styles.divider} color={colors.alternate} />
+              </>
+            )}
             {item?.ai_response && (
               <>
                 <TitleText
@@ -197,10 +221,40 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
                     />
                   ))}
                 </CheckboxList>
+                <Divider style={styles.divider} color={colors.alternate} />
               </>
             )}
-          </ScrollView>
-        </View>
+          </PaddingLayout>
+          {item?.related_entities?.length && (
+            <View style={styles.carouselBox}>
+              <PaddingLayout>
+                <TitleText
+                  text="Related entries"
+                  textColor={colors.contrast}
+                  element={<DotsIcon color={colors.contrast} size={22} />}
+                  variant="subTitle"
+                  style={styles.titleText}
+                />
+              </PaddingLayout>
+              <Carousel
+                height={135}
+                style={styles.carousel}
+                mode="parallax"
+                handler={(index) => {
+                  // setCurrentIndex(index);
+                  // resetFilters();
+                }}
+                modeConfig={useCarouselConfig(25, 60)}
+                renderItem={TypedPreviewBlock({
+                  // variant: type,
+                  onPress: () => {},
+                  disableAnimate: true,
+                })}
+                data={item?.related_entities}
+              />
+            </View>
+          )}
+        </ScrollView>
       </BottomSheet>
     </Layout>
   );

@@ -34,14 +34,24 @@ export const createStyles = (colors: ThemeColors) =>
       marginBottom: 10,
       marginRight: 8,
     },
+    tagsBox: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      gap: 8,
+      marginTop: 6,
+    },
     globalViewHorizontal: {
-      paddingBottom: 200,
+      paddingBottom: 80,
+    },
+    carouselBox: {
+      // width: "0%",
+    },
+    carousel: {
+      // borderWidth: 1,
+      // borderColor: "red",
     },
     divider: {
       marginVertical: 24,
-    },
-    animatedView: {
-      // opacity: 0,
     },
     pullIcon: {
       position: "absolute",

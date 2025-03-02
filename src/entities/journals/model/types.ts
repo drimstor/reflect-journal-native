@@ -17,6 +17,7 @@ export interface Journal {
   related_topics: string[];
   related_entities: Entity[];
   entries_count: number;
+  bookmarked: boolean;
 }
 
 export interface CreateJournalRequest {

@@ -36,10 +36,33 @@ export const createStyles = (colors: ThemeColors) =>
       gap: 8,
       marginBottom: 12,
     },
+    bookmarkedIconBox: {
+      position: "absolute",
+      top: -4,
+      left: 22,
+    },
+    progressBarBox: {
+      marginBottom: 10,
+      gap: 8,
+    },
     backgroundIconBox: {
       position: "absolute",
-      bottom: -85,
-      right: -70,
       opacity: 0.05,
+    },
+    Journals: {
+      bottom: -60,
+      right: -60,
+    },
+    Chats: {
+      bottom: -60,
+      right: -60,
+    },
+    Goals: {
+      bottom: -55,
+      right: -30,
+    },
+    Summaries: {
+      bottom: -50,
+      right: -40,
     },
   });

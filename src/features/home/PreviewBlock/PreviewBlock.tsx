@@ -1,19 +1,20 @@
 import { Animated, Pressable, View } from "react-native";
 import { createStyles } from "./PreviewBlock.styles";
-import { InfoBox, TitleText, Text, Chip } from "@/src/shared/ui";
+import { InfoBox, TitleText, Text, Chip, ProgressBar } from "@/src/shared/ui";
 import { ReactNode } from "react";
 import { useTimingAnimation } from "@/src/shared/lib/hooks";
 import { useThemeStore } from "@/src/shared/store";
-import { stringToColor } from "@/src/shared/lib/helpers";
+import { calculateProgress, stringToColor } from "@/src/shared/lib/helpers";
 import {
   BoxSolidIcon,
   BackSquareSolidIcon,
-  LifebuoySolidIcon,
-  MaskSolidIcon,
-  CloudSolidIcon,
-  GridSolidIcon,
-  CpuSolidIcon,
+  ClipboardTickSolidIcon,
+  DirectSolidIcon,
+  ArchiveSolidIcon,
 } from "@/src/shared/ui/icons";
+import { LibraryListVariant } from "@/src/shared/model/types";
+import { ChecklistItem } from "@/src/entities/goals/model/types";
+
 interface PreviewBlockProps {
   title?: string;
   element?: ReactNode;
@@ -25,9 +26,12 @@ interface PreviewBlockProps {
   }[];
   backgroundColor?: string;
   backgroundColorForAnimate?: string;
+  backgroundIcon?: LibraryListVariant;
+  bookmarked?: boolean;
   onPress?: () => void;
   tags?: string[];
-  backgroundIcon?: boolean;
+  checklist?: ChecklistItem[];
+  disableAnimate?: boolean;
 }
 
 const PreviewBlock = ({
@@ -37,9 +41,12 @@ const PreviewBlock = ({
   infoBoxes,
   backgroundColor,
   backgroundColorForAnimate,
+  backgroundIcon,
+  bookmarked,
   onPress,
   tags,
-  backgroundIcon,
+  checklist,
+  disableAnimate,
 }: PreviewBlockProps) => {
   const { colors } = useThemeStore();
   const styles = createStyles(colors);
@@ -62,13 +69,20 @@ const PreviewBlock = ({
     ? animatedBackgroundColor
     : backgroundColor;
 
+  const backgroundIconConfig = {
+    Journals: <BackSquareSolidIcon color={colors.contrast} size={180} />,
+    Chats: <BoxSolidIcon color={colors.contrast} size={180} />,
+    Goals: <ClipboardTickSolidIcon color={colors.contrast} size={160} />,
+    Summaries: <DirectSolidIcon color={colors.contrast} size={160} />,
+  };
+
   return (
     <Pressable
       onPressIn={() => {
-        animate(1);
+        disableAnimate ? null : animate(1);
       }}
       onPressOut={() => {
-        animate(0);
+        disableAnimate ? null : animate(0);
       }}
       onPress={onPress}
     >
@@ -81,6 +95,11 @@ const PreviewBlock = ({
           },
         ]}
       >
+        {bookmarked && (
+          <View style={styles.bookmarkedIconBox}>
+            <ArchiveSolidIcon color={colors.error} size={20} />
+          </View>
+        )}
         {title && (
           <TitleText
             variant="subTitle"
@@ -114,6 +133,15 @@ const PreviewBlock = ({
           </View>
         )}
 
+        {checklist && (
+          <View style={styles.progressBarBox}>
+            <Text withOpacity={70} size="small" color={colors.contrast}>
+              {`${calculateProgress(checklist)}% completed`}
+            </Text>
+            <ProgressBar progress={calculateProgress(checklist)} />
+          </View>
+        )}
+
         <View style={styles.infoTableBox}>
           {infoBoxes.map((infoBox) => (
             <InfoBox
@@ -126,11 +154,8 @@ const PreviewBlock = ({
           ))}
         </View>
         {backgroundIcon && (
-          <View style={styles.backgroundIconBox}>
-            <BackSquareSolidIcon color={colors.contrast} size={220} />
-            {/* <BoxSolidIcon color={colors.contrast} size={220} /> */}
-            {/* <LifebuoySolidIcon color={colors.contrast} size={220} /> */}
-            {/* <CpuSolidIcon color={colors.contrast} size={220} /> */}
+          <View style={[styles.backgroundIconBox, styles[backgroundIcon]]}>
+            {backgroundIconConfig[backgroundIcon]}
           </View>
         )}
       </Animated.View>

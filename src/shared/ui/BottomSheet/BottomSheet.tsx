@@ -39,6 +39,7 @@ interface BottomSheetProps {
   onChange?: (index: number) => void;
   onClose?: () => void;
   scrollEnabled?: boolean;
+  paddingHorizontal?: number;
 }
 
 const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
@@ -59,10 +60,10 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       onChange,
       onClose,
       scrollEnabled = true,
+      paddingHorizontal = 24,
     } = props;
 
     const outsideRef = useRef<BottomSheetLibrary>(null);
-    const { paddingHorizontal } = useGetPadding();
     // const [isFullyExpanded, setIsFullyExpanded] = useState(scrollEnabled);
 
     const { animate: animateExpand, animation: expandAnimation } =

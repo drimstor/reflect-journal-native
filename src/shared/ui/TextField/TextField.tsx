@@ -1,5 +1,5 @@
 import { FC, memo } from "react";
-import { View, TextInput, Pressable } from "react-native";
+import { View, TextInput, Pressable, Platform } from "react-native";
 import Text from "../Text/Text";
 import { createStyles, sizeStyles } from "./TextField.styles";
 import { useThemeStore } from "@/src/shared/store";
@@ -26,7 +26,7 @@ const TextField: FC<TextFieldProps> = ({
   textColor,
   helperTextColor,
 }) => {
-  const { colors } = useThemeStore();
+  const { colors, theme } = useThemeStore();
   const styles = createStyles(colors);
   const { value: showPassword, toggle: toggleShowPassword } = useToggle(false);
 
@@ -48,12 +48,17 @@ const TextField: FC<TextFieldProps> = ({
         {startIcon ?? null}
         <TextInput
           secureTextEntry={secureTextEntry ? !showPassword : secureTextEntry}
-          style={[styles.textField, secureTextEntry && { paddingRight: 50 }]}
+          style={[
+            styles.textField,
+            secureTextEntry && { paddingRight: 50 },
+            // Явно указываем цвет текста для Android
+            { color: textColor ?? colors.contrast },
+          ]}
           maxLength={phone ? 10 : undefined}
           value={phone ? value.replace(/[^0-9]/g, "") : value}
           editable={editable}
           placeholder={placeholder}
-          placeholderTextColor={placeholderColor ?? colors.contrast + 50}
+          placeholderTextColor={colors.contrast + "80"}
           onChangeText={onChangeText}
           multiline={multiline}
           keyboardType={phone ? "numeric" : "default"}

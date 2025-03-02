@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { ThemeColors } from "@/src/shared/model/types";
 
 export const createStyles = (themeColors: ThemeColors) => {
@@ -27,6 +27,12 @@ export const createStyles = (themeColors: ThemeColors) => {
       flex: 1,
       minWidth: 0,
       fontFamily: "ZonaPro-Regular",
+      ...Platform.select({
+        android: {
+          paddingVertical: 0,
+          textAlignVertical: "center",
+        },
+      }),
     },
   });
 };

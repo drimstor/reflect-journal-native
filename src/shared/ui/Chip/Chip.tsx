@@ -30,7 +30,7 @@ const Chip: FC<ChipProps> = ({
       ]}
     >
       <Text size={size} color={textColor || contrastTextColor}>
-        {title}
+        {title.charAt(0).toUpperCase() + title.slice(1)}
       </Text>
     </View>
   );

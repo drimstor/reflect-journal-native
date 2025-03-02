@@ -49,6 +49,11 @@ import GlobalSolidIcon from "./GlobalSolidIcon";
 import GridSolidIcon from "./GridSolidIcon";
 import LifebuoySolidIcon from "./LifebuoySolidIcon";
 import CpuSolidIcon from "./CpuSolidIcon";
+import { MessageSolidIcon } from "./MessageSolidIcon";
+import { ClipboardTickSolidIcon } from "./ClipboardTickSolidIcon";
+import { DirectSolidIcon } from "./DirectSolidIcon";
+import { ArchiveSolidIcon } from "./ArchiveSolidIcon";
+
 export {
   BellIcon,
   OrderIcon,
@@ -102,4 +107,8 @@ export {
   GridSolidIcon,
   LifebuoySolidIcon,
   CpuSolidIcon,
+  MessageSolidIcon,
+  ClipboardTickSolidIcon,
+  DirectSolidIcon,
+  ArchiveSolidIcon,
 };

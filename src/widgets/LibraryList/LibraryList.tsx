@@ -1,16 +1,12 @@
-import { formatDate } from "@/src/shared/lib/helpers";
-import React, { useEffect } from "react";
+import React from "react";
 import { Journal } from "@/src/entities/journals/model/types";
 import { Chat } from "@/src/entities/chat/model/types";
-import { Chip, VirtualizedList } from "@/src/shared/ui";
-import { stringToColor } from "@/src/shared/lib/helpers";
-import { CalendarIcon, DocumentTextIcon } from "@/src/shared/ui/icons";
-import { useThemeStore, useFiltersStore } from "@/src/shared/store";
-import { PreviewBlock } from "@/src/features";
+import { VirtualizedList } from "@/src/shared/ui";
+import { useFiltersStore } from "@/src/shared/store";
 import { getFiltersParams } from "@/src/shared/lib/helpers";
 import { useGetAnyEntities } from "./lib/hooks/useGetAnyEntities";
-
-export type LibraryListVariant = "Journals" | "Chats" | "Goals" | "Summaries";
+import { LibraryListVariant } from "@/src/shared/model/types";
+import { TypedPreviewBlock } from "..";
 
 interface LibraryListProps {
   variant: LibraryListVariant;
@@ -18,50 +14,12 @@ interface LibraryListProps {
 }
 
 function LibraryList({ variant, onPress }: LibraryListProps) {
-  const { colors } = useThemeStore();
-
   const filters = useFiltersStore();
 
   const { data, isLoading, isFetching } = useGetAnyEntities(
     variant,
     getFiltersParams(filters)
   );
-
-  const renderItem = ({ item }: { item: Journal | Chat }) => {
-    const journal = item as Journal;
-    return (
-      <PreviewBlock
-        key={journal.id}
-        title={journal.name}
-        value={journal.description}
-        backgroundColor={colors.light}
-        backgroundColorForAnimate={colors.alternate}
-        element={
-          journal.related_topics[0] && (
-            <Chip
-              color={stringToColor(journal.related_topics[0])}
-              title={journal.related_topics[0]}
-            />
-          )
-        }
-        backgroundIcon
-        onPress={() => onPress(journal)}
-        infoBoxes={[
-          {
-            label: "Last updated",
-            value: formatDate(journal.updated_at),
-            icon: <CalendarIcon variant="outlined" color={colors.contrast} />,
-          },
-          typeof journal.entries_count !== "undefined" &&
-            ({
-              label: "Entries count",
-              value: journal.entries_count?.toString(),
-              icon: <DocumentTextIcon color={colors.contrast} />,
-            } as any),
-        ]}
-      />
-    );
-  };
 
   // const educationJournal: Journal = {
   //   name: "English Journal",
@@ -102,7 +60,7 @@ function LibraryList({ variant, onPress }: LibraryListProps) {
   return (
     <VirtualizedList
       data={data}
-      renderItem={renderItem}
+      renderItem={TypedPreviewBlock({ variant, onPress })}
       isFetching={isFetching}
     />
   );

@@ -13,6 +13,7 @@ import * as Haptics from "expo-haptics";
 
 interface CarouselProps {
   height: number;
+  width?: number;
   data: PreviewCardProps[];
   renderItem: ({ item }: { item: PreviewCardProps }) => ReactElement;
   style?: StyleProp<ViewStyle>;
@@ -26,6 +27,7 @@ interface CarouselProps {
 
 const Carousel = ({
   height = 100,
+  width,
   data = [],
   renderItem,
   style,
@@ -51,7 +53,7 @@ const Carousel = ({
     <View style={style}>
       <LibraryCarousel
         ref={ref}
-        width={window.width}
+        width={width || window.width}
         height={height}
         data={data as []}
         scrollAnimationDuration={300}

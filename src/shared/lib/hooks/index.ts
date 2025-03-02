@@ -11,6 +11,7 @@ import { usePullToAction } from "./usePullToAction";
 import { useAppInit } from "./useAppInit";
 import { usePrefetch } from "./usePrefetch";
 import { useFonts } from "./useFonts";
+import useCarouselConfig from "./useCarouselConfig";
 
 export {
   useDebounce,
@@ -27,4 +28,5 @@ export {
   useAppInit,
   usePrefetch,
   useFonts,
+  useCarouselConfig,
 };
