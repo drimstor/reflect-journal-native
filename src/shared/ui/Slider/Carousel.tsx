@@ -49,6 +49,8 @@ const Carousel = ({
     handler(index);
   };
 
+  const shouldShowPagination = data.length > 1;
+
   return (
     <View style={style}>
       <LibraryCarousel
@@ -64,14 +66,17 @@ const Carousel = ({
         onProgressChange={progress}
         mode={mode}
         modeConfig={modeConfig}
+        enabled={shouldShowPagination}
       />
-      <Pagination.Basic
-        progress={progress}
-        data={data}
-        dotStyle={styles.dot}
-        activeDotStyle={styles.activeDot}
-        containerStyle={styles.dotsContainer}
-      />
+      {shouldShowPagination && (
+        <Pagination.Basic
+          progress={progress}
+          data={data}
+          dotStyle={styles.dot}
+          activeDotStyle={styles.activeDot}
+          containerStyle={styles.dotsContainer}
+        />
+      )}
     </View>
   );
 };

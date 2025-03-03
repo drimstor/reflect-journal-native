@@ -4,7 +4,7 @@ import CheckBox from "./CheckBox/CheckBox";
 import Divider from "./Divider/Divider";
 import IconButton from "./IconButton/IconButton";
 import Layout from "./Layout/Layout";
-import Loader from "./Loader/Loader";
+import { Loader } from "./Loader/Loader";
 import Modal from "./Modal/Modal";
 import Popup from "./Popup/Popup";
 import RadioButton from "./RadioButtons/RadioButton";
@@ -17,7 +17,6 @@ import Chip from "./Chip/Chip";
 import PaddingLayout from "./Layout/PaddingLayout";
 import InfoBox from "./InfoBox/InfoBox";
 import ProgressBar from "./ProgressBar/ProgressBar";
-import Carousel from "./Slider/Carousel";
 import AnimatedText from "./Text/AnimatedText";
 import ListItem from "./List/ListItem";
 import List from "./List/List";
@@ -27,6 +26,11 @@ import BottomSheetActions from "./BottomSheetActions/BottomSheetActions";
 import type { BottomSheetAction } from "./BottomSheetActions/model/types";
 import BackgroundLayout from "./Layout/BackgroundLayout";
 import VirtualizedList from "./VirtualizedList/VirtualizedList";
+import Carousel from "./Slider/Carousel";
+import useCarouselConfig from "./Slider/lib/hooks/useCarouselConfig";
+import NoData from "./NoData/NoData";
+export * from "./assets";
+export * from "./icons";
 
 export {
   BottomSheet,
@@ -58,4 +62,6 @@ export {
   List,
   BackgroundLayout,
   VirtualizedList,
+  useCarouselConfig,
+  NoData,
 };

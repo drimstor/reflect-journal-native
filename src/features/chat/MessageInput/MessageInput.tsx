@@ -10,7 +10,7 @@ import { PlusIcon, SendIcon } from "@/src/shared/ui/icons";
 import { AttachmentsPopup } from "@/src/features";
 import * as Haptics from "expo-haptics";
 import { createStyles } from "./MessageInput.styles";
-import { useToggle } from "@/src/shared/lib/hooks";
+import { useT, useToggle } from "@/src/shared/lib/hooks";
 
 interface MessageInputProps extends InputToolbarProps<IMessage> {
   text: string;
@@ -24,6 +24,7 @@ const MessageInput: FC<MessageInputProps> = ({
   onSend,
   ...props
 }) => {
+  const t = useT();
   const { colors, theme } = useThemeStore();
   const styles = createStyles(colors, theme);
   const { value: isAttachmentsVisible, toggle: toggleAttachments } =
@@ -37,7 +38,7 @@ const MessageInput: FC<MessageInputProps> = ({
         renderComposer={() => (
           <View style={styles.composerContainer}>
             <TextInput
-              placeholder="Введите сообщение..."
+              placeholder={t("chat.placeholder")}
               placeholderTextColor={colors.contrast + 50}
               style={styles.input}
               value={text}

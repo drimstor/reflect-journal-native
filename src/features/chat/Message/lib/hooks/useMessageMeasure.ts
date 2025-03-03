@@ -17,16 +17,36 @@ export const useMessageMeasure = () => {
     let offset = 0;
 
     ref.current?.measure((x, y, width, height, pageX, pageY) => {
-      const messageBottom = pageY + height;
-      const sheetTop = window.height - BOTTOM_SHEET_HEIGHT;
+      const messageBottomSide = pageY + height;
+      const freeScreenHeight = window.height - BOTTOM_SHEET_HEIGHT;
+      const isMessageHeightMoreThanScreen = height > freeScreenHeight;
+      const isMessageUnderScreen = pageY < TOP_SCREEN_OFFSET;
 
-      if (messageBottom > sheetTop) {
-        offset = -(messageBottom - sheetTop);
+      if (
+        messageBottomSide > freeScreenHeight ||
+        isMessageHeightMoreThanScreen
+      ) {
+        offset = -(messageBottomSide - freeScreenHeight);
         isNeedTranslate = true;
+        return { isNeedTranslate, offset };
       }
 
-      if (height < window.height && pageY < TOP_SCREEN_OFFSET) {
-        offset = -(pageY - TOP_SCREEN_OFFSET);
+      if (!isMessageHeightMoreThanScreen && isMessageUnderScreen) {
+        const isPageYNegative = pageY < 0;
+
+        const summ = isPageYNegative
+          ? Math.abs(pageY) + TOP_SCREEN_OFFSET
+          : TOP_SCREEN_OFFSET - pageY;
+
+        const currentMessageMoreThanFreeScreen =
+          TOP_SCREEN_OFFSET + height > freeScreenHeight;
+
+        if (currentMessageMoreThanFreeScreen) {
+          const difference = TOP_SCREEN_OFFSET + height - freeScreenHeight;
+          offset = summ - difference;
+        } else {
+          offset = summ;
+        }
         isNeedTranslate = true;
       }
     });

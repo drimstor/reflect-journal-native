@@ -26,6 +26,7 @@ export const createStyles = (colors: ThemeColors) =>
       marginBottom: 12,
     },
     subTitleBox: {
+      marginTop: -4,
       marginBottom: 12,
     },
     tags: {
@@ -50,12 +51,12 @@ export const createStyles = (colors: ThemeColors) =>
       opacity: 0.05,
     },
     Journals: {
-      bottom: -60,
+      bottom: -70,
       right: -60,
     },
     Chats: {
-      bottom: -60,
-      right: -60,
+      bottom: -40,
+      right: -20,
     },
     Goals: {
       bottom: -55,

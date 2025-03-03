@@ -50,6 +50,9 @@ export const createStyles = (colors: ThemeColors) =>
       // borderWidth: 1,
       // borderColor: "red",
     },
+    contentText: {
+      fontSize: 16,
+    },
     divider: {
       marginVertical: 24,
     },

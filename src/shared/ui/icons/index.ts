@@ -23,6 +23,7 @@ import DirectIcon from "./DirectIcon";
 import ArchiveIcon from "./ArchiveIcon";
 import ArchiveBoxIcon from "./ArchiveBoxIcon";
 import MailIcon from "./MailIcon";
+import MailSolidIcon from "./MailSolidIcon";
 import MessagesIcon from "./MessagesIcon";
 import SortIcon from "./SortIcon";
 import FilterIcon from "./FilterIcon";
@@ -80,6 +81,7 @@ export {
   ArchiveIcon,
   ArchiveBoxIcon,
   MailIcon,
+  MailSolidIcon,
   MessagesIcon,
   SortIcon,
   FilterIcon,

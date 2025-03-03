@@ -1,7 +1,7 @@
 import React, { FC, useState, useCallback, useEffect } from "react";
-import { View } from "react-native";
+import { Animated, View } from "react-native";
 import { createStyles } from "./ChatScreen.styles";
-import { Layout } from "@/src/shared/ui";
+import { Layout, Loader, NoData } from "@/src/shared/ui";
 import { Header } from "@/src/widgets";
 import { GiftedChat, IMessage } from "react-native-gifted-chat";
 import { useDeviceStore, useThemeStore } from "@/src/shared/store";
@@ -24,18 +24,22 @@ import {
 import { useBottomSheetStore } from "@/src/shared/store";
 import { useRoute } from "@react-navigation/native";
 import { useGetChatMessagesQuery } from "@/src/entities";
+import { useLang, useT, useTimingAnimation } from "@/src/shared/lib/hooks";
 
 const ChatScreen: FC = () => {
+  const t = useT();
+  const { locale } = useLang();
   const { colors } = useThemeStore();
-  const { isAndroid } = useDeviceStore();
+  const { isAndroid, window } = useDeviceStore();
   const { setBottomSheetVisible, setActions } = useBottomSheetStore();
   const styles = createStyles(colors);
   const { isKeyboardVisible } = useKeyboard();
-
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [text, setText] = useState("");
   const { currentDate, chipAnimation, handleScroll } = useDateChip(messages);
-
+  const { animation } = useTimingAnimation(isKeyboardVisible, {
+    duration: 700,
+  });
   const route = useRoute();
   const { item } = route.params as any;
 
@@ -51,9 +55,6 @@ const ChatScreen: FC = () => {
 
   const [isLoadingEarlier, setIsLoadingEarlier] = useState(false);
   const [page, setPage] = useState(1);
-
-  // console.log(item);
-  console.log(messagesData);
 
   const transformMessages = useCallback(
     (messages: MessageType[]): IMessage[] => {
@@ -122,17 +123,17 @@ const ChatScreen: FC = () => {
 
     setActions([
       {
-        text: "Copy",
+        text: t("shared.actions.copy"),
         IconComponent: ClipboardTextIcon,
         onPress: () => {},
       },
       {
-        text: "Edit",
+        text: t("shared.actions.edit"),
         IconComponent: EditPencilIcon,
         onPress: () => {},
       },
       {
-        text: "Delete",
+        text: t("shared.actions.delete"),
         IconComponent: TrashIcon,
         onPress: () => {},
         iconColor: colors.error,
@@ -172,8 +173,54 @@ const ChatScreen: FC = () => {
             renderAvatar={null}
             timeFormat="HH:mm"
             dateFormat="DD.MM.YY"
-            locale="ru"
+            locale={locale}
             onLongPress={handleLongPress}
+            renderChatEmpty={() =>
+              !isLoadingMessages &&
+              !messagesData?.data.length && (
+                <Animated.View
+                  style={{
+                    transform: [
+                      { translateX: "-50%" },
+                      { translateY: "-50%" },
+                      { scaleY: -1 },
+                    ],
+                    position: "absolute",
+                    top: animation.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [window.height / 2, window.height / 4],
+                    }),
+                    left: window.width / 2,
+                    right: window.width / 2,
+                    backgroundColor: colors.secondary,
+                    width: window.width - 80,
+                    borderRadius: 20,
+                    borderWidth: 1,
+                    borderColor: colors.alternate,
+                    paddingBottom: 10,
+                  }}
+                >
+                  <NoData type="noMessage" />
+                </Animated.View>
+              )
+            }
+            renderChatFooter={() => (
+              <Loader
+                style={{
+                  transform: [
+                    { translateX: "-50%" },
+                    { translateY: "-50%" },
+                    { scaleY: -1 },
+                  ],
+                  position: "absolute",
+                  top: window.height / 3.3,
+                  left: window.width / 2,
+                  right: window.width / 2,
+                }}
+                size={window.width - 150}
+                isVisible={isLoadingMessages}
+              />
+            )}
             renderBubble={(props) => <Message {...props} />}
             renderInputToolbar={(props) => (
               <MessageInput

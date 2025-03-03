@@ -3,10 +3,33 @@
     "title": "Профиль"
   },
   "home": {
-    "title": "Главная"
+    "title": "Дашборд"
   },
-  "menu": {
-    "title": "Меню"
+  "library": {
+    "title": "Библиотека",
+    "journals": {
+      "description": "Список ваших дневников",
+      "entriesList": "Список записей"
+    },
+    "chats": {
+      "description": "Список ваших чатов"
+    },
+    "goals": {
+      "description": "Список ваших целей и задач"
+    },
+    "summaries": {
+      "description": "Список ваших саммари"
+    }
+  },
+  "chat": {
+    "placeholder": "Введите сообщение..."
+  },
+  "libraryItem": {
+    "relatedTopics": "Связанные темы",
+    "content": "Контент",
+    "checklist": "Чек-лист",
+    "aiResponse": "Ответ AI",
+    "relatedEntries": "Связанные записи"
   },
   "auth": {
     "title": "Вход",
@@ -40,7 +63,7 @@
     "password": {
       "label": "Пароль",
       "placeholder": "Введите пароль",
-      "helper": "Пароль должен содержать не менее 8 символов"
+      "helper": "Пароль должен содержать не менее 6 символов"
     },
     "confirmPassword": {
       "label": "Подтверждение пароля",
@@ -50,5 +73,106 @@
     "rememberMe": "Запомнить меня",
     "forgotPassword": "Забыли пароль?",
     "or": "или"
+  },
+  "entities": {
+    "journals": {
+      "singular": "Дневник",
+      "plural": "Дневники"
+    },
+    "chats": {
+      "singular": "Чат",
+      "plural": "Чаты"
+    },
+    "goals": {
+      "singular": "Цель",
+      "plural": "Цели"
+    },
+    "summaries": {
+      "singular": "Саммари",
+      "plural": "Саммари"
+    }
+  },
+  "shared": {
+    "actions": {
+      "save": "Сохранить",
+      "delete": "Удалить",
+      "close": "Закрыть",
+      "edit": "Изменить",
+      "copy": "Копировать",
+      "cancel": "Отмена",
+      "confirm": "Подтвердить",
+      "apply": "Применить",
+      "add": "Добавить",
+      "create": "Создать",
+      "update": "Обновить",
+      "logout": "Выйти",
+      "search": "Поиск",
+      "filter": "Фильтр",
+      "sort": "Сортировка",
+      "back": "Назад",
+      "next": "Далее",
+      "submit": "Отправить",
+      "continue": "Продолжить",
+      "skip": "Пропустить",
+      "done": "Готово",
+      "completed": "Выполнено",
+      "complete": "Выполнение",
+      "resetSearch": "Сбросить поиск",
+      "yes": "Да",
+      "no": "Нет"
+    },
+    "status": {
+      "loading": "Загрузка...",
+      "success": "Успешно",
+      "error": "Ошибка",
+      "empty": "Нет данных",
+      "notFound": "Не найдено"
+    },
+    "info": {
+      "entriesCount": "Количество записей",
+      "lastUpdated": "Последнее обновление",
+      "created": "Создано"
+    },
+    "validation": {
+      "required": "Обязательное поле",
+      "invalid": "Некорректное значение",
+      "tooShort": "Слишком короткое значение",
+      "tooLong": "Слишком длинное значение"
+    },
+    "date": {
+      "longDays": {
+        "Sunday": "Воскресенье",
+        "Monday": "Понедельник",
+        "Tuesday": "Вторник",
+        "Wednesday": "Среда",
+        "Thursday": "Четверг",
+        "Friday": "Пятница",
+        "Saturday": "Суббота"
+      },
+      "shortDays": {
+        "Sunday": "Вс",
+        "Monday": "Пн",
+        "Tuesday": "Вт",
+        "Wednesday": "Ср",
+        "Thursday": "Чт",
+        "Friday": "Пт",
+        "Saturday": "Сб"
+      }
+    },
+    "confirmation": {
+      "title": "Подтверждение",
+      "deleteMessage": "Вы уверены, что хотите удалить этот элемент?",
+      "cancelMessage": "Вы уверены, что хотите отменить действие?"
+    },
+    "noData": {
+      "title": "Нет данных",
+      "description": "Пока что нет ни одной записи",
+      "errorTitle": "Ошибка загрузки данных",
+      "errorDescription": "Попробуйте обновить страницу",
+      "noSearchTitle": "Нет результатов",
+      "noSearchDescription": "По вашему запросу ничего не найдено",
+      "noMessageTitle": "Нет сообщений",
+      "noMessageDescription": "Начните диалог с AI"
+    }
   }
 } 

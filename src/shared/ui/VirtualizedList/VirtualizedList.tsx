@@ -1,6 +1,6 @@
 import { groupByDate } from "@/src/shared/lib/helpers";
 import React, { useEffect, useMemo } from "react";
-import { Chip } from "@/src/shared/ui";
+import { Chip, Loader, NoData } from "@/src/shared/ui";
 import {
   useDeviceStore,
   useThemeStore,
@@ -11,6 +11,7 @@ import { styles } from "./VirtualizedList.styles";
 import { View, ActivityIndicator, LogBox } from "react-native";
 import { BottomSheetSectionList } from "@gorhom/bottom-sheet";
 import { VirtualizedListProps, WithDateAndId } from "./model/types";
+import { useLang } from "@/src/shared/lib/hooks";
 
 function VirtualizedList<ItemT extends WithDateAndId>({
   renderItem,
@@ -19,6 +20,7 @@ function VirtualizedList<ItemT extends WithDateAndId>({
 }: VirtualizedListProps<ItemT>) {
   const { window } = useDeviceStore();
   const { colors } = useThemeStore();
+  const { locale } = useLang();
   const { setPage } = useFiltersStore();
 
   const loadMore = () => {
@@ -29,8 +31,8 @@ function VirtualizedList<ItemT extends WithDateAndId>({
 
   const sections = useMemo(() => {
     if (!data?.data) return [];
-    return groupByDate<ItemT>(data.data);
-  }, [data?.data]);
+    return groupByDate<ItemT>(data.data, locale);
+  }, [data?.data, locale]);
 
   const renderSectionHeader = ({
     section: { title },
@@ -73,11 +75,24 @@ function VirtualizedList<ItemT extends WithDateAndId>({
           <Divider style={styles.divider} color={colors.alternate} />
         )
       }
-      ListFooterComponent={() =>
-        isFetching ? (
-          <ActivityIndicator color={colors.contrast} style={styles.loader} />
-        ) : null
+      ListEmptyComponent={() =>
+        !isFetching && (
+          <NoData
+            style={{ marginTop: 25 }}
+            type="noData"
+            onPress={() => {
+              // Здесь можно добавить обработчик для создания нового элемента
+            }}
+          />
+        )
       }
+      ListFooterComponent={() => (
+        <Loader
+          style={{ marginTop: 25 }}
+          size={window.width - 150}
+          isVisible={isFetching}
+        />
+      )}
     />
   );
 }

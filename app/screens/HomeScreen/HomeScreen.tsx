@@ -27,7 +27,7 @@ const HomeScreen: FC<HomeScreenProps> = () => {
 
   return (
     <Layout>
-      <Header title="Dashboard" />
+      <Header title={t("home.title")} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.globalViewHorizontal}

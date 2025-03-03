@@ -2,15 +2,15 @@ import { Animated, Pressable, View } from "react-native";
 import { createStyles } from "./PreviewBlock.styles";
 import { InfoBox, TitleText, Text, Chip, ProgressBar } from "@/src/shared/ui";
 import { ReactNode } from "react";
-import { useTimingAnimation } from "@/src/shared/lib/hooks";
+import { useT, useTimingAnimation } from "@/src/shared/lib/hooks";
 import { useThemeStore } from "@/src/shared/store";
 import { calculateProgress, stringToColor } from "@/src/shared/lib/helpers";
 import {
-  BoxSolidIcon,
   BackSquareSolidIcon,
   ClipboardTickSolidIcon,
   DirectSolidIcon,
   ArchiveSolidIcon,
+  MailSolidIcon,
 } from "@/src/shared/ui/icons";
 import { LibraryListVariant } from "@/src/shared/model/types";
 import { ChecklistItem } from "@/src/entities/goals/model/types";
@@ -32,6 +32,7 @@ interface PreviewBlockProps {
   tags?: string[];
   checklist?: ChecklistItem[];
   disableAnimate?: boolean;
+  previewMode?: boolean;
 }
 
 const PreviewBlock = ({
@@ -47,7 +48,9 @@ const PreviewBlock = ({
   tags,
   checklist,
   disableAnimate,
+  previewMode,
 }: PreviewBlockProps) => {
+  const t = useT();
   const { colors } = useThemeStore();
   const styles = createStyles(colors);
   const { animate, animation } = useTimingAnimation();
@@ -71,7 +74,7 @@ const PreviewBlock = ({
 
   const backgroundIconConfig = {
     Journals: <BackSquareSolidIcon color={colors.contrast} size={180} />,
-    Chats: <BoxSolidIcon color={colors.contrast} size={180} />,
+    Chats: <MailSolidIcon color={colors.contrast} size={140} />,
     Goals: <ClipboardTickSolidIcon color={colors.contrast} size={160} />,
     Summaries: <DirectSolidIcon color={colors.contrast} size={160} />,
   };
@@ -107,6 +110,8 @@ const PreviewBlock = ({
             textColor={colors.contrast}
             element={element}
             style={styles.titleBox}
+            numberOfLines={previewMode ? 1 : undefined}
+            ellipsizeMode={previewMode ? "tail" : undefined}
           />
         )}
 
@@ -115,6 +120,8 @@ const PreviewBlock = ({
             withOpacity={title ? 70 : undefined}
             style={styles.subTitleBox}
             color={colors.contrast}
+            numberOfLines={previewMode ? 10 : undefined}
+            ellipsizeMode={previewMode ? "tail" : undefined}
           >
             {value}
           </Text>
@@ -136,7 +143,9 @@ const PreviewBlock = ({
         {checklist && (
           <View style={styles.progressBarBox}>
             <Text withOpacity={70} size="small" color={colors.contrast}>
-              {`${calculateProgress(checklist)}% completed`}
+              {`${calculateProgress(checklist)}% ${t(
+                "shared.actions.completed"
+              ).toLowerCase()}`}
             </Text>
             <ProgressBar progress={calculateProgress(checklist)} />
           </View>

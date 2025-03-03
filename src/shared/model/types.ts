@@ -14,6 +14,7 @@ export interface IconProps {
   size?: number;
   opacity?: number;
   variant?: "outlined" | "filled";
+  backgroundColor?: string;
 }
 
 export interface PaginationResponse<T> {

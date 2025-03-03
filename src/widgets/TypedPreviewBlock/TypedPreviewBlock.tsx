@@ -8,33 +8,39 @@ import { formatDate } from "@/src/shared/lib/helpers";
 import { CalendarIcon, DocumentTextIcon } from "@/src/shared/ui/icons";
 import { stringToColor } from "@/src/shared/lib/helpers";
 import { PreviewBlock } from "@/src/features";
+import { useLang, useT } from "@/src/shared/lib/hooks";
 
 interface TypedPreviewBlockProps {
   variant?: LibraryListVariant;
   onPress: (item: Journal | Chat) => void;
   disableAnimate?: boolean;
+  previewMode?: boolean;
 }
 
 const TypedPreviewBlock = ({
   variant,
   onPress,
   disableAnimate,
+  previewMode,
 }: TypedPreviewBlockProps) => {
   const { colors } = useThemeStore();
+  const t = useT();
+  const { locale } = useLang();
 
   return useCallback(
     ({ item }: { item: any }) => {
-      console.log({ item });
       const infoBoxesConfig = [
         {
-          label: item.updated_at ? "Last updated" : "Created",
-          value: formatDate(item.updated_at || item.created_at),
+          label: item.updated_at
+            ? t("shared.info.lastUpdated")
+            : t("shared.info.created"),
+          value: formatDate(item.updated_at || item.created_at, locale),
           icon: <CalendarIcon variant="outlined" color={colors.contrast} />,
         },
         ...(Number.isFinite(item.entries_count)
           ? [
               {
-                label: "Entries count",
+                label: t("shared.info.entriesCount"),
                 value: String(item.entries_count),
                 icon: <DocumentTextIcon color={colors.contrast} />,
               },
@@ -53,6 +59,7 @@ const TypedPreviewBlock = ({
           bookmarked={item.bookmarked}
           checklist={item.checklist}
           disableAnimate={disableAnimate}
+          previewMode={previewMode}
           element={
             item.related_topics?.[0] ? (
               <Chip

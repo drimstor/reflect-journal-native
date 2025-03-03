@@ -11,21 +11,13 @@ import {
   BottomSheet,
   Carousel,
   PaddingLayout,
+  useCarouselConfig,
 } from "@/src/shared/ui";
 import { Header, TypedPreviewBlock, useHeaderStore } from "@/src/widgets";
-import {
-  usePullToAction,
-  useT,
-  useCarouselConfig,
-} from "@/src/shared/lib/hooks";
+import { useLang, usePullToAction, useT } from "@/src/shared/lib/hooks";
 import { useDeviceStore, useThemeStore } from "@/src/shared/store";
 import { ScrollView, View, Animated } from "react-native";
-import {
-  CalendarIcon,
-  UserBorderIcon,
-  DotsIcon,
-  BackSquareIcon,
-} from "@/src/shared/ui/icons";
+import { CalendarIcon, DotsIcon } from "@/src/shared/ui/icons";
 import { createStyles } from "./LibraryItemScreen.styles";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { NavigationProps } from "@/src/shared/model/types";
@@ -43,13 +35,19 @@ interface CheckboxItem {
 
 const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
   const t = useT();
+  const { locale } = useLang();
   const navigation = useNavigation<NavigationProps>();
   const { colors } = useThemeStore();
   const { window } = useDeviceStore();
   const styles = createStyles(colors);
-  const { handleScroll, handleScrollEnd, visibleAnimation } = usePullToAction({
-    onAction: navigation.goBack,
-  });
+  const { subtitle } = useHeaderStore();
+
+  // const { handleScroll, handleScrollEnd, visibleAnimation } = usePullToAction({
+  //   onAction: navigation.goBack,
+  // });
+
+  const route = useRoute();
+  const { type, item } = route.params as any;
 
   const handleCheckboxToggle = (id: string) => {
     setCheckboxes((prev) =>
@@ -59,26 +57,15 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
     );
   };
 
-  const route = useRoute();
-  const { type, item } = route.params as any;
-
   const [checkboxes, setCheckboxes] = useState<ChecklistItem[]>(
     item?.checklist
   );
 
-  console.log(item);
-
-  const { subtitle } = useHeaderStore();
-
-  const title = item?.name;
-
-  const weekDay = getWeekDay(item?.created_at);
-
   return (
     <Layout>
       <Header
-        title={title || type}
-        subtitle={subtitle || weekDay}
+        title={t(`entities.${type.toLowerCase()}.singular`)}
+        subtitle={subtitle}
         backButton
         rightIcon={{
           icon: <DotsIcon color={colors.contrast} size={22} />,
@@ -95,14 +82,14 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
         staticMode
         paddingHorizontal={0}
       >
-        <Animated.View style={[styles.pullIcon, visibleAnimation]}>
+        {/* <Animated.View style={[styles.pullIcon, visibleAnimation]}>
           <BackSquareIcon color={colors.contrast} size={24} />
-        </Animated.View>
+        </Animated.View> */}
         <ScrollView
           contentContainerStyle={styles.globalViewHorizontal}
           showsVerticalScrollIndicator={false}
-          onScroll={handleScroll}
-          onScrollEndDrag={handleScrollEnd}
+          // onScroll={handleScroll}
+          // onScrollEndDrag={handleScrollEnd}
           scrollEventThrottle={16}
           style={{ maxHeight: window.height - 160 }}
         >
@@ -121,55 +108,61 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
             <View style={styles.infoTableBox}>
               <View style={styles.infoTableItem}>
                 <InfoBox
-                  label="Created"
+                  label={t("shared.info.created")}
                   icon={
                     <CalendarIcon variant="outlined" color={colors.contrast} />
                   }
-                  value={`${formatDate(item?.created_at)}, ${getWeekDay(
-                    item?.created_at
+                  value={`${formatDate(item?.created_at, locale)}, ${getWeekDay(
+                    item?.created_at,
+                    t,
+                    "short"
                   )}`}
                   color={colors.contrast}
                 />
               </View>
               <View style={styles.infoTableItem}>
                 <InfoBox
-                  label="Last updated"
+                  label={t("shared.info.lastUpdated")}
                   icon={
                     <CalendarIcon variant="outlined" color={colors.contrast} />
                   }
-                  value={`${formatDate(item?.updated_at)}, ${getWeekDay(
-                    item?.updated_at
+                  value={`${formatDate(item?.updated_at, locale)}, ${getWeekDay(
+                    item?.updated_at,
+                    t,
+                    "short"
                   )}`}
                   color={colors.contrast}
                 />
               </View>
-              <View style={styles.infoTableItem}>
+              {/* <View style={styles.infoTableItem}>
                 <InfoBox
                   label="Assigned to"
                   icon={<UserBorderIcon color={colors.contrast} />}
                   value="Tony Ware"
                   color={colors.contrast}
                 />
-              </View>
+              </View> */}
             </View>
             <Divider style={styles.divider} color={colors.alternate} />
             {item?.content && (
               <>
                 <TitleText
-                  text="Content"
+                  text={t("libraryItem.content")}
                   textColor={colors.contrast}
                   element={<DotsIcon color={colors.contrast} size={22} />}
                   variant="subTitle"
                   style={styles.titleText}
                 />
-                <Text color={colors.contrast}>{item?.content}</Text>
+                <Text color={colors.contrast} style={styles.contentText}>
+                  {item?.content}
+                </Text>
                 <Divider style={styles.divider} color={colors.alternate} />
               </>
             )}
             {item?.related_topics?.length && (
               <>
                 <TitleText
-                  text="Related topics"
+                  text={t("libraryItem.relatedTopics")}
                   textColor={colors.contrast}
                   element={<DotsIcon color={colors.contrast} size={22} />}
                   variant="subTitle"
@@ -191,20 +184,22 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
             {item?.ai_response && (
               <>
                 <TitleText
-                  text="AI response"
+                  text={t("libraryItem.aiResponse")}
                   textColor={colors.contrast}
                   element={<DotsIcon color={colors.contrast} size={22} />}
                   variant="subTitle"
                   style={styles.titleText}
                 />
-                <Text color={colors.contrast}>{item?.ai_response}</Text>
+                <Text color={colors.contrast} style={styles.contentText}>
+                  {item?.ai_response}
+                </Text>
                 <Divider style={styles.divider} color={colors.alternate} />
               </>
             )}
             {item?.checklist && (
               <>
                 <TitleText
-                  text="Check list"
+                  text={t("libraryItem.checklist")}
                   textColor={colors.contrast}
                   element={<DotsIcon color={colors.contrast} size={22} />}
                   variant="subTitle"
@@ -225,11 +220,11 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
               </>
             )}
           </PaddingLayout>
-          {item?.related_entities?.length && (
+          {!!item?.related_entities?.length && (
             <View style={styles.carouselBox}>
               <PaddingLayout>
                 <TitleText
-                  text="Related entries"
+                  text={t("libraryItem.relatedEntries")}
                   textColor={colors.contrast}
                   element={<DotsIcon color={colors.contrast} size={22} />}
                   variant="subTitle"
@@ -237,20 +232,23 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
                 />
               </PaddingLayout>
               <Carousel
-                height={135}
+                height={130}
                 style={styles.carousel}
                 mode="parallax"
+                data={item?.related_entities}
                 handler={(index) => {
                   // setCurrentIndex(index);
                   // resetFilters();
                 }}
-                modeConfig={useCarouselConfig(25, 60)}
+                modeConfig={useCarouselConfig(
+                  25,
+                  item?.related_entities?.length > 1 ? 60 : 0
+                )}
                 renderItem={TypedPreviewBlock({
-                  // variant: type,
                   onPress: () => {},
                   disableAnimate: true,
+                  previewMode: true,
                 })}
-                data={item?.related_entities}
               />
             </View>
           )}

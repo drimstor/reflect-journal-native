@@ -16,6 +16,9 @@ export const createStyles = (colors: ThemeColors) =>
       opacity: 0.5,
       color: PALLETE_COLORS.light.white,
     },
+    text: {
+      marginTop: -2,
+    },
   });
 
 export const sizeStyles = StyleSheet.create({
@@ -24,7 +27,7 @@ export const sizeStyles = StyleSheet.create({
     maxHeight: 52,
   },
   small: {
-    minHeight: 33,
-    maxHeight: 33,
+    minHeight: 40,
+    maxHeight: 40,
   },
 });

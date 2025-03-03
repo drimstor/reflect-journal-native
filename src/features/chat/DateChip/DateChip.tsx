@@ -3,6 +3,7 @@ import { Animated } from "react-native";
 import { useThemeStore } from "@/src/shared/store";
 import { Chip } from "@/src/shared/ui";
 import { createStyles } from "./DateChip.styles";
+import { useLang } from "@/src/shared/lib/hooks";
 
 interface DateChipProps {
   date: Date;
@@ -12,6 +13,7 @@ interface DateChipProps {
 const DateChip: FC<DateChipProps> = ({ date, animation }) => {
   const { colors } = useThemeStore();
   const styles = createStyles(colors, animation);
+  const { locale } = useLang();
 
   return (
     <Animated.View style={[styles.container]}>
@@ -19,7 +21,7 @@ const DateChip: FC<DateChipProps> = ({ date, animation }) => {
         size="base"
         color={colors.secondary}
         borderColor={colors.alternate}
-        title={date.toLocaleDateString("ru-RU", {
+        title={date.toLocaleDateString(locale, {
           day: "numeric",
           month: "long",
         })}

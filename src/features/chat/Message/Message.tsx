@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { Animated } from "react-native";
+import { Animated, Keyboard } from "react-native";
 import { useBottomSheetStore } from "@/src/shared/store";
 import { Portal } from "@gorhom/portal";
 import { LongPressGestureHandler, State } from "react-native-gesture-handler";
@@ -8,7 +8,6 @@ import { ANIMATION_DELAY } from "./const/static";
 import { ExtendedBubbleProps } from "./model/types";
 import { useMessageAnimation } from "./lib/hooks/useMessageAnimation";
 import { useMessageMeasure } from "./lib/hooks/useMessageMeasure";
-import { runOnJS } from "react-native-reanimated";
 
 const Message: FC<ExtendedBubbleProps> = (props) => {
   const { isBottomSheetVisible, setBottomSheetVisible } = useBottomSheetStore();
@@ -32,17 +31,19 @@ const Message: FC<ExtendedBubbleProps> = (props) => {
   }, [isBottomSheetVisible]);
 
   const handleStateChange = ({ nativeEvent }: { nativeEvent: any }) => {
-    const { isNeedTranslate, offset } = measureOffset();
+    if (!Keyboard.isVisible()) {
+      const { isNeedTranslate, offset } = measureOffset();
 
-    if (nativeEvent.state === State.BEGAN) {
-      setBubblePosition();
-      if (!isNeedTranslate) scaleAnimation(0.94);
-    } else if (nativeEvent.state === State.ACTIVE) {
-      if (isNeedTranslate) translateAnimation(offset);
-      props.onLongPress?.();
-    } else {
-      if (!isNeedTranslate) scaleAnimation(1);
-      if (!isBottomSheetVisible) resetBubblePosition();
+      if (nativeEvent.state === State.BEGAN) {
+        setBubblePosition();
+        if (!isNeedTranslate) scaleAnimation(0.94);
+      } else if (nativeEvent.state === State.ACTIVE) {
+        if (isNeedTranslate) translateAnimation(offset);
+        props.onLongPress?.();
+      } else {
+        if (!isNeedTranslate) scaleAnimation(1);
+        if (!isBottomSheetVisible) resetBubblePosition();
+      }
     }
   };
 

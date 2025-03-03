@@ -55,7 +55,7 @@ export const useGoogleAuth = () => {
       const user: User = await response.json();
 
       registerMutation({
-        email: user?.email,
+        email: `google.${user?.email}`,
         name: user?.name || user?.given_name + " " + user?.family_name,
         avatar_url: user?.picture,
         password: user?.id,
@@ -67,7 +67,7 @@ export const useGoogleAuth = () => {
         .catch((error) => {
           if (error.status === 409) {
             loginMutation({
-              email: user?.email,
+              email: `google.${user?.email}`,
               password: user?.id,
             })
               .unwrap()

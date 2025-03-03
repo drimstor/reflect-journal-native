@@ -60,6 +60,7 @@ const Button = ({
         <Text
           font="bold"
           style={[
+            styles.text,
             disabled && styles.disabled,
             { color: textColor ?? contrastTextColor },
           ]}

@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react";
-import { FiltersPanel, Header, useHeaderStore } from "@/src/widgets";
-import { useT } from "@/src/shared/lib/hooks";
+import { FiltersPanel, Header } from "@/src/widgets";
+import { useLang, useT } from "@/src/shared/lib/hooks";
 import { View } from "react-native";
 import { CalendarIcon, DotsIcon } from "@/src/shared/ui/icons";
 import { createStyles } from "./LibraryListScreen.styles";
@@ -22,30 +22,30 @@ import {
   Chip,
   BottomSheet,
   VirtualizedList,
+  NoSearchDataImg,
 } from "@/src/shared/ui";
 
 interface LibraryListScreenProps {}
 
 const LibraryListScreen: FC<LibraryListScreenProps> = () => {
   const t = useT();
+  const { locale } = useLang();
   const navigation = useNavigation<NavigationProps>();
   const { colors } = useThemeStore();
   const { window } = useDeviceStore();
   const styles = createStyles(colors);
-  const { subtitle } = useHeaderStore();
+  const filters = useFiltersStore();
+
   const route = useRoute();
   const { type, item } = route.params as any;
   const title = item.name;
-
-  const filters = useFiltersStore();
+  const related_entities = item?.related_entities ?? [];
 
   useEffect(() => {
     filters.resetFilters();
   }, []);
 
   const params = getFiltersParams({ ...filters, journal_id: item.id });
-
-  console.log({ params });
 
   const { data, isLoading, isFetching } = useGetJournalEntriesQuery({ params });
 
@@ -60,6 +60,7 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
         backgroundColorForAnimate={colors.alternate}
         tags={journal.related_topics}
         bookmarked={journal.bookmarked}
+        previewMode
         element={
           journal.related_topics[0] && (
             <Chip
@@ -68,11 +69,16 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
             />
           )
         }
-        onPress={() => navigation.navigate(PATHS.LIBRARY_ITEM, { type, item })}
+        onPress={() =>
+          navigation.navigate(PATHS.LIBRARY_ITEM, {
+            type,
+            item: { ...item, related_entities },
+          })
+        }
         infoBoxes={[
           {
-            label: "Created",
-            value: formatDate(journal.created_at),
+            label: t("shared.info.created"),
+            value: formatDate(journal.created_at, locale),
             icon: <CalendarIcon variant="outlined" color={colors.contrast} />,
           },
         ]}
@@ -85,7 +91,7 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
       <Header
         backButton
         title={title}
-        subtitle="Список записей"
+        subtitle={t("library.journals.entriesList")}
         rightIcon={{
           icon: <DotsIcon color={colors.contrast} size={22} />,
           onPress: () => {},
