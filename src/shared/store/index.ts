@@ -10,3 +10,6 @@ export { baseQueryWithReauth } from "@/src/shared/store/api/baseQueryWithReauth"
 export { useFiltersStore, type FiltersState } from "./zustand/filters.store";
 export { getFiltersParams } from "./lib/helpers/getFiltersParams";
 export { formatValidationErrors } from "./lib/helpers/formatValidationErrors";
+export { handleError } from "./lib/helpers/handleError";
+export * from "./slices/uiSlice";
+export * from "./store";

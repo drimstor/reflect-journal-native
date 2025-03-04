@@ -40,6 +40,7 @@ interface BottomSheetProps {
   onClose?: () => void;
   scrollEnabled?: boolean;
   paddingHorizontal?: number;
+  enableBackdropDismiss?: boolean;
 }
 
 const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
@@ -61,6 +62,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       onClose,
       scrollEnabled = true,
       paddingHorizontal = 24,
+      enableBackdropDismiss,
     } = props;
 
     const outsideRef = useRef<BottomSheetLibrary>(null);
@@ -120,6 +122,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
             disappearsOnIndex={-1}
             appearsOnIndex={0}
             onPress={onClose}
+            pressBehavior={enableBackdropDismiss ? "none" : "close"}
           />
         );
       }

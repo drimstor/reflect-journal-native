@@ -3,6 +3,7 @@ import { View } from "react-native";
 import { styles } from "./Chip.styles";
 import { getContrastColor } from "@/src/shared/lib/helpers/getContrastColor";
 import { Text } from "@/src/shared/ui";
+import { capitalizeText } from "../../lib/helpers";
 
 interface ChipProps {
   color: string;
@@ -30,7 +31,7 @@ const Chip: FC<ChipProps> = ({
       ]}
     >
       <Text size={size} color={textColor || contrastTextColor}>
-        {title.charAt(0).toUpperCase() + title.slice(1)}
+        {capitalizeText(title)}
       </Text>
     </View>
   );

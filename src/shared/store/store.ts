@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { baseApi } from "../api/baseApi";
+import { uiSlice } from "./";
 import {
   authApi,
   chatsApi,
@@ -21,6 +22,7 @@ export const store = configureStore({
     [summaryApi.reducerPath]: summaryApi.reducer,
     [journalEntriesApi.reducerPath]: journalEntriesApi.reducer,
     [messagesApi.reducerPath]: messagesApi.reducer,
+    ui: uiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

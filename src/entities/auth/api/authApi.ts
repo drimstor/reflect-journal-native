@@ -20,7 +20,9 @@ export const authApi = createApi({
           const { data } = await queryFulfilled;
           await tokenService.setTokens(data.access_token, data.refresh_token);
           await tokenService.debugTokens();
-        } catch {}
+        } catch (error: any) {
+          // handleError(dispatch)(error.error);
+        }
       },
     }),
     register: builder.mutation<TokenResponse, RegisterRequest>({

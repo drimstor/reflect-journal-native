@@ -5,6 +5,7 @@ import Divider from "./Divider/Divider";
 import IconButton from "./IconButton/IconButton";
 import Layout from "./Layout/Layout";
 import { Loader } from "./Loader/Loader";
+import { SiriLoader } from "./Loader/SiriLoader";
 import Modal from "./Modal/Modal";
 import Popup from "./Popup/Popup";
 import RadioButton from "./RadioButtons/RadioButton";
@@ -33,6 +34,7 @@ export * from "./assets";
 export * from "./icons";
 
 export {
+  SiriLoader,
   BottomSheet,
   type BottomSheetRef,
   type BottomSheetAction,

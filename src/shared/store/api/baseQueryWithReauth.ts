@@ -5,7 +5,7 @@ import type {
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query";
 import { Mutex } from "async-mutex";
-import { tokenService } from "@/src/shared/store";
+import { handleError, tokenService } from "@/src/shared/store";
 import { baseQueryConfig } from "@/src/shared/store";
 
 const mutex = new Mutex();
@@ -64,6 +64,8 @@ export const baseQueryWithReauth: BaseQueryFn<
       result = await baseQuery(args, api, extraOptions);
     }
   }
+
+  if (result.error) handleError(api.dispatch)(result.error);
 
   return result;
 };

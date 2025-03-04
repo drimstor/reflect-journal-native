@@ -4,7 +4,12 @@ import { createStyles } from "./ChatScreen.styles";
 import { Layout, Loader, NoData } from "@/src/shared/ui";
 import { Header } from "@/src/widgets";
 import { GiftedChat, IMessage } from "react-native-gifted-chat";
-import { useDeviceStore, useThemeStore } from "@/src/shared/store";
+import {
+  addSnackbar,
+  useAppDispatch,
+  useDeviceStore,
+  useThemeStore,
+} from "@/src/shared/store";
 import { Message as MessageType } from "@/src/entities/chat/model/types";
 import {
   DateChip,
@@ -28,6 +33,7 @@ import { useLang, useT, useTimingAnimation } from "@/src/shared/lib/hooks";
 
 const ChatScreen: FC = () => {
   const t = useT();
+  const dispatch = useAppDispatch();
   const { locale } = useLang();
   const { colors } = useThemeStore();
   const { isAndroid, window } = useDeviceStore();
@@ -125,7 +131,14 @@ const ChatScreen: FC = () => {
       {
         text: t("shared.actions.copy"),
         IconComponent: ClipboardTextIcon,
-        onPress: () => {},
+        onPress: () => {
+          dispatch(
+            addSnackbar({
+              text: t("shared.actions.copied"),
+              type: "success",
+            })
+          );
+        },
       },
       {
         text: t("shared.actions.edit"),
@@ -180,24 +193,25 @@ const ChatScreen: FC = () => {
               !messagesData?.data.length && (
                 <Animated.View
                   style={{
+                    top: animation.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [window.height / 2, window.height / 4],
+                    }),
                     transform: [
                       { translateX: "-50%" },
                       { translateY: "-50%" },
                       { scaleY: -1 },
                     ],
                     position: "absolute",
-                    top: animation.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: [window.height / 2, window.height / 4],
-                    }),
                     left: window.width / 2,
                     right: window.width / 2,
                     backgroundColor: colors.secondary,
-                    width: window.width - 80,
-                    borderRadius: 20,
+                    width: window.width - 90,
+                    borderRadius: 25,
                     borderWidth: 1,
                     borderColor: colors.alternate,
                     paddingBottom: 10,
+                    overflow: "hidden",
                   }}
                 >
                   <NoData type="noMessage" />

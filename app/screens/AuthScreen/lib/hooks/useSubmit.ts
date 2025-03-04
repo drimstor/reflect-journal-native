@@ -65,13 +65,6 @@ export const useSubmit = ({
         .unwrap()
         .then(() => {
           navigation.navigate(PATHS.MAIN_STACK);
-        })
-        .catch((error) => {
-          console.log({ error });
-          // Обработка ошибок с сервера
-          if (error.data?.detail) {
-            setErrors({ password: error.data.detail });
-          }
         });
     }
 
@@ -84,13 +77,6 @@ export const useSubmit = ({
         .unwrap()
         .then(() => {
           navigation.navigate(PATHS.MAIN_STACK);
-        })
-        .catch((error) => {
-          console.log({ error });
-          // Обработка ошибок с сервера
-          if (error.data?.detail) {
-            setErrors({ email: error.data.detail });
-          }
         });
     }
   };

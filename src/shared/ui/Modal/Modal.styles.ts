@@ -8,7 +8,7 @@ export const createStyles = (themeColors: ThemeColors) => {
       justifyContent: "flex-end",
     },
     drawerContainer: {
-      backgroundColor: themeColors.accentGrey,
+      backgroundColor: themeColors.background,
       borderTopLeftRadius: 24,
       borderTopRightRadius: 24,
       height: 300,
@@ -20,7 +20,7 @@ export const createStyles = (themeColors: ThemeColors) => {
     modalHandle: {
       width: 32,
       height: 4,
-      backgroundColor: themeColors.lightGrey,
+      backgroundColor: themeColors.secondary,
       borderRadius: 2,
       marginTop: 15,
     },

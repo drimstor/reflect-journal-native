@@ -8,7 +8,7 @@ import {
 } from "@/src/shared/store";
 import { Divider } from "@/src/shared/ui";
 import { styles } from "./VirtualizedList.styles";
-import { View, ActivityIndicator, LogBox } from "react-native";
+import { View, LogBox } from "react-native";
 import { BottomSheetSectionList } from "@gorhom/bottom-sheet";
 import { VirtualizedListProps, WithDateAndId } from "./model/types";
 import { useLang } from "@/src/shared/lib/hooks";

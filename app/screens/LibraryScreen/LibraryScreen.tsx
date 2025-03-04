@@ -11,7 +11,7 @@ import {
   Loader,
 } from "@/src/shared/ui";
 import { PreviewCard } from "@/src/features";
-import { FiltersPanel, Header, useHeaderStore } from "@/src/widgets";
+import { FiltersPanel, Header } from "@/src/widgets";
 import { useT } from "@/src/shared/lib/hooks";
 import {
   useDeviceStore,
