@@ -21,4 +21,5 @@ export interface TextFieldProps {
   placeholderColor?: PaletteColor;
   textColor?: PaletteColor;
   helperTextColor?: PaletteColor;
+  required?: boolean;
 }

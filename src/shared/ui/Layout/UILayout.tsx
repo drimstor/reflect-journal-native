@@ -1,6 +1,5 @@
 import React, { FC, ReactNode } from "react";
 import { View } from "react-native";
-import BottomSheetActions from "../BottomSheetActions/BottomSheetActions";
 import Snackbar from "../Snackbar/Snackbar";
 import { useAppSelector, selectSnackbars } from "@/src/shared/store";
 import BottomSheetContent from "../BottomSheetContent/BottomSheetContent";
@@ -15,7 +14,6 @@ const UILayout: FC<UILayoutProps> = ({ children }) => {
   return (
     <View>
       {children}
-      <BottomSheetActions />
       <BottomSheetContent />
       {snackbars.map((snackbar) => (
         <Snackbar key={snackbar.id} data={snackbar} />

@@ -12,31 +12,30 @@ import {
   Carousel,
   PaddingLayout,
   useCarouselConfig,
+  useBottomSheetActions,
 } from "@/src/shared/ui";
 import { Header, TypedPreviewBlock, useHeaderStore } from "@/src/widgets";
-import { useLang, usePullToAction, useT } from "@/src/shared/lib/hooks";
-import { useDeviceStore, useThemeStore } from "@/src/shared/store";
+import { useLang, useT } from "@/src/shared/lib/hooks";
+import {
+  useBottomSheetStore,
+  useDeviceStore,
+  useThemeStore,
+} from "@/src/shared/store";
 import { ScrollView, View, Animated } from "react-native";
 import { CalendarIcon, DotsIcon } from "@/src/shared/ui/icons";
 import { createStyles } from "./LibraryItemScreen.styles";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { NavigationProps } from "@/src/shared/model/types";
+import { useRoute } from "@react-navigation/native";
 import { formatDate, getWeekDay } from "@/src/shared/lib/helpers";
 import { stringToColor } from "@/src/shared/lib/helpers";
 import { ChecklistItem } from "@/src/entities/goals/model/types";
+import { PATHS } from "@/src/shared/const";
+import { useChecklistActions } from "./lib/hooks/useChecklistActions";
 
 interface LibraryItemScreenProps {}
-
-interface CheckboxItem {
-  id: string;
-  text: string;
-  checked: boolean;
-}
 
 const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
   const t = useT();
   const { locale } = useLang();
-  const navigation = useNavigation<NavigationProps>();
   const { colors } = useThemeStore();
   const { window } = useDeviceStore();
   const styles = createStyles(colors);
@@ -47,29 +46,28 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
   // });
 
   const route = useRoute();
-  const { type, item } = route.params as any;
+  const { variant, item } = route.params as any;
 
-  const handleCheckboxToggle = (id: string) => {
-    setCheckboxes((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, is_completed: !item.is_completed } : item
-      )
-    );
-  };
+  const { checkboxes, isUpdatingChecklistItem, handleCheckboxToggle } =
+    useChecklistActions(variant, item.id, item?.checklist || []);
 
-  const [checkboxes, setCheckboxes] = useState<ChecklistItem[]>(
-    item?.checklist
-  );
+  const { setNavigation } = useBottomSheetStore();
+
+  useEffect(() => {
+    setNavigation(false, PATHS.LIBRARY);
+  }, [variant]);
+
+  const { handlePress } = useBottomSheetActions(variant, item);
 
   return (
     <Layout>
       <Header
-        title={t(`entities.${type.toLowerCase()}.singular`)}
+        title={t(`entities.${variant.toLowerCase()}.singular`)}
         subtitle={subtitle}
         backButton
         rightIcon={{
           icon: <DotsIcon color={colors.contrast} size={22} />,
-          onPress: () => {},
+          onPress: handlePress,
         }}
       />
       <BottomSheet
@@ -94,15 +92,17 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
           style={{ maxHeight: window.height - 160 }}
         >
           <PaddingLayout>
-            {type !== "Journals" && (
+            {variant !== "JournalEntries" && (
               <View style={[styles.titleBox]}>
                 <Text size="extraLarge" font="bold" color={colors.contrast}>
                   {item?.name}
                 </Text>
-                <Chip
-                  color={stringToColor(item?.related_topics[0])}
-                  title={item?.related_topics[0]}
-                />
+                {item?.related_topics?.[0] && (
+                  <Chip
+                    color={stringToColor(item?.related_topics?.[0])}
+                    title={item?.related_topics?.[0]}
+                  />
+                )}
               </View>
             )}
             <View style={styles.infoTableBox}>
@@ -196,7 +196,7 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
                 <Divider style={styles.divider} color={colors.alternate} />
               </>
             )}
-            {item?.checklist && (
+            {checkboxes?.length > 0 && (
               <>
                 <TitleText
                   text={t("libraryItem.checklist")}
@@ -216,6 +216,16 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
                     />
                   ))}
                 </CheckboxList>
+                {isUpdatingChecklistItem && (
+                  <Text
+                    style={{ marginBottom: -16 }}
+                    color={colors.contrast}
+                    size="small"
+                    withOpacity={70}
+                  >
+                    {t("shared.actions.saving")}...
+                  </Text>
+                )}
                 <Divider style={styles.divider} color={colors.alternate} />
               </>
             )}

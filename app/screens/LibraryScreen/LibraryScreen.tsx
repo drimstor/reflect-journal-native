@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useRef, useState } from "react";
+import React, { FC, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   Divider,
@@ -14,6 +14,7 @@ import { PreviewCard } from "@/src/features";
 import { FiltersPanel, Header } from "@/src/widgets";
 import { useT } from "@/src/shared/lib/hooks";
 import {
+  useAppSelector,
   useDeviceStore,
   useFiltersStore,
   useThemeStore,
@@ -29,11 +30,10 @@ import {
 } from "@/src/shared/ui/icons";
 import { styles } from "./LibraryScreen.styles";
 import { PATHS } from "@/src/shared/const";
-import * as Haptics from "expo-haptics";
-import { useBottomSheetStore } from "@/src/shared/store/zustand/bottomSheet.store";
 import { NavigationProps } from "@/src/shared/model/types";
 import { LibraryList, LibraryListVariant } from "@/src/widgets";
 import { Chat, Journal } from "@/src/entities";
+import { useBottomSheetNavigation } from "@/src/shared/ui/BottomSheetContent";
 
 interface LibraryScreenProps {}
 
@@ -43,6 +43,7 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
   const { window } = useDeviceStore();
   const bottomSheetRef = useRef<BottomSheetRef>(null);
   const navigation = useNavigation<NavigationProps>();
+  useBottomSheetNavigation();
 
   // --------------------- //
 
@@ -68,7 +69,9 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
   // --------------------- //
 
   const onOpenListItem = (item: Journal | Chat) => {
-    const params = { type: itemTitles[currentIndex], item };
+    const variant = itemTitles[currentIndex] as LibraryListVariant;
+
+    const params = { variant, item };
 
     if (currentIndex === 1) {
       return navigation.navigate(PATHS.CHAT, params);
@@ -78,6 +81,7 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
 
     setTimeout(() => {
       if (currentIndex === 0) {
+        // Сохраняем данные в хранилище перед навигацией
         return navigation.navigate(PATHS.LIBRARY_LIST, params);
       }
 
@@ -108,35 +112,11 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
 
   // --------------------- //
 
-  const { setActions, setBottomSheetVisible } = useBottomSheetStore();
+  const cache = useAppSelector((state) => {
+    // const data = (state.journalsApi.queries.getJournals?.data as any).data;
+    // console.log(data.length);
+  });
 
-  const handleDotsPress = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-
-    setActions([
-      {
-        text: "Edit",
-        IconComponent: EditPencilIcon,
-        onPress: () => {
-          // ваш код
-          console.log("Edit");
-        },
-      },
-      {
-        text: "Delete",
-        IconComponent: TrashIcon,
-        iconColor: colors.error,
-        onPress: () => {
-          // ваш код
-          console.log("Delete");
-        },
-      },
-    ]);
-
-    setTimeout(() => {
-      setBottomSheetVisible(true);
-    }, 0);
-  };
   // --------------------- //
 
   return (
@@ -211,7 +191,12 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
       >
         <LibraryList
           onPress={onOpenListItem}
-          variant={itemTitles[currentIndex] as LibraryListVariant}
+          variant={
+            itemTitles[currentIndex] as Exclude<
+              LibraryListVariant,
+              "JournalEntries"
+            >
+          }
         />
       </BottomSheet>
     </Layout>

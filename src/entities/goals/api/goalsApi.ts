@@ -9,9 +9,11 @@ import type {
   UpdateGoalRequest,
   AddChecklistItemRequest,
   UpdateChecklistItemRequest,
+  BulkUpdateChecklistItemsRequest,
 } from "../model/types";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { Alert } from "react-native";
+import { mergeQueryData } from "@/src/shared/store";
 
 export const GOALS_TAG = "Goals" as const;
 type TagTypes = typeof GOALS_TAG;
@@ -44,27 +46,7 @@ export const goalsApi = createApi({
           : `${endpointName}-${queryArgs.params}`;
       },
       merge: (currentCache, newItems, { arg }) => {
-        const params = new URLSearchParams(arg.params || "");
-        const hasOnlyPagination = Array.from(params.keys()).every(
-          (key) => key === "page" || key === "limit"
-        );
-
-        if (!hasOnlyPagination) {
-          return newItems;
-        }
-
-        if (currentCache) {
-          const existingIds = new Set(currentCache.data.map((item) => item.id));
-          const uniqueNewItems = newItems.data.filter(
-            (item) => !existingIds.has(item.id)
-          );
-
-          return {
-            ...newItems,
-            data: [...currentCache.data, ...uniqueNewItems],
-          };
-        }
-        return newItems;
+        return mergeQueryData(currentCache, newItems, arg.params);
       },
       forceRefetch({ currentArg, previousArg }) {
         return currentArg !== previousArg;
@@ -141,6 +123,20 @@ export const goalsApi = createApi({
       ],
     }),
 
+    bulkUpdateChecklistItems: builder.mutation<
+      Goal,
+      { goalId: string; body: BulkUpdateChecklistItemsRequest }
+    >({
+      query: ({ goalId, body }) => ({
+        url: `/goals/${goalId}/checklist`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: (result, error, { goalId }) => [
+        { type: GOALS_TAG, id: "LIST" },
+      ],
+    }),
+
     deleteGoal: builder.mutation<void, string>({
       query: (id) => ({
         url: `/goals/${id}`,
@@ -161,5 +157,6 @@ export const {
   useUpdateGoalMutation,
   useAddChecklistItemMutation,
   useUpdateChecklistItemMutation,
+  useBulkUpdateChecklistItemsMutation,
   useDeleteGoalMutation,
 } = goalsApi;

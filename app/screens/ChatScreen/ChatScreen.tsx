@@ -1,7 +1,7 @@
 import React, { FC, useState, useCallback, useEffect } from "react";
 import { Animated, View } from "react-native";
 import { createStyles } from "./ChatScreen.styles";
-import { Layout, Loader, NoData } from "@/src/shared/ui";
+import { Layout, Loader, NoData, useBottomSheetActions } from "@/src/shared/ui";
 import { Header } from "@/src/widgets";
 import { GiftedChat, IMessage } from "react-native-gifted-chat";
 import {
@@ -30,6 +30,7 @@ import { useBottomSheetStore } from "@/src/shared/store";
 import { useRoute } from "@react-navigation/native";
 import { useGetChatMessagesQuery } from "@/src/entities";
 import { useLang, useT, useTimingAnimation } from "@/src/shared/lib/hooks";
+import { PATHS } from "@/src/shared/const/PATHS";
 
 const ChatScreen: FC = () => {
   const t = useT();
@@ -37,7 +38,6 @@ const ChatScreen: FC = () => {
   const { locale } = useLang();
   const { colors } = useThemeStore();
   const { isAndroid, window } = useDeviceStore();
-  const { setBottomSheetVisible, setActions } = useBottomSheetStore();
   const styles = createStyles(colors);
   const { isKeyboardVisible } = useKeyboard();
   const [messages, setMessages] = useState<IMessage[]>([]);
@@ -124,39 +124,59 @@ const ChatScreen: FC = () => {
     [text]
   );
 
+  const { setBottomSheetVisible, navigateToFlow, setFlowData, setActions } =
+    useBottomSheetStore();
+
+  const customActions = [
+    {
+      text: t("shared.actions.copy"),
+      IconComponent: ClipboardTextIcon,
+      onPress: () => {
+        setBottomSheetVisible(false);
+        dispatch(
+          addSnackbar({
+            text: t("shared.actions.copied"),
+            type: "success",
+          })
+        );
+      },
+    },
+    {
+      text: t("shared.actions.edit"),
+      IconComponent: EditPencilIcon,
+      onPress: () => {
+        navigateToFlow("main", "edit");
+      },
+    },
+    {
+      text: t("shared.actions.delete"),
+      IconComponent: TrashIcon,
+      iconColor: colors.error,
+      iconSize: 26,
+      onPress: () => {
+        navigateToFlow("main", "delete");
+      },
+    },
+  ];
+
+  const { handlePress } = useBottomSheetActions(
+    "Messages" as any,
+    item,
+    customActions
+  );
+
   const handleLongPress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
-
-    setActions([
-      {
-        text: t("shared.actions.copy"),
-        IconComponent: ClipboardTextIcon,
-        onPress: () => {
-          dispatch(
-            addSnackbar({
-              text: t("shared.actions.copied"),
-              type: "success",
-            })
-          );
-        },
-      },
-      {
-        text: t("shared.actions.edit"),
-        IconComponent: EditPencilIcon,
-        onPress: () => {},
-      },
-      {
-        text: t("shared.actions.delete"),
-        IconComponent: TrashIcon,
-        onPress: () => {},
-        iconColor: colors.error,
-      },
-    ]);
-
-    setTimeout(() => {
-      setBottomSheetVisible(true);
-    }, 0);
+    handlePress();
   };
+
+  const { handlePress: handlePressDots } = useBottomSheetActions("Chats", item);
+
+  const { setNavigation } = useBottomSheetStore();
+
+  useEffect(() => {
+    setNavigation(false, PATHS.LIBRARY);
+  }, []);
 
   return (
     <Layout style={{ flex: 1 }}>
@@ -166,7 +186,7 @@ const ChatScreen: FC = () => {
         backButton
         rightIcon={{
           icon: <DotsIcon color={colors.contrast} />,
-          onPress: () => {},
+          onPress: handlePressDots,
         }}
       />
       <View style={styles.globalBox}>

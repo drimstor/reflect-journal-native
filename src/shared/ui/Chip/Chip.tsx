@@ -14,8 +14,8 @@ interface ChipProps {
 }
 
 const Chip: FC<ChipProps> = ({
-  color,
-  title,
+  color = "red",
+  title = "test",
   textColor,
   borderColor,
   size = "medium",

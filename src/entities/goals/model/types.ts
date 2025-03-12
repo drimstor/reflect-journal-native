@@ -48,3 +48,10 @@ export interface AddChecklistItemRequest {
 export interface UpdateChecklistItemRequest {
   is_completed: boolean;
 }
+
+export interface BulkUpdateChecklistItemsRequest {
+  items: {
+    id: string;
+    is_completed: boolean;
+  }[];
+}

@@ -18,6 +18,7 @@ export const createStyles = (themeColors: ThemeColors) => {
     multiline: {
       height: 150,
       alignItems: "flex-start",
+      paddingVertical: 8,
     },
     textField: {
       fontSize: 15,

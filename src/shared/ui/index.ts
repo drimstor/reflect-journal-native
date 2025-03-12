@@ -4,8 +4,6 @@ import CheckBox from "./CheckBox/CheckBox";
 import Divider from "./Divider/Divider";
 import IconButton from "./IconButton/IconButton";
 import Layout from "./Layout/Layout";
-import { Loader } from "./Loader/Loader";
-import { SiriLoader } from "./Loader/SiriLoader";
 import Modal from "./Modal/Modal";
 import Popup from "./Popup/Popup";
 import RadioButton from "./RadioButtons/RadioButton";
@@ -21,25 +19,24 @@ import ProgressBar from "./ProgressBar/ProgressBar";
 import AnimatedText from "./Text/AnimatedText";
 import ListItem from "./List/ListItem";
 import List from "./List/List";
-import type { BottomSheetRef } from "./BottomSheet/BottomSheet";
 import UILayout from "./Layout/UILayout";
-import BottomSheetActions from "./BottomSheetActions/BottomSheetActions";
-import type { BottomSheetAction } from "./BottomSheetActions/model/types";
 import BackgroundLayout from "./Layout/BackgroundLayout";
 import VirtualizedList from "./VirtualizedList/VirtualizedList";
 import Carousel from "./Slider/Carousel";
 import useCarouselConfig from "./Slider/lib/hooks/useCarouselConfig";
 import NoData from "./NoData/NoData";
+
+export { Loader } from "./Loader/Loader";
+export { SiriLoader } from "./Loader/SiriLoader";
+export { SuccessAnimation } from "./Loader/SuccessAnimation";
+export type { BottomSheetRef } from "./BottomSheet/BottomSheet";
 export * from "./assets";
 export * from "./icons";
+export * from "./BottomSheetContent";
 
 export {
-  SiriLoader,
   BottomSheet,
-  type BottomSheetRef,
-  type BottomSheetAction,
   UILayout,
-  BottomSheetActions,
   Button,
   CheckBox,
   Divider,
@@ -47,7 +44,6 @@ export {
   Layout,
   Modal,
   Popup,
-  Loader,
   RadioButton,
   RadioButtons,
   Text,

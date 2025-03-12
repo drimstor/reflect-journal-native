@@ -10,8 +10,9 @@ import type {
 } from "../model/types";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { Alert } from "react-native";
+import { mergeQueryData } from "@/src/shared/store";
 
-export const SUMMARY_TAG = "Summary" as const;
+export const SUMMARY_TAG = "Summaries" as const;
 type TagTypes = typeof SUMMARY_TAG;
 
 export const summaryApi = createApi({
@@ -42,27 +43,7 @@ export const summaryApi = createApi({
           : `${endpointName}-${queryArgs.params}`;
       },
       merge: (currentCache, newItems, { arg }) => {
-        const params = new URLSearchParams(arg.params || "");
-        const hasOnlyPagination = Array.from(params.keys()).every(
-          (key) => key === "page" || key === "limit"
-        );
-
-        if (!hasOnlyPagination) {
-          return newItems;
-        }
-
-        if (currentCache) {
-          const existingIds = new Set(currentCache.data.map((item) => item.id));
-          const uniqueNewItems = newItems.data.filter(
-            (item) => !existingIds.has(item.id)
-          );
-
-          return {
-            ...newItems,
-            data: [...currentCache.data, ...uniqueNewItems],
-          };
-        }
-        return newItems;
+        return mergeQueryData(currentCache, newItems, arg.params);
       },
       forceRefetch({ currentArg, previousArg }) {
         return currentArg !== previousArg;

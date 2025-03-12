@@ -9,7 +9,7 @@ import { LibraryListVariant } from "@/src/shared/model/types";
 import { TypedPreviewBlock } from "..";
 
 interface LibraryListProps {
-  variant: LibraryListVariant;
+  variant: Exclude<LibraryListVariant, "JournalEntries">;
   onPress: (item: Journal | Chat) => void;
 }
 

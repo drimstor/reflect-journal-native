@@ -10,7 +10,7 @@ import { sizeStyles, createStyles } from "./Button.styles";
 import { useThemeStore } from "@/src/shared/store";
 import { Text } from "@/src/shared/ui";
 import { getContrastColor } from "@/src/shared/lib/helpers/getContrastColor";
-
+import { SmallLoader } from "../Loader/SmallLoader";
 interface ButtonProps {
   children: ReactNode | string;
   onPress: () => void;
@@ -52,10 +52,7 @@ const Button = ({
       ]}
     >
       {isLoading ? (
-        <ActivityIndicator
-          size="small"
-          color={textColor ?? contrastTextColor}
-        />
+        <SmallLoader color={textColor} />
       ) : (
         <Text
           font="bold"

@@ -14,7 +14,7 @@ import {
   default as BottomSheetLibrary,
   BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
-import { useGetPadding, useTimingAnimation } from "@/src/shared/lib/hooks";
+import { useTimingAnimation } from "@/src/shared/lib/hooks";
 import { getExpandAnimatedStyle } from "./lib/helpers/getExpandAnimatedStyle";
 
 export interface BottomSheetRef {
@@ -122,6 +122,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
             disappearsOnIndex={-1}
             appearsOnIndex={0}
             onPress={onClose}
+            opacity={0.7}
             pressBehavior={enableBackdropDismiss ? "none" : "close"}
           />
         );

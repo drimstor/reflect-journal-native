@@ -10,6 +10,7 @@ import type {
 } from "../model/types";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { Alert } from "react-native";
+import { mergeQueryData } from "@/src/shared/store";
 
 export const JOURNALS_TAG = "Journals" as const;
 type TagTypes = typeof JOURNALS_TAG;
@@ -44,29 +45,7 @@ export const journalsApi = createApi({
           : `${endpointName}-${queryArgs.params}`;
       },
       merge: (currentCache, newItems, { arg }) => {
-        // Если есть фильтры, возвращаем только новые данные
-        const params = new URLSearchParams(arg.params || "");
-        const hasOnlyPagination = Array.from(params.keys()).every(
-          (key) => key === "page" || key === "limit"
-        );
-
-        if (!hasOnlyPagination) {
-          return newItems;
-        }
-
-        // Для базового запроса с пагинацией мерджим данные
-        if (currentCache) {
-          const existingIds = new Set(currentCache.data.map((item) => item.id));
-          const uniqueNewItems = newItems.data.filter(
-            (item) => !existingIds.has(item.id)
-          );
-
-          return {
-            ...newItems,
-            data: [...currentCache.data, ...uniqueNewItems],
-          };
-        }
-        return newItems;
+        return mergeQueryData(currentCache, newItems, arg.params);
       },
       forceRefetch({ currentArg, previousArg }) {
         return currentArg !== previousArg;

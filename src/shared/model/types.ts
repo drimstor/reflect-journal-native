@@ -27,4 +27,9 @@ export interface PaginationResponse<T> {
 export type SortField = "name" | "created_at" | "updated_at";
 export type SortOrder = "asc" | "desc";
 
-export type LibraryListVariant = "Journals" | "Chats" | "Goals" | "Summaries";
+export type LibraryListVariant =
+  | "Journals"
+  | "Chats"
+  | "Goals"
+  | "Summaries"
+  | "JournalEntries";

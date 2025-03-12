@@ -14,7 +14,6 @@ const TextField: FC<TextFieldProps> = ({
   multiline = false,
   onChangeText,
   placeholder,
-  stateType = null,
   helperText,
   phone = false,
   backgroundColor,
@@ -22,11 +21,11 @@ const TextField: FC<TextFieldProps> = ({
   size = "medium",
   secureTextEntry = false,
   labelColor,
-  placeholderColor,
   textColor,
   helperTextColor,
+  required,
 }) => {
-  const { colors, theme } = useThemeStore();
+  const { colors } = useThemeStore();
   const styles = createStyles(colors);
   const { value: showPassword, toggle: toggleShowPassword } = useToggle(false);
 
@@ -35,6 +34,7 @@ const TextField: FC<TextFieldProps> = ({
       {label && (
         <Text size="medium" color={labelColor ?? colors.contrast}>
           {label}
+          {required && <Text color={colors.error}> *</Text>}
         </Text>
       )}
       <View

@@ -1,53 +1,74 @@
-import { BottomSheet, List, TextField } from "@/src/shared/ui";
+import { BottomSheet, Text } from "@/src/shared/ui";
 import { useThemeStore } from "@/src/shared/store";
-// import { useBottomSheetVisibility } from "./lib/hooks/useBottomSheetVisibility";
 import { useBottomSheetStore } from "@/src/shared/store/zustand/bottomSheet.store";
 import { useKeyboard } from "../../lib/hooks/useKeyboard";
-import { useCallback } from "react";
+import { useCallback, Suspense } from "react";
+import { View } from "react-native";
+import React from "react";
+import { FLOWS } from "./const/flows";
+import { SmallLoader } from "../Loader/SmallLoader";
+import { useBottomSheetVisibility } from "./lib/hooks/useBottomSheetVisibility";
 
 const BottomSheetContent = () => {
   const { colors } = useThemeStore();
-  // const { ref, handleClose } = useBottomSheetVisibility();
-  const { actions, resetActions } = useBottomSheetStore();
-
   const { keyboardHeight, isKeyboardVisible } = useKeyboard();
 
-  const handleAction = (action: () => void = () => {}) => {
-    // handleClose();
-    resetActions();
-    action();
-  };
+  const { handleClose, ref } = useBottomSheetVisibility();
+
+  const {
+    currentFlow,
+    currentScreen,
+    isBottomSheetVisible,
+    bottomSheetHeight,
+  } = useBottomSheetStore();
 
   const getSnapPoints = useCallback(() => {
-    const baseHeight = 200;
+    const baseHeight = bottomSheetHeight ? bottomSheetHeight : 1;
     return [baseHeight + (isKeyboardVisible ? keyboardHeight : 0)];
-  }, [keyboardHeight, isKeyboardVisible]);
+  }, [keyboardHeight, isKeyboardVisible, bottomSheetHeight]);
+
+  // Получаем активный экран
+  const ActiveScreen =
+    currentFlow && currentScreen
+      ? FLOWS[currentFlow]?.screens[currentScreen]
+      : null;
 
   return (
     <BottomSheet
-      // ref={ref}
+      ref={ref}
       snapPoints={getSnapPoints()}
       backgroundColor={colors.secondary}
       borderColor={colors.alternate}
       animateOnMount={false}
       style={{ paddingTop: 16 }}
       staticMode
-      // initialIndex={-1}
-      initialIndex={0}
-      // indicatorColor={colors.alternate}
-      // enableBackdropDismiss
+      initialIndex={isBottomSheetVisible ? 0 : -1}
       withBackdrop
-      onClose={() => {
-        // handleClose();
-        resetActions();
-      }}
+      // enableBackdropDismiss
+      paddingHorizontal={0}
+      onClose={handleClose}
     >
-      <TextField
-        placeholder="Search"
-        value={""}
-        onChangeText={() => {}}
-        backgroundColor={colors.background}
-      />
+      {ActiveScreen ? (
+        <Suspense
+          fallback={
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <SmallLoader />
+            </View>
+          }
+        >
+          <ActiveScreen />
+        </Suspense>
+      ) : (
+        <View style={{ padding: 16, alignItems: "center" }}>
+          <Text color={colors.contrast}>Ошибка. Попробуйте снова</Text>
+        </View>
+      )}
     </BottomSheet>
   );
 };

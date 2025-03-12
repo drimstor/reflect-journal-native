@@ -26,10 +26,70 @@
   },
   "libraryItem": {
     "relatedTopics": "Связанные темы",
-    "content": "Контент",
+    "content": "Содержание",
     "checklist": "Чек-лист",
     "aiResponse": "Ответ AI",
     "relatedEntries": "Связанные записи"
+  },
+  "edit": {
+    "journals": {
+      "title": "Редактирование дневника",
+      "name": {
+        "label": "Название",
+        "placeholder": "Введите название дневника"
+      },
+      "description": {
+        "label": "Описание",
+        "placeholder": "Введите описание дневника"
+      }
+    },
+    "journalEntries": {
+      "title": "Редактирование записи",
+      "content": {
+        "label": "Содержание",
+        "placeholder": "Введите содержание записи"
+      }
+    },
+    "chats": {
+      "title": "Редактирование чата",
+      "name": {
+        "label": "Название",
+        "placeholder": "Введите название чата"
+      },
+      "description": {
+        "label": "Описание",
+        "placeholder": "Введите описание чата"
+      }
+    },
+    "goals": {
+      "title": "Редактирование цели",
+      "name": {
+        "label": "Название",
+        "placeholder": "Введите название цели"
+      }
+    },
+    "summaries": {
+      "title": "Редактирование саммари",
+      "name": {
+        "label": "Название",
+        "placeholder": "Введите название саммари"
+      }
+    },
+    "common": {
+      "relatedTopics": {
+        "label": "Связанные темы",
+        "placeholder": "Добавьте темы"
+      },
+      "bookmarked": {
+        "label": "Добавить в избранное"
+      },
+      "aiResponse": {
+        "label": "Ответы от AI"
+      },
+      "tags": {
+        "helperText": "Введите теги через запятую"
+      }
+    }
   },
   "auth": {
     "title": "Вход",
@@ -90,6 +150,10 @@
     "summaries": {
       "singular": "Саммари",
       "plural": "Саммари"
+    },
+    "journalentries": {
+      "singular": "Запись",
+      "plural": "Записи"
     }
   },
   "shared": {
@@ -98,6 +162,7 @@
       "delete": "Удалить",
       "close": "Закрыть",
       "edit": "Изменить",
+      "editing": "Редактирование",
       "copy": "Копировать",
       "cancel": "Отмена",
       "confirm": "Подтвердить",
@@ -117,13 +182,14 @@
       "done": "Готово",
       "completed": "Выполнено",
       "complete": "Выполнение",
+      "saving": "Сохранение",
       "copied": "Скопировано",
       "resetSearch": "Сбросить поиск",
       "yes": "Да",
       "no": "Нет"
     },
     "status": {
-      "loading": "Загрузка...",
+      "loading": "Загрузка",
       "success": "Успешно",
       "error": "Ошибка",
       "empty": "Нет данных",

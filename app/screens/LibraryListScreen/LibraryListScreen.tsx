@@ -2,7 +2,12 @@ import { FC, useEffect } from "react";
 import { FiltersPanel, Header } from "@/src/widgets";
 import { useLang, useT } from "@/src/shared/lib/hooks";
 import { View } from "react-native";
-import { CalendarIcon, DotsIcon } from "@/src/shared/ui/icons";
+import {
+  CalendarIcon,
+  DotsIcon,
+  EditPencilIcon,
+  TrashIcon,
+} from "@/src/shared/ui/icons";
 import { createStyles } from "./LibraryListScreen.styles";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { NavigationProps } from "@/src/shared/model/types";
@@ -12,6 +17,7 @@ import { PreviewBlock } from "@/src/features";
 import { formatDate, stringToColor } from "@/src/shared/lib/helpers";
 import {
   getFiltersParams,
+  useBottomSheetStore,
   useDeviceStore,
   useFiltersStore,
   useThemeStore,
@@ -23,6 +29,7 @@ import {
   BottomSheet,
   VirtualizedList,
   NoSearchDataImg,
+  useBottomSheetActions,
 } from "@/src/shared/ui";
 
 interface LibraryListScreenProps {}
@@ -35,17 +42,23 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
   const { window } = useDeviceStore();
   const styles = createStyles(colors);
   const filters = useFiltersStore();
+  const { setNavigation } = useBottomSheetStore();
 
   const route = useRoute();
-  const { type, item } = route.params as any;
-  const title = item.name;
+  const { variant, item } = route.params as any;
+
+  const title = item?.name;
   const related_entities = item?.related_entities ?? [];
 
   useEffect(() => {
     filters.resetFilters();
   }, []);
 
-  const params = getFiltersParams({ ...filters, journal_id: item.id });
+  useEffect(() => {
+    setNavigation(false, PATHS.LIBRARY);
+  }, [variant]);
+
+  const params = getFiltersParams({ ...filters, journal_id: item?.id });
 
   const { data, isLoading, isFetching } = useGetJournalEntriesQuery({ params });
 
@@ -71,7 +84,7 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
         }
         onPress={() =>
           navigation.navigate(PATHS.LIBRARY_ITEM, {
-            type,
+            variant: "JournalEntries",
             item: { ...item, related_entities },
           })
         }
@@ -86,6 +99,8 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
     );
   };
 
+  const { handlePress } = useBottomSheetActions(variant, item);
+
   return (
     <Layout>
       <Header
@@ -94,7 +109,7 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
         subtitle={t("library.journals.entriesList")}
         rightIcon={{
           icon: <DotsIcon color={colors.contrast} size={22} />,
-          onPress: () => {},
+          onPress: handlePress,
         }}
       />
       <BottomSheet

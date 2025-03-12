@@ -17,7 +17,7 @@ const ArrowRightLongIcon: FC<IconProps> = ({
       strokeLinejoin="round"
     />
     <Path
-      d="M3.5 12H20.33"
+      d="M5.5 12H20.33"
       stroke={color}
       strokeWidth="1.5"
       strokeMiterlimit="10"

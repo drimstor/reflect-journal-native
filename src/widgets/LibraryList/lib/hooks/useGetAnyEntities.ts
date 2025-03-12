@@ -1,16 +1,26 @@
 import {
+  Summary,
   useGetChatsQuery,
   useGetGoalsQuery,
   useGetSummariesQuery,
 } from "@/src/entities";
 import { useGetJournalsQuery } from "@/src/entities";
-import { LibraryListVariant } from "../../LibraryList";
 import { Chat } from "@/src/entities/chat/model/types";
+import { Goal } from "@/src/entities/goals/model/types";
 import { Journal } from "@/src/entities/journals/model/types";
+import { LibraryListVariant } from "@/src/shared/model/types";
 
-type EntityType<T extends LibraryListVariant> = T extends "Journals"
+type ExcludeJournalEntries = Exclude<LibraryListVariant, "JournalEntries">;
+
+type EntityType<T extends ExcludeJournalEntries> = T extends "Journals"
   ? Journal
-  : Chat;
+  : T extends "Chats"
+  ? Chat
+  : T extends "Goals"
+  ? Goal
+  : T extends "Summaries"
+  ? Summary
+  : never;
 
 interface PaginatedResponse<T> {
   data: T[];
@@ -19,7 +29,7 @@ interface PaginatedResponse<T> {
   totalItems: number;
 }
 
-export const useGetAnyEntities = <T extends LibraryListVariant>(
+export const useGetAnyEntities = <T extends ExcludeJournalEntries>(
   variant: T,
   params?: string
 ) => {

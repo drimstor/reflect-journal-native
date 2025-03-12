@@ -31,6 +31,66 @@
     "aiResponse": "AI Response",
     "relatedEntries": "Related Entries"
   },
+  "edit": {
+    "journals": {
+      "title": "Edit Journal",
+      "name": {
+        "label": "Name",
+        "placeholder": "Enter journal name"
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Enter journal description"
+      }
+    },
+    "journalEntries": {
+      "title": "Edit Entry",
+      "content": {
+        "label": "Content",
+        "placeholder": "Enter entry content"
+      }
+    },
+    "chats": {
+      "title": "Edit Chat",
+      "name": {
+        "label": "Name",
+        "placeholder": "Enter chat name"
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Enter chat description"
+      }
+    },
+    "goals": {
+      "title": "Edit Goal",
+      "name": {
+        "label": "Name",
+        "placeholder": "Enter goal name"
+      }
+    },
+    "summaries": {
+      "title": "Edit Summary",
+      "name": {
+        "label": "Name",
+        "placeholder": "Enter summary name"
+      }
+    },
+    "common": {
+      "relatedTopics": {
+        "label": "Related Topics",
+        "placeholder": "Add topics"
+      },
+      "bookmarked": {
+        "label": "Add to favorites"
+      },
+      "aiResponse": {
+        "label": "AI Responses"
+      },
+      "tags": {
+        "helperText": "Enter tags separated by commas"
+      }
+    }
+  },
   "auth": {
     "title": "Sign In",
     "validation": {
@@ -90,6 +150,10 @@
     "summaries": {
       "singular": "Summary",
       "plural": "Summaries"
+    },
+    "journalentries": {
+      "singular": "Journal Entry",
+      "plural": "Journal Entries"
     }
   },
 
@@ -99,6 +163,7 @@
       "delete": "Delete",
       "close": "Close",
       "edit": "Edit",
+      "editing": "Editing",
       "copy": "Copy",
       "cancel": "Cancel",
       "confirm": "Confirm",
@@ -118,13 +183,14 @@
       "done": "Done",
       "completed": "Completed",
       "complete": "Complete",
+      "saving": "Saving",
       "copied": "Copied",
       "resetSearch": "Reset search",
       "yes": "Yes",
       "no": "No"
     },
     "status": {
-      "loading": "Loading...",
+      "loading": "Loading",
       "success": "Success",
       "error": "Error",
       "empty": "No data",
