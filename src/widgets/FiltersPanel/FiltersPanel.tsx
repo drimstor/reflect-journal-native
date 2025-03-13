@@ -6,11 +6,11 @@ import {
   CalendarIcon,
   CheckListIcon,
   FilterIcon,
-  SearchIcon,
   SortIcon,
 } from "@/src/shared/ui/icons";
-import { useThemeStore } from "@/src/shared/store";
+import { useDeviceStore, useThemeStore } from "@/src/shared/store";
 import { useMemo } from "react";
+import { FiltersSearch } from "@/src/features";
 
 interface FiltersPanelProps {
   style?: StyleProp<ViewStyle>;
@@ -18,32 +18,53 @@ interface FiltersPanelProps {
 
 const FiltersPanel = ({ style }: FiltersPanelProps) => {
   const { colors, theme } = useThemeStore();
+  const { window } = useDeviceStore();
 
   const backgroundColor = useMemo(
     () => (theme === "light" ? colors.light : colors.contrastReverse),
     [theme]
   );
 
+  const buttonsCofig = [
+    {
+      icon: <CalendarIcon color={colors.contrast} variant="outlined" />,
+      onPress: () => {},
+    },
+    {
+      icon: <SortIcon color={colors.contrast} />,
+      onPress: () => {},
+    },
+    {
+      icon: <FilterIcon color={colors.contrast} />,
+      onPress: () => {},
+    },
+    {
+      icon: <CheckListIcon color={colors.contrast} />,
+      onPress: () => {},
+    },
+    {
+      icon: <BookmarkCheckIcon color={colors.contrast} />,
+      onPress: () => {},
+    },
+  ];
+
+  const gap =
+    (window.width - 24 * 2 - (buttonsCofig.length + 1) * 55) /
+    buttonsCofig.length;
+
   return (
-    <View style={[styles.globalBox, style]}>
-      <IconButton style={{ backgroundColor }} onPress={() => {}}>
-        <SearchIcon color={colors.contrast} />
-      </IconButton>
-      <IconButton style={{ backgroundColor }} onPress={() => {}}>
-        <CalendarIcon color={colors.contrast} variant="outlined" />
-      </IconButton>
-      <IconButton style={{ backgroundColor }} onPress={() => {}}>
-        <SortIcon color={colors.contrast} />
-      </IconButton>
-      <IconButton style={{ backgroundColor }} onPress={() => {}}>
-        <FilterIcon color={colors.contrast} />
-      </IconButton>
-      <IconButton style={{ backgroundColor }} onPress={() => {}}>
-        <CheckListIcon color={colors.contrast} />
-      </IconButton>
-      <IconButton style={{ backgroundColor }} onPress={() => {}}>
-        <BookmarkCheckIcon color={colors.contrast} />
-      </IconButton>
+    <View style={[styles.globalBox, style, { gap }]}>
+      <FiltersSearch />
+      {buttonsCofig.map((button, index) => (
+        <IconButton
+          style={{ backgroundColor }}
+          onPress={button.onPress}
+          isAnimated
+          key={index}
+        >
+          {button.icon}
+        </IconButton>
+      ))}
     </View>
   );
 };

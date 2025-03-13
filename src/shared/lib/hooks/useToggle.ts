@@ -3,9 +3,12 @@ import { useState, useCallback } from "react";
 export const useToggle = (initialState: boolean = false) => {
   const [value, setValue] = useState(initialState);
 
-  const toggle = useCallback(() => {
-    setValue(!value);
-  }, [value]);
+  const toggle = useCallback(
+    (hardValue?: boolean) => {
+      setValue(hardValue ?? !value);
+    },
+    [value]
+  );
 
   return {
     value,

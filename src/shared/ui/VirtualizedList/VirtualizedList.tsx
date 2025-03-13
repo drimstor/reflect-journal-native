@@ -5,6 +5,7 @@ import {
   useDeviceStore,
   useThemeStore,
   useFiltersStore,
+  isAnyFilterActive,
 } from "@/src/shared/store";
 import { Divider } from "@/src/shared/ui";
 import { styles } from "./VirtualizedList.styles";
@@ -21,11 +22,12 @@ function VirtualizedList<ItemT extends WithDateAndId>({
   const { window } = useDeviceStore();
   const { colors } = useThemeStore();
   const { locale } = useLang();
-  const { setPage } = useFiltersStore();
+  const filters = useFiltersStore();
+  const isFilterActive = isAnyFilterActive(filters);
 
   const loadMore = () => {
     if (data && data.currentPage < data.totalPages && !isFetching) {
-      setPage(data.currentPage + 1);
+      filters.setPage(data.currentPage + 1);
     }
   };
 
@@ -79,9 +81,11 @@ function VirtualizedList<ItemT extends WithDateAndId>({
         !isFetching && (
           <NoData
             style={{ marginTop: 25 }}
-            type="noData"
+            type={isFilterActive ? "noSearch" : "noData"}
             onPress={() => {
-              // Здесь можно добавить обработчик для создания нового элемента
+              if (isFilterActive) {
+                filters.resetFilters();
+              }
             }}
           />
         )

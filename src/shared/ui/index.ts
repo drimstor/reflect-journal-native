@@ -25,6 +25,7 @@ import VirtualizedList from "./VirtualizedList/VirtualizedList";
 import Carousel from "./Slider/Carousel";
 import useCarouselConfig from "./Slider/lib/hooks/useCarouselConfig";
 import NoData from "./NoData/NoData";
+import IconButtonSearchField from "./IconButtonSearchField/IconButtonSearchField";
 
 export { Loader } from "./Loader/Loader";
 export { SiriLoader } from "./Loader/SiriLoader";
@@ -35,6 +36,7 @@ export * from "./icons";
 export * from "./BottomSheetContent";
 
 export {
+  IconButtonSearchField,
   BottomSheet,
   UILayout,
   Button,

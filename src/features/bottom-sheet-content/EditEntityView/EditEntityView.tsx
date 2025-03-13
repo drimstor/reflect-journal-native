@@ -37,9 +37,7 @@ const EditEntityView = () => {
   );
 
   useEffect(() => {
-    if (isSuccess) {
-      navigateToFlow("main", "success");
-    }
+    if (isSuccess) navigateToFlow("main", "success");
   }, [isSuccess]);
 
   // Эффект для сброса формы при изменении конфигурации

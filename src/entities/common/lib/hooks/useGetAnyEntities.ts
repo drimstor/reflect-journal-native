@@ -3,8 +3,8 @@ import {
   useGetChatsQuery,
   useGetGoalsQuery,
   useGetSummariesQuery,
+  useGetJournalsQuery,
 } from "@/src/entities";
-import { useGetJournalsQuery } from "@/src/entities";
 import { Chat } from "@/src/entities/chat/model/types";
 import { Goal } from "@/src/entities/goals/model/types";
 import { Journal } from "@/src/entities/journals/model/types";

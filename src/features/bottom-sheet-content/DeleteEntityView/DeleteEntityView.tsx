@@ -26,9 +26,7 @@ const DeleteEntityView = () => {
   );
 
   useEffect(() => {
-    if (isSuccess) {
-      navigateToFlow("main", "success");
-    }
+    if (isSuccess) navigateToFlow("main", "success");
   }, [isSuccess]);
 
   return (

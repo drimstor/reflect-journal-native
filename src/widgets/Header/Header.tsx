@@ -37,7 +37,7 @@ const Header = ({
     >
       <View style={styles.headerIconBox}>
         {leftIconProps && (
-          <IconButton isOpacity onPress={leftIconProps.onPress}>
+          <IconButton isAnimated onPress={leftIconProps.onPress}>
             {leftIconProps.icon}
           </IconButton>
         )}
@@ -67,7 +67,7 @@ const Header = ({
 
       <View style={styles.headerIconBox}>
         {rightIcon && (
-          <IconButton isOpacity onPress={rightIcon.onPress}>
+          <IconButton isAnimated onPress={rightIcon.onPress}>
             {rightIcon.icon}
           </IconButton>
         )}

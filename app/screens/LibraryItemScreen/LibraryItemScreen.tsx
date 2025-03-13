@@ -14,13 +14,14 @@ import {
   useCarouselConfig,
   useBottomSheetActions,
 } from "@/src/shared/ui";
-import { Header, TypedPreviewBlock, useHeaderStore } from "@/src/widgets";
+import { Header, useHeaderStore } from "@/src/widgets";
 import { useLang, useT } from "@/src/shared/lib/hooks";
 import {
   useBottomSheetStore,
   useDeviceStore,
   useThemeStore,
 } from "@/src/shared/store";
+import { TypedPreviewBlock } from "@/src/features";
 import { ScrollView, View, Animated } from "react-native";
 import { CalendarIcon, DotsIcon } from "@/src/shared/ui/icons";
 import { createStyles } from "./LibraryItemScreen.styles";

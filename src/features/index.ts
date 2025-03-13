@@ -8,6 +8,8 @@ import DateChip from "./chat/DateChip/DateChip";
 import Message from "./chat/Message/Message";
 import MessageInput from "./chat/MessageInput/MessageInput";
 import ChatBackground from "./chat/ChatBackground/ChatBackground";
+import TypedPreviewBlock from "./common/TypedPreviewBlock/TypedPreviewBlock";
+import FiltersSearch from "./common/FiltersSearch/FiltersSearch";
 
 export {
   PreviewBlock,
@@ -20,4 +22,6 @@ export {
   Message,
   MessageInput,
   ChatBackground,
+  TypedPreviewBlock,
+  FiltersSearch,
 };

@@ -12,5 +12,6 @@ export { getFiltersParams } from "./lib/helpers/getFiltersParams";
 export { formatValidationErrors } from "./lib/helpers/formatValidationErrors";
 export { handleError } from "./lib/helpers/handleError";
 export { mergeQueryData } from "./lib/helpers/mergeQueryData";
+export { isAnyFilterActive } from "./lib/helpers/isAnyFilterActive";
 export * from "./slices/uiSlice";
 export * from "./store";

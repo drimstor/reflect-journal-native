@@ -4,9 +4,9 @@ import { Chat } from "@/src/entities/chat/model/types";
 import { VirtualizedList } from "@/src/shared/ui";
 import { useFiltersStore } from "@/src/shared/store";
 import { getFiltersParams } from "@/src/shared/lib/helpers";
-import { useGetAnyEntities } from "./lib/hooks/useGetAnyEntities";
+import { useGetAnyEntities } from "@/src/entities/common/lib/hooks/useGetAnyEntities";
 import { LibraryListVariant } from "@/src/shared/model/types";
-import { TypedPreviewBlock } from "..";
+import { TypedPreviewBlock } from "@/src/features";
 
 interface LibraryListProps {
   variant: Exclude<LibraryListVariant, "JournalEntries">;
