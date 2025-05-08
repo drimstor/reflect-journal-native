@@ -1,4 +1,3 @@
-import { PALLETE_COLORS } from "@/src/shared/const";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({

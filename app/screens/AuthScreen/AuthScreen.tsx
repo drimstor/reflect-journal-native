@@ -1,12 +1,12 @@
 import { Layout, Text, Button, CheckBox, TextField } from "@/src/shared/ui";
 import { Header } from "@/src/widgets";
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, Keyboard } from "react-native";
 import { createStyles } from "./AuthScreen.styles";
 import { useThemeStore } from "@/src/shared/store";
 import { useGetPadding, useToggle } from "@/src/shared/lib/hooks";
 import { useT } from "@/src/shared/lib/hooks";
 import { ConvertShapeIcon, MessageIcon } from "@/src/shared/ui/icons";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSubmit } from "./lib/hooks/useSubmit";
 import { TextFields, ValidationErrors, Variant } from "./model/types";
 import { initialValues } from "./const/static";

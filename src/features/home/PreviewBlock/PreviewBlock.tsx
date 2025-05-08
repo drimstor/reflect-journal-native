@@ -11,6 +11,9 @@ import {
   DirectSolidIcon,
   ArchiveSolidIcon,
   MailSolidIcon,
+  LifebuoySolidIcon,
+  ChartIcon,
+  LinkSolidIcon,
 } from "@/src/shared/ui/icons";
 import { LibraryListVariant } from "@/src/shared/model/types";
 import { ChecklistItem } from "@/src/entities/goals/model/types";
@@ -77,6 +80,10 @@ const PreviewBlock = ({
     Chats: <MailSolidIcon color={colors.contrast} size={140} />,
     Goals: <ClipboardTickSolidIcon color={colors.contrast} size={160} />,
     Summaries: <DirectSolidIcon color={colors.contrast} size={160} />,
+    JournalEntries: <BackSquareSolidIcon color={colors.contrast} size={180} />,
+    Charts: <LifebuoySolidIcon color={colors.contrast} size={190} />,
+    RelationshipMap: <LinkSolidIcon color={colors.contrast} size={160} />,
+    Timeline: <ChartIcon color={colors.contrast} size={160} />,
   };
 
   return (
@@ -103,10 +110,10 @@ const PreviewBlock = ({
             <ArchiveSolidIcon color={colors.error} size={20} />
           </View>
         )}
-        {title && (
+        {(title || element) && (
           <TitleText
             variant="subTitle"
-            text={title}
+            text={title || ""}
             textColor={colors.contrast}
             element={element}
             style={styles.titleBox}
@@ -163,8 +170,17 @@ const PreviewBlock = ({
           ))}
         </View>
         {backgroundIcon && (
-          <View style={[styles.backgroundIconBox, styles[backgroundIcon]]}>
-            {backgroundIconConfig[backgroundIcon]}
+          <View
+            style={[
+              styles.backgroundIconBox,
+              styles[backgroundIcon as keyof typeof styles],
+            ]}
+          >
+            {
+              backgroundIconConfig[
+                backgroundIcon as keyof typeof backgroundIconConfig
+              ]
+            }
           </View>
         )}
       </Animated.View>

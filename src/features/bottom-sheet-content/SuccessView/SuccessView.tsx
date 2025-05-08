@@ -29,7 +29,7 @@ const SuccessView = ({}) => {
   }, []);
 
   return (
-    <BottomSheetBox style={{ paddingBottom: 50 }}>
+    <BottomSheetBox style={{ paddingBottom: 43 }}>
       <PaddingLayout>
         <SuccessAnimation />
       </PaddingLayout>

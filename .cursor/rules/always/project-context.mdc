@@ -1,0 +1,54 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Контекст проекта 
+
+## Основные правила
+
+1. **Язык**
+- Весь интерфейс на русском языке
+- Комментарии в коде на русском
+- Документация на русском
+
+2. **Технический стек**
+- React Native + TypeScript + Redux Toolkit + RTK Query + Zustand
+- Менеджер пакетов: npm
+
+3. **Структура проекта**
+- Проект использует Feature-Sliced Design (FSD) - архитектурную методологию, которая разделяет код на слои (entities, features, widgets, pages, processes, shared, app) для лучшей организации и масштабируемости приложения.
+
+- Структура слоев
+  ```
+src/
+├── entities/      # Бизнес-сущности (чат, сообщение, пользователь и т.д.)
+├── features/      # Самостоятельные фичи (составные части виджетов)
+├── shared/        # Переиспользуемый код (API, UI компоненты, утилиты)
+└── widgets/       # Композиционные компоненты (списки, формы, модальные окна)
+  ```
+- Структура слайса
+  ```
+widgets/widget-name/
+├── api/
+│   └── rtkApi.ts          # RTK Query API endpoints
+├── lib/
+│   ├── hooks/             # Кастомные хуки
+│   │   └── useHook.ts
+│   └── helpers/           # Вспомогательные функции
+│       └── helper.ts
+├── ui/
+│   └── sub-component/     # Дочерний компонент
+│       ├── sub-component.tsx
+│       └── sub-component.styles.ts
+├── model/
+│   ├── store/             # Стор (если используется)
+│   │   ├── slice.ts       # Слайс Redux Toolkit 
+│   │   └── useStore.ts    # Стор Zustand
+│   └── types.ts           # Типы
+├── const/
+│   └── static.ts          # Константы
+├── WidgetName.tsx         # Основной компонент
+└── WidgetName.styles.ts   # Стили основного компонента
+  ```
+

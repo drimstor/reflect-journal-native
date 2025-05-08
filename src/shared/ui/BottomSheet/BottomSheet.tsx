@@ -7,7 +7,7 @@ import {
   useImperativeHandle,
   useMemo,
 } from "react";
-import { StyleProp, ViewStyle, Animated, View } from "react-native";
+import { StyleProp, ViewStyle, Animated } from "react-native";
 import {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
@@ -21,6 +21,7 @@ export interface BottomSheetRef {
   snapToIndex: (index: number) => void;
   snapToPosition: (position: number) => void;
   close: () => void;
+  getCurrentIndex: () => number;
 }
 
 interface BottomSheetProps {
@@ -67,12 +68,15 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
 
     const outsideRef = useRef<BottomSheetLibrary>(null);
     // const [isFullyExpanded, setIsFullyExpanded] = useState(scrollEnabled);
+    const [currentIndex, setCurrentIndex] = useState(initialIndex);
 
     const { animate: animateExpand, animation: expandAnimation } =
-      useTimingAnimation();
+      useTimingAnimation(undefined, { duration: 400 });
 
     const handleSheetChanges = useCallback(
       (index: number) => {
+        setCurrentIndex(index);
+
         const isExpanded = index === snapPoints.length - 1;
         // setIsFullyExpanded(isExpanded);
 
@@ -107,6 +111,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       close: () => {
         outsideRef.current?.snapToPosition(-1);
       },
+      getCurrentIndex: () => currentIndex,
     }));
 
     const expandAnimatedStyle = useMemo(
@@ -146,7 +151,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
         handleStyle={{
           padding: 0,
           margin: 0,
-          paddingTop: indicatorColor ? 8 : 0,
+          paddingTop: indicatorColor ? 10 : 0,
         }}
         handleIndicatorStyle={{
           backgroundColor: indicatorColor || "#E0E0E0",

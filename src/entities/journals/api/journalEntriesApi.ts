@@ -11,6 +11,7 @@ import type {
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { Alert } from "react-native";
 import { mergeQueryData } from "@/src/shared/store";
+import { JOURNALS_TAG, journalsApiUtil } from "./journalsApi";
 
 export const JOURNAL_ENTRIES_TAG = "JournalEntries" as const;
 type TagTypes = typeof JOURNAL_ENTRIES_TAG;
@@ -18,7 +19,7 @@ type TagTypes = typeof JOURNAL_ENTRIES_TAG;
 export const journalEntriesApi = createApi({
   reducerPath: "journalEntriesApi",
   baseQuery: baseQueryWithReauth,
-  tagTypes: [JOURNAL_ENTRIES_TAG],
+  tagTypes: [JOURNAL_ENTRIES_TAG, JOURNALS_TAG],
   endpoints: (builder) => ({
     getJournalEntries: builder.query<JournalEntryResponse, { params?: string }>(
       {
@@ -86,9 +87,23 @@ export const journalEntriesApi = createApi({
         { type: JOURNAL_ENTRIES_TAG, id: "LIST" },
         { type: JOURNAL_ENTRIES_TAG, id: "SEARCH" },
       ],
-      async onQueryStarted(_, { queryFulfilled }) {
+      async onQueryStarted(body, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
+
+          // Принудительно обновляем список дневников после создания новой записи
+          dispatch(
+            journalsApiUtil.invalidateTags([{ type: JOURNALS_TAG, id: "LIST" }])
+          );
+
+          // Если указан journal_id, также принудительно обновляем конкретный дневник
+          if (body.journal_id) {
+            dispatch(
+              journalsApiUtil.invalidateTags([
+                { type: JOURNALS_TAG, id: body.journal_id },
+              ])
+            );
+          }
         } catch (error: any) {
           Alert.alert(
             "Ошибка",
@@ -113,6 +128,24 @@ export const journalEntriesApi = createApi({
         { type: JOURNAL_ENTRIES_TAG, id: "LIST" },
         { type: JOURNAL_ENTRIES_TAG, id: "SEARCH" },
       ],
+      // Если изменена запись, нужно обновить и журнал
+      async onQueryStarted({ body }, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+
+          // Если у записи есть journal_id, обновляем также дневник
+          if (data && data.journal_id) {
+            dispatch(
+              journalsApiUtil.invalidateTags([
+                { type: JOURNALS_TAG, id: data.journal_id },
+                { type: JOURNALS_TAG, id: "LIST" },
+              ])
+            );
+          }
+        } catch (error) {
+          // Игнорируем ошибки
+        }
+      },
     }),
 
     deleteJournalEntry: builder.mutation<void, string>({
@@ -125,6 +158,19 @@ export const journalEntriesApi = createApi({
         { type: JOURNAL_ENTRIES_TAG, id: "LIST" },
         { type: JOURNAL_ENTRIES_TAG, id: "SEARCH" },
       ],
+      // При удалении записи также обновляем список дневников
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+
+          // Принудительно обновляем список дневников
+          dispatch(
+            journalsApiUtil.invalidateTags([{ type: JOURNALS_TAG, id: "LIST" }])
+          );
+        } catch (error) {
+          // Игнорируем ошибки
+        }
+      },
     }),
   }),
 });

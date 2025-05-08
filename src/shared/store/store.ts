@@ -10,6 +10,7 @@ import {
   summaryApi,
   journalEntriesApi,
   messagesApi,
+  portraitApi,
 } from "@/src/entities";
 
 export const store = configureStore({
@@ -22,6 +23,7 @@ export const store = configureStore({
     [summaryApi.reducerPath]: summaryApi.reducer,
     [journalEntriesApi.reducerPath]: journalEntriesApi.reducer,
     [messagesApi.reducerPath]: messagesApi.reducer,
+    [portraitApi.reducerPath]: portraitApi.reducer,
     ui: uiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -33,7 +35,8 @@ export const store = configureStore({
       .concat(goalsApi.middleware)
       .concat(summaryApi.middleware)
       .concat(journalEntriesApi.middleware)
-      .concat(messagesApi.middleware),
+      .concat(messagesApi.middleware)
+      .concat(portraitApi.middleware),
 });
 
 setupListeners(store.dispatch);

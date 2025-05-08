@@ -9,7 +9,7 @@ interface AnimatedIconProps extends IconProps {
 
 const BellIcon: FC<AnimatedIconProps> = ({
   color = PALLETE_COLORS.dark.contrast,
-  secondaryColor = PALLETE_COLORS.dark.accent,
+  secondaryColor,
   size = 24,
 }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
@@ -34,7 +34,7 @@ const BellIcon: FC<AnimatedIconProps> = ({
       strokeWidth="1.5"
       strokeMiterlimit="10"
     />
-    <Circle cx="18" cy="5" r="4" fill={secondaryColor} />
+    <Circle cx="18" cy="5" r="4" fill={secondaryColor || "transparent"} />
   </Svg>
 );
 

@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Journal } from "@/src/entities/journals/model/types";
 import { Chat } from "@/src/entities/chat/model/types";
 import { VirtualizedList } from "@/src/shared/ui";
-import { useFiltersStore } from "@/src/shared/store";
+import { useFiltersStore, useScreenInfoStore } from "@/src/shared/store";
 import { getFiltersParams } from "@/src/shared/lib/helpers";
 import { useGetAnyEntities } from "@/src/entities/common/lib/hooks/useGetAnyEntities";
 import { LibraryListVariant } from "@/src/shared/model/types";
 import { TypedPreviewBlock } from "@/src/features";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import { useCallback } from "react";
 
 interface LibraryListProps {
   variant: Exclude<LibraryListVariant, "JournalEntries">;
@@ -15,10 +17,19 @@ interface LibraryListProps {
 
 function LibraryList({ variant, onPress }: LibraryListProps) {
   const filters = useFiltersStore();
+  const { setScreenInfo } = useScreenInfoStore();
+  const isFocused = useIsFocused();
+
+  useFocusEffect(
+    useCallback(() => {
+      setScreenInfo({ name: variant });
+    }, [variant])
+  );
 
   const { data, isLoading, isFetching } = useGetAnyEntities(
     variant,
-    getFiltersParams(filters)
+    getFiltersParams(filters),
+    !isFocused
   );
 
   // const educationJournal: Journal = {

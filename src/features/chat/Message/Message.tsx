@@ -30,6 +30,13 @@ const Message: FC<ExtendedBubbleProps> = (props) => {
     }
   }, [isBottomSheetVisible]);
 
+  const flowData = {
+    variant: "Messages",
+    id: props.currentMessage._id,
+    user_id: props.currentMessage.user._id,
+    text: props.currentMessage.text,
+  };
+
   const handleStateChange = ({ nativeEvent }: { nativeEvent: any }) => {
     if (!Keyboard.isVisible()) {
       const { isNeedTranslate, offset } = measureOffset();
@@ -39,7 +46,7 @@ const Message: FC<ExtendedBubbleProps> = (props) => {
         if (!isNeedTranslate) scaleAnimation(0.94);
       } else if (nativeEvent.state === State.ACTIVE) {
         if (isNeedTranslate) translateAnimation(offset);
-        props.onLongPress?.();
+        props.onLongPress?.(flowData);
       } else {
         if (!isNeedTranslate) scaleAnimation(1);
         if (!isBottomSheetVisible) resetBubblePosition();

@@ -78,9 +78,9 @@
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
-   <AnalyzeAction
+   <OverviewAction
       buildConfiguration = "Debug">
-   </AnalyzeAction>
+   </OverviewAction>
    <ArchiveAction
       buildConfiguration = "Release"
       revealArchiveInOrganizer = "YES">

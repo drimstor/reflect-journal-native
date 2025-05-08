@@ -41,7 +41,6 @@ import ClipboardTextIcon from "./ClipboardTextIcon";
 import EditPencilIcon from "./EditPencilIcon";
 import ConvertShapeIcon from "./ConvertShapeIcon";
 import MessageIcon from "./MessageIcon";
-import { EyeIcon, EyeSlashIcon } from "./EyeIcon";
 import BackSquareSolidIcon from "./BackSquareSolidIcon";
 import BoxSolidIcon from "./BoxSolidIcon";
 import MaskSolidIcon from "./MaskSolidIcon";
@@ -50,12 +49,39 @@ import GlobalSolidIcon from "./GlobalSolidIcon";
 import GridSolidIcon from "./GridSolidIcon";
 import LifebuoySolidIcon from "./LifebuoySolidIcon";
 import CpuSolidIcon from "./CpuSolidIcon";
-import { MessageSolidIcon } from "./MessageSolidIcon";
-import { ClipboardTickSolidIcon } from "./ClipboardTickSolidIcon";
-import { DirectSolidIcon } from "./DirectSolidIcon";
-import { ArchiveSolidIcon } from "./ArchiveSolidIcon";
+import CalendarSolidIcon from "./CalendarSolidIcon";
+import CpuIcon from "./CpuIcon";
+import SettingsSolidIcon from "./SettingsSolidIcon";
+import ChartSolidIcon from "./ChartSolidIcon";
+import CardIcon from "./CardIcon";
+import LogoutIcon from "./LogoutIcon";
+import GlobalIcon from "./GlobalIcon";
+import BrushIcon from "./BrushIcon";
+import GraphSolidIcon from "./GraphSolidIcon";
+import ChartIcon from "./ChartIcon";
+import LinkSolidIcon from "./LinkSolidIcon";
+import CategoryIcon from "./CategoryIcon";
+import IntegerIcon from "./IntegerIcon";
+
+export { ClipboardTickSolidIcon } from "./ClipboardTickSolidIcon";
+export { DirectSolidIcon } from "./DirectSolidIcon";
+export { ArchiveSolidIcon } from "./ArchiveSolidIcon";
+export { EyeIcon, EyeSlashIcon } from "./EyeIcon";
+export { CheckIcon } from "./CheckIcon";
 
 export {
+  LinkSolidIcon,
+  ChartIcon,
+  CategoryIcon,
+  IntegerIcon,
+  BrushIcon,
+  CardIcon,
+  LogoutIcon,
+  GlobalIcon,
+  ChartSolidIcon,
+  SettingsSolidIcon,
+  CpuIcon,
+  CalendarSolidIcon,
   BellIcon,
   OrderIcon,
   UserIcon,
@@ -99,8 +125,6 @@ export {
   EditPencilIcon,
   ConvertShapeIcon,
   MessageIcon,
-  EyeIcon,
-  EyeSlashIcon,
   BackSquareSolidIcon,
   BoxSolidIcon,
   MaskSolidIcon,
@@ -109,8 +133,5 @@ export {
   GridSolidIcon,
   LifebuoySolidIcon,
   CpuSolidIcon,
-  MessageSolidIcon,
-  ClipboardTickSolidIcon,
-  DirectSolidIcon,
-  ArchiveSolidIcon,
+  GraphSolidIcon,
 };

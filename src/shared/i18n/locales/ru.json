@@ -1,6 +1,35 @@
 {
-  "profile": {
-    "title": "Профиль"
+  "overview": {
+    "title": "Обзор",
+    "analytics": {
+      "sectionTitle": "Инструменты анализа",
+      "dataOverview": {
+        "title": "Обзор данных",
+        "value": "Погрузитесь в аналитику сфер вашей жизни через наглядные графики"
+      },
+      "relationshipMap": {
+        "title": "Карта взаимосвязей",
+        "value": "Откройте визуальное отображение связей между сферами вашей жизни"
+      },
+      "timeline": {
+        "title": "Таймлайн",
+        "value": "Проследите динамику событий по датам в удобной форме"
+      }
+    },
+    "chart": {
+      "popularCategories": "Популярные категории",
+      "popularTopics": "Популярные темы"
+    }
+  },
+  "settings": {
+    "title": "Настройки",
+    "account": "Настройки аккаунта",
+    "other": "Другие настройки",
+    "subscription": "Подписка",
+    "notifications": "Уведомления",
+    "theme": "Тема",
+    "language": "Язык",
+    "editProfile": "Редактировать профиль"
   },
   "home": {
     "title": "Дашборд"
@@ -21,8 +50,16 @@
       "description": "Список ваших саммари"
     }
   },
+  "addEntry": {
+    "chooseType": "Выберите тип",
+    "chooseJournal": "Выберите дневник",
+    "startWriting": "Начните писать..."
+  },
   "chat": {
     "placeholder": "Введите сообщение..."
+  },
+  "goals": {
+    "create": "Создать цель"
   },
   "libraryItem": {
     "relatedTopics": "Связанные темы",
@@ -30,6 +67,38 @@
     "checklist": "Чек-лист",
     "aiResponse": "Ответ AI",
     "relatedEntries": "Связанные записи"
+  },
+  "sort": {
+    "sortBy": "Сортировать по",
+    "sortByName": "Названию",
+    "sortByCreated": "Дате создания",
+    "sortByUpdated": "Последнему обновлению",
+    "sortByCount": "Количеству",
+    "name-asc":"От А до Я",
+    "name-desc": "От Я до А",
+    "created_at-asc": "От стар. к нов.",
+    "created_at-desc": "От нов. к стар.",
+    "updated_at-asc": "От стар. к нов.",
+    "updated_at-desc": "От нов. к стар.",
+    "count-asc": "От мен. к бол.",
+    "count-desc": "От бол. к мен."
+  },
+  "date": {
+    "byCreated": "По дате создания",
+    "byUpdated": "По дате обновления",
+    "picker": {
+      "title": "Выберите дату",
+      "placeholder": "Выберите дату"
+    }
+  },
+  "filter": {
+    "filterBy": "Фильтровать по",
+    "filterByChecked": "Выполненным",
+    "filterByAIResponse": "Ответы от AI",
+    "filterByRelatedTopics": "Связанным темам",
+    "filterByCategory": "Категориям",
+    "enterTopic": "Введите тему",
+    "enterCategory": "Введите категорию"
   },
   "edit": {
     "journals": {
@@ -154,6 +223,10 @@
     "journalentries": {
       "singular": "Запись",
       "plural": "Записи"
+    },
+    "journalentriesfull": {
+      "singular": "Запись в дневнике",
+      "plural": "Записи в дневнике"
     }
   },
   "shared": {
@@ -184,6 +257,7 @@
       "complete": "Выполнение",
       "saving": "Сохранение",
       "copied": "Скопировано",
+      "reset": "Сбросить",
       "resetSearch": "Сбросить поиск",
       "yes": "Да",
       "no": "Нет"
@@ -198,7 +272,8 @@
     "info": {
       "entriesCount": "Количество записей",
       "lastUpdated": "Последнее обновление",
-      "created": "Создано"
+      "created": "Создано",
+      "willCreate": "Будет создано"
     },
     "validation": {
       "required": "Обязательное поле",
@@ -228,8 +303,13 @@
     },
     "confirmation": {
       "title": "Подтверждение",
+      "deleteThisMessage": "Удалить это сообщение?",
       "deleteMessage": "Вы уверены, что хотите удалить этот элемент?",
-      "cancelMessage": "Вы уверены, что хотите отменить действие?"
+      "deleteMultipleMessage": "Вы уверены, что хотите удалить выбранные элементы?",
+      "cancelMessage": "Вы уверены, что хотите отменить действие?",
+      "addToBookmarkMessage": "Добавить выбранный элемент в избранное?",
+      "addToBookmarkMultipleMessage": "Добавить выбранные элементы в избранное?",
+      "logoutMessage": "Вы уверены, что хотите выйти из аккаунта?"
     },
     "noData": {
       "title": "Нет данных",
@@ -240,6 +320,9 @@
       "noSearchDescription": "По вашему запросу ничего не найдено",
       "noMessageTitle": "Нет сообщений",
       "noMessageDescription": "Начните диалог с AI"
+    },
+    "charts": {
+      "mentions": "упоминаний"
     }
   }
 } 

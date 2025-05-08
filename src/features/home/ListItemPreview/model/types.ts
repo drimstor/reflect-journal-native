@@ -4,7 +4,8 @@ import { ReactNode } from "react";
 export interface ListItemPreviewProps {
   title: string;
   subTitle: string;
-  IconComponent: (props: AnimatedIconProps) => ReactNode;
+  IconComponent?: (props: AnimatedIconProps) => ReactNode;
+  customComponent?: ReactNode;
   backgroundColor?: string;
   backgroundColorForAnimate?: string;
   onPress?: () => void;

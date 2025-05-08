@@ -2,11 +2,19 @@ import React, { useState, useEffect } from "react";
 import { View, Switch } from "react-native";
 import { Text, TextField } from "@/src/shared/ui";
 import { useThemeStore } from "@/src/shared/store";
-import { EditFormField } from "../lib/hooks/useEditFormConfig";
 import { useT } from "@/src/shared/lib/hooks";
 
+export interface FormField {
+  key: string; // Ключ поля в объекте данных
+  type: "text" | "textarea" | "toggle" | "tags" | "entities"; // Тип поля ввода
+  label: string; // Заголовок поля
+  placeholder?: string; // Подсказка для поля
+  required?: boolean; // Является ли поле обязательным
+  superMultiline?: boolean; // Является ли поле многострочным
+}
+
 interface FormFieldProps {
-  field: EditFormField;
+  field: FormField;
   value: any;
   error?: string;
   onChange: (key: string, value: any) => void;
@@ -92,8 +100,9 @@ export const FormField: React.FC<FormFieldProps> = ({
           backgroundColor={colors.secondary}
           helperText={error}
           helperTextColor={error ? colors.error : undefined}
-          multiline
+          multiline={!field.superMultiline}
           required={field.required}
+          superMultiline={field.superMultiline}
         />
       );
 
@@ -104,7 +113,7 @@ export const FormField: React.FC<FormFieldProps> = ({
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "space-between",
-            marginVertical: 8,
+            marginVertical: 4,
           }}
         >
           <Text color={colors.contrast}>{field.label}</Text>

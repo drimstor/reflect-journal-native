@@ -1,13 +1,10 @@
-import { FiltersState } from "@/src/shared/store";
+import { FiltersState, isAnyFilterActive } from "@/src/shared/store";
 
 export const getFiltersParams = (
-  filters: FiltersState & { journal_id?: string }
+  filters: FiltersState & { journal_id?: string; min_count?: number },
+  baseParams: boolean = true
 ): string => {
   const params = new URLSearchParams();
-
-  // Добавляем базовые параметры
-  params.append("page", filters.page.toString());
-  params.append("limit", filters.limit.toString());
 
   // Добавляем поисковый запрос если есть
   if (filters.search) {
@@ -37,6 +34,9 @@ export const getFiltersParams = (
   }
 
   // Добавляем дополнительные фильтры
+  if (filters.is_completed !== undefined) {
+    params.append("is_completed", filters.is_completed.toString());
+  }
   if (filters.ai_response !== undefined) {
     params.append("ai_response", filters.ai_response.toString());
   }
@@ -52,6 +52,22 @@ export const getFiltersParams = (
   if (filters.journal_id) {
     params.append("journal_id", filters.journal_id);
   }
+
+  if (filters.category) {
+    params.append("category", filters.category);
+  }
+
+  if (filters.min_count) {
+    params.append("min_count", filters.min_count.toString());
+  }
+
+  if (!baseParams) return params.toString();
+
+  const isFilterActive = isAnyFilterActive(filters);
+
+  // Добавляем базовые параметры
+  params.append("page", filters.page?.toString() || "1");
+  params.append("limit", isFilterActive ? "50" : filters.limit.toString());
 
   return params.toString();
 };

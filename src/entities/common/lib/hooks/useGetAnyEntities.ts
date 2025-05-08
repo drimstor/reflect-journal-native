@@ -7,8 +7,10 @@ import {
 } from "@/src/entities";
 import { Chat } from "@/src/entities/chat/model/types";
 import { Goal } from "@/src/entities/goals/model/types";
-import { Journal } from "@/src/entities/journals/model/types";
+import { Journal, JournalResponse } from "@/src/entities/journals/model/types";
 import { LibraryListVariant } from "@/src/shared/model/types";
+import { RootState } from "@/src/shared/store/store";
+import { useAppSelector } from "@/src/shared/store";
 
 type ExcludeJournalEntries = Exclude<LibraryListVariant, "JournalEntries">;
 
@@ -31,31 +33,35 @@ interface PaginatedResponse<T> {
 
 export const useGetAnyEntities = <T extends ExcludeJournalEntries>(
   variant: T,
-  params?: string
+  params?: string,
+  skip?: boolean
 ) => {
   const {
     data: Journals,
     isLoading: isJournalsLoading,
     isFetching: isJournalsFetching,
-  } = useGetJournalsQuery({ params }, { skip: variant !== "Journals" });
+  } = useGetJournalsQuery({ params }, { skip: variant !== "Journals" || skip });
 
   const {
     data: Chats,
     isLoading: isChatsLoading,
     isFetching: isChatsFetching,
-  } = useGetChatsQuery({ params }, { skip: variant !== "Chats" });
+  } = useGetChatsQuery({ params }, { skip: variant !== "Chats" || skip });
 
   const {
     data: Goals,
     isLoading: isGoalsLoading,
     isFetching: isGoalsFetching,
-  } = useGetGoalsQuery({ params }, { skip: variant !== "Goals" });
+  } = useGetGoalsQuery({ params }, { skip: variant !== "Goals" || skip });
 
   const {
     data: Summaries,
     isLoading: isSummariesLoading,
     isFetching: isSummariesFetching,
-  } = useGetSummariesQuery({ params }, { skip: variant !== "Summaries" });
+  } = useGetSummariesQuery(
+    { params },
+    { skip: variant !== "Summaries" || skip }
+  );
 
   const dataConfig = {
     Journals,

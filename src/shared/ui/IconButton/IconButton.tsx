@@ -1,5 +1,5 @@
 import { FC, ReactNode, useMemo, useCallback, useState } from "react";
-import { StyleProp, ViewStyle, Animated } from "react-native";
+import { StyleProp, ViewStyle, Animated, View } from "react-native";
 import { createStyles } from "./IconButton.styles";
 import { useThemeStore } from "@/src/shared/store";
 import { Pressable } from "react-native-gesture-handler";
@@ -11,6 +11,7 @@ interface IconButtonProps {
   onPress: () => void;
   style?: StyleProp<ViewStyle>;
   isAnimated?: boolean;
+  isActive?: boolean;
 }
 
 const IconButton: FC<IconButtonProps> = ({
@@ -18,6 +19,7 @@ const IconButton: FC<IconButtonProps> = ({
   onPress,
   style,
   isAnimated = false,
+  isActive = false,
 }) => {
   const { colors, theme } = useThemeStore();
   const styles = useMemo(() => createStyles(colors), [theme]);
@@ -33,6 +35,7 @@ const IconButton: FC<IconButtonProps> = ({
         style={[styles.touchableOpacity, style]}
       >
         {children}
+        {isActive && <View style={styles.activeIndicator} />}
       </Pressable>
     </Animated.View>
   );

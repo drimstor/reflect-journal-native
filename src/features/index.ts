@@ -10,7 +10,7 @@ import MessageInput from "./chat/MessageInput/MessageInput";
 import ChatBackground from "./chat/ChatBackground/ChatBackground";
 import TypedPreviewBlock from "./common/TypedPreviewBlock/TypedPreviewBlock";
 import FiltersSearch from "./common/FiltersSearch/FiltersSearch";
-
+import ProfileMenu from "./settings/ProfileMenu/ProfileMenu";
 export {
   PreviewBlock,
   ShortPreviewBlock,
@@ -24,4 +24,5 @@ export {
   ChatBackground,
   TypedPreviewBlock,
   FiltersSearch,
+  ProfileMenu,
 };

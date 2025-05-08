@@ -5,7 +5,7 @@ import { useThemeStore } from "@/src/shared/store";
 import { DotsIcon } from "@/src/shared/ui/iconsAnimated";
 import { useColorsAnimate } from "./lib/hooks/useColorsAnimate";
 import { ListItemPreviewProps } from "./model/types";
-import { AnimatedText } from "@/src/shared/ui";
+import { AnimatedText, Text } from "@/src/shared/ui";
 
 const { contrast, contrastReverse } = useThemeStore.getState().colors;
 
@@ -13,6 +13,7 @@ const ListItemPreview = ({
   title,
   subTitle,
   IconComponent,
+  customComponent,
   backgroundColor = contrastReverse,
   backgroundColorForAnimate = contrast,
   onPress,
@@ -26,7 +27,7 @@ const ListItemPreview = ({
     backgroundColor,
     backgroundColorForAnimate,
     color: colors.contrast,
-    colorForAnimate: colors.primary,
+    colorForAnimate: colors.contrast,
   });
 
   return (
@@ -39,16 +40,22 @@ const ListItemPreview = ({
         style={[styles.globalBox, { backgroundColor: animatedBackgroundColor }]}
       >
         <View style={styles.iconBox}>
-          {IconComponent({
+          {customComponent}
+          {IconComponent?.({
             color: colors.contrast,
             size: 24,
             animatedStyle: { stroke: animatedColor },
           })}
         </View>
         <View style={styles.textBox}>
-          <AnimatedText font="bold" animatedStyle={{ color: animatedColor }}>
+          <Text
+            font="bold"
+            color={colors.contrast}
+            numberOfLines={1}
+            style={{ maxWidth: 280 }}
+          >
             {title}
-          </AnimatedText>
+          </Text>
           {subTitle && (
             <AnimatedText size="small" animatedStyle={{ color: animatedColor }}>
               {subTitle}

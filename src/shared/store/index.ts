@@ -13,5 +13,7 @@ export { formatValidationErrors } from "./lib/helpers/formatValidationErrors";
 export { handleError } from "./lib/helpers/handleError";
 export { mergeQueryData } from "./lib/helpers/mergeQueryData";
 export { isAnyFilterActive } from "./lib/helpers/isAnyFilterActive";
+export { useScreenInfoStore } from "./zustand/screenInfo.store";
+export { useStatusBarStore } from "./zustand/statusBar.store";
 export * from "./slices/uiSlice";
 export * from "./store";

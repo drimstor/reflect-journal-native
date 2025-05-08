@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { BottomSheetAction } from "@/src/shared/ui/BottomSheetActions/model/types";
+import { BottomSheetAction } from "../../ui/BottomSheetContent/model/types";
 
 export type FlowId = string;
 export type ScreenId = string;

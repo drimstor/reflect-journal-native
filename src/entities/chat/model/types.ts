@@ -51,6 +51,13 @@ export interface Message {
   updated_at: string;
 }
 
+export interface MessageGiftedChat {
+  _id: string;
+  text: string;
+  createdAt: string;
+  user: { _id: string };
+}
+
 export interface CreateMessageRequest {
   content: string;
   chat_id: string;
@@ -61,3 +68,5 @@ export interface UpdateMessageRequest {
 }
 
 export type MessageResponse = PaginationResponse<Message>;
+
+export type MessagesGiftedChat = PaginationResponse<MessageGiftedChat>;

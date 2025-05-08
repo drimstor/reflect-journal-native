@@ -4,10 +4,20 @@ export const styles = StyleSheet.create({
   listItemBox: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    gap: 10,
     paddingVertical: 14,
+  },
+  listItemDefault: {
+    justifyContent: "space-between",
   },
   listBox: {
     // flex: 1,
+  },
+  elementBox: {
+    marginLeft: "auto",
+    marginRight: 8,
+  },
+  iconBox: {
+    maxWidth: 24,
   },
 });

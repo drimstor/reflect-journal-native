@@ -20,7 +20,9 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
   onClose,
 }) => {
   const { colors, theme } = useThemeStore();
-  const { animation } = useSpringAnimation(isVisible);
+  const { animation } = useSpringAnimation(isVisible, {
+    useNativeDriver: true,
+  });
   const styles = createStyles(colors, theme, animation);
   const iconColor = theme === "dark" ? colors.accent : colors.primary;
 

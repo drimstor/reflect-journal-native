@@ -24,7 +24,7 @@ export interface PaginationResponse<T> {
   totalItems: number;
 }
 
-export type SortField = "name" | "created_at" | "updated_at";
+export type SortField = "name" | "created_at" | "updated_at" | "count";
 export type SortOrder = "asc" | "desc";
 
 export type LibraryListVariant =

@@ -10,6 +10,7 @@ export interface TextProps {
     | "small"
     | "medium"
     | "base"
+    | "normal"
     | "large"
     | "title"
     | "extraLarge"

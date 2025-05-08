@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { View } from "react-native";
+import { Animated, View } from "react-native";
 import LottieView from "lottie-react-native";
 import { LoaderProps } from "./model/types";
 
@@ -13,13 +13,13 @@ export const SiriLoader: FC<LoaderProps> = ({
 }) => {
   if (!isVisible) return null;
   return (
-    <View style={[{ width: size, height: size }, style]}>
+    <Animated.View style={[{ width: size, height: size }, style]}>
       <LottieView
         source={siriAnimation}
-        style={{ width: size, height: size }}
+        style={{ width: "100%", height: "100%" }}
         autoPlay
         loop
       />
-    </View>
+    </Animated.View>
   );
 };

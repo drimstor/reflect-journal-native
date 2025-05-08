@@ -5,19 +5,25 @@ import {
   BottomSheetFooter,
   PaddingLayout,
   BottomSheetBox,
+  BottomSheetScrollView,
 } from "@/src/shared/ui";
-import { useThemeStore, useBottomSheetStore } from "@/src/shared/store";
+import {
+  useThemeStore,
+  useBottomSheetStore,
+  useFiltersStore,
+} from "@/src/shared/store";
 import { useT } from "@/src/shared/lib/hooks";
 import { useEditAnyEntities } from "@/src/entities/common/lib/hooks/useEditAnyEntities";
 import { useEditFormConfig } from "./lib/hooks/useEditFormConfig";
 import { useEditForm } from "./lib/hooks/useEditForm";
-import { FormField } from "./ui/FormField";
 import { useEffect } from "react";
+import { FormField } from "@/src/entities";
 
 const EditEntityView = () => {
   const t = useT();
-  const { navigateToFlow, flowData } = useBottomSheetStore();
+  const { navigateToFlow, flowData, bottomSheetHeight } = useBottomSheetStore();
   const { colors, theme } = useThemeStore();
+  const { resetFilters } = useFiltersStore();
 
   // Получаем хук для редактирования сущности
   const { editEntity, isLoading, isSuccess } = useEditAnyEntities(
@@ -37,7 +43,10 @@ const EditEntityView = () => {
   );
 
   useEffect(() => {
-    if (isSuccess) navigateToFlow("main", "success");
+    if (isSuccess) {
+      resetFilters();
+      navigateToFlow("common", "success");
+    }
   }, [isSuccess]);
 
   // Эффект для сброса формы при изменении конфигурации
@@ -47,38 +56,40 @@ const EditEntityView = () => {
 
   // Обработчик возврата
   const handleBack = () => {
-    navigateToFlow("main", "actionsList");
+    navigateToFlow("common", "list");
   };
 
   return (
-    <BottomSheetBox style={{ gap: 4, paddingBottom: 60 }}>
+    <BottomSheetBox>
       <BottomSheetHeader
         title={formConfig.title}
         onClose={handleBack}
         onBack={handleBack}
       />
-      <PaddingLayout style={{ gap: 16 }}>
-        {formConfig.fields.map((field) => (
-          <FormField
-            key={field.key}
-            field={field}
-            value={values[field.key]}
-            error={errors[field.key]}
-            onChange={handleChange}
-          />
-        ))}
-      </PaddingLayout>
-      <BottomSheetFooter>
-        <Button
-          backgroundColor={theme === "dark" ? colors.accent : colors.primary}
-          textColor={theme === "dark" ? colors.primary : colors.white}
-          onPress={handleSubmit}
-          isLoading={isLoading}
-          disabled={isLoading}
-        >
-          {t("shared.actions.save")}
-        </Button>
-      </BottomSheetFooter>
+      <BottomSheetScrollView>
+        <PaddingLayout style={{ gap: 12 }}>
+          {formConfig.fields.map((field) => (
+            <FormField
+              key={field.key}
+              field={field}
+              value={values[field.key]}
+              error={errors[field.key]}
+              onChange={handleChange}
+            />
+          ))}
+        </PaddingLayout>
+        <BottomSheetFooter>
+          <Button
+            backgroundColor={theme === "dark" ? colors.accent : colors.primary}
+            textColor={theme === "dark" ? colors.primary : colors.white}
+            onPress={handleSubmit}
+            isLoading={isLoading}
+            disabled={isLoading}
+          >
+            {t("shared.actions.save")}
+          </Button>
+        </BottomSheetFooter>
+      </BottomSheetScrollView>
     </BottomSheetBox>
   );
 };

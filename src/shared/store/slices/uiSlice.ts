@@ -37,6 +37,9 @@ export const uiSlice = createSlice({
         (snackbar) => snackbar.id !== action.payload
       );
     },
+    clearAllSnackbars: (state) => {
+      state.snackbars = [];
+    },
     addModal: (state, action: PayloadAction<IModal>) => {
       state.modals.push(action.payload);
     },
@@ -57,6 +60,7 @@ export const {
   addModal,
   removeModal,
   clearAllModals,
+  clearAllSnackbars,
 } = uiSlice.actions;
 
 export const selectSnackbars = (state: RootState) => state.ui.snackbars;

@@ -38,7 +38,6 @@ export const journalsApi = createApi({
         const hasOnlyPagination = Array.from(params.keys()).every(
           (key) => key === "page" || key === "limit"
         );
-
         // Для запросов с фильтрами генерируем уникальный ключ
         return hasOnlyPagination
           ? endpointName
@@ -49,6 +48,10 @@ export const journalsApi = createApi({
       },
       forceRefetch({ currentArg, previousArg }) {
         return currentArg !== previousArg;
+      },
+      // Принудительное обновление кеша при создании новых записей через entry подписки
+      extraOptions: {
+        maxRetries: 0, // Отключаем автоматические повторные запросы при ошибках
       },
     }),
 
@@ -100,6 +103,9 @@ export const journalsApi = createApi({
   }),
   // overrideExisting: false,
 });
+
+// Необходимо для активации подписки на изменения записей в дневниках
+export const journalsApiUtil = journalsApi.util;
 
 export const {
   useGetJournalsQuery,

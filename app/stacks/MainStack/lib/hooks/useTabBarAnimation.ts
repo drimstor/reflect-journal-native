@@ -3,7 +3,9 @@ import { useSpringAnimation } from "@/src/shared/lib/hooks/animation/useSpringAn
 import { useAnimationStore } from "@/src/shared/store";
 
 export const useTabBarAnimation = () => {
-  const { animation, animate } = useSpringAnimation();
+  const { animation, animate } = useSpringAnimation(undefined, {
+    useNativeDriver: true,
+  });
   const { tabBar, setTabBar } = useAnimationStore();
 
   useEffect(() => {

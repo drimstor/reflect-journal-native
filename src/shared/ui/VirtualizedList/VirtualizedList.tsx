@@ -14,6 +14,26 @@ import { BottomSheetSectionList } from "@gorhom/bottom-sheet";
 import { VirtualizedListProps, WithDateAndId } from "./model/types";
 import { useLang } from "@/src/shared/lib/hooks";
 
+export const SectionHeader = ({ title }: { title: string }) => {
+  const { colors } = useThemeStore();
+  return (
+    <View style={styles.dateChip}>
+      <Chip
+        size="base"
+        color={colors.secondary}
+        borderColor={colors.alternate}
+        title={title}
+      />
+    </View>
+  );
+};
+
+export const renderSectionHeader = ({
+  section: { title },
+}: {
+  section: { title: string };
+}) => <SectionHeader title={title} />;
+
 function VirtualizedList<ItemT extends WithDateAndId>({
   renderItem,
   data,
@@ -35,21 +55,6 @@ function VirtualizedList<ItemT extends WithDateAndId>({
     if (!data?.data) return [];
     return groupByDate<ItemT>(data.data, locale);
   }, [data?.data, locale]);
-
-  const renderSectionHeader = ({
-    section: { title },
-  }: {
-    section: { title: string };
-  }) => (
-    <View style={styles.dateChip}>
-      <Chip
-        size="base"
-        color={colors.secondary}
-        borderColor={colors.alternate}
-        title={title}
-      />
-    </View>
-  );
 
   useEffect(() => {
     LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
@@ -83,9 +88,7 @@ function VirtualizedList<ItemT extends WithDateAndId>({
             style={{ marginTop: 25 }}
             type={isFilterActive ? "noSearch" : "noData"}
             onPress={() => {
-              if (isFilterActive) {
-                filters.resetFilters();
-              }
+              if (isFilterActive) filters.resetFilters();
             }}
           />
         )
@@ -93,7 +96,7 @@ function VirtualizedList<ItemT extends WithDateAndId>({
       ListFooterComponent={() => (
         <Loader
           style={{ marginTop: 25 }}
-          size={window.width - 150}
+          size={window.width - 100}
           isVisible={isFetching}
         />
       )}

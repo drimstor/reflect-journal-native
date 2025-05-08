@@ -1,135 +1,62 @@
-import React, { FC, useEffect, useMemo, useRef, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { View } from "react-native";
 import {
-  Divider,
   Layout,
   Carousel,
   BottomSheet,
-  type BottomSheetRef,
   Chip,
   useCarouselConfig,
-  Loader,
+  Divider,
 } from "@/src/shared/ui";
 import { PreviewCard } from "@/src/features";
-import { FiltersPanel, Header } from "@/src/widgets";
+import { FiltersPanel, Header, LibraryList } from "@/src/widgets";
 import { useT } from "@/src/shared/lib/hooks";
-import {
-  useAppSelector,
-  useDeviceStore,
-  useFiltersStore,
-  useThemeStore,
-} from "@/src/shared/store";
-import { View } from "react-native";
-import {
-  BookIcon,
-  ClipboardCheckIcon,
-  DirectIcon,
-  EditPencilIcon,
-  MailIcon,
-  TrashIcon,
-} from "@/src/shared/ui/icons";
+import { useThemeStore, useFiltersStore } from "@/src/shared/store";
+import { CpuIcon, DotsIcon } from "@/src/shared/ui/icons";
 import { styles } from "./LibraryScreen.styles";
-import { PATHS } from "@/src/shared/const";
-import { NavigationProps } from "@/src/shared/model/types";
-import { LibraryList, LibraryListVariant } from "@/src/widgets";
-import { Chat, Journal } from "@/src/entities";
-import { useBottomSheetNavigation } from "@/src/shared/ui/BottomSheetContent";
+import { useLibraryScreenLogic } from "./lib/hooks/useLibraryScreenLogic";
+import { LIBRARY_ITEMS } from "./const/static";
+import { LibraryListVariant } from "@/src/widgets";
+import { useLibraryBottomSheet } from "./lib/hooks/useLibraryBottomSheet";
+import { useMultiSelectActions } from "./lib/hooks/useMultiSelectActions";
 
-interface LibraryScreenProps {}
-
-const LibraryScreen: FC<LibraryScreenProps> = () => {
+const LibraryScreen = () => {
   const t = useT();
   const { colors } = useThemeStore();
-  const { window } = useDeviceStore();
-  const bottomSheetRef = useRef<BottomSheetRef>(null);
-  const navigation = useNavigation<NavigationProps>();
-  useBottomSheetNavigation();
+  const { multi_select_ids } = useFiltersStore();
 
-  // --------------------- //
+  const { currentIndex, setCurrentIndex, onOpenListItem } =
+    useLibraryScreenLogic();
 
-  const itemTitles = ["Journals", "Chats", "Goals", "Summaries"];
-  const itemColors = [colors.blue, colors.purple, colors.green, colors.orange];
+  const { bottomSheetRef, snapToIndex, snapPoints } = useLibraryBottomSheet();
+  const { handleMultiSelectActions, toggleStatusBar } = useMultiSelectActions();
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const { resetFilters } = useFiltersStore();
-
-  // --------------------- //
-
-  const snapPoints = useMemo(() => {
-    return [window.height - 203, window.height - 85, window.height];
-  }, [window.height]);
-
-  navigation.addListener("focus", () => {
-    setTimeout(() => {
-      bottomSheetRef.current?.snapToIndex(0);
-    }, 260);
-  });
-
-  // --------------------- //
-
-  const onOpenListItem = (item: Journal | Chat) => {
-    const variant = itemTitles[currentIndex] as LibraryListVariant;
-
-    const params = { variant, item };
-
-    if (currentIndex === 1) {
-      return navigation.navigate(PATHS.CHAT, params);
-    }
-
-    bottomSheetRef.current?.snapToIndex(1);
-
-    setTimeout(() => {
-      if (currentIndex === 0) {
-        // Сохраняем данные в хранилище перед навигацией
-        return navigation.navigate(PATHS.LIBRARY_LIST, params);
-      }
-
-      navigation.navigate(PATHS.LIBRARY_ITEM, params);
-    }, 200);
-  };
-
-  // --------------------- //
-
-  // const icons = [
-  //   (props: AnimatedIconProps) => <BookIconAnimated {...props} />,
-  //   (props: AnimatedIconProps) => <MailIconAnimated {...props} />,
-  //   (props: AnimatedIconProps) => <ClipboardCheckIconAnimated {...props} />,
-  //   (props: AnimatedIconProps) => <DirectIconAnimated {...props} />,
-  // ];
-
-  // const ListItem = () => (
-  //   <ListItemPreview
-  //     title="My journal"
-  //     subTitle="01/02/2025"
-  //     IconComponent={icons[currentIndex]}
-  //     backgroundColor={colors.light}
-  //     backgroundColorForAnimate={itemColors[currentIndex]}
-  //     onPress={onOpenListItem}
-  //     onDotsPress={handleDotsPress}
-  //   />
-  // );
-
-  // --------------------- //
-
-  const cache = useAppSelector((state) => {
-    // const data = (state.journalsApi.queries.getJournals?.data as any).data;
-    // console.log(data.length);
-  });
-
-  // --------------------- //
+  // Получаем данные для текущего выбранного элемента
+  const currentItem = LIBRARY_ITEMS[currentIndex];
+  const currentColor = colors[currentItem.colorKey as keyof typeof colors];
+  const currentVariant = currentItem.id as LibraryListVariant;
 
   return (
     <Layout>
-      <Header title={t("library.title")} />
+      <Header
+        title={t("library.title")}
+        leftIcon={{
+          icon: <CpuIcon color={colors.contrast} size={22} />,
+          onPress: toggleStatusBar,
+        }}
+        rightIcon={
+          multi_select_ids?.length
+            ? {
+                icon: <DotsIcon color={colors.contrast} size={22} />,
+                onPress: handleMultiSelectActions,
+              }
+            : undefined
+        }
+      />
       <Carousel
         height={100}
         style={styles.carousel}
         mode="parallax"
-        handler={(index) => {
-          setCurrentIndex(index);
-          resetFilters();
-        }}
+        handler={setCurrentIndex}
         modeConfig={useCarouselConfig(50, 140)}
         renderItem={({ item }) => (
           <PreviewCard
@@ -139,32 +66,12 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
             icon={item.icon}
           />
         )}
-        data={[
-          {
-            title: t("entities.journals.plural"),
-            subTitle: t("library.journals.description"),
-            backgroundColor: colors.blue,
-            icon: <BookIcon color={colors.black} size={40} />,
-          },
-          {
-            title: t("entities.chats.plural"),
-            subTitle: t("library.chats.description"),
-            backgroundColor: colors.purple,
-            icon: <MailIcon color={colors.black} size={40} />,
-          },
-          {
-            title: t("entities.goals.plural"),
-            subTitle: t("library.goals.description"),
-            backgroundColor: colors.green,
-            icon: <ClipboardCheckIcon color={colors.black} size={40} />,
-          },
-          {
-            title: t("entities.summaries.plural"),
-            subTitle: t("library.summaries.description"),
-            backgroundColor: colors.orange,
-            icon: <DirectIcon color={colors.black} size={40} />,
-          },
-        ]}
+        data={LIBRARY_ITEMS.map((item) => ({
+          title: t(`entities.${item.id.toLowerCase()}.plural`),
+          subTitle: t(`library.${item.id.toLowerCase()}.description`),
+          backgroundColor: colors[item.colorKey as keyof typeof colors],
+          icon: item.getIcon(colors.black, 40),
+        }))}
       />
       <BottomSheet
         ref={bottomSheetRef}
@@ -173,12 +80,13 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
         borderColor={colors.alternate}
         animateOnMount={false}
         scrollEnabled={false}
+        onChange={snapToIndex}
         topElement={
           <View style={styles.chipBox}>
             <Chip
               size="small"
-              color={itemColors[currentIndex]}
-              title={itemTitles[currentIndex]}
+              color={currentColor}
+              title={t(`entities.${currentVariant.toLowerCase()}.plural`)}
             />
           </View>
         }
@@ -192,10 +100,7 @@ const LibraryScreen: FC<LibraryScreenProps> = () => {
         <LibraryList
           onPress={onOpenListItem}
           variant={
-            itemTitles[currentIndex] as Exclude<
-              LibraryListVariant,
-              "JournalEntries"
-            >
+            currentVariant as Exclude<LibraryListVariant, "JournalEntries">
           }
         />
       </BottomSheet>

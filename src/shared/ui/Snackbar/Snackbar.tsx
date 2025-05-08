@@ -42,7 +42,8 @@ const Snackbar: FC<SnackbarProps> = ({ data }) => {
 
   const colorConfig = {
     success: ["#4da3b06d", colors.secondary] as const,
-    error: [colors.error + 70, colors.error + 10] as const,
+    // error: [colors.error + 70, colors.error + 10] as const,
+    error: ["#4da3b06d", colors.secondary] as const,
   };
 
   const getTextSize = (text: string) => {

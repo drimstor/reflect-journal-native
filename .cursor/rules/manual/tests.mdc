@@ -1,0 +1,199 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Правила написания тестов
+
+## Основные принципы
+
+### 1. Приоритеты тестирования
+- Тестировать бизнес-логику, а не имплементацию
+- Покрывать критические пути пользователя
+- Фокус на функциях, подверженных частым изменениям
+- Тестировать edge cases и граничные условия
+
+### 2. Структура тестов
+```typescript
+describe('ComponentName', () => {
+  describe('feature/functionality', () => {
+    it('should behave as expected when...', () => {
+      // Arrange
+      // Act
+      // Assert
+    });
+  });
+});
+```
+
+### 3. Хорошие практики
+- Один тест = одна проверка
+- Изолированные тесты (никаких зависимостей между тестами)
+- Детерминированные результаты
+- Читаемые имена тестов в формате "should [expected behavior] when [condition]"
+
+## Примеры паттернов
+
+### 1. Компонентное тестирование
+```typescript
+import { render, screen, fireEvent } from '@testing-library/react';
+import { ComponentName } from './ComponentName';
+
+describe('ComponentName', () => {
+  const mockProps = {
+    // минимально необходимые пропсы
+  };
+
+  it('should render successfully', () => {
+    render(<ComponentName {...mockProps} />);
+    expect(screen.getByRole('button')).toBeInTheDocument();
+  });
+});
+```
+
+### 2. Тестирование хуков
+```typescript
+import { renderHook, act } from '@testing-library/react-hooks';
+import { useCustomHook } from './useCustomHook';
+
+describe('useCustomHook', () => {
+  it('should update value', () => {
+    const { result } = renderHook(() => useCustomHook());
+    act(() => {
+      result.current.update('new value');
+    });
+    expect(result.current.value).toBe('new value');
+  });
+});
+```
+
+### 3. Тестирование Redux
+```typescript
+import { store } from './store';
+import { someAction } from './actions';
+
+describe('Redux Flow', () => {
+  it('should update state correctly', () => {
+    const initialState = store.getState();
+    store.dispatch(someAction());
+    const newState = store.getState();
+    expect(newState).not.toEqual(initialState);
+  });
+});
+```
+
+## Моки и стабы
+
+### 1. API моки
+```typescript
+jest.mock('api/service', () => ({
+  fetchData: jest.fn().mockResolvedValue({ data: 'mocked' })
+}));
+```
+
+### 2. Контекст и провайдеры
+```typescript
+const wrapper = ({ children }) => (
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      {children}
+    </ThemeProvider>
+  </Provider>
+);
+
+const { result } = renderHook(() => useCustomHook(), { wrapper });
+```
+
+## Что тестировать
+
+### 1. Обязательно
+- Критические бизнес-функции
+- Сложные вычисления
+- Обработка форм
+- API интеграции
+- Обработка ошибок
+- Пользовательские события
+- Redux actions/reducers
+- Кастомные хуки
+
+### 2. Не тестировать
+- Сторонние библиотеки
+- Простые компоненты без логики
+- CSS стили
+- Константы
+- Типы TypeScript
+- Моки и утилиты для тестов
+
+## Правила покрытия
+
+### 1. Минимальные требования
+- 80% покрытия для бизнес-логики
+- 70% для компонентов
+- 90% для утилит
+- 100% для критических функций
+
+### 2. Метрики качества
+- Отсутствие дублирования кода в тестах
+- Время выполнения тестов < 1 минуты
+- Отсутствие flaky tests
+- Понятные сообщения об ошибках
+
+## Инструменты
+
+### 1. Основные
+- Jest
+- React Testing Library
+- jest-dom
+- user-event
+- msw (для API моков)
+
+### 2. Вспомогательные
+- jest-axe (доступность)
+- jest-styled-components
+- jest-fetch-mock
+- @testing-library/react-hooks
+
+## Команды запуска
+
+```bash
+# Запуск всех тестов
+npm test
+
+# Запуск с покрытием
+npm test -- --coverage
+
+# Запуск конкретного теста
+npm test ComponentName.test.tsx
+
+# Watch mode
+npm test -- --watch
+```
+
+## Автоматизация
+
+### 1. Pre-commit хуки
+- Запуск тестов перед коммитом
+- Проверка покрытия
+- Линтинг тестов
+
+### 2. CI/CD
+- Запуск тестов при PR
+- Блокировка мержа при падении тестов
+- Отчеты о покрытии
+
+## Документация
+
+### 1. Комментарии в тестах
+```typescript
+/**
+ * @description Тестирует функциональность X
+ * @param {Type} param - описание параметра
+ * @returns {Type} - описание результата
+ */
+```
+
+### 2. README для тестов
+- Описание структуры тестов
+- Правила написания
+- Примеры использования
+- Troubleshooting 

@@ -14,11 +14,15 @@ export const createStyles = (themeColors: ThemeColors) => {
       alignItems: "center",
       borderWidth: 1,
       borderColor: themeColors.alternate,
+      width: "100%",
     },
     multiline: {
       height: 150,
-      alignItems: "flex-start",
-      paddingVertical: 8,
+      paddingVertical: 12,
+    },
+    superMultiline: {
+      height: 220,
+      paddingVertical: 12,
     },
     textField: {
       fontSize: 15,
@@ -45,7 +49,7 @@ export const sizeStyles = StyleSheet.create({
     borderRadius: 10,
   },
   medium: {
-    padding: 17,
+    padding: 16,
     height: 52,
     borderRadius: 12,
   },

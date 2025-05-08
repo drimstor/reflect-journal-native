@@ -12,8 +12,8 @@ import { ReactNode } from "react";
 
 interface BottomSheetHeaderProps {
   title: string;
-  onClose: () => void;
-  onBack: () => void;
+  onClose?: () => void;
+  onBack?: () => void;
 }
 
 export const BottomSheetHeader = ({
@@ -25,9 +25,13 @@ export const BottomSheetHeader = ({
   return (
     <View>
       <View style={styles.header}>
-        <Pressable style={styles.backButton} onPress={onBack}>
-          <ArrowRightLongIcon size={22} color={colors.contrast} />
-        </Pressable>
+        <View style={styles.mockBlock}>
+          {onBack && (
+            <Pressable style={styles.backButton} onPress={onBack}>
+              <ArrowRightLongIcon size={22} color={colors.contrast} />
+            </Pressable>
+          )}
+        </View>
         <Text
           font="bold"
           size="large"
@@ -36,9 +40,13 @@ export const BottomSheetHeader = ({
         >
           {title}
         </Text>
-        <Pressable style={styles.closeButton} onPress={onClose}>
-          <PlusIcon size={26} color={colors.contrast} />
-        </Pressable>
+        <View style={styles.mockBlock}>
+          {onClose && (
+            <Pressable style={styles.closeButton} onPress={onClose}>
+              <PlusIcon size={26} color={colors.contrast} />
+            </Pressable>
+          )}
+        </View>
       </View>
       <Divider color={colors.light} />
     </View>

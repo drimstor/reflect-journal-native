@@ -18,3 +18,16 @@ export const useLogOut = () => {
 
   return logout;
 };
+
+export const useLogOutWithNavigation = () => {
+  const [logoutMutation] = useLogoutMutation();
+
+  const logout = async () => {
+    const refreshToken = await tokenService.getRefreshToken();
+    if (!refreshToken) return;
+    await logoutMutation(refreshToken);
+    await tokenService.removeTokens();
+  };
+
+  return logout;
+};

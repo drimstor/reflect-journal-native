@@ -1,9 +1,13 @@
 import { useEffect, useRef } from "react";
 import { useBottomSheetStore } from "@/src/shared/store";
 import type { BottomSheetRef } from "@/src/shared/ui";
+import { Keyboard } from "react-native";
+import { useBottomSheetIndexState } from "@/src/shared/lib/hooks";
 
 export const useBottomSheetVisibility = () => {
-  const ref = useRef<BottomSheetRef>(null);
+  const { bottomSheetRef, snapToIndex, closeBottomSheet } =
+    useBottomSheetIndexState();
+
   const isInitialRender = useRef(true);
   const { setBottomSheetVisible, isBottomSheetVisible } = useBottomSheetStore();
 
@@ -14,15 +18,16 @@ export const useBottomSheetVisibility = () => {
     }
 
     if (isBottomSheetVisible) {
-      ref.current?.snapToIndex(0);
+      snapToIndex(0);
     } else {
-      ref.current?.close();
+      closeBottomSheet();
     }
   }, [isBottomSheetVisible]);
 
   const handleClose = () => {
+    Keyboard.dismiss();
     setBottomSheetVisible(false);
   };
 
-  return { handleClose, ref };
+  return { handleClose, bottomSheetRef };
 };

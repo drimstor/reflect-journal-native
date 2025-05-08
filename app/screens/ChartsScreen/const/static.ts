@@ -1,0 +1,7 @@
+export const CHARTS = {
+  INITIAL_CHART: "top_types",
+  ANIMATION_DELAY: 300,
+  SCROLL_THRESHOLD: 10,
+  BACK_ANIMATION_DELAY: 500,
+  SHEET_OPEN_DELAY: 150,
+} as const;

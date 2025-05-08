@@ -8,8 +8,13 @@ import {
   FilterIcon,
   SortIcon,
 } from "@/src/shared/ui/icons";
-import { useDeviceStore, useThemeStore } from "@/src/shared/store";
-import { useMemo } from "react";
+import {
+  useBottomSheetStore,
+  useDeviceStore,
+  useFiltersStore,
+  useThemeStore,
+} from "@/src/shared/store";
+import { useEffect, useMemo } from "react";
 import { FiltersSearch } from "@/src/features";
 
 interface FiltersPanelProps {
@@ -19,38 +24,77 @@ interface FiltersPanelProps {
 const FiltersPanel = ({ style }: FiltersPanelProps) => {
   const { colors, theme } = useThemeStore();
   const { window } = useDeviceStore();
-
-  const backgroundColor = useMemo(
-    () => (theme === "light" ? colors.light : colors.contrastReverse),
-    [theme]
-  );
+  const { setBottomSheetVisible, navigateToFlow, setFlowData } =
+    useBottomSheetStore();
+  const {
+    sort_field,
+    bookmarked,
+    setBookmarked,
+    ai_response,
+    is_completed,
+    related_topics,
+    multi_select,
+    setMultiSelect,
+    created_at_from,
+    updated_at_from,
+  } = useFiltersStore();
 
   const buttonsCofig = [
     {
       icon: <CalendarIcon color={colors.contrast} variant="outlined" />,
-      onPress: () => {},
+      isActive: created_at_from || updated_at_from,
+      onPress: () => {
+        navigateToFlow("date", "list");
+        setTimeout(() => {
+          setBottomSheetVisible(true);
+        }, 150);
+      },
     },
     {
       icon: <SortIcon color={colors.contrast} />,
-      onPress: () => {},
+      isActive: sort_field,
+      onPress: () => {
+        navigateToFlow("sort", "list");
+        setFlowData({ sortVariant: "Entities" });
+        setTimeout(() => {
+          setBottomSheetVisible(true);
+        }, 150);
+      },
     },
     {
       icon: <FilterIcon color={colors.contrast} />,
-      onPress: () => {},
+      isActive: ai_response || is_completed || related_topics,
+      onPress: () => {
+        navigateToFlow("filter", "list");
+        setTimeout(() => {
+          setBottomSheetVisible(true);
+        }, 150);
+      },
     },
     {
       icon: <CheckListIcon color={colors.contrast} />,
-      onPress: () => {},
+      isActive: multi_select,
+      onPress: () => {
+        setMultiSelect(multi_select ? false : true);
+      },
     },
     {
       icon: <BookmarkCheckIcon color={colors.contrast} />,
-      onPress: () => {},
+      isActive: bookmarked,
+      onPress: () => {
+        setBookmarked(bookmarked ? undefined : true);
+      },
     },
   ];
 
   const gap =
     (window.width - 24 * 2 - (buttonsCofig.length + 1) * 55) /
     buttonsCofig.length;
+
+  const backgroundColor = useMemo(
+    () => (theme === "light" ? colors.light : colors.contrastReverse),
+    [theme]
+  );
 
   return (
     <View style={[styles.globalBox, style, { gap }]}>
@@ -59,8 +103,9 @@ const FiltersPanel = ({ style }: FiltersPanelProps) => {
         <IconButton
           style={{ backgroundColor }}
           onPress={button.onPress}
-          isAnimated
           key={index}
+          isActive={!!button.isActive}
+          isAnimated
         >
           {button.icon}
         </IconButton>

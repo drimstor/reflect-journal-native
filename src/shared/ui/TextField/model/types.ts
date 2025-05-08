@@ -22,4 +22,6 @@ export interface TextFieldProps {
   textColor?: PaletteColor;
   helperTextColor?: PaletteColor;
   required?: boolean;
+  autoFocus?: boolean;
+  superMultiline?: boolean;
 }

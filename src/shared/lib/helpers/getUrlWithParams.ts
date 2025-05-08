@@ -9,7 +9,5 @@ export const getUrlWithParams = (url: string, payload?: any) => {
       .join("&")
   );
 
-  console.log("urlWithParams", urlWithParams);
-
   return urlWithParams;
 };

@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import { TextInput } from "react-native";
 import { useToggle } from "@/src/shared/lib/hooks";
-import { useKeyboard } from "@/src/shared/lib/hooks/useKeyboard";
+import { useKeyboard } from "@/src/shared/lib/hooks";
 
 interface UseSearchFieldStateProps {
   value: string;

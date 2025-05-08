@@ -1,12 +1,16 @@
 export enum PATHS {
+  MAIN_STACK = "/main-stack",
   HOME = "/home",
   LIBRARY = "/library",
-  LIBRARY_ITEM = "/library-item",
-  NEW = "/new",
-  PROFILE = "/profile",
-  AUTH = "/auth",
-  MAIN_STACK = "/main-stack",
-  CHAT = "/chat",
+  ADD_ENTRY = "/add-entry",
   MOCK = "/mock",
+  OVERVIEW = "/overview",
+  PROFILE = "/profile",
+
+  AUTH = "/auth",
   LIBRARY_LIST = "/library-list",
+  LIBRARY_ITEM = "/library-item",
+  CHAT = "/chat",
+  RELATIONSHIP_MAP = "/relationship-map",
+  CHARTS = "/charts",
 }

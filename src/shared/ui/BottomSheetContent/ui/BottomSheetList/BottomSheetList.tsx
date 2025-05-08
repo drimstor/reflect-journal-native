@@ -1,3 +1,4 @@
+import React from "react";
 import { List } from "@/src/shared/ui";
 import { useBottomSheetStore } from "@/src/shared/store";
 import { LayoutChangeEvent } from "react-native";
@@ -24,11 +25,15 @@ const BottomSheetList = () => {
           text,
           onPress: () => handleAction(onPress),
           IconComponent: (props) => (
-            <IconComponent
-              {...props}
-              color={iconColor || props.color}
-              size={iconSize || props.size}
-            />
+            <>
+              {IconComponent && (
+                <IconComponent
+                  {...props}
+                  color={iconColor || props.color}
+                  size={iconSize || props.size}
+                />
+              )}
+            </>
           ),
         })
       )}

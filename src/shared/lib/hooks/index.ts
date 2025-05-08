@@ -12,6 +12,8 @@ import { useAppInit } from "./useAppInit";
 import { usePrefetch } from "./usePrefetch";
 import { useFonts } from "./useFonts";
 import useAnimatedShow from "./useAnimated";
+import { useKeyboard } from "./useKeyboard";
+import { useBottomSheetIndexState } from "./useBottomSheetIndexState";
 
 export {
   useDebounce,
@@ -29,4 +31,6 @@ export {
   usePrefetch,
   useFonts,
   useAnimatedShow,
+  useKeyboard,
+  useBottomSheetIndexState,
 };

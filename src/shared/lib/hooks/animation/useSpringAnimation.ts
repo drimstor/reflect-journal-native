@@ -11,9 +11,9 @@ interface UseSpringAnimationProps {
 export const useSpringAnimation = (
   isVisible?: boolean,
   {
-    useNativeDriver = true,
-    tension = 100,
-    friction = 10,
+    useNativeDriver = false,
+    tension = 25,
+    friction = 8,
     initialValue = 0,
   }: UseSpringAnimationProps = {}
 ) => {

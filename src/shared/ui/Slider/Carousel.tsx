@@ -2,6 +2,7 @@ import { useDeviceStore, useThemeStore } from "@/src/shared/store";
 import React, { ReactElement, useRef, useState } from "react";
 import { StyleProp, View, ViewStyle } from "react-native";
 import {
+  CarouselRenderItem,
   ICarouselInstance,
   default as LibraryCarousel,
   Pagination,
@@ -14,7 +15,7 @@ import * as Haptics from "expo-haptics";
 interface CarouselProps {
   height: number;
   width?: number;
-  data: PreviewCardProps[];
+  data: PreviewCardProps[] | any;
   renderItem: ({ item }: { item: PreviewCardProps }) => ReactElement;
   style?: StyleProp<ViewStyle>;
   mode?: "parallax";
@@ -61,7 +62,7 @@ const Carousel = ({
         scrollAnimationDuration={300}
         onScrollStart={onScrollStart}
         onSnapToItem={handleSnapToItem}
-        renderItem={renderItem as any}
+        renderItem={renderItem as CarouselRenderItem<never>}
         defaultIndex={0}
         onProgressChange={progress}
         mode={mode}

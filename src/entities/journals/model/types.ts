@@ -24,6 +24,7 @@ export interface CreateJournalRequest {
   name: string;
   description: string;
   related_topics?: string[];
+  bookmarked?: boolean;
 }
 
 export interface UpdateJournalRequest {
@@ -31,6 +32,7 @@ export interface UpdateJournalRequest {
   description?: string;
   related_topics?: string[];
   ai_response?: boolean;
+  bookmarked?: boolean;
 }
 
 export interface JournalResponse extends PaginationResponse<Journal> {}

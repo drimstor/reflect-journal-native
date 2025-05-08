@@ -14,6 +14,10 @@ export const sizeStyles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 20,
   },
+  normal: {
+    fontSize: 16,
+    lineHeight: 22,
+  },
   large: {
     fontSize: 18,
     lineHeight: 24,

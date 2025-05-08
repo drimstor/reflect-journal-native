@@ -80,6 +80,11 @@ export const useEditFormConfig = (
             type: "toggle",
             label: t("edit.common.aiResponse.label"),
           },
+          {
+            key: "bookmarked",
+            type: "toggle",
+            label: t("edit.common.bookmarked.label"),
+          },
         ];
         break;
 

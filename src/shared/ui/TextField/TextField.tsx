@@ -12,6 +12,7 @@ const TextField: FC<TextFieldProps> = ({
   label,
   editable = true,
   multiline = false,
+  superMultiline = false,
   onChangeText,
   placeholder,
   helperText,
@@ -24,6 +25,7 @@ const TextField: FC<TextFieldProps> = ({
   textColor,
   helperTextColor,
   required,
+  autoFocus = false,
 }) => {
   const { colors } = useThemeStore();
   const styles = createStyles(colors);
@@ -43,6 +45,7 @@ const TextField: FC<TextFieldProps> = ({
           { backgroundColor },
           sizeStyles[size],
           multiline && styles.multiline,
+          superMultiline && styles.superMultiline,
         ]}
       >
         {startIcon ?? null}
@@ -53,6 +56,8 @@ const TextField: FC<TextFieldProps> = ({
             secureTextEntry && { paddingRight: 50 },
             // Явно указываем цвет текста для Android
             { color: textColor ?? colors.contrast },
+            multiline && styles.multiline,
+            superMultiline && styles.superMultiline,
           ]}
           maxLength={phone ? 10 : undefined}
           value={phone ? value.replace(/[^0-9]/g, "") : value}
@@ -60,14 +65,15 @@ const TextField: FC<TextFieldProps> = ({
           placeholder={placeholder}
           placeholderTextColor={colors.contrast + "80"}
           onChangeText={onChangeText}
-          multiline={multiline}
+          multiline={multiline || superMultiline}
           keyboardType={phone ? "numeric" : "default"}
           textContentType={
             phone ? "telephoneNumber" : secureTextEntry ? "password" : undefined
           }
+          autoFocus={autoFocus}
         />
         {secureTextEntry && (
-          <Pressable onPress={toggleShowPassword}>
+          <Pressable onPress={() => toggleShowPassword(!showPassword)}>
             {showPassword ? (
               <EyeIcon color={colors.contrast + 80} size={20} />
             ) : (

@@ -1,9 +1,15 @@
-import { ImageBackground, StatusBar, View } from "react-native";
+import { ImageBackground, View } from "react-native";
 import { useThemeStore } from "@/src/shared/store";
 import { useDeviceStore } from "@/src/shared/store";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import StatusBarManager from "../StatusBar/StatusBarManager";
 
-const BackgroundLayout = ({ children }: { children: React.ReactNode }) => {
+interface BackgroundLayoutProps {
+  children: React.ReactNode;
+  hideStatusBarIcons?: boolean;
+}
+
+const BackgroundLayout = ({ children }: BackgroundLayoutProps) => {
   const { colors, theme } = useThemeStore();
   const { statusBarHeight, window } = useDeviceStore();
   const insets = useSafeAreaInsets();
@@ -26,7 +32,10 @@ const BackgroundLayout = ({ children }: { children: React.ReactNode }) => {
         style={{ flex: 1, height: window.height + 20 }}
         resizeMode="cover"
       >
-        <StatusBar backgroundColor={colors.background} />
+        <StatusBarManager
+          backgroundColor={colors.background}
+          barStyle={theme === "dark" ? "light-content" : "dark-content"}
+        />
         <View style={{ flex: 1, paddingTop: insets.top + statusBarHeight }}>
           {children}
         </View>

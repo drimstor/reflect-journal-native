@@ -13,8 +13,9 @@ import {
   PaddingLayout,
   useCarouselConfig,
   useBottomSheetActions,
+  AnimatedAppearance,
 } from "@/src/shared/ui";
-import { Header, useHeaderStore } from "@/src/widgets";
+import { Header, useHeaderStore, ItemCarousel } from "@/src/widgets";
 import { useLang, useT } from "@/src/shared/lib/hooks";
 import {
   useBottomSheetStore,
@@ -84,58 +85,53 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
         {/* <Animated.View style={[styles.pullIcon, visibleAnimation]}>
           <BackSquareIcon color={colors.contrast} size={24} />
         </Animated.View> */}
-        <ScrollView
-          contentContainerStyle={styles.globalViewHorizontal}
-          showsVerticalScrollIndicator={false}
-          // onScroll={handleScroll}
-          // onScrollEndDrag={handleScrollEnd}
-          scrollEventThrottle={16}
-          style={{ maxHeight: window.height - 160 }}
-        >
-          <PaddingLayout>
-            {variant !== "JournalEntries" && (
-              <View style={[styles.titleBox]}>
-                <Text size="extraLarge" font="bold" color={colors.contrast}>
-                  {item?.name}
-                </Text>
-                {item?.related_topics?.[0] && (
-                  <Chip
-                    color={stringToColor(item?.related_topics?.[0])}
-                    title={item?.related_topics?.[0]}
+        <AnimatedAppearance isVisible delay={150}>
+          <ScrollView
+            contentContainerStyle={styles.globalViewHorizontal}
+            showsVerticalScrollIndicator={false}
+            // onScroll={handleScroll}
+            // onScrollEndDrag={handleScrollEnd}
+            scrollEventThrottle={16}
+            style={{ maxHeight: window.height - 160 }}
+          >
+            <PaddingLayout>
+              {variant !== "JournalEntries" && (
+                <View style={[styles.titleBox]}>
+                  <Text size="extraLarge" font="bold" color={colors.contrast}>
+                    {item?.name}
+                  </Text>
+                  {item?.related_topics?.[0] && (
+                    <Chip
+                      color={stringToColor(item?.related_topics?.[0])}
+                      title={item?.related_topics?.[0]}
+                    />
+                  )}
+                </View>
+              )}
+              <View style={styles.infoTableBox}>
+                <View style={styles.infoTableItem}>
+                  <InfoBox
+                    label={t("shared.info.created")}
+                    icon={<CalendarIcon color={colors.contrast} />}
+                    value={`${formatDate(
+                      item?.created_at,
+                      locale
+                    )}, ${getWeekDay(item?.created_at, t, "short")}`}
+                    color={colors.contrast}
                   />
-                )}
-              </View>
-            )}
-            <View style={styles.infoTableBox}>
-              <View style={styles.infoTableItem}>
-                <InfoBox
-                  label={t("shared.info.created")}
-                  icon={
-                    <CalendarIcon variant="outlined" color={colors.contrast} />
-                  }
-                  value={`${formatDate(item?.created_at, locale)}, ${getWeekDay(
-                    item?.created_at,
-                    t,
-                    "short"
-                  )}`}
-                  color={colors.contrast}
-                />
-              </View>
-              <View style={styles.infoTableItem}>
-                <InfoBox
-                  label={t("shared.info.lastUpdated")}
-                  icon={
-                    <CalendarIcon variant="outlined" color={colors.contrast} />
-                  }
-                  value={`${formatDate(item?.updated_at, locale)}, ${getWeekDay(
-                    item?.updated_at,
-                    t,
-                    "short"
-                  )}`}
-                  color={colors.contrast}
-                />
-              </View>
-              {/* <View style={styles.infoTableItem}>
+                </View>
+                <View style={styles.infoTableItem}>
+                  <InfoBox
+                    label={t("shared.info.lastUpdated")}
+                    icon={<CalendarIcon color={colors.contrast} />}
+                    value={`${formatDate(
+                      item?.updated_at,
+                      locale
+                    )}, ${getWeekDay(item?.updated_at, t, "short")}`}
+                    color={colors.contrast}
+                  />
+                </View>
+                {/* <View style={styles.infoTableItem}>
                 <InfoBox
                   label="Assigned to"
                   icon={<UserBorderIcon color={colors.contrast} />}
@@ -143,127 +139,117 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
                   color={colors.contrast}
                 />
               </View> */}
-            </View>
-            <Divider style={styles.divider} color={colors.alternate} />
-            {item?.content && (
-              <>
-                <TitleText
-                  text={t("libraryItem.content")}
-                  textColor={colors.contrast}
-                  element={<DotsIcon color={colors.contrast} size={22} />}
-                  variant="subTitle"
-                  style={styles.titleText}
-                />
-                <Text color={colors.contrast} style={styles.contentText}>
-                  {item?.content}
-                </Text>
-                <Divider style={styles.divider} color={colors.alternate} />
-              </>
-            )}
-            {item?.related_topics?.length && (
-              <>
-                <TitleText
-                  text={t("libraryItem.relatedTopics")}
-                  textColor={colors.contrast}
-                  element={<DotsIcon color={colors.contrast} size={22} />}
-                  variant="subTitle"
-                  style={styles.titleText}
-                />
-                <View style={styles.tagsBox}>
-                  {item?.related_topics?.map((tag: string) => (
-                    <Chip
-                      key={tag}
-                      title={tag}
-                      size="medium"
-                      color={stringToColor(tag)}
-                    />
-                  ))}
-                </View>
-                <Divider style={styles.divider} color={colors.alternate} />
-              </>
-            )}
-            {item?.ai_response && (
-              <>
-                <TitleText
-                  text={t("libraryItem.aiResponse")}
-                  textColor={colors.contrast}
-                  element={<DotsIcon color={colors.contrast} size={22} />}
-                  variant="subTitle"
-                  style={styles.titleText}
-                />
-                <Text color={colors.contrast} style={styles.contentText}>
-                  {item?.ai_response}
-                </Text>
-                <Divider style={styles.divider} color={colors.alternate} />
-              </>
-            )}
-            {checkboxes?.length > 0 && (
-              <>
-                <TitleText
-                  text={t("libraryItem.checklist")}
-                  textColor={colors.contrast}
-                  element={<DotsIcon color={colors.contrast} size={22} />}
-                  variant="subTitle"
-                  style={styles.titleText}
-                />
-                <CheckboxList>
-                  {checkboxes?.map((item: ChecklistItem) => (
-                    <CheckBox
-                      textDecoration
-                      key={item.id}
-                      checked={item.is_completed}
-                      onPress={() => handleCheckboxToggle(item.id)}
-                      text={item.title}
-                    />
-                  ))}
-                </CheckboxList>
-                {isUpdatingChecklistItem && (
-                  <Text
-                    style={{ marginBottom: -16 }}
-                    color={colors.contrast}
-                    size="small"
-                    withOpacity={70}
-                  >
-                    {t("shared.actions.saving")}...
+              </View>
+              <Divider style={styles.divider} color={colors.alternate} />
+              {item?.content && (
+                <>
+                  <TitleText
+                    text={t("libraryItem.content")}
+                    textColor={colors.contrast}
+                    element={<DotsIcon color={colors.contrast} size={22} />}
+                    variant="subTitle"
+                    style={styles.titleText}
+                  />
+                  <Text color={colors.contrast} style={styles.contentText}>
+                    {item?.content}
                   </Text>
-                )}
-                <Divider style={styles.divider} color={colors.alternate} />
-              </>
-            )}
-          </PaddingLayout>
-          {!!item?.related_entities?.length && (
-            <View style={styles.carouselBox}>
-              <PaddingLayout>
-                <TitleText
-                  text={t("libraryItem.relatedEntries")}
-                  textColor={colors.contrast}
-                  element={<DotsIcon color={colors.contrast} size={22} />}
-                  variant="subTitle"
-                  style={styles.titleText}
+                  <Divider style={styles.divider} color={colors.alternate} />
+                </>
+              )}
+              {!!item?.related_topics?.length && (
+                <>
+                  <TitleText
+                    text={t("libraryItem.relatedTopics")}
+                    textColor={colors.contrast}
+                    element={<DotsIcon color={colors.contrast} size={22} />}
+                    variant="subTitle"
+                    style={styles.titleText}
+                  />
+                  <View style={styles.tagsBox}>
+                    {item?.related_topics?.map((tag: string) => (
+                      <Chip
+                        key={tag}
+                        title={tag}
+                        size="medium"
+                        color={stringToColor(tag)}
+                      />
+                    ))}
+                  </View>
+                  <Divider style={styles.divider} color={colors.alternate} />
+                </>
+              )}
+              {item?.ai_response && (
+                <>
+                  <TitleText
+                    text={t("libraryItem.aiResponse")}
+                    textColor={colors.contrast}
+                    element={<DotsIcon color={colors.contrast} size={22} />}
+                    variant="subTitle"
+                    style={styles.titleText}
+                  />
+                  <Text color={colors.contrast} style={styles.contentText}>
+                    {item?.ai_response}
+                  </Text>
+                  <Divider style={styles.divider} color={colors.alternate} />
+                </>
+              )}
+              {checkboxes?.length > 0 && (
+                <>
+                  <TitleText
+                    text={t("libraryItem.checklist")}
+                    textColor={colors.contrast}
+                    element={<DotsIcon color={colors.contrast} size={22} />}
+                    variant="subTitle"
+                    style={styles.titleText}
+                  />
+                  <CheckboxList>
+                    {checkboxes?.map((item: ChecklistItem) => (
+                      <CheckBox
+                        textDecoration
+                        key={item.id}
+                        checked={item.is_completed}
+                        onPress={() => handleCheckboxToggle(item.id)}
+                        text={item.title}
+                      />
+                    ))}
+                  </CheckboxList>
+                  {isUpdatingChecklistItem && (
+                    <Text
+                      style={{ marginBottom: -16 }}
+                      color={colors.contrast}
+                      size="small"
+                      withOpacity={70}
+                    >
+                      {t("shared.actions.saving")}...
+                    </Text>
+                  )}
+                  <Divider style={styles.divider} color={colors.alternate} />
+                </>
+              )}
+            </PaddingLayout>
+            {!!item?.related_entities?.length && (
+              <View style={styles.carouselBox}>
+                <ItemCarousel
+                  title={t("libraryItem.relatedEntries")}
+                  data={item?.related_entities}
+                  onSelectItem={(index) => {
+                    // setCurrentIndex(index);
+                    // resetFilters();
+                  }}
+                  modeConfig={{
+                    ...useCarouselConfig(
+                      25,
+                      item?.related_entities?.length > 1 ? 60 : 0
+                    ),
+                    parallaxAdjacentItemScale: 0.79,
+                  }}
+                  colors={colors}
+                  style={styles.carousel}
                 />
-              </PaddingLayout>
-              <Carousel
-                height={130}
-                style={styles.carousel}
-                mode="parallax"
-                data={item?.related_entities}
-                handler={(index) => {
-                  // setCurrentIndex(index);
-                  // resetFilters();
-                }}
-                modeConfig={useCarouselConfig(
-                  25,
-                  item?.related_entities?.length > 1 ? 60 : 0
-                )}
-                renderItem={TypedPreviewBlock({
-                  onPress: () => {},
-                  disableAnimate: true,
-                  previewMode: true,
-                })}
-              />
-            </View>
-          )}
-        </ScrollView>
+              </View>
+            )}
+          </ScrollView>
+        </AnimatedAppearance>
       </BottomSheet>
     </Layout>
   );

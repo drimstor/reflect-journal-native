@@ -49,7 +49,13 @@ const MessageInput: FC<MessageInputProps> = ({
               onPress={() =>
                 Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft)
               }
-              onPressIn={text.trim() ? onSend : toggleAttachments}
+              onPressIn={() => {
+                if (text.trim()) {
+                  onSend();
+                } else {
+                  toggleAttachments();
+                }
+              }}
               style={styles.sendButton}
             >
               {text.trim() ? (

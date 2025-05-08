@@ -2,8 +2,15 @@ import { useLoginMutation, useRegisterMutation } from "@/src/entities";
 import { PATHS } from "@/src/shared/const";
 import { useT } from "@/src/shared/lib/hooks";
 import { useNavigation } from "@react-navigation/native";
-import { UseSubmitProps, ValidationErrors } from "../../model/types";
+import {
+  TextFields,
+  UseSubmitProps,
+  ValidationErrors,
+} from "../../model/types";
 import { NavigationProps } from "@/src/shared/model/types";
+import { useEffect, useRef } from "react";
+import { initialValues } from "../../const/static";
+import { Keyboard } from "react-native";
 
 export const useSubmit = ({
   textFields,
@@ -54,6 +61,8 @@ export const useSubmit = ({
     return Object.keys(newErrors).length === 0;
   };
 
+  // ---------------------- //
+
   const handleSubmit = () => {
     if (!validate()) return;
 
@@ -80,6 +89,29 @@ export const useSubmit = ({
         });
     }
   };
+
+  // ---------------------- //
+
+  const prevTextFieldsRef = useRef<TextFields>(initialValues);
+
+  // Отслеживаем изменения в полях для определения автозаполнения
+  useEffect(() => {
+    // Проверяем, было ли автозаполнение (быстрое изменение нескольких полей)
+    const wasAutoFilled =
+      textFields.email !== prevTextFieldsRef.current.email &&
+      textFields.email !== "" &&
+      textFields.password !== prevTextFieldsRef.current.password &&
+      textFields.password !== "";
+
+    if (wasAutoFilled) {
+      // Закрываем клавиатуру при автозаполнении
+      Keyboard.dismiss();
+      console.log("Автозаполнение обнаружено, клавиатура закрыта");
+    }
+
+    // Обновляем предыдущие значения
+    prevTextFieldsRef.current = textFields;
+  }, [textFields]);
 
   return { handleSubmit, isAuthLoading: isLoginLoading || isRegisterLoading };
 };

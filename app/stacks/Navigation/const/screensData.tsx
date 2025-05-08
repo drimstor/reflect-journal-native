@@ -6,6 +6,9 @@ import {
   LibraryItemScreen,
   ChatScreen,
   LibraryListScreen,
+  CreateEntityScreen,
+  RelationshipMapScreen,
+  ChartsScreen,
 } from "@/app/screens";
 
 export const screensData = [
@@ -33,6 +36,21 @@ export const screensData = [
   {
     name: PATHS.LIBRARY_LIST,
     component: LibraryListScreen,
+    options: { animation: "none" },
+  },
+  {
+    name: PATHS.ADD_ENTRY,
+    component: CreateEntityScreen,
+    options: { presentation: "modal" },
+  },
+  {
+    name: PATHS.RELATIONSHIP_MAP,
+    component: RelationshipMapScreen,
+    options: { animation: "none" },
+  },
+  {
+    name: PATHS.CHARTS,
+    component: ChartsScreen,
     options: { animation: "none" },
   },
 ];

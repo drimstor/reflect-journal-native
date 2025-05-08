@@ -2,24 +2,30 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { PATHS } from "@/src/shared/const";
 import { IconButton } from "@/src/shared/ui";
 import {
-  ProfileScreen,
+  SettingsScreen,
   HomeScreen,
   AuthScreen,
   LibraryScreen,
   ChatScreen,
+  CreateEntityScreen,
+  OverviewScreen,
 } from "@/app/screens";
 import { View } from "react-native";
 import { createStyles } from "./MainStack.styles";
 import {
   HomeIcon,
   DocumentSolidIcon,
-  CalendarIcon,
+  CalendarSolidIcon,
   UserIcon,
   PlusIcon,
+  BoxSolidIcon,
+  ChartSolidIcon,
+  DirectSolidIcon,
 } from "@/src/shared/ui/icons";
 import { useThemeStore, useDeviceStore } from "@/src/shared/store";
 import * as Haptics from "expo-haptics";
 import { useTabBarAnimation } from "./lib/hooks/useTabBarAnimation";
+import { SettingsSolidIcon } from "@/src/shared/ui/icons";
 
 const BottomTabs = createBottomTabNavigator();
 
@@ -67,7 +73,7 @@ export const MainStack = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <View style={styles.leftIconBox}>
-                <DocumentSolidIcon
+                <DirectSolidIcon
                   size={28}
                   color={focused ? colors.accent : transparentAlternate}
                 />
@@ -77,16 +83,18 @@ export const MainStack = () => {
         }}
       />
       <BottomTabs.Screen
-        name={PATHS.NEW}
-        component={LibraryScreen}
+        name={PATHS.MOCK}
+        component={CreateEntityScreen}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate(PATHS.ADD_ENTRY);
+          },
+        })}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <IconButton
-                style={styles.plusIconBox}
-                isOpacity
-                onPress={() => {}}
-              >
+              <IconButton style={styles.plusIconBox} onPress={() => {}}>
                 <PlusIcon size={36} color={colors.black} />
               </IconButton>
             );
@@ -94,14 +102,14 @@ export const MainStack = () => {
         }}
       />
       <BottomTabs.Screen
-        name={PATHS.MOCK}
-        component={AuthScreen}
+        name={PATHS.OVERVIEW}
+        component={OverviewScreen}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
               <View style={styles.rightIconBox}>
-                <CalendarIcon
-                  size={28}
+                <ChartSolidIcon
+                  size={29}
                   color={focused ? colors.accent : transparentAlternate}
                 />
               </View>
@@ -111,12 +119,12 @@ export const MainStack = () => {
       />
       <BottomTabs.Screen
         name={PATHS.PROFILE}
-        component={ProfileScreen}
+        component={SettingsScreen}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <UserIcon
-                size={28}
+              <SettingsSolidIcon
+                size={29}
                 color={focused ? colors.accent : transparentAlternate}
               />
             );

@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { EditFormConfig } from "./useEditFormConfig";
+import { useT } from "@/src/shared/lib/hooks";
 
 /**
  * Хук для управления формой редактирования
@@ -12,6 +13,7 @@ export const useEditForm = (
   config: EditFormConfig,
   onSubmit: (values: Record<string, any>) => Promise<void>
 ) => {
+  const t = useT();
   // Состояние формы
   const [values, setValues] = useState<Record<string, any>>(
     config.initialValues || {}
@@ -48,7 +50,7 @@ export const useEditForm = (
     // Проверяем обязательные поля
     config.fields.forEach((field) => {
       if (field.required && !values[field.key]) {
-        newErrors[field.key] = "Это поле обязательно";
+        newErrors[field.key] = t("shared.validation.required");
         isValid = false;
       }
     });

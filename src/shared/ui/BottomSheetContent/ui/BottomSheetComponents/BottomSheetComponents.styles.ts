@@ -21,4 +21,7 @@ export const styles = StyleSheet.create({
   divider: {
     margin: 0,
   },
+  mockBlock: {
+    minWidth: 22,
+  },
 });

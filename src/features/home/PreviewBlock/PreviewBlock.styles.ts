@@ -24,6 +24,7 @@ export const createStyles = (colors: ThemeColors) =>
     },
     titleBox: {
       marginBottom: 12,
+      minHeight: 26,
     },
     subTitleBox: {
       marginTop: -4,
@@ -65,5 +66,23 @@ export const createStyles = (colors: ThemeColors) =>
     Summaries: {
       bottom: -50,
       right: -40,
+    },
+    JournalEntries: {
+      bottom: -70,
+      right: -60,
+    },
+    Charts: {
+      bottom: -95,
+      right: -60,
+      transform: [{ rotate: "-28deg" }],
+    },
+    Timeline: {
+      bottom: -40,
+      right: -40,
+      transform: [{ scaleY: 0.6 }],
+    },
+    RelationshipMap: {
+      bottom: -70,
+      right: -35,
     },
   });

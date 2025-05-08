@@ -14,7 +14,10 @@ const ListItem: FC<ListItemProps> = ({ onPress, text, IconComponent }) => {
   const { colors } = useThemeStore();
 
   return (
-    <TouchableOpacity onPress={onPress} style={styles.listItemBox}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.listItemBox, styles.listItemDefault]}
+    >
       <Text font="bold" color={colors.contrast} style={{ fontSize: 16 }}>
         {text}
       </Text>

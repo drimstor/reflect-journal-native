@@ -2,17 +2,16 @@ import { FC, useEffect } from "react";
 import { FiltersPanel, Header } from "@/src/widgets";
 import { useLang, useT } from "@/src/shared/lib/hooks";
 import { View } from "react-native";
-import {
-  CalendarIcon,
-  DotsIcon,
-  EditPencilIcon,
-  TrashIcon,
-} from "@/src/shared/ui/icons";
+import { CalendarIcon, DotsIcon } from "@/src/shared/ui/icons";
 import { createStyles } from "./LibraryListScreen.styles";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { NavigationProps } from "@/src/shared/model/types";
 import { PATHS } from "@/src/shared/const";
-import { JournalEntry, useGetJournalEntriesQuery } from "@/src/entities";
+import {
+  JournalEntry,
+  useGetJournalEntriesQuery,
+  useMultiSelection,
+} from "@/src/entities";
 import { PreviewBlock } from "@/src/features";
 import { formatDate, stringToColor } from "@/src/shared/lib/helpers";
 import {
@@ -20,6 +19,7 @@ import {
   useBottomSheetStore,
   useDeviceStore,
   useFiltersStore,
+  useScreenInfoStore,
   useThemeStore,
 } from "@/src/shared/store";
 import {
@@ -28,8 +28,9 @@ import {
   Chip,
   BottomSheet,
   VirtualizedList,
-  NoSearchDataImg,
   useBottomSheetActions,
+  CheckBox,
+  AnimatedAppearance,
 } from "@/src/shared/ui";
 
 interface LibraryListScreenProps {}
@@ -43,6 +44,7 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
   const styles = createStyles(colors);
   const filters = useFiltersStore();
   const { setNavigation } = useBottomSheetStore();
+  const { setScreenInfo } = useScreenInfoStore();
 
   const route = useRoute();
   const { variant, item } = route.params as any;
@@ -52,6 +54,7 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
 
   useEffect(() => {
     filters.resetFilters();
+    setScreenInfo({ name: "JournalEntries" });
   }, []);
 
   useEffect(() => {
@@ -65,6 +68,18 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
   const renderItem = ({ item }: { item: JournalEntry }) => {
     const journal = item as JournalEntry;
 
+    const onPress = () => {
+      navigation.navigate(PATHS.LIBRARY_ITEM, {
+        variant: "JournalEntries",
+        item: { ...item, related_entities },
+      });
+    };
+
+    const { selectionMode, isSelected, handleItemPress } = useMultiSelection({
+      itemId: item?.id,
+      onPress,
+    });
+
     return (
       <PreviewBlock
         key={journal.id}
@@ -73,26 +88,25 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
         backgroundColorForAnimate={colors.alternate}
         tags={journal.related_topics}
         bookmarked={journal.bookmarked}
+        disableAnimate={selectionMode}
         previewMode
         element={
-          journal.related_topics[0] && (
-            <Chip
-              color={stringToColor(journal.related_topics[0])}
-              title={journal.related_topics[0]}
-            />
+          selectionMode && (
+            <View style={{ width: 26, height: 26 }}>
+              <CheckBox
+                checked={isSelected || false}
+                onPress={handleItemPress}
+                checkedColor={colors.accent}
+              />
+            </View>
           )
         }
-        onPress={() =>
-          navigation.navigate(PATHS.LIBRARY_ITEM, {
-            variant: "JournalEntries",
-            item: { ...item, related_entities },
-          })
-        }
+        onPress={handleItemPress}
         infoBoxes={[
           {
             label: t("shared.info.created"),
             value: formatDate(journal.created_at, locale),
-            icon: <CalendarIcon variant="outlined" color={colors.contrast} />,
+            icon: <CalendarIcon color={colors.contrast} />,
           },
         ]}
       />
@@ -127,11 +141,13 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
           </View>
         }
       >
-        <VirtualizedList
-          data={data as any}
-          renderItem={renderItem}
-          isFetching={isFetching}
-        />
+        <AnimatedAppearance isVisible delay={150}>
+          <VirtualizedList
+            data={data as any}
+            renderItem={renderItem}
+            isFetching={isFetching}
+          />
+        </AnimatedAppearance>
       </BottomSheet>
     </Layout>
   );

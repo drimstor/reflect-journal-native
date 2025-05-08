@@ -1,7 +1,7 @@
 import { BottomSheet, Text } from "@/src/shared/ui";
 import { useThemeStore } from "@/src/shared/store";
 import { useBottomSheetStore } from "@/src/shared/store/zustand/bottomSheet.store";
-import { useKeyboard } from "../../lib/hooks/useKeyboard";
+import { useKeyboard } from "@/src/shared/lib/hooks";
 import { useCallback, Suspense } from "react";
 import { View } from "react-native";
 import React from "react";
@@ -12,8 +12,7 @@ import { useBottomSheetVisibility } from "./lib/hooks/useBottomSheetVisibility";
 const BottomSheetContent = () => {
   const { colors } = useThemeStore();
   const { keyboardHeight, isKeyboardVisible } = useKeyboard();
-
-  const { handleClose, ref } = useBottomSheetVisibility();
+  const { handleClose, bottomSheetRef } = useBottomSheetVisibility();
 
   const {
     currentFlow,
@@ -24,7 +23,7 @@ const BottomSheetContent = () => {
 
   const getSnapPoints = useCallback(() => {
     const baseHeight = bottomSheetHeight ? bottomSheetHeight : 1;
-    return [baseHeight + (isKeyboardVisible ? keyboardHeight : 0)];
+    return [baseHeight + (isKeyboardVisible ? keyboardHeight - 45 : 0)];
   }, [keyboardHeight, isKeyboardVisible, bottomSheetHeight]);
 
   // Получаем активный экран
@@ -35,7 +34,7 @@ const BottomSheetContent = () => {
 
   return (
     <BottomSheet
-      ref={ref}
+      ref={bottomSheetRef}
       snapPoints={getSnapPoints()}
       backgroundColor={colors.secondary}
       borderColor={colors.alternate}

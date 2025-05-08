@@ -115,9 +115,7 @@ const HomeScreen: FC<HomeScreenProps> = () => {
               {
                 label: "Due date",
                 value: "Aug 25",
-                icon: (
-                  <CalendarIcon variant="outlined" color={colors.contrast} />
-                ),
+                icon: <CalendarIcon color={colors.contrast} />,
               },
               {
                 label: "Assigned to",
@@ -135,9 +133,7 @@ const HomeScreen: FC<HomeScreenProps> = () => {
               {
                 label: "Due date",
                 value: "Aug 25",
-                icon: (
-                  <CalendarIcon variant="outlined" color={colors.contrast} />
-                ),
+                icon: <CalendarIcon color={colors.contrast} />,
               },
             ]}
           />

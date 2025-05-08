@@ -18,5 +18,14 @@ export const createStyles = (theme: ThemeColors) => {
       shadowRadius: 8,
       elevation: 1,
     },
+    activeIndicator: {
+      position: "absolute",
+      top: 10,
+      right: 10,
+      width: 8,
+      height: 8,
+      borderRadius: 4,
+      backgroundColor: theme.accent,
+    },
   });
 };

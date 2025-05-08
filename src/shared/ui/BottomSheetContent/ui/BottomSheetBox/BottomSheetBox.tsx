@@ -6,7 +6,7 @@ interface BottomSheetBoxProps {
   style?: ViewStyle;
 }
 
-export const BottomSheetBox = ({ children, style }: BottomSheetBoxProps) => {
+const BottomSheetBox = ({ children, style }: BottomSheetBoxProps) => {
   const { setBottomSheetHeight } = useBottomSheetStore();
 
   const handleLayout = (e: LayoutChangeEvent) => {
@@ -16,8 +16,13 @@ export const BottomSheetBox = ({ children, style }: BottomSheetBoxProps) => {
   };
 
   return (
-    <View style={style} onLayout={handleLayout}>
+    <View
+      style={[{ gap: 4, paddingBottom: 60 }, style]}
+      onLayout={handleLayout}
+    >
       {children}
     </View>
   );
 };
+
+export default BottomSheetBox;
