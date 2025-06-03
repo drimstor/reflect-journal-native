@@ -22,6 +22,7 @@ interface BottomSheetStore {
   navigateToFlow: (flowId: FlowId, screenId: ScreenId) => void;
   setFlowData: (data: Record<string, any>) => void;
   resetFlow: () => void;
+  resetFlowData: () => void;
 
   navigation: {
     isNavigate: boolean;
@@ -64,6 +65,12 @@ export const useBottomSheetStore = create<BottomSheetStore>((set, get) => ({
     set((state) => ({
       flowData: { ...state.flowData, ...data },
     }));
+  },
+
+  resetFlowData: () => {
+    set({
+      flowData: {},
+    });
   },
 
   resetFlow: () => {

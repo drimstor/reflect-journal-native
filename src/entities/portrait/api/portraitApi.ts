@@ -1,5 +1,4 @@
-import { createApi } from "@reduxjs/toolkit/query/react";
-import { baseQueryWithReauth } from "@/src/shared/store";
+import { baseApi } from "@/src/shared/api/baseApi";
 import {
   PORTRAIT_TAG,
   PortraitStatsRequest,
@@ -8,10 +7,7 @@ import {
   PortraitGraphResponse,
 } from "../model/types";
 
-export const portraitApi = createApi({
-  reducerPath: "portraitApi",
-  baseQuery: baseQueryWithReauth,
-  tagTypes: [PORTRAIT_TAG],
+export const portraitApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // Получение статистики портрета пользователя
     getPortraitStats: builder.query<

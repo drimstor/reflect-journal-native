@@ -1,18 +1,22 @@
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useRef } from "react";
 import { ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useFiltersStore, useAppSelector, RootState } from "@/src/shared/store";
-import { useLang, useT, useToggle, useKeyboard } from "@/src/shared/lib/hooks";
-import { useCarouselConfig } from "@/src/shared/ui";
-import { NavigationProps, LibraryListVariant } from "@/src/shared/model/types";
-import { formatDate, getWeekDay } from "@/src/shared/lib/helpers";
+import { useFiltersStore } from "@/src/shared/store";
 import {
-  JournalResponse,
-  useCreateAnyEntities,
-  useGetJournalsQuery,
-} from "@/src/entities";
+  useLang,
+  useT,
+  useToggle,
+  useBottomSheetIndexState,
+} from "@/src/shared/lib/hooks";
+import { useCarouselConfig } from "@/src/shared/ui";
+import { NavigationProps, EntityType } from "@/src/shared/model/types";
+import { formatDate, getWeekDay } from "@/src/shared/lib/helpers";
+import { useCreateAnyEntities } from "@/src/entities";
+import { useEntitiesData } from "@/src/entities";
 import { useCreateFormConfig } from "./useCreateFormConfig";
 import { useCreateForm } from "./useCreateForm";
+import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { PATHS } from "@/src/shared/const/PATHS";
 
 /**
  * Тип конфигурации карусели
@@ -32,101 +36,45 @@ export const useCreateScreenState = () => {
   const navigation = useNavigation<NavigationProps>();
   const { resetFilters } = useFiltersStore();
   const scrollViewRef = useRef<ScrollView>(null);
-  const { isKeyboardVisible } = useKeyboard();
 
   // Состояния для компонента
   const { value: isBookmarked, toggle: setIsBookmarked } = useToggle();
-  const [currentEntity, setCurrentEntity] = useState<string>("JournalEntries");
-
-  // Получение даты и форматирование
-  const today = useMemo(() => new Date().toISOString(), []);
-  const date = useMemo(() => {
-    return `${getWeekDay(today, t, "long")}, ${
-      formatDate(today, locale).split(".")[0]
-    }`;
-  }, [locale, t, today]);
-
-  // Мокдата для карусели выбора типа сущности
-  const mockData = [
-    {
-      created_at: today,
-      entity_type: "JournalEntries",
-      name: t("entities.journalentriesfull.singular"),
-    },
-    {
-      created_at: today,
-      entity_type: "Journals",
-      name: t("entities.journals.singular"),
-    },
-    {
-      created_at: today,
-      entity_type: "Chats",
-      name: t("entities.chats.singular"),
-    },
-    {
-      created_at: today,
-      entity_type: "Goals",
-      name: t("entities.goals.singular"),
-    },
-    {
-      created_at: today,
-      entity_type: "Summaries",
-      name: t("entities.summaries.singular"),
-    },
-  ];
-
-  // Получение дневников
-  const { data: journalsData } = useGetJournalsQuery({
-    params: "?page=1&limit=50",
-  });
-
-  // Трансформация данных дневников для карусели
-  const cachedJournalsDataTransformed = useMemo(() => {
-    return journalsData?.data?.map((item) => ({ ...item, description: "" }));
-  }, [journalsData]);
-
-  // Состояние выбранного журнала
-  const [selectedJournalId, setSelectedJournalId] = useState<string | null>(
-    journalsData?.data?.[0]?.id || null
+  const [currentEntity, setCurrentEntity] = useState<string>(
+    ENTITY_PLURAL.JOURNAL_ENTRY
   );
+  const { bottomSheetRef, snapToIndex, closeBottomSheet } =
+    useBottomSheetIndexState();
+
+  // Обработчики для даты
+  const handleDateClick = () => {
+    snapToIndex(0);
+  };
+
+  // ------------------------------------------------------------ //
+
+  // Получение данных журналов из выделенного хука
+  const {
+    entitiesDataTransformed: journalsDataTransformed,
+    selectedEntityId: selectedJournalId,
+    setSelectedEntityId: setSelectedJournalId,
+    entitiesCarouselConfig: journalsCarouselConfig,
+  } = useEntitiesData(ENTITY_PLURAL.JOURNAL);
+
+  // ------------------------------------------------------------ //
 
   // Конфигурация каруселей
   const carouselConfig = useCarouselConfig(25, 60);
-  // Получаем полную конфигурацию с добавлением недостающего свойства
   const entityCarouselConfig: CarouselConfig = {
     ...carouselConfig,
     parallaxAdjacentItemScale: 0.79,
   };
 
-  // Конфигурация для карусели журналов
-  const journalsConfig = useCarouselConfig(
-    25,
-    journalsData?.data?.length && journalsData?.data?.length > 1 ? 60 : 0
-  );
-  const journalsCarouselConfig: CarouselConfig = {
-    ...journalsConfig,
-    parallaxAdjacentItemScale: 0.79,
-  };
-
-  // Прокрутка при появлении клавиатуры
-  useEffect(() => {
-    if (isKeyboardVisible && scrollViewRef.current) {
-      setTimeout(() => {
-        scrollViewRef.current?.scrollToEnd({ animated: true });
-      }, 100);
-    } else {
-      setTimeout(() => {
-        scrollViewRef.current?.scrollTo({ y: 0, animated: true });
-      }, 100);
-    }
-  }, [isKeyboardVisible]);
-
   // Получаем конфигурацию формы для выбранного типа сущности
   const formConfig = useCreateFormConfig(currentEntity);
 
   // Логика создания сущности
-  const { createEntity, isLoading, isSuccess } = useCreateAnyEntities(
-    currentEntity as LibraryListVariant
+  const { createEntity, isLoading } = useCreateAnyEntities(
+    currentEntity as EntityType
   );
 
   // Инициализируем форму
@@ -134,11 +82,28 @@ export const useCreateScreenState = () => {
     formConfig,
     async (formData) => {
       try {
-        console.log("Создаем сущность:", currentEntity, formData);
         resetFilters();
-        const res = await createEntity(formData);
-        console.log({ res });
+        const item = await createEntity(formData);
+        console.log("Создаем сущность:", currentEntity, item);
         navigation.goBack();
+
+        const params = {
+          item,
+          variant: currentEntity,
+        };
+
+        const pathConfig = {
+          [ENTITY_PLURAL.CHAT]: PATHS.CHAT,
+          [ENTITY_PLURAL.JOURNAL_ENTRY]: PATHS.LIBRARY_ITEM,
+          [ENTITY_PLURAL.JOURNAL]: PATHS.LIBRARY_LIST,
+          [ENTITY_PLURAL.GOAL]: PATHS.LIBRARY_ITEM,
+          [ENTITY_PLURAL.SUMMARY]: PATHS.LIBRARY_ITEM,
+        };
+
+        setTimeout(() => {
+          navigation.navigate(pathConfig[currentEntity], params);
+          // navigation.getParent()?.navigate(pathConfig[currentEntity], params);
+        }, 300);
       } catch (error) {
         console.error("Ошибка при создании:", error);
       }
@@ -148,16 +113,63 @@ export const useCreateScreenState = () => {
     selectedJournalId
   );
 
+  const date = useMemo(
+    () => (values.created_at ? values.created_at.split("T")[0] : new Date()),
+    [values.created_at]
+  );
+
+  // Форматируем дату для отображения в заголовке
+  const formattedDate = useMemo(() => {
+    return `${getWeekDay(date, t, "long")}, ${
+      formatDate(date, locale).split(".")[0]
+    }`;
+  }, [date, t, locale]);
+
+  // Мокдата для карусели выбора типа сущности
+  const mockData = [
+    {
+      created_at: date,
+      entity_type: ENTITY_PLURAL.JOURNAL_ENTRY,
+      name: t("entities.journalentriesfull.singular"),
+    },
+    {
+      created_at: date,
+      entity_type: ENTITY_PLURAL.JOURNAL,
+      name: t("entities.journals.singular"),
+    },
+    {
+      created_at: date,
+      entity_type: ENTITY_PLURAL.CHAT,
+      name: t("entities.chats.singular"),
+    },
+    {
+      created_at: date,
+      entity_type: ENTITY_PLURAL.GOAL,
+      name: t("entities.goals.singular"),
+    },
+    {
+      created_at: date,
+      entity_type: ENTITY_PLURAL.SUMMARY,
+      name: t("entities.summaries.singular"),
+    },
+  ];
+
+  const handleDateSelected = (field: string) => (date: string | null) => {
+    if (date) {
+      handleChange(field, `${date}T00:00:00Z`);
+    } else {
+      handleChange(field, null);
+    }
+    closeBottomSheet();
+  };
+
   return {
-    t,
-    date,
     isBookmarked,
     setIsBookmarked,
     currentEntity,
     setCurrentEntity,
     mockData,
-    journalsData,
-    cachedJournalsDataTransformed,
+    journalsDataTransformed,
     selectedJournalId,
     setSelectedJournalId,
     entityCarouselConfig,
@@ -169,5 +181,9 @@ export const useCreateScreenState = () => {
     errors,
     handleChange,
     handleSubmit,
+    formattedDate,
+    handleDateClick,
+    handleDateSelected,
+    bottomSheetRef,
   };
 };

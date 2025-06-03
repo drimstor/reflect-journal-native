@@ -1,11 +1,58 @@
 import { Bubble, Time, BubbleProps } from "react-native-gifted-chat";
 import { IMessage } from "react-native-gifted-chat";
 import { useThemeStore } from "@/src/shared/store";
+import { MarkdownEmojiText, Text } from "@/src/shared/ui";
 import { createStyles } from "./RenderBubble.styles";
+import { View } from "react-native";
+import MessageLoaderBox from "../../MessageLoaderBox/MessageLoaderBox";
+import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { CommandWidgetChat } from "@/src/widgets";
 
 const RenderBubble = (props: BubbleProps<IMessage>) => {
   const { colors, theme } = useThemeStore();
   const styles = createStyles(colors, theme);
+
+  // Кастомный рендер для текста сообщения с поддержкой эмодзи
+  const renderCustomView = () => {
+    // Показываем лоадер, если сообщение пустое (временное/загружаемое)
+    if (
+      !props.currentMessage?.text ||
+      props.currentMessage.text.trim() === ""
+    ) {
+      return <MessageLoaderBox />;
+    }
+
+    // Показываем текст сообщения с поддержкой эмодзи
+    return (
+      <View style={{ padding: 8 }}>
+        <MarkdownEmojiText
+          color={
+            props.position === "right"
+              ? styles.textRight.color
+              : styles.textLeft.color
+          }
+          style={{
+            fontFamily:
+              props.position === "right"
+                ? styles.textRight.fontFamily
+                : styles.textLeft.fontFamily,
+            fontSize: 16,
+          }}
+        >
+          {props.currentMessage.text}
+        </MarkdownEmojiText>
+        {props.currentMessage.command && (
+          <CommandWidgetChat
+            currentItem={{
+              id: props.currentMessage._id,
+              command: props.currentMessage.command,
+            }}
+            sourceType={ENTITY_PLURAL.MESSAGE}
+          />
+        )}
+      </View>
+    );
+  };
 
   return (
     <Bubble
@@ -18,6 +65,8 @@ const RenderBubble = (props: BubbleProps<IMessage>) => {
         right: styles.textRight,
         left: styles.textLeft,
       }}
+      renderCustomView={renderCustomView}
+      renderMessageText={() => null}
       renderTime={(timeProps) => (
         <Time
           {...timeProps}

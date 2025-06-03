@@ -1,9 +1,9 @@
-import { FC, ReactNode, useMemo, useCallback, useState } from "react";
-import { StyleProp, ViewStyle, Animated, View } from "react-native";
+import { FC, ReactNode, useMemo } from "react";
+import { StyleProp, ViewStyle, View } from "react-native";
 import { createStyles } from "./IconButton.styles";
 import { useThemeStore } from "@/src/shared/store";
 import { Pressable } from "react-native-gesture-handler";
-import { useTimingAnimation } from "../../lib/hooks";
+import Animated from "react-native-reanimated";
 import { useAnimation } from "./lib/hooks/useAnimation";
 
 interface IconButtonProps {

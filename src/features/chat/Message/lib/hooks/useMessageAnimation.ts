@@ -1,36 +1,24 @@
-import { useTimingAnimation } from "@/src/shared/lib/hooks";
+import { useSharedValue, withTiming } from "react-native-reanimated";
 
 export const useMessageAnimation = () => {
-  const { animation: translateY, animate: animateTranslate } =
-    useTimingAnimation(undefined, {
-      initialValue: 0,
-      useNativeDriver: true,
-      duration: 300,
-    });
+  const translateY = useSharedValue(0);
+  const scale = useSharedValue(1);
 
-  const { animation: scale, animate: animateScale } = useTimingAnimation(
-    undefined,
-    {
-      initialValue: 1,
-      useNativeDriver: true,
+  const scaleAnimation = (value: number) => {
+    scale.value = withTiming(value, {
       duration: 400,
-    }
-  );
-
-  const scaleAnimation = (scale: number) => {
-    animateScale(scale);
+    });
   };
 
   const translateAnimation = (offset: number) => {
-    animateTranslate(offset);
-  };
-
-  const animatedStyle = {
-    transform: [{ scale }, { translateY }],
+    translateY.value = withTiming(offset, {
+      duration: 300,
+    });
   };
 
   return {
-    animatedStyle,
+    translateY,
+    scale,
     translateAnimation,
     scaleAnimation,
   };

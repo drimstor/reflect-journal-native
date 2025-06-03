@@ -1,8 +1,21 @@
-import { Animated, Pressable, View } from "react-native";
+import { Pressable, View, ColorValue } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  interpolateColor,
+} from "react-native-reanimated";
 import { createStyles } from "./PreviewBlock.styles";
-import { InfoBox, TitleText, Text, Chip, ProgressBar } from "@/src/shared/ui";
-import { ReactNode } from "react";
-import { useT, useTimingAnimation } from "@/src/shared/lib/hooks";
+import {
+  InfoBox,
+  TitleText,
+  Text,
+  Chip,
+  ProgressBar,
+  MarkdownEmojiText,
+} from "@/src/shared/ui";
+import { ReactNode, useEffect } from "react";
+import { useT } from "@/src/shared/lib/hooks";
 import { useThemeStore } from "@/src/shared/store";
 import { calculateProgress, stringToColor } from "@/src/shared/lib/helpers";
 import {
@@ -15,7 +28,7 @@ import {
   ChartIcon,
   LinkSolidIcon,
 } from "@/src/shared/ui/icons";
-import { LibraryListVariant } from "@/src/shared/model/types";
+import { EntityType } from "@/src/shared/model/types";
 import { ChecklistItem } from "@/src/entities/goals/model/types";
 
 interface PreviewBlockProps {
@@ -29,13 +42,14 @@ interface PreviewBlockProps {
   }[];
   backgroundColor?: string;
   backgroundColorForAnimate?: string;
-  backgroundIcon?: LibraryListVariant;
+  backgroundIcon?: EntityType;
   bookmarked?: boolean;
   onPress?: () => void;
   tags?: string[];
   checklist?: ChecklistItem[];
   disableAnimate?: boolean;
   previewMode?: boolean;
+  valueOpacity?: number | string;
 }
 
 const PreviewBlock = ({
@@ -52,28 +66,40 @@ const PreviewBlock = ({
   checklist,
   disableAnimate,
   previewMode,
+  valueOpacity = 70,
 }: PreviewBlockProps) => {
   const t = useT();
   const { colors } = useThemeStore();
   const styles = createStyles(colors);
-  const { animate, animation } = useTimingAnimation();
 
-  const animatedBackgroundColor = animation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [
-      backgroundColor || colors.light,
-      backgroundColorForAnimate || colors.alternate,
-    ],
+  const animation = useSharedValue(0);
+
+  const animate = (toValue: number) => {
+    if (!disableAnimate) {
+      animation.value = withSpring(toValue, {
+        damping: 15,
+        stiffness: 100,
+      });
+    }
+  };
+
+  const animatedStyle = useAnimatedStyle(() => {
+    const scale = 1 - animation.value * 0.03;
+
+    return {
+      backgroundColor: backgroundColorForAnimate
+        ? interpolateColor(
+            animation.value,
+            [0, 1],
+            [
+              backgroundColor || colors.light,
+              backgroundColorForAnimate || colors.alternate,
+            ]
+          )
+        : backgroundColor || colors.light,
+      transform: [{ scale }],
+    };
   });
-
-  const animatedScale = animation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [1, 0.97],
-  });
-
-  const background = backgroundColorForAnimate
-    ? animatedBackgroundColor
-    : backgroundColor;
 
   const backgroundIconConfig = {
     Journals: <BackSquareSolidIcon color={colors.contrast} size={180} />,
@@ -88,23 +114,11 @@ const PreviewBlock = ({
 
   return (
     <Pressable
-      onPressIn={() => {
-        disableAnimate ? null : animate(1);
-      }}
-      onPressOut={() => {
-        disableAnimate ? null : animate(0);
-      }}
+      onPressIn={() => animate(1)}
+      onPressOut={() => animate(0)}
       onPress={onPress}
     >
-      <Animated.View
-        style={[
-          styles.globalBox,
-          {
-            backgroundColor: background,
-            transform: [{ scale: animatedScale }],
-          },
-        ]}
-      >
+      <Animated.View style={[styles.globalBox, animatedStyle]}>
         {bookmarked && (
           <View style={styles.bookmarkedIconBox}>
             <ArchiveSolidIcon color={colors.error} size={20} />
@@ -123,15 +137,16 @@ const PreviewBlock = ({
         )}
 
         {value && (
-          <Text
-            withOpacity={title ? 70 : undefined}
+          <MarkdownEmojiText
+            withOpacity={title ? valueOpacity : undefined}
             style={styles.subTitleBox}
             color={colors.contrast}
             numberOfLines={previewMode ? 10 : undefined}
             ellipsizeMode={previewMode ? "tail" : undefined}
+            size="base"
           >
             {value}
-          </Text>
+          </MarkdownEmojiText>
         )}
 
         {!!tags?.length && (

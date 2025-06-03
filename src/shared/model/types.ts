@@ -1,4 +1,5 @@
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { PALLETE_COLORS, PATHS } from "../const";
 
 export type Theme = keyof typeof PALLETE_COLORS;
@@ -7,6 +8,7 @@ export type PaletteColor =
   (typeof PALLETE_COLORS)[keyof typeof PALLETE_COLORS][keyof typeof PALLETE_COLORS.dark];
 
 export type NavigationProps = BottomTabNavigationProp<any, typeof PATHS.HOME>;
+export type StackNavigationProps = NativeStackNavigationProp<any>;
 
 export interface IconProps {
   color?: string;
@@ -27,9 +29,10 @@ export interface PaginationResponse<T> {
 export type SortField = "name" | "created_at" | "updated_at" | "count";
 export type SortOrder = "asc" | "desc";
 
-export type LibraryListVariant =
+export type EntityType =
   | "Journals"
   | "Chats"
   | "Goals"
   | "Summaries"
-  | "JournalEntries";
+  | "JournalEntries"
+  | "Messages";

@@ -1,11 +1,7 @@
 import { Theme, ThemeColors } from "@/src/shared/model/types";
-import { Animated, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 
-export const createStyles = (
-  colors: ThemeColors,
-  theme: Theme,
-  animation: Animated.Value
-) =>
+export const createStyles = (colors: ThemeColors, theme: Theme) =>
   StyleSheet.create({
     container: {
       position: "absolute",
@@ -24,15 +20,6 @@ export const createStyles = (
       padding: 10,
       borderColor: colors.alternate,
       backgroundColor: theme === "light" ? colors.white : colors.secondary,
-      opacity: animation,
-      transform: [
-        {
-          translateY: animation.interpolate({
-            inputRange: [0, 1],
-            outputRange: [10, 0],
-          }),
-        },
-      ],
     },
     button: {
       alignItems: "center",

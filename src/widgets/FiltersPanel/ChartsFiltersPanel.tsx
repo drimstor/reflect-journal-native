@@ -46,7 +46,7 @@ const ChartsFiltersPanel = ({ style }: FiltersPanelProps) => {
       icon: <CalendarIcon color={colors.contrast} variant="outlined" />,
       isActive: updated_at_from,
       onPress: () => {
-        navigateToFlow("date", "picker");
+        navigateToFlow("date", "pickerPeriod");
 
         setFlowData({
           sort_field: "updated_at",

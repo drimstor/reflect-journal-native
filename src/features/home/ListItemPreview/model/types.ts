@@ -1,15 +1,15 @@
-import { AnimatedIconProps } from "@/src/shared/ui/iconsAnimated/types";
+import { IconProps } from "@/src/shared/model/types";
 import { ReactNode } from "react";
 
 export interface ListItemPreviewProps {
   title: string;
   subTitle: string;
-  IconComponent?: (props: AnimatedIconProps) => ReactNode;
+  IconComponent?: (props: IconProps) => ReactNode;
   customComponent?: ReactNode;
   backgroundColor?: string;
   backgroundColorForAnimate?: string;
   onPress?: () => void;
-  onDotsPress?: () => void;
+  element?: ReactNode;
 }
 
 export interface useColorsAnimateProps {

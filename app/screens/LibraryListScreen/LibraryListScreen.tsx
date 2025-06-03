@@ -61,7 +61,11 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
     setNavigation(false, PATHS.LIBRARY);
   }, [variant]);
 
-  const params = getFiltersParams({ ...filters, journal_id: item?.id });
+  const params = getFiltersParams({
+    ...filters,
+    journal_id: item?.id,
+    sort_field: "created_at",
+  });
 
   const { data, isLoading, isFetching } = useGetJournalEntriesQuery({ params });
 
@@ -88,8 +92,10 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
         backgroundColorForAnimate={colors.alternate}
         tags={journal.related_topics}
         bookmarked={journal.bookmarked}
+        title={journal.title}
         disableAnimate={selectionMode}
         previewMode
+        valueOpacity={""}
         element={
           selectionMode && (
             <View style={{ width: 26, height: 26 }}>

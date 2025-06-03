@@ -33,7 +33,7 @@ const AnimatedAppearance: React.FC<AnimatedAppearanceProps> = ({
   targetOpacity = 1,
 }) => {
   // Значение непрозрачности для анимации
-  const opacity = useSharedValue(0);
+  const opacity = useSharedValue(isVisible ? 1 : 0);
 
   // Эффект для управления переходом видимости
   useEffect(() => {

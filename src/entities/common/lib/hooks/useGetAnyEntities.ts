@@ -1,28 +1,11 @@
 import {
-  Summary,
   useGetChatsQuery,
   useGetGoalsQuery,
   useGetSummariesQuery,
   useGetJournalsQuery,
 } from "@/src/entities";
-import { Chat } from "@/src/entities/chat/model/types";
-import { Goal } from "@/src/entities/goals/model/types";
-import { Journal, JournalResponse } from "@/src/entities/journals/model/types";
-import { LibraryListVariant } from "@/src/shared/model/types";
-import { RootState } from "@/src/shared/store/store";
-import { useAppSelector } from "@/src/shared/store";
-
-type ExcludeJournalEntries = Exclude<LibraryListVariant, "JournalEntries">;
-
-type EntityType<T extends ExcludeJournalEntries> = T extends "Journals"
-  ? Journal
-  : T extends "Chats"
-  ? Chat
-  : T extends "Goals"
-  ? Goal
-  : T extends "Summaries"
-  ? Summary
-  : never;
+import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { EntityType } from "@/src/shared/model/types";
 
 interface PaginatedResponse<T> {
   data: T[];
@@ -30,8 +13,18 @@ interface PaginatedResponse<T> {
   currentPage: number;
   totalItems: number;
 }
-
-export const useGetAnyEntities = <T extends ExcludeJournalEntries>(
+/**
+ * Хук для получения списка сущностей определенного типа
+ *
+ * Позволяет получить список сущностей (журналы, чаты, цели или саммари) в зависимости от переданного типа.
+ * Использует соответствующие RTK Query хуки для каждого типа сущности.
+ *
+ * @param variant - Тип сущности (Journal, Chat, Goal, Summary)
+ * @param params - Строка с параметрами запроса
+ * @param skip - Флаг для пропуска запроса
+ * @returns Объект с данными и состоянием загрузки для выбранного типа сущности
+ */
+export const useGetAnyEntities = <T extends EntityType>(
   variant: T,
   params?: string,
   skip?: boolean
@@ -40,19 +33,28 @@ export const useGetAnyEntities = <T extends ExcludeJournalEntries>(
     data: Journals,
     isLoading: isJournalsLoading,
     isFetching: isJournalsFetching,
-  } = useGetJournalsQuery({ params }, { skip: variant !== "Journals" || skip });
+  } = useGetJournalsQuery(
+    { params },
+    { skip: variant !== ENTITY_PLURAL.JOURNAL || skip }
+  );
 
   const {
     data: Chats,
     isLoading: isChatsLoading,
     isFetching: isChatsFetching,
-  } = useGetChatsQuery({ params }, { skip: variant !== "Chats" || skip });
+  } = useGetChatsQuery(
+    { params },
+    { skip: variant !== ENTITY_PLURAL.CHAT || skip }
+  );
 
   const {
     data: Goals,
     isLoading: isGoalsLoading,
     isFetching: isGoalsFetching,
-  } = useGetGoalsQuery({ params }, { skip: variant !== "Goals" || skip });
+  } = useGetGoalsQuery(
+    { params },
+    { skip: variant !== ENTITY_PLURAL.GOAL || skip }
+  );
 
   const {
     data: Summaries,
@@ -60,7 +62,7 @@ export const useGetAnyEntities = <T extends ExcludeJournalEntries>(
     isFetching: isSummariesFetching,
   } = useGetSummariesQuery(
     { params },
-    { skip: variant !== "Summaries" || skip }
+    { skip: variant !== ENTITY_PLURAL.SUMMARY || skip }
   );
 
   const dataConfig = {
@@ -85,8 +87,10 @@ export const useGetAnyEntities = <T extends ExcludeJournalEntries>(
   };
 
   return {
-    data: dataConfig[variant] as PaginatedResponse<EntityType<T>>,
-    isLoading: loadingConfig[variant],
-    isFetching: fetchingConfig[variant],
+    data: dataConfig[
+      variant as keyof typeof dataConfig
+    ] as unknown as PaginatedResponse<EntityType>,
+    isLoading: loadingConfig[variant as keyof typeof loadingConfig],
+    isFetching: fetchingConfig[variant as keyof typeof fetchingConfig],
   };
 };

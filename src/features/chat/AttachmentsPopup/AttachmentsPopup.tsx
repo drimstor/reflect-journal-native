@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { Animated, TouchableOpacity } from "react-native";
+import { FC, useEffect } from "react";
+import { TouchableOpacity } from "react-native";
 import OutsidePressHandler from "react-native-outside-press";
 import { useThemeStore } from "@/src/shared/store";
 import {
@@ -7,7 +7,12 @@ import {
   MicrophoneIcon,
   ImageIcon,
 } from "@/src/shared/ui/icons";
-import { useSpringAnimation } from "@/src/shared/lib/hooks";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  interpolate,
+} from "react-native-reanimated";
 import { createStyles } from "./AttachmentsPopup.styles";
 
 interface AttachmentsPopupProps {
@@ -20,10 +25,27 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
   onClose,
 }) => {
   const { colors, theme } = useThemeStore();
-  const { animation } = useSpringAnimation(isVisible, {
-    useNativeDriver: true,
+
+  const animationValue = useSharedValue(0);
+
+  useEffect(() => {
+    animationValue.value = withSpring(isVisible ? 1 : 0, {
+      damping: 15,
+      stiffness: 100,
+    });
+  }, [isVisible]);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    const opacity = animationValue.value;
+    const translateY = interpolate(animationValue.value, [0, 1], [50, 0]);
+
+    return {
+      opacity,
+      transform: [{ translateY }],
+    };
   });
-  const styles = createStyles(colors, theme, animation);
+
+  const styles = createStyles(colors, theme);
   const iconColor = theme === "dark" ? colors.accent : colors.primary;
 
   const buttonsConfig = [
@@ -38,7 +60,7 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
       onOutsidePress={onClose}
       disabled={!isVisible}
     >
-      <Animated.View style={styles.popup}>
+      <Animated.View style={[styles.popup, animatedStyle]}>
         {buttonsConfig.map((button, index) => (
           <TouchableOpacity key={index} style={styles.button}>
             {button.icon}

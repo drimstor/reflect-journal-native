@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Animated, View } from "react-native";
+import { Animated } from "react-native";
 import LottieView from "lottie-react-native";
 import { LoaderProps } from "./model/types";
 

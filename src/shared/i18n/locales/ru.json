@@ -34,6 +34,10 @@
   "home": {
     "title": "Дашборд"
   },
+  "commands": {
+    "createGoal": "Создать цель",
+    "createChat": "Обсудить тему в чате"
+  },
   "library": {
     "title": "Библиотека",
     "journals": {
@@ -44,62 +48,99 @@
       "description": "Список ваших чатов"
     },
     "goals": {
-      "description": "Список ваших целей и задач"
+      "description": "Список ваших целей и задач" 
     },
     "summaries": {
       "description": "Список ваших саммари"
     }
   },
   "addEntry": {
-    "chooseType": "Выберите тип",
-    "chooseJournal": "Выберите дневник",
+    "choose": {
+      "type": "Выберите тип",
+      "journals": "Выберите дневник",
+      "chats": "Выберите чат"
+    },
     "startWriting": "Начните писать..."
   },
   "chat": {
-    "placeholder": "Введите сообщение..."
+    "placeholder": "Введите сообщение...",
+    "autoName": "Чат дневника",
+    "autoDescription": "Автоматически созданный чат, связанный с вашим дневником."
   },
   "goals": {
     "create": "Создать цель"
   },
   "libraryItem": {
     "relatedTopics": "Связанные темы",
-    "content": "Содержание",
+    "content": "Содержимое",
     "checklist": "Чек-лист",
-    "aiResponse": "Ответ AI",
+    "aiResponse": "Ответ ИИ",
     "relatedEntries": "Связанные записи"
   },
   "sort": {
     "sortBy": "Сортировать по",
     "sortByName": "Названию",
     "sortByCreated": "Дате создания",
-    "sortByUpdated": "Последнему обновлению",
+    "sortByUpdated": "Дате обновления",
     "sortByCount": "Количеству",
     "name-asc":"От А до Я",
     "name-desc": "От Я до А",
-    "created_at-asc": "От стар. к нов.",
-    "created_at-desc": "От нов. к стар.",
-    "updated_at-asc": "От стар. к нов.",
-    "updated_at-desc": "От нов. к стар.",
-    "count-asc": "От мен. к бол.",
-    "count-desc": "От бол. к мен."
+    "created_at-asc": "От старых к новым",
+    "created_at-desc": "От новых к старым",
+    "updated_at-asc": "От старых к новым",
+    "updated_at-desc": "От новых к старым",
+    "count-asc": "От малого к большому",
+    "count-desc": "От большого к малому"
   },
   "date": {
     "byCreated": "По дате создания",
     "byUpdated": "По дате обновления",
+    "untilToday": "по настоящее время",
     "picker": {
       "title": "Выберите дату",
       "placeholder": "Выберите дату"
+    },
+    "period": {
+      "title": "Выберите период",
+      "all": "За все время"
     }
   },
   "filter": {
     "filterBy": "Фильтровать по",
     "filterByChecked": "Выполненным",
-    "filterByAIResponse": "Ответы от AI",
+    "filterByAIResponse": "Ответы от ИИ",
     "filterByRelatedTopics": "Связанным темам",
     "filterByCategory": "Категориям",
     "enterTopic": "Введите тему",
     "enterCategory": "Введите категорию"
   },
+  "create": {
+    "title": "Выберите основу для саммари",
+    "topics": {
+      "title": "Темы",
+      "description": "Список упоминаемых тем"
+    },
+    "categories": {
+      "title": "Категории", 
+      "description": "Список всех категорий"
+    },
+    "allData": {
+      "title": "Все данные",
+      "description": "Вся доступная информация"
+    },
+    "customRequest": {
+      "title": "Свой запрос",
+      "description": "Любая интересующая информация"
+    },
+    "additionalInfo": {
+      "label": "Дополнительная информация",
+      "placeholder": "Введите дополнительную информацию, которую нужно учесть при генерации саммари"
+    },
+    "customAdditionalInfo": {
+      "label": "О чем создать саммари?",
+      "placeholder": "Опишите, что вас интересует и какую информацию нужно проанализировать. \n\nНапример: \n\"Создай саммари по всем записям о путешествиях\" \n\"Проанализируй мои мысли о работе и карьере\""
+    }
+  },  
   "edit": {
     "journals": {
       "title": "Редактирование дневника",
@@ -110,13 +151,21 @@
       "description": {
         "label": "Описание",
         "placeholder": "Введите описание дневника"
-      }
+      },
+      "createDescription": "Саммари будет создан на основе выбранного дневника"
     },
     "journalEntries": {
       "title": "Редактирование записи",
+      "titleField": {
+        "label": "Заголовок",
+        "placeholder": "Введите заголовок записи"
+      },
       "content": {
         "label": "Содержание",
-        "placeholder": "Введите содержание записи"
+        "placeholder": "Введите содержание"
+      },
+      "mood": {
+        "label": "Настроение"
       }
     },
     "chats": {
@@ -128,17 +177,28 @@
       "description": {
         "label": "Описание",
         "placeholder": "Введите описание чата"
-      }
+      },
+      "createDescription": "Саммари будет создан на основе выбранного чата"
     },
     "goals": {
       "title": "Редактирование цели",
       "name": {
         "label": "Название",
         "placeholder": "Введите название цели"
+      },
+      "additionalInfo": {
+        "label": "Дополнительная информация",
+        "placeholder": "Введите дополнительную информацию, которую нужно учесть при генерации списка задач"
+      },
+      "generateNewTasks": "Сгенерировать новый список задач",
+      "tasks": {
+        "label": "Список задач",
+        "empty": "Задачи еще не добавлены"
       }
     },
     "summaries": {
       "title": "Редактирование саммари",
+      "create": "Создать саммари",
       "name": {
         "label": "Название",
         "placeholder": "Введите название саммари"
@@ -153,10 +213,18 @@
         "label": "Добавить в избранное"
       },
       "aiResponse": {
-        "label": "Ответы от AI"
+        "label": "Ответ ИИ"
       },
       "tags": {
-        "helperText": "Введите теги через запятую"
+        "helperText": "Вводите темы через запятую"
+      },
+      "mood": {
+        "label": "Настроение",
+        "poor": "Плохо",
+        "fair": "Так себе", 
+        "neutral": "Норм",
+        "good": "Хорошо",
+        "excellent": "Супер"
       }
     }
   },
@@ -227,7 +295,7 @@
     "journalentriesfull": {
       "singular": "Запись в дневнике",
       "plural": "Записи в дневнике"
-    }
+    }  
   },
   "shared": {
     "actions": {

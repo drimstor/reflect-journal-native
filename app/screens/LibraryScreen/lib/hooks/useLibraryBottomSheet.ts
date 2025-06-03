@@ -1,12 +1,12 @@
 import { useMemo, useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { useBottomSheetIndexState } from "@/src/shared/lib/hooks";
 import { useBottomSheetNavigation } from "@/src/shared/ui/BottomSheetContent";
 import { useDeviceStore } from "@/src/shared/store";
 
 export const useLibraryBottomSheet = () => {
   const { window } = useDeviceStore();
-  const navigation = useNavigation();
+  const isFocused = useIsFocused();
   const { bottomSheetRef, bottomSheetIndex, snapToIndex } =
     useBottomSheetIndexState();
 
@@ -22,14 +22,12 @@ export const useLibraryBottomSheet = () => {
 
   // Устанавливаем обработчик фокуса для сброса позиции BottomSheet
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
+    if (isFocused && bottomSheetIndex !== 2) {
       setTimeout(() => {
         snapToIndex(0);
       }, 260);
-    });
-
-    return unsubscribe;
-  }, [navigation, snapToIndex]);
+    }
+  }, [isFocused]);
 
   return {
     bottomSheetRef,

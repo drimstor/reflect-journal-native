@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useAnimate } from "@/src/shared/lib/hooks";
-import { IMessage } from "react-native-gifted-chat";
+import { MessageGiftedChat } from "@/src/entities/chat/model/types";
 
 interface UseDateChipReturn {
   currentDate: Date;
@@ -8,7 +8,9 @@ interface UseDateChipReturn {
   handleScroll: (event: any) => void;
 }
 
-export const useDateChip = (messages: IMessage[]): UseDateChipReturn => {
+export const useDateChip = (
+  messages: MessageGiftedChat[]
+): UseDateChipReturn => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const { animation: chipAnimation, animate: animateChip } = useAnimate();
 

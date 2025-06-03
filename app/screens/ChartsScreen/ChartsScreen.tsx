@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   BottomSheet,
   Divider,
@@ -8,6 +8,7 @@ import {
   FullScreenChartLegend,
   Loader,
   AnimatedAppearance,
+  NoData,
 } from "@/src/shared/ui";
 import { ChartsFiltersPanel, Header } from "@/src/widgets";
 import { useT } from "@/src/shared/lib/hooks";
@@ -19,11 +20,15 @@ import { ChartsContainer } from "./ui/ChartsContainer/ChartsContainer";
 import { useChartData } from "./lib/hooks/useChartData";
 import { useChartBottomSheet } from "./lib/hooks/useChartBottomSheet";
 import { useChartManagement } from "./lib/hooks/useChartManagement";
+import { PATHS } from "@/src/shared/const/PATHS";
+import { useNavigation } from "@react-navigation/native";
+import { NavigationProps } from "@/src/shared/model/types";
 
 const ChartsScreen = () => {
   const t = useT();
   const { setScreenInfo } = useScreenInfoStore();
   const { window } = useDeviceStore();
+  const navigation = useNavigation<NavigationProps>();
 
   // Инициализация информации о экране
   useEffect(() => {
@@ -42,7 +47,7 @@ const ChartsScreen = () => {
     handleScroll,
     handleItemPress,
     handlePressBack,
-    animation,
+    animationValue,
   } = useChartManagement();
   const { snapPoints, openChartTypesList, colors } = useChartBottomSheet();
 
@@ -62,7 +67,6 @@ const ChartsScreen = () => {
           onPress: () => {},
         }}
       />
-
       <BottomSheet
         snapPoints={snapPoints}
         backgroundColor={colors.secondary}
@@ -82,8 +86,14 @@ const ChartsScreen = () => {
       >
         {isLoading ? (
           <Loader style={{ marginTop: 50 }} size={window.width - 100} />
+        ) : !currentChartData?.length ? (
+          <NoData
+            style={{ marginTop: 70 }}
+            type="noData"
+            onPress={() => navigation.navigate(PATHS.ADD_ENTRY)}
+          />
         ) : (
-          <AnimatedAppearance isVisible={!isLoading && !!chartsData}>
+          <AnimatedAppearance isVisible>
             <ScrollView
               ref={scrollViewRef}
               style={{
@@ -102,7 +112,6 @@ const ChartsScreen = () => {
                 onChangeChartType={openChartTypesList}
                 onPressBack={handlePressBack}
               />
-
               {/* Контейнер с диаграммами */}
               <ChartsContainer
                 mainChartData={
@@ -114,9 +123,8 @@ const ChartsScreen = () => {
                 onMainChartPress={handlePressBack}
                 mainChartRef={mainChartRef}
                 subChartRef={subChartRef}
-                animation={animation}
+                animation={animationValue}
               />
-
               {/* Легенда диаграммы */}
               <PaddingLayout style={{ paddingBottom: 100, paddingTop: 30 }}>
                 {currentChartData && (

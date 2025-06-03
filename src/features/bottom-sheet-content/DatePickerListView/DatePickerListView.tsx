@@ -71,7 +71,7 @@ const DatePickerListView = () => {
           items={actions.map(({ text, IconComponent, onPress, key }) => ({
             text,
             onPress: () => {
-              navigateToFlow("date", "picker");
+              navigateToFlow("date", "pickerPeriod");
               onPress();
             },
             IconComponent: (props) => (

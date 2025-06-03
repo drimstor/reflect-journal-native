@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -6,9 +6,9 @@ import {
 } from "react-native";
 import { CHARTS } from "../../const/static";
 import { FullScreenChartHandle } from "@/src/shared/ui/Charts/FullScreenChart";
-import { useSpringAnimation } from "@/src/shared/lib/hooks";
 import { ChartItem } from "../../model/types";
 import { useBottomSheetStore } from "@/src/shared/store";
+import { useSharedValue, withSpring } from "react-native-reanimated";
 
 export const useChartManagement = () => {
   const { flowData, setFlowData } = useBottomSheetStore();
@@ -22,23 +22,15 @@ export const useChartManagement = () => {
   const subChartRef = useRef<FullScreenChartHandle>(null);
   const scrollViewRef = useRef<ScrollView>(null);
 
-  // Анимация переключения между чартами
-  const { animation, animate } = useSpringAnimation();
+  // Анимация с использованием Reanimated
+  const animationValue = useSharedValue(0);
 
-  const scaleLess = animation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [1, 0.3],
-  });
-
-  const scaleMore = animation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0.25, 1],
-  });
-
-  const opacityMore = animation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 1],
-  });
+  const animate = (toValue: number) => {
+    animationValue.value = withSpring(toValue, {
+      damping: 15,
+      stiffness: 100,
+    });
+  };
 
   // Применяем выбранный тип диаграммы из flowData
   useEffect(() => {
@@ -122,7 +114,7 @@ export const useChartManagement = () => {
         handleSetSubChartFocus(0);
       }, CHARTS.BACK_ANIMATION_DELAY);
     }
-  }, [subChart, mainChart, animate, handleSetSubChartFocus]);
+  }, [subChart, mainChart, handleSetSubChartFocus]);
 
   // Изменение типа диаграммы и сохранение в flowData
   const setChartType = useCallback(
@@ -143,10 +135,6 @@ export const useChartManagement = () => {
     handleItemPress,
     handlePressBack,
     setChartType,
-    animation: {
-      scaleLess,
-      scaleMore,
-      opacityMore,
-    },
+    animationValue,
   };
 };

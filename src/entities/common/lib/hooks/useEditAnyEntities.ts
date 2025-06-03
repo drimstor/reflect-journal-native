@@ -1,4 +1,4 @@
-import { LibraryListVariant } from "@/src/shared/model/types";
+import { EntityType } from "@/src/shared/model/types";
 import { useCallback } from "react";
 
 interface EditHookResult {
@@ -8,7 +8,7 @@ interface EditHookResult {
 }
 
 const useDynamicEditHook = (
-  variant: LibraryListVariant,
+  variant: EntityType,
   entityId?: string
 ): EditHookResult => {
   // Ленивый импорт соответствующего хука
@@ -69,7 +69,7 @@ const useDynamicEditHook = (
  * - Goals: name?, bookmarked?, related_topics?
  * - Summaries: name?, related_topics?, bookmarked?
  */
-export const useEditAnyEntities = <T extends LibraryListVariant>(
+export const useEditAnyEntities = <T extends EntityType>(
   variant: T,
   entityId?: string
 ): EditHookResult => {

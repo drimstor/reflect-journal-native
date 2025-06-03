@@ -13,7 +13,7 @@ import { View } from "react-native";
 import { PreviewBlock } from "@/src/features";
 import { stringToColor } from "@/src/shared/lib/helpers";
 import { SectionHeader } from "@/src/shared/ui/VirtualizedList/VirtualizedList";
-import { LibraryListVariant, NavigationProps } from "@/src/shared/model/types";
+import { EntityType, NavigationProps } from "@/src/shared/model/types";
 import { useNavigation } from "@react-navigation/native";
 import { PATHS } from "@/src/shared/const";
 
@@ -27,7 +27,7 @@ const OverviewScreen = () => {
     useBottomSheetIndexState();
 
   const snapPoints = useMemo(() => {
-    return [window.height - 413, window.height - 85];
+    return [window.height - 417, window.height - 85];
   }, [window.height]);
 
   // Конфиг для блоков аналитики
@@ -60,11 +60,11 @@ const OverviewScreen = () => {
 
   const navigation = useNavigation<NavigationProps>();
 
-  navigation.addListener("focus", () => {
-    setTimeout(() => {
-      snapToIndex(0);
-    }, 260);
-  });
+  // navigation.addListener("focus", () => {
+  //   setTimeout(() => {
+  //     snapToIndex(0);
+  //   }, 260);
+  // });
 
   // --------------------- //
 
@@ -86,7 +86,7 @@ const OverviewScreen = () => {
     <Layout>
       <Header title={t("overview.title")} />
 
-      <View style={{ marginTop: 10 }}>
+      <View style={{ marginTop: 14 }}>
         <OverviewChartSlider />
       </View>
 
@@ -114,7 +114,7 @@ const OverviewScreen = () => {
               backgroundColor={index === 2 ? colors.alternate : colors.light}
               disableAnimate={index === 2}
               backgroundColorForAnimate={colors.alternate}
-              backgroundIcon={block.backgroundIcon as LibraryListVariant}
+              backgroundIcon={block.backgroundIcon as EntityType}
               onPress={() => onOpenListItem(block.path)}
               element={<Chip color={block.chipColor} title={block.chipTitle} />}
               infoBoxes={[

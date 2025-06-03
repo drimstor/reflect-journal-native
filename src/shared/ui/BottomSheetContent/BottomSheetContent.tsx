@@ -1,4 +1,4 @@
-import { BottomSheet, Text } from "@/src/shared/ui";
+import { AnimatedAppearance, BottomSheet, Text } from "@/src/shared/ui";
 import { useThemeStore } from "@/src/shared/store";
 import { useBottomSheetStore } from "@/src/shared/store/zustand/bottomSheet.store";
 import { useKeyboard } from "@/src/shared/lib/hooks";
@@ -22,7 +22,7 @@ const BottomSheetContent = () => {
   } = useBottomSheetStore();
 
   const getSnapPoints = useCallback(() => {
-    const baseHeight = bottomSheetHeight ? bottomSheetHeight : 1;
+    const baseHeight = bottomSheetHeight ? bottomSheetHeight : 0.01;
     return [baseHeight + (isKeyboardVisible ? keyboardHeight - 45 : 0)];
   }, [keyboardHeight, isKeyboardVisible, bottomSheetHeight]);
 
@@ -31,6 +31,8 @@ const BottomSheetContent = () => {
     currentFlow && currentScreen
       ? FLOWS[currentFlow]?.screens[currentScreen]
       : null;
+
+  if (!ActiveScreen) return null;
 
   return (
     <BottomSheet
@@ -47,7 +49,7 @@ const BottomSheetContent = () => {
       paddingHorizontal={0}
       onClose={handleClose}
     >
-      {ActiveScreen ? (
+      {ActiveScreen && (
         <Suspense
           fallback={
             <View
@@ -55,18 +57,15 @@ const BottomSheetContent = () => {
                 flex: 1,
                 justifyContent: "center",
                 alignItems: "center",
+                marginTop: 10,
               }}
             >
-              <SmallLoader />
+              <SmallLoader color={colors.accent} />
             </View>
           }
         >
           <ActiveScreen />
         </Suspense>
-      ) : (
-        <View style={{ padding: 16, alignItems: "center" }}>
-          <Text color={colors.contrast}>Ошибка. Попробуйте снова</Text>
-        </View>
       )}
     </BottomSheet>
   );

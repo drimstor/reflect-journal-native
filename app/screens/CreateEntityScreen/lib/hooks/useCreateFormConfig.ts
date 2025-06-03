@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useT } from "@/src/shared/lib/hooks/useLang";
-import { FormField } from "@/src/entities";
+import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { FormField } from "@/src/widgets";
 
 /**
  * Конфигурация формы создания
@@ -33,7 +34,7 @@ export const useCreateFormConfig = (entityType: string) => {
 
     // Конфигурация полей в зависимости от типа сущности
     switch (entityType) {
-      case "Journals":
+      case ENTITY_PLURAL.JOURNAL:
         title = t("entities.journals.singular");
         fields = [
           {
@@ -63,9 +64,22 @@ export const useCreateFormConfig = (entityType: string) => {
         ];
         break;
 
-      case "JournalEntries":
+      case ENTITY_PLURAL.JOURNAL_ENTRY:
         title = t("entities.journalentriesfull.singular");
         fields = [
+          {
+            key: "mood",
+            type: "mood",
+            label: t("edit.common.mood.label"),
+            required: false,
+          },
+          {
+            key: "title",
+            type: "text",
+            label: t("edit.journalEntries.titleField.label"),
+            placeholder: t("edit.journalEntries.titleField.placeholder"),
+            required: false,
+          },
           {
             key: "content",
             type: "textarea",
@@ -76,7 +90,7 @@ export const useCreateFormConfig = (entityType: string) => {
           },
         ];
         break;
-      case "Chats":
+      case ENTITY_PLURAL.CHAT:
         title = t("entities.chats.singular");
         fields = [
           {
@@ -91,44 +105,6 @@ export const useCreateFormConfig = (entityType: string) => {
             type: "textarea",
             label: t("edit.chats.description.label"),
             placeholder: t("edit.chats.description.placeholder"),
-          },
-          {
-            key: "related_topics",
-            type: "tags",
-            label: t("edit.common.relatedTopics.label"),
-            placeholder: t("edit.common.relatedTopics.placeholder"),
-          },
-        ];
-        break;
-
-      case "Goals":
-        title = t("entities.goals.singular");
-        fields = [
-          {
-            key: "name",
-            type: "text",
-            label: t("edit.goals.name.label"),
-            placeholder: t("edit.goals.name.placeholder"),
-            required: true,
-          },
-          {
-            key: "related_topics",
-            type: "tags",
-            label: t("edit.common.relatedTopics.label"),
-            placeholder: t("edit.common.relatedTopics.placeholder"),
-          },
-        ];
-        break;
-
-      case "Summaries":
-        title = t("entities.summaries.singular");
-        fields = [
-          {
-            key: "name",
-            type: "text",
-            label: t("edit.summaries.name.label"),
-            placeholder: t("edit.summaries.name.placeholder"),
-            required: true,
           },
           {
             key: "related_topics",
@@ -159,6 +135,9 @@ export const useCreateFormConfig = (entityType: string) => {
         case "tags":
         case "entities":
           initialValues[field.key] = [];
+          break;
+        case "mood":
+          initialValues[field.key] = "neutral";
           break;
       }
     });

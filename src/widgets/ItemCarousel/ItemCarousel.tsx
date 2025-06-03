@@ -12,24 +12,18 @@ type CarouselItemType = {
 };
 
 interface ItemCarouselProps {
-  // Заголовок карусели
-  title: string;
-  // Данные для карусели
-  data: Array<CarouselItemType> | undefined;
-  // Обработчик выбора элемента
-  onSelectItem: (index: number) => void;
-  // Конфигурация режима карусели
+  title: string; // Заголовок карусели
+  data: Array<CarouselItemType> | undefined; // Данные для карусели
+  onSelectItem?: (index: number) => void; // Обработчик выбора элемента
   modeConfig: {
     parallaxScrollingScale: number;
     parallaxScrollingOffset: number;
     parallaxAdjacentItemScale: number;
-  };
-  // Цвета темы
-  colors: ThemeColors;
-  // Опциональный стиль для контейнера
-  style?: any;
-  // Флаг для отображения иконки создания
-  willCreate?: boolean;
+  }; // Конфигурация режима карусели
+  colors: ThemeColors; // Цвета темы
+  style?: any; // Опциональный стиль для контейнера
+  willCreate?: boolean; // Флаг для отображения иконки создания
+  onPress?: (item: CarouselItemType) => void; // Обработчик нажатия на элемент
 }
 
 export const ItemCarousel = ({
@@ -40,13 +34,12 @@ export const ItemCarousel = ({
   colors,
   style,
   willCreate = false,
+  onPress,
 }: ItemCarouselProps) => {
   const styles = itemCarouselStyles(colors);
 
   // Проверяем наличие данных
-  if (!data || data.length === 0) {
-    return null;
-  }
+  if (!data || !data.length) return null;
 
   return (
     <View style={[styles.carouselContainer, style]}>
@@ -66,7 +59,7 @@ export const ItemCarousel = ({
         handler={onSelectItem}
         modeConfig={modeConfig}
         renderItem={TypedPreviewBlock({
-          onPress: () => {},
+          onPress,
           disableAnimate: true,
           previewMode: true,
           willCreate,

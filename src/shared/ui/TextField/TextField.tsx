@@ -56,8 +56,6 @@ const TextField: FC<TextFieldProps> = ({
             secureTextEntry && { paddingRight: 50 },
             // Явно указываем цвет текста для Android
             { color: textColor ?? colors.contrast },
-            multiline && styles.multiline,
-            superMultiline && styles.superMultiline,
           ]}
           maxLength={phone ? 10 : undefined}
           value={phone ? value.replace(/[^0-9]/g, "") : value}

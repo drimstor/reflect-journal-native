@@ -24,5 +24,8 @@ export const headerStyles = (colors: ThemeColors) => {
       maxWidth: 58,
       overflow: "hidden",
     },
+    arrowBox: {
+      transform: [{ rotate: "-90deg" }, { translateY: 3 }],
+    },
   });
 };

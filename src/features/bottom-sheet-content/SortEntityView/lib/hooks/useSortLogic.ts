@@ -36,8 +36,20 @@ export const useSortLogic = (): UseSortLogicResult => {
   const { screenInfo } = useScreenInfoStore();
   const screenName = screenInfo?.name;
 
-  const INITIAL_SORT_FIELD = screenName === "Charts" ? "count" : "updated_at";
   const INITIAL_SORT_ORDER = "desc";
+
+  const getInitialSortField = () => {
+    switch (screenName) {
+      case "Charts":
+        return "count";
+      case "JournalEntries":
+        return "created_at";
+      default:
+        return "updated_at";
+    }
+  };
+
+  const INITIAL_SORT_FIELD = getInitialSortField();
 
   // Состояние для активной сортировки и направления
   const [activeSort, setActiveSort] = useState<SortField>(INITIAL_SORT_FIELD);

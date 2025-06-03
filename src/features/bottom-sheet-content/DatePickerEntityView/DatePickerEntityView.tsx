@@ -20,11 +20,35 @@ import { initCalendarLocales } from "./const/static";
 import { formatFromISODate } from "./lib/utils";
 import { useCalendarLocalization, useDateSelection } from "./lib/hooks";
 import { FONTS } from "@/src/shared/const";
+import { MarkedDates, MarkingTypes } from "react-native-calendars/src/types";
 
 // Инициализация локализации календаря
 initCalendarLocales();
 
-const DatePickerEntityView = () => {
+interface DatePickerEntityViewProps {
+  mode?: "single" | "period";
+  showHeader?: boolean;
+  showResetButton?: boolean;
+  onDateSelected?: (dates: {
+    startDate: string | null;
+    endDate: string | null;
+  }) => void;
+  initialStartDate?: string;
+  initialEndDate?: string;
+  dateVariant?: "created_at" | "updated_at";
+  isWithoutHeaderControls?: boolean;
+}
+
+const DatePickerEntityView: React.FC<DatePickerEntityViewProps> = ({
+  mode = "period",
+  showHeader = true,
+  showResetButton = true,
+  onDateSelected,
+  initialStartDate,
+  initialEndDate,
+  dateVariant = "created_at",
+  isWithoutHeaderControls = false,
+}) => {
   const t = useT();
   const { colors, theme } = useThemeStore();
   const { navigateToFlow, flowData, setBottomSheetVisible } =
@@ -32,9 +56,20 @@ const DatePickerEntityView = () => {
   const styles = createStyles(colors);
   const { locale } = useLang();
   useCalendarLocalization(locale);
-  const dateVariant: "created_at" | "updated_at" = flowData.sort_field;
 
-  const isWithoutHeaderControls = flowData.isWithoutHeaderControls;
+  if (flowData.sort_field) dateVariant = flowData.sort_field;
+
+  const {
+    onDateSelected: onDateSelectedFromFlow,
+    title,
+    onBack,
+    startDate: startDateFromFlow,
+    endDate: endDateFromFlow,
+  } = flowData.datePickerProps || {};
+
+  if (onDateSelectedFromFlow) onDateSelected = onDateSelectedFromFlow;
+  if (startDateFromFlow) initialStartDate = startDateFromFlow;
+  if (endDateFromFlow) initialEndDate = endDateFromFlow;
 
   const {
     created_at_from,
@@ -45,74 +80,161 @@ const DatePickerEntityView = () => {
     setUpdatedAtRange,
   } = useFiltersStore();
 
-  // Определяем начальные значения в зависимости от типа даты
-  const initialStartDate =
-    dateVariant === "created_at"
-      ? formatFromISODate(created_at_from)
-      : formatFromISODate(updated_at_from);
+  // Определяем начальные значения
+  const defaultStartDate =
+    initialStartDate ||
+    (dateVariant === "created_at" ? created_at_from : updated_at_from);
 
-  const initialEndDate =
-    dateVariant === "created_at"
-      ? formatFromISODate(created_at_to)
-      : formatFromISODate(updated_at_to);
+  const defaultEndDate =
+    initialEndDate ||
+    (dateVariant === "created_at" ? created_at_to : updated_at_to);
 
-  // Используем хук для управления выбором дат
-  const { startDate, endDate, markedDates, handleDayPress, handleReset } =
-    useDateSelection(
-      initialStartDate,
-      initialEndDate,
-      colors.primary,
-      colors.white,
-      colors.contrast
-    );
+  const [selectedDate, setSelectedDate] = React.useState<string | null>(
+    mode === "single"
+      ? defaultStartDate
+        ? defaultStartDate.split("T")[0]
+        : new Date().toISOString().split("T")[0]
+      : null
+  );
+
+  // Используем хук для управления выбором дат в режиме period
+  const {
+    startDate,
+    endDate,
+    markedDates: periodMarkedDates,
+    handleDayPress: handlePeriodDayPress,
+    handleReset,
+  } = useDateSelection(
+    defaultStartDate ? defaultStartDate.split("T")[0] : null,
+    defaultEndDate ? defaultEndDate.split("T")[0] : null,
+    colors.primary,
+    colors.white,
+    colors.contrast
+  );
+
+  // Формируем объект с отмеченной датой для режима single
+  const singleMarkedDates: MarkedDates = selectedDate
+    ? {
+        [selectedDate]: {
+          selected: true,
+          selectedColor: colors.primary,
+        },
+      }
+    : {};
+
+  // Обработчик выбора даты в режиме single
+  const handleSingleDayPress = (day: { dateString: string }) => {
+    setSelectedDate(day.dateString);
+  };
 
   // Обработчик применения выбранных дат
   const handleApply = () => {
-    // Форматируем даты в ISO формат
-    const startISODate = startDate ? `${startDate}T00:00:00Z` : undefined;
-    const endISODate = endDate ? `${endDate}T23:59:59Z` : undefined;
-
-    // Обновляем значения в сторе в зависимости от типа даты
-    if (dateVariant === "created_at") {
-      setCreatedAtRange(startISODate, endISODate);
+    if (mode === "single") {
+      if (onDateSelected) {
+        onDateSelected({ startDate: selectedDate, endDate: null });
+      }
     } else {
-      setUpdatedAtRange(startISODate, endISODate);
+      // Форматируем даты в ISO формат для режима period
+      const startISODate = startDate ? `${startDate}T00:00:00Z` : undefined;
+      const endISODate = endDate ? `${endDate}T23:59:59Z` : undefined;
+
+      // Обновляем значения в сторе в зависимости от типа даты (если используем внутренний стор)
+      if (!onDateSelected) {
+        if (dateVariant === "created_at") {
+          setCreatedAtRange(startISODate, endISODate);
+        } else {
+          setUpdatedAtRange(startISODate, endISODate);
+        }
+
+        setBottomSheetVisible(false);
+      } else {
+        // Используем коллбэк для внешнего управления
+        console.log("1", {
+          startDate,
+          endDate,
+        });
+        onDateSelected({
+          startDate: startDate,
+          endDate: endDate,
+        });
+      }
     }
 
-    // Возвращаемся к предыдущему экрану
+    // Если нет внешнего обработчика, закрываем bottom sheet
+    if (!onDateSelected) {
+      setBottomSheetVisible(false);
+    }
+  };
+
+  const handleBackAction = () => {
+    if (onBack) {
+      onBack();
+    } else {
+      navigateToFlow("date", "list");
+    }
+  };
+
+  const handleCloseAction = () => {
     setBottomSheetVisible(false);
   };
 
-  const handleBack = () => {
-    navigateToFlow("date", "list");
+  // Используем правильные значения и обработчики в зависимости от режима
+  const currentMarkedDates =
+    mode === "single" ? singleMarkedDates : periodMarkedDates;
+  const handleDayPress =
+    mode === "single" ? handleSingleDayPress : handlePeriodDayPress;
+  const markingType = mode === "single" ? "dot" : "period";
+
+  // Формируем текст для отображения выбранных дат
+  const dateDisplayText = () => {
+    if (mode === "single") {
+      return selectedDate
+        ? formatFromISODate(selectedDate)
+        : t("date.picker.placeholder");
+    } else {
+      return `${
+        startDate ? formatFromISODate(startDate) : t("date.picker.placeholder")
+      }${
+        endDate
+          ? ` - ${formatFromISODate(endDate)}`
+          : startDate
+          ? ` - ${t("date.untilToday")}`
+          : ""
+      }`;
+    }
   };
+
+  // Определяем, активна ли кнопка сброса
+  const isResetEnabled = mode === "single" ? !!selectedDate : !!startDate;
 
   return (
     <BottomSheetBox>
-      <BottomSheetHeader
-        title={
-          dateVariant === "created_at"
-            ? t("date.byCreated")
-            : t("date.byUpdated")
-        }
-        onClose={isWithoutHeaderControls ? undefined : handleBack}
-        onBack={isWithoutHeaderControls ? undefined : handleBack}
-      />
-      <PaddingLayout>
+      {showHeader && (
+        <BottomSheetHeader
+          title={
+            title ||
+            (dateVariant === "created_at"
+              ? t("date.byCreated")
+              : t("date.byUpdated"))
+          }
+          onClose={isWithoutHeaderControls ? undefined : handleCloseAction}
+          onBack={isWithoutHeaderControls ? undefined : handleBackAction}
+        />
+      )}
+
+      <PaddingLayout style={!showHeader ? { paddingTop: 14 } : undefined}>
         <View style={styles.dateRangeContainer}>
           <Text style={[styles.dateRangeText, { color: colors.contrast }]}>
-            {startDate
-              ? formatFromISODate(startDate)
-              : t("date.picker.placeholder")}
-            {endDate ? ` - ${formatFromISODate(endDate)}` : ""}
+            {dateDisplayText()}
           </Text>
         </View>
 
         <View style={{ minHeight: 365 }}>
           <Calendar
             onDayPress={handleDayPress}
-            markingType={"period"}
-            markedDates={markedDates}
+            markingType={markingType}
+            markedDates={currentMarkedDates}
+            monthFormat="MMMM yyyy"
             theme={{
               calendarBackground: "transparent",
               todayTextColor: colors.accent,
@@ -122,7 +244,6 @@ const DatePickerEntityView = () => {
               textDisabledColor:
                 theme === "light" ? colors.primary + 50 : colors.white + 50,
               textSectionTitleColor: colors.contrast,
-
               textDayFontFamily: FONTS.regular,
               textMonthFontFamily: FONTS.regular,
               textDayHeaderFontFamily: FONTS.regular,
@@ -130,14 +251,19 @@ const DatePickerEntityView = () => {
           />
         </View>
       </PaddingLayout>
+
       <BottomSheetFooter>
-        <Button
-          backgroundColor={colors.alternate}
-          onPress={handleReset}
-          disabled={!startDate}
-        >
-          {t("shared.actions.reset")}
-        </Button>
+        {showResetButton && (
+          <Button
+            backgroundColor={colors.alternate}
+            onPress={
+              mode === "single" ? () => setSelectedDate(null) : handleReset
+            }
+            disabled={!isResetEnabled}
+          >
+            {t("shared.actions.reset")}
+          </Button>
+        )}
         <Button
           backgroundColor={theme === "dark" ? colors.accent : colors.primary}
           onPress={handleApply}

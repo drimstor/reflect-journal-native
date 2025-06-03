@@ -11,6 +11,8 @@ import ChatBackground from "./chat/ChatBackground/ChatBackground";
 import TypedPreviewBlock from "./common/TypedPreviewBlock/TypedPreviewBlock";
 import FiltersSearch from "./common/FiltersSearch/FiltersSearch";
 import ProfileMenu from "./settings/ProfileMenu/ProfileMenu";
+import { CheckListEditor } from "./goal/CheckListEditor/CheckListEditor";
+
 export {
   PreviewBlock,
   ShortPreviewBlock,
@@ -25,4 +27,5 @@ export {
   TypedPreviewBlock,
   FiltersSearch,
   ProfileMenu,
+  CheckListEditor,
 };

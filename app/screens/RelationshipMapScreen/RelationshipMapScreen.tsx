@@ -1,6 +1,15 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { BottomSheet, Chip, Divider, Layout, Loader } from "@/src/shared/ui";
-import { FiltersPanel, Header } from "@/src/widgets";
+import {
+  AnimatedAppearance,
+  BottomSheet,
+  Chip,
+  Divider,
+  DotsIcon,
+  Layout,
+  Loader,
+  NoData,
+} from "@/src/shared/ui";
+import { ChartsFiltersPanel, Header } from "@/src/widgets";
 import { useT } from "@/src/shared/lib/hooks";
 import { useThemeStore, useDeviceStore } from "@/src/shared/store";
 import { Pressable, ScrollView, View } from "react-native";
@@ -9,6 +18,9 @@ import { styles } from "./RelationshipMapScreen.styles";
 import { useGetPortraitGraphQuery } from "@/src/entities/portrait/api/portraitApi";
 import { stringToColor } from "@/src/shared/lib/helpers";
 import { getContrastColor } from "@/src/shared/lib/helpers/getContrastColor";
+import { NavigationProps } from "@/src/shared/model/types";
+import { useNavigation } from "@react-navigation/native";
+import { PATHS } from "@/src/shared/const/PATHS";
 
 const RelationshipMapScreen = () => {
   const t = useT();
@@ -16,10 +28,11 @@ const RelationshipMapScreen = () => {
   const { window } = useDeviceStore();
   const visNetworkRef = useRef<VisNetworkRef>(null);
   const [graphLoading, setGraphLoading] = useState<boolean>(true);
+  const navigation = useNavigation<NavigationProps>();
 
   // Запрос данных графа портрета
   const { data: graphData, isLoading } = useGetPortraitGraphQuery({
-    limit: 23,
+    limit: 100,
   });
 
   // Подсчёт уникальных типов узлов и их количества
@@ -188,8 +201,12 @@ const RelationshipMapScreen = () => {
     <Layout>
       <Header
         title={t("overview.analytics.relationshipMap.title")}
-        subtitle="01/02/2025"
+        subtitle={new Date().toLocaleDateString()}
         backButton
+        rightIcon={{
+          icon: <DotsIcon color={colors.contrast} />,
+          onPress: () => {},
+        }}
       />
 
       <BottomSheet
@@ -202,7 +219,7 @@ const RelationshipMapScreen = () => {
         staticMode
         pinnedElement={
           <View style={styles.filtersPanel}>
-            <FiltersPanel />
+            <ChartsFiltersPanel />
             <Divider style={{ marginBottom: 0 }} color={colors.alternate} />
           </View>
         }
@@ -210,14 +227,27 @@ const RelationshipMapScreen = () => {
         <View
           style={{
             width: "100%",
-            height: window.height - 260,
+            height: window.height - 230,
             overflow: "hidden",
           }}
         >
-          {isLoading ? (
-            <Loader style={{ marginTop: 50 }} size={window.width - 100} />
+          {/* {isLoading ? (
+          <Loader style={{ marginTop: 50 }} size={window.width - 100} /> */}
+          {!isLoading && !graphData?.nodes?.length ? (
+            <NoData
+              style={{ marginTop: 70 }}
+              type="noData"
+              onPress={() => navigation.navigate(PATHS.ADD_ENTRY)}
+            />
           ) : (
-            <>
+            <AnimatedAppearance
+              isVisible={!graphLoading}
+              style={{
+                width: "100%",
+                height: window.height - 230,
+                overflow: "hidden",
+              }}
+            >
               <VisNetwork
                 data={graph}
                 options={options}
@@ -254,7 +284,7 @@ const RelationshipMapScreen = () => {
                   ))}
                 </ScrollView>
               </View>
-            </>
+            </AnimatedAppearance>
           )}
         </View>
       </BottomSheet>

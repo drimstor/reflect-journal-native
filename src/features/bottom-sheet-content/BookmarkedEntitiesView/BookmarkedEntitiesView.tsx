@@ -15,7 +15,7 @@ import {
 import { useT } from "@/src/shared/lib/hooks";
 import { useEditAnyEntities } from "@/src/entities/common/lib/hooks/useEditAnyEntities";
 import { useEffect, useState, useCallback } from "react";
-import { LibraryListVariant } from "@/src/shared/model/types";
+import { EntityType } from "@/src/shared/model/types";
 
 const BookmarkedEntitiesView = () => {
   const t = useT();
@@ -25,7 +25,7 @@ const BookmarkedEntitiesView = () => {
     useFiltersStore();
 
   const { screenInfo } = useScreenInfoStore();
-  const variant = screenInfo?.name as LibraryListVariant;
+  const variant = screenInfo?.name as EntityType;
 
   // Состояние для отслеживания процесса добавления в избранное
   const [isProcessing, setIsProcessing] = useState(false);

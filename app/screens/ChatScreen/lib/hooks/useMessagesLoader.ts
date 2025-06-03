@@ -1,5 +1,5 @@
-import { useCallback, useState } from "react";
 import { useGetChatMessagesQuery } from "@/src/entities";
+import { useCallback, useState } from "react";
 
 export const useMessagesLoader = (chatId: string) => {
   const [page, setPage] = useState(1);

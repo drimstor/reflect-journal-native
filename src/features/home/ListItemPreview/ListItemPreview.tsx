@@ -1,11 +1,14 @@
-import { View, Animated, Pressable } from "react-native";
+import { View, Pressable } from "react-native";
 import { createStyles } from "./ListItemPreview.styles";
 import { useGetPadding } from "@/src/shared/lib/hooks";
 import { useThemeStore } from "@/src/shared/store";
-import { DotsIcon } from "@/src/shared/ui/iconsAnimated";
 import { useColorsAnimate } from "./lib/hooks/useColorsAnimate";
 import { ListItemPreviewProps } from "./model/types";
 import { AnimatedText, Text } from "@/src/shared/ui";
+import Animated, {
+  useAnimatedStyle,
+  interpolateColor,
+} from "react-native-reanimated";
 
 const { contrast, contrastReverse } = useThemeStore.getState().colors;
 
@@ -17,17 +20,45 @@ const ListItemPreview = ({
   backgroundColor = contrastReverse,
   backgroundColorForAnimate = contrast,
   onPress,
-  onDotsPress,
+  element,
 }: ListItemPreviewProps) => {
   const { colors } = useThemeStore();
   const { paddingHorizontal } = useGetPadding();
   const styles = createStyles(colors, paddingHorizontal);
 
-  const { animatedColor, animatedBackgroundColor, animate } = useColorsAnimate({
+  const {
+    animate,
+    animation,
+    backgroundColor: bg,
+    backgroundColorForAnimate: bgAnimate,
+    color,
+    colorForAnimate,
+  } = useColorsAnimate({
     backgroundColor,
     backgroundColorForAnimate,
     color: colors.contrast,
     colorForAnimate: colors.contrast,
+  });
+
+  // Создаем анимированные стили с Reanimated
+  const bgStyle = useAnimatedStyle(() => {
+    return {
+      backgroundColor: interpolateColor(
+        animation.value,
+        [0, 1],
+        [bg, bgAnimate]
+      ),
+    };
+  });
+
+  const textColorStyle = useAnimatedStyle(() => {
+    return {
+      color: interpolateColor(
+        animation.value,
+        [0, 1],
+        [color, colorForAnimate]
+      ),
+    };
   });
 
   return (
@@ -36,15 +67,12 @@ const ListItemPreview = ({
       onPressOut={() => animate(0)}
       onPress={onPress}
     >
-      <Animated.View
-        style={[styles.globalBox, { backgroundColor: animatedBackgroundColor }]}
-      >
+      <Animated.View style={[styles.globalBox, bgStyle]}>
         <View style={styles.iconBox}>
           {customComponent}
           {IconComponent?.({
             color: colors.contrast,
             size: 24,
-            animatedStyle: { stroke: animatedColor },
           })}
         </View>
         <View style={styles.textBox}>
@@ -57,20 +85,12 @@ const ListItemPreview = ({
             {title}
           </Text>
           {subTitle && (
-            <AnimatedText size="small" animatedStyle={{ color: animatedColor }}>
+            <AnimatedText size="small" animatedStyle={textColorStyle}>
               {subTitle}
             </AnimatedText>
           )}
         </View>
-        <Pressable onPress={onDotsPress}>
-          <View style={styles.iconBox}>
-            <DotsIcon
-              color={colors.contrast}
-              size={24}
-              animatedProps={{ fill: animatedColor }}
-            />
-          </View>
-        </Pressable>
+        {element && <View style={styles.iconBox}>{element}</View>}
       </Animated.View>
     </Pressable>
   );

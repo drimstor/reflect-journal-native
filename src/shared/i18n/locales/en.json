@@ -34,6 +34,10 @@
   "home": {
     "title": "Dashboard"
   },
+  "commands": {
+    "createGoal": "Create goal",
+    "createChat": "Discuss in chat"
+  },
   "library": {
     "title": "Library",
     "journals": {
@@ -51,12 +55,17 @@
     }
   },
   "addEntry": {
-    "chooseType": "Choose type",
-    "chooseJournal": "Choose journal",
+    "choose": {
+      "type": "Choose type",
+      "journals": "Choose journal",
+      "chats": "Choose chat"
+    },
     "startWriting": "Start writing..."
   },
   "chat": {
-    "placeholder": "Enter message..."
+    "placeholder": "Enter message...",
+    "autoName": "Chat of the Journal",
+    "autoDescription": "An automatically created chat linked to your journal."
   },
   "goals": {
     "create": "Create goal"
@@ -95,11 +104,43 @@
   "date": {
     "byCreated": "By creation date",
     "byUpdated": "By update date",
+    "untilToday": "until today",
     "picker": {
       "title": "Select date",
       "placeholder": "Select date"
+    },
+    "period": {
+      "title": "Select period",
+      "all": "All time"
     }
   },
+  "create": {
+    "title": "Choose a basis for the summary",
+    "topics": {
+      "title": "Topics",
+      "description": "List of mentioned topics"
+    },
+    "categories": {
+      "title": "Categories", 
+      "description": "List of all categories"
+    },
+    "allData": {
+      "title": "All data",
+      "description": "All available information"
+    },
+    "customRequest": {
+      "title": "Custom request",
+      "description": "Any information of interest"
+    },
+    "additionalInfo": {
+      "label": "Additional information",
+      "placeholder": "Enter additional information, which will be used to generate a summary"
+    },
+    "customAdditionalInfo": {
+      "label": "What to create a summary about?",
+      "placeholder": "Describe what you are interested in and what information you need to analyze. \n\nFor example: \n\"Create a summary of all entries about trips\" \n\"Analyze my thoughts about work and career\""
+    }
+  },  
   "edit": {
     "journals": {
       "title": "Edit Journal",
@@ -110,13 +151,21 @@
       "description": {
         "label": "Description",
         "placeholder": "Enter journal description"
-      }
+      },
+      "createDescription": "Summary will be created based on the selected journal"
     },
     "journalEntries": {
       "title": "Edit Entry",
+      "titleField": {
+        "label": "Title",
+        "placeholder": "Enter entry title"
+      },
       "content": {
         "label": "Content",
-        "placeholder": "Enter entry content"
+        "placeholder": "Enter content"
+      },
+      "mood": {
+        "label": "Mood"
       }
     },
     "chats": {
@@ -128,17 +177,29 @@
       "description": {
         "label": "Description",
         "placeholder": "Enter chat description"
-      }
+      },
+      "createDescription": "Summary will be created based on the selected chat"
+
     },
     "goals": {
       "title": "Edit Goal",
       "name": {
         "label": "Name",
         "placeholder": "Enter goal name"
+      },
+      "additionalInfo": {
+        "label": "Additional information",
+        "placeholder": "Enter additional information, which will be used to generate a list of tasks"
+      },
+      "generateNewTasks": "Generate new list of tasks",
+      "tasks": {
+        "label": "List of tasks",
+        "empty": "No tasks added yet"
       }
     },
     "summaries": {
       "title": "Edit Summary",
+      "create": "Create summary",
       "name": {
         "label": "Name",
         "placeholder": "Enter summary name"
@@ -153,10 +214,18 @@
         "label": "Add to favorites"
       },
       "aiResponse": {
-        "label": "AI Responses"
+        "label": "AI Response"
       },
       "tags": {
         "helperText": "Enter tags separated by commas"
+      },
+      "mood": {
+        "label": "Mood",
+        "poor": "Poor",
+        "fair": "Fair", 
+        "neutral": "Neutral",
+        "good": "Good",
+        "excellent": "Excellent"
       }
     }
   },

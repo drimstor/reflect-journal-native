@@ -9,4 +9,5 @@ export const transformMessages = (messages: MessageType[]): IMessage[] =>
     user: {
       _id: msg.user_id,
     },
+    command: msg.command,
   }));

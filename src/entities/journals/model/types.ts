@@ -39,6 +39,7 @@ export interface JournalResponse extends PaginationResponse<Journal> {}
 
 export interface JournalEntry {
   id: string;
+  title?: string;
   content: string;
   user_id: string;
   journal_id: string;
@@ -47,6 +48,8 @@ export interface JournalEntry {
   related_topics: string[];
   ai_response: string;
   bookmarked: boolean;
+  mood?: string;
+  command?: string;
 }
 
 export interface CreateJournalEntryRequest {
@@ -54,6 +57,7 @@ export interface CreateJournalEntryRequest {
   journal_id: string;
   related_topics?: string[];
   bookmarked?: boolean;
+  created_at?: string;
 }
 
 export interface UpdateJournalEntryRequest {

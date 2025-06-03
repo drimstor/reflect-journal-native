@@ -5,7 +5,6 @@ import { GiftedChat, IMessage } from "react-native-gifted-chat";
 import { useDeviceStore, useThemeStore } from "@/src/shared/store";
 import { DateChip, Message, MessageInput } from "@/src/features";
 import { useLang } from "@/src/shared/lib/hooks";
-import MessageLoaderBox from "@/src/features/chat/MessageLoaderBox/MessageLoaderBox";
 import { useChatAnimation } from "./lib/hooks/useChatAnimation";
 import { MessageGiftedChat } from "@/src/entities/chat/model/types";
 
@@ -19,14 +18,13 @@ const ChatView: FC<{
   handleLoadEarlier: () => Promise<void>;
   text: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
-  handleSend: (
-    setMessages: React.Dispatch<React.SetStateAction<MessageGiftedChat[]>>
-  ) => void;
+  handleSend: () => void;
   handleLongPress: (flowData: any) => void;
   currentDate: Date;
   chipAnimation: Animated.Value;
   handleScroll: (event: any) => void;
   userId: string;
+  isCanBeEmpty: boolean;
 }> = ({
   messages,
   setMessages,
@@ -42,6 +40,7 @@ const ChatView: FC<{
   chipAnimation,
   handleScroll,
   userId,
+  isCanBeEmpty,
 }) => {
   const { colors } = useThemeStore();
   const { window } = useDeviceStore();
@@ -53,26 +52,27 @@ const ChatView: FC<{
     <View style={containerStyle}>
       <DateChip date={currentDate} animation={chipAnimation} />
       <GiftedChat
-        messages={messages}
-        onSend={(newMessages) => handleSend(setMessages)}
+        messages={messages as unknown as IMessage[]}
+        onSend={handleSend}
         user={{ _id: userId || "" }}
         renderAvatar={null}
         timeFormat="HH:mm"
         dateFormat="DD.MM.YY"
         locale={locale}
         onLongPress={handleLongPress}
-        renderCustomView={(props) => {
-          if (
-            typeof props.currentMessage?._id === "string" &&
-            props.currentMessage._id.startsWith("temp-")
-          ) {
-            return <MessageLoaderBox />;
-          }
-          return null;
-        }}
+        // renderCustomView={(props) => {
+        //   if (
+        //     typeof props.currentMessage?._id === "string" &&
+        //     props.currentMessage._id.startsWith("temp-")
+        //   ) {
+        //     return <MessageLoaderBox />;
+        //   }
+        //   return null;
+        // }}
         renderChatEmpty={() =>
           !isLoadingMessages &&
-          !messagesData?.data?.length && (
+          !messagesData?.data?.length &&
+          isCanBeEmpty && (
             <Animated.View
               style={
                 {
@@ -99,7 +99,7 @@ const ChatView: FC<{
             {...props}
             text={text}
             onChangeText={setText}
-            onSend={() => handleSend(setMessages)}
+            onSend={handleSend}
           />
         )}
         minInputToolbarHeight={62}

@@ -23,7 +23,7 @@ interface CarouselProps {
     parallaxScrollingScale: number;
     parallaxScrollingOffset: number;
   };
-  handler: (index: number) => void;
+  handler?: (index: number) => void;
 }
 
 const Carousel = ({
@@ -47,7 +47,7 @@ const Carousel = ({
   };
 
   const handleSnapToItem = (index: number) => {
-    handler(index);
+    handler?.(index);
   };
 
   const shouldShowPagination = data.length > 1;

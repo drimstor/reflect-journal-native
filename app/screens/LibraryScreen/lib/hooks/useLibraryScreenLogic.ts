@@ -5,16 +5,22 @@ import { NavigationProps } from "@/src/shared/model/types";
 import { useFiltersStore } from "@/src/shared/store";
 import { Chat, Journal } from "@/src/entities";
 import { LIBRARY_ITEMS } from "../../const/static";
-import { LibraryListVariant } from "@/src/widgets";
+import { EntityType } from "@/src/shared/model/types";
 
-export const useLibraryScreenLogic = () => {
+export const useLibraryScreenLogic = ({
+  snapToIndex,
+  bottomSheetIndex,
+}: {
+  snapToIndex: (index: number) => void;
+  bottomSheetIndex: number;
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigation = useNavigation<NavigationProps>();
   const { resetFilters } = useFiltersStore();
 
   // Обработка выбора элемента в списке
   const onOpenListItem = (item: Journal | Chat) => {
-    const variant = LIBRARY_ITEMS[currentIndex].id as LibraryListVariant;
+    const variant = LIBRARY_ITEMS[currentIndex].id as EntityType;
     const params = { variant, item };
 
     // Для чатов сразу переходим на экран чата
@@ -26,11 +32,22 @@ export const useLibraryScreenLogic = () => {
     const navigateToNextScreen = () => {
       resetFilters();
 
-      if (currentIndex === 0) {
-        return navigation.navigate(PATHS.LIBRARY_LIST, params);
+      if (bottomSheetIndex === 1) {
+        if (currentIndex === 0) {
+          return navigation.navigate(PATHS.LIBRARY_LIST, params);
+        } else {
+          return navigation.navigate(PATHS.LIBRARY_ITEM, params);
+        }
       }
 
-      navigation.navigate(PATHS.LIBRARY_ITEM, params);
+      snapToIndex(1);
+      setTimeout(() => {
+        if (currentIndex === 0) {
+          return navigation.navigate(PATHS.LIBRARY_LIST, params);
+        } else {
+          navigation.navigate(PATHS.LIBRARY_ITEM, params);
+        }
+      }, 250);
     };
 
     return navigateToNextScreen();

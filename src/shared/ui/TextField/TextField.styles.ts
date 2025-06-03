@@ -18,11 +18,13 @@ export const createStyles = (themeColors: ThemeColors) => {
     },
     multiline: {
       height: 150,
-      paddingVertical: 12,
+      paddingVertical: 8,
+      alignItems: "flex-start",
     },
     superMultiline: {
       height: 220,
-      paddingVertical: 12,
+      paddingVertical: 8,
+      alignItems: "flex-start",
     },
     textField: {
       fontSize: 15,
@@ -35,7 +37,7 @@ export const createStyles = (themeColors: ThemeColors) => {
       ...Platform.select({
         android: {
           paddingVertical: 0,
-          textAlignVertical: "center",
+          textAlignVertical: "top",
         },
       }),
     },

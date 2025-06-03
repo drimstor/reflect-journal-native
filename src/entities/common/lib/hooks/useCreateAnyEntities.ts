@@ -1,4 +1,4 @@
-import { LibraryListVariant } from "@/src/shared/model/types";
+import { EntityType } from "@/src/shared/model/types";
 import { useCallback } from "react";
 
 interface CreateHookResult {
@@ -7,9 +7,7 @@ interface CreateHookResult {
   isSuccess: boolean;
 }
 
-const useDynamicCreateHook = (
-  variant: LibraryListVariant
-): CreateHookResult => {
+const useDynamicCreateHook = (variant: EntityType): CreateHookResult => {
   // Ленивый импорт соответствующего хука
   let createHook;
   switch (variant) {
@@ -51,6 +49,9 @@ const useDynamicCreateHook = (
             journal_id: data.journal_id,
             content: data.content,
             bookmarked: data.bookmarked || false,
+            created_at: data.created_at,
+            title: data.title,
+            mood: data.mood,
           };
           break;
         case "Journals":
@@ -102,7 +103,7 @@ const useDynamicCreateHook = (
  * - Goals: name, related_topics?, bookmarked? (будет добавлено позже)
  * - Summaries: name, related_topics?, bookmarked? (будет добавлено позже)
  */
-export const useCreateAnyEntities = <T extends LibraryListVariant>(
+export const useCreateAnyEntities = <T extends EntityType>(
   variant: T
 ): CreateHookResult => {
   return useDynamicCreateHook(variant);

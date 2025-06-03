@@ -1,7 +1,8 @@
 import { useState, useCallback, useEffect } from "react";
 import { CreateFormConfig } from "./useCreateFormConfig";
 import { useT } from "@/src/shared/lib/hooks";
-import { LibraryListVariant } from "@/src/shared/model/types";
+import { Keyboard } from "react-native";
+import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
 
 /**
  * Хук для управления формой создания
@@ -74,6 +75,8 @@ export const useCreateForm = (
   const handleSubmit = useCallback(async () => {
     if (validate()) {
       try {
+        // Закрываем клавиатуру перед отправкой формы
+        Keyboard.dismiss();
         // Добавляем статус закладки и journal_id перед отправкой
         const enhancedData = { ...values };
 
@@ -81,8 +84,12 @@ export const useCreateForm = (
         enhancedData.bookmarked = isBookmarked;
 
         // Для записей в журнале добавляем идентификатор журнала
-        if (entityType === "JournalEntries" && journalId) {
+        if (entityType === ENTITY_PLURAL.JOURNAL_ENTRY && journalId) {
           enhancedData.journal_id = journalId;
+        }
+
+        if (!enhancedData.related_topics?.length) {
+          enhancedData.related_topics = ["New"];
         }
 
         await onSubmit(enhancedData);

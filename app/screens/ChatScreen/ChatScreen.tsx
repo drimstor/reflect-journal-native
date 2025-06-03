@@ -3,12 +3,10 @@ import { View } from "react-native";
 import { createStyles } from "./ChatScreen.styles";
 import { Layout, useBottomSheetActions } from "@/src/shared/ui";
 import { ChatView, Header } from "@/src/widgets";
-import { GiftedChat, IMessage } from "react-native-gifted-chat";
 import {
   useThemeStore,
   useBottomSheetStore,
   useAppSelector,
-  RootState,
 } from "@/src/shared/store";
 import { ChatBackground } from "@/src/features";
 import { useRoute } from "@react-navigation/native";
@@ -22,12 +20,13 @@ import {
 import { DotsIcon } from "@/src/shared/ui/icons";
 import { MessageGiftedChat } from "@/src/entities/chat/model/types";
 import { getMessagesCache } from "@/src/entities";
+import { useAssistantMessage } from "./lib/hooks/useAssistantMessage";
 
 const ChatScreen: FC = () => {
   const { colors } = useThemeStore();
   const styles = createStyles(colors);
   const route = useRoute();
-  const { item } = route.params as any;
+  let { item, requestAssistantMessage } = route.params as any;
   const { setNavigation } = useBottomSheetStore();
 
   // Состояние сообщений
@@ -42,11 +41,12 @@ const ChatScreen: FC = () => {
     resetFilters,
   } = useMessagesLoader(item.id);
 
-  const { text, setText, handleSend, userId } = useMessageSender(
-    item.id,
+  const { text, setText, handleSend, userId } = useMessageSender({
+    chatId: item.id,
     resetFilters,
-    messagesData?.data[0]._id
-  );
+    lastMessageId: messagesData?.data[0]?._id as string,
+    setMessages,
+  });
   const { handleLongPress } = useLongPressActions(item.id);
   const { currentDate, chipAnimation, handleScroll } = useDateChip(messages);
   const { handlePress: handlePressDots } = useBottomSheetActions("Chats", item);
@@ -65,6 +65,17 @@ const ChatScreen: FC = () => {
   useEffect(() => {
     setNavigation(false, PATHS.LIBRARY);
   }, [setNavigation]);
+
+  const { isHandled } = useAssistantMessage({
+    item,
+    requestAssistantMessage,
+    isLoadingMessages,
+    setMessages,
+  });
+
+  useEffect(() => {
+    if (isHandled) requestAssistantMessage = null;
+  }, [isHandled]);
 
   return (
     <Layout style={{ flex: 1 }}>
@@ -94,6 +105,7 @@ const ChatScreen: FC = () => {
           chipAnimation={chipAnimation}
           handleScroll={handleScroll}
           userId={userId}
+          isCanBeEmpty={!requestAssistantMessage?.source_id}
         />
       </View>
     </Layout>

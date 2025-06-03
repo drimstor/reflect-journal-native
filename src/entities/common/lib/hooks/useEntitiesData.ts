@@ -1,0 +1,70 @@
+import { useState, useMemo } from "react";
+import { useGetAnyEntities } from "./useGetAnyEntities";
+import { useCarouselConfig } from "@/src/shared/ui";
+import { EntityType } from "@/src/shared/model/types";
+
+/**
+ * Тип конфигурации карусели
+ */
+interface CarouselConfig {
+  parallaxScrollingScale: number;
+  parallaxScrollingOffset: number;
+  parallaxAdjacentItemScale: number;
+}
+
+/**
+ * Универсальный хук для получения и обработки данных сущностей для каруселей
+ *
+ * Хук предоставляет следующий функционал:
+ * - Получает данные сущностей определенного типа (журналы, чаты и т.д.)
+ * - Трансформирует данные для отображения в карусели
+ * - Управляет состоянием выбранной сущности
+ * - Предоставляет конфигурацию для карусели с эффектом параллакса
+ *
+ * @param entityType - Тип сущности (Journal, Chat, Goal, Summary)
+ * @param params - Параметры пагинации и фильтрации
+ * @returns Объект с данными сущностей, состоянием выбора и конфигурацией карусели
+ */
+export const useEntitiesData = (
+  entityType: EntityType,
+  params: string = "?page=1&limit=50"
+) => {
+  // Получение данных через универсальный хук
+  const { data: entitiesData, isLoading } = useGetAnyEntities(
+    entityType,
+    params
+  );
+
+  // Трансформация данных для карусели
+  const entitiesDataTransformed = useMemo(() => {
+    return entitiesData?.data?.map((item) => ({
+      ...(item as any),
+      description: "",
+      entity_type: entityType,
+    }));
+  }, [entitiesData]);
+
+  // Состояние выбранной сущности
+  const [selectedEntityId, setSelectedEntityId] = useState<string | null>(
+    (entitiesData?.data?.[0] as any)?.id || null
+  );
+
+  const entitiesConfig = useCarouselConfig(
+    25,
+    entitiesData?.data?.length && entitiesData?.data?.length > 1 ? 60 : 0
+  );
+
+  const entitiesCarouselConfig: CarouselConfig = {
+    ...entitiesConfig,
+    parallaxAdjacentItemScale: 0.79,
+  };
+
+  return {
+    entitiesData,
+    entitiesDataTransformed,
+    selectedEntityId,
+    setSelectedEntityId,
+    entitiesCarouselConfig,
+    isLoading,
+  };
+};

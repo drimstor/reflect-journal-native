@@ -1,7 +1,44 @@
 import * as SecureStore from "expo-secure-store";
+import { Platform } from "react-native";
 
 const ACCESS_TOKEN_KEY = "access_token";
 const REFRESH_TOKEN_KEY = "refresh_token";
+
+// Платформо-специфичное хранилище
+const storage = {
+  // Сохранение данных
+  async setItem(key: string, value: string): Promise<void> {
+    if (Platform.OS === "web") {
+      // Для веб используем localStorage
+      localStorage.setItem(key, value);
+    } else {
+      // Для мобильных устройств используем SecureStore
+      await SecureStore.setItemAsync(key, value);
+    }
+  },
+
+  // Получение данных
+  async getItem(key: string): Promise<string | null> {
+    if (Platform.OS === "web") {
+      // Для веб используем localStorage
+      return localStorage.getItem(key);
+    } else {
+      // Для мобильных устройств используем SecureStore
+      return await SecureStore.getItemAsync(key);
+    }
+  },
+
+  // Удаление данных
+  async removeItem(key: string): Promise<void> {
+    if (Platform.OS === "web") {
+      // Для веб используем localStorage
+      localStorage.removeItem(key);
+    } else {
+      // Для мобильных устройств используем SecureStore
+      await SecureStore.deleteItemAsync(key);
+    }
+  },
+};
 
 export interface SessionUser {
   id: string;
@@ -14,8 +51,8 @@ export const tokenService = {
   // Сохранение токенов в защищенном хранилище
   async setTokens(accessToken: string, refreshToken: string) {
     try {
-      await SecureStore.setItemAsync(ACCESS_TOKEN_KEY, accessToken);
-      await SecureStore.setItemAsync(REFRESH_TOKEN_KEY, refreshToken);
+      await storage.setItem(ACCESS_TOKEN_KEY, accessToken);
+      await storage.setItem(REFRESH_TOKEN_KEY, refreshToken);
       return true;
     } catch (error) {
       console.error("Error saving tokens:", error);
@@ -26,7 +63,7 @@ export const tokenService = {
   // Получение access token из защищенного хранилища
   async getAccessToken() {
     try {
-      return await SecureStore.getItemAsync(ACCESS_TOKEN_KEY);
+      return await storage.getItem(ACCESS_TOKEN_KEY);
     } catch (error) {
       console.error("Error getting access token:", error);
       return null;
@@ -36,7 +73,7 @@ export const tokenService = {
   // Получение refresh token из защищенного хранилища
   async getRefreshToken() {
     try {
-      return await SecureStore.getItemAsync(REFRESH_TOKEN_KEY);
+      return await storage.getItem(REFRESH_TOKEN_KEY);
     } catch (error) {
       console.error("Error getting refresh token:", error);
       return null;
@@ -46,8 +83,8 @@ export const tokenService = {
   // Удаление всех токенов из защищенного хранилища
   async removeTokens() {
     try {
-      await SecureStore.deleteItemAsync(ACCESS_TOKEN_KEY);
-      await SecureStore.deleteItemAsync(REFRESH_TOKEN_KEY);
+      await storage.removeItem(ACCESS_TOKEN_KEY);
+      await storage.removeItem(REFRESH_TOKEN_KEY);
       return true;
     } catch (error) {
       console.error("Error removing tokens:", error);

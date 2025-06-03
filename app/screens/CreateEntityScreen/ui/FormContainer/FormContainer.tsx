@@ -1,6 +1,6 @@
 import React from "react";
 import { PaddingLayout } from "@/src/shared/ui";
-import { FormField } from "@/src/entities";
+import { FormField } from "@/src/widgets";
 import { ThemeColors } from "@/src/shared/model/types";
 import { formContainerStyles } from "./FormContainer.styles";
 

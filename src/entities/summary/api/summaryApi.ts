@@ -1,24 +1,18 @@
-import {
-  baseQueryWithReauth,
-  formatValidationErrors,
-} from "@/src/shared/store";
+import { baseApi } from "@/src/shared/api/baseApi";
+import { formatValidationErrors } from "@/src/shared/store";
 import type {
   Summary,
   SummaryResponse,
   CreateSummaryRequest,
   UpdateSummaryRequest,
 } from "../model/types";
-import { createApi } from "@reduxjs/toolkit/query/react";
 import { Alert } from "react-native";
 import { mergeQueryData } from "@/src/shared/store";
 
 export const SUMMARY_TAG = "Summaries" as const;
 type TagTypes = typeof SUMMARY_TAG;
 
-export const summaryApi = createApi({
-  reducerPath: "summaryApi",
-  baseQuery: baseQueryWithReauth,
-  tagTypes: [SUMMARY_TAG],
+export const summaryApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getSummaries: builder.query<SummaryResponse, { params?: string }>({
       query: ({ params }) => ({
@@ -50,9 +44,17 @@ export const summaryApi = createApi({
       },
     }),
 
+    getSummary: builder.query<Summary, { id: string }>({
+      query: ({ id }) => ({
+        url: `/summary/${id}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, { id }) => [{ type: SUMMARY_TAG, id }],
+    }),
+
     createSummary: builder.mutation<Summary, CreateSummaryRequest>({
       query: (body) => ({
-        url: "/summary/by-topic",
+        url: "/summary/by-type",
         method: "POST",
         body,
       }),
@@ -111,6 +113,7 @@ export const summaryApi = createApi({
 
 export const {
   useGetSummariesQuery,
+  useGetSummaryQuery,
   useCreateSummaryMutation,
   useUpdateSummaryMutation,
   useRefreshSummaryMutation,

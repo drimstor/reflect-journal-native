@@ -1,4 +1,4 @@
-import { LibraryListVariant } from "@/src/shared/model/types";
+import { EntityType } from "@/src/shared/model/types";
 import { useCallback } from "react";
 
 interface DeleteHookResult {
@@ -8,7 +8,7 @@ interface DeleteHookResult {
 }
 
 const useDynamicDeleteHook = (
-  variant: LibraryListVariant,
+  variant: EntityType,
   entityId?: string
 ): DeleteHookResult => {
   // Ленивый импорт соответствующего хука
@@ -57,7 +57,7 @@ const useDynamicDeleteHook = (
 /**
  * Хук для удаления любых сущностей
  */
-export const useDeleteAnyEntities = <T extends LibraryListVariant>(
+export const useDeleteAnyEntities = <T extends EntityType>(
   variant: T,
   entityId?: string
 ): DeleteHookResult => {

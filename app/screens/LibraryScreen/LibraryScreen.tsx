@@ -15,7 +15,7 @@ import { CpuIcon, DotsIcon } from "@/src/shared/ui/icons";
 import { styles } from "./LibraryScreen.styles";
 import { useLibraryScreenLogic } from "./lib/hooks/useLibraryScreenLogic";
 import { LIBRARY_ITEMS } from "./const/static";
-import { LibraryListVariant } from "@/src/widgets";
+import { EntityType } from "@/src/shared/model/types";
 import { useLibraryBottomSheet } from "./lib/hooks/useLibraryBottomSheet";
 import { useMultiSelectActions } from "./lib/hooks/useMultiSelectActions";
 
@@ -24,16 +24,16 @@ const LibraryScreen = () => {
   const { colors } = useThemeStore();
   const { multi_select_ids } = useFiltersStore();
 
+  const { bottomSheetRef, snapToIndex, snapPoints, bottomSheetIndex } =
+    useLibraryBottomSheet();
   const { currentIndex, setCurrentIndex, onOpenListItem } =
-    useLibraryScreenLogic();
-
-  const { bottomSheetRef, snapToIndex, snapPoints } = useLibraryBottomSheet();
+    useLibraryScreenLogic({ snapToIndex, bottomSheetIndex });
   const { handleMultiSelectActions, toggleStatusBar } = useMultiSelectActions();
 
   // Получаем данные для текущего выбранного элемента
   const currentItem = LIBRARY_ITEMS[currentIndex];
   const currentColor = colors[currentItem.colorKey as keyof typeof colors];
-  const currentVariant = currentItem.id as LibraryListVariant;
+  const currentVariant = currentItem.id as EntityType;
 
   return (
     <Layout>
@@ -99,9 +99,7 @@ const LibraryScreen = () => {
       >
         <LibraryList
           onPress={onOpenListItem}
-          variant={
-            currentVariant as Exclude<LibraryListVariant, "JournalEntries">
-          }
+          variant={currentVariant as Exclude<EntityType, "JournalEntries">}
         />
       </BottomSheet>
     </Layout>

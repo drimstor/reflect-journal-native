@@ -49,6 +49,7 @@ export interface Message {
   chat_id: string;
   created_at: string;
   updated_at: string;
+  command?: string;
 }
 
 export interface MessageGiftedChat {
@@ -56,6 +57,7 @@ export interface MessageGiftedChat {
   text: string;
   createdAt: string;
   user: { _id: string };
+  command?: string;
 }
 
 export interface CreateMessageRequest {
@@ -70,3 +72,9 @@ export interface UpdateMessageRequest {
 export type MessageResponse = PaginationResponse<Message>;
 
 export type MessagesGiftedChat = PaginationResponse<MessageGiftedChat>;
+
+export interface CreateAIMessageFromEntityRequest {
+  source_type: string;
+  source_id: string;
+  chatId: string;
+}

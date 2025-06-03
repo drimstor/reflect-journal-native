@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { Animated, Keyboard } from "react-native";
+import { Keyboard, View } from "react-native";
 import { useBottomSheetStore } from "@/src/shared/store";
 import { Portal } from "@gorhom/portal";
 import { LongPressGestureHandler, State } from "react-native-gesture-handler";
@@ -8,11 +8,12 @@ import { ANIMATION_DELAY } from "./const/static";
 import { ExtendedBubbleProps } from "./model/types";
 import { useMessageAnimation } from "./lib/hooks/useMessageAnimation";
 import { useMessageMeasure } from "./lib/hooks/useMessageMeasure";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
 const Message: FC<ExtendedBubbleProps> = (props) => {
   const { isBottomSheetVisible, setBottomSheetVisible } = useBottomSheetStore();
 
-  const { animatedStyle, scaleAnimation, translateAnimation } =
+  const { translateY, scale, scaleAnimation, translateAnimation } =
     useMessageAnimation();
 
   const {
@@ -22,6 +23,13 @@ const Message: FC<ExtendedBubbleProps> = (props) => {
     resetBubblePosition,
     ref,
   } = useMessageMeasure();
+
+  // Создаем анимированный стиль с использованием Reanimated
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ scale: scale.value }, { translateY: translateY.value }],
+    };
+  });
 
   useEffect(() => {
     if (!isBottomSheetVisible) {

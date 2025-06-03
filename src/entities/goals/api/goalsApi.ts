@@ -1,7 +1,5 @@
-import {
-  baseQueryWithReauth,
-  formatValidationErrors,
-} from "@/src/shared/store";
+import { baseApi } from "@/src/shared/api/baseApi";
+import { formatValidationErrors } from "@/src/shared/store";
 import type {
   Goal,
   GoalResponse,
@@ -10,18 +8,17 @@ import type {
   AddChecklistItemRequest,
   UpdateChecklistItemRequest,
   BulkUpdateChecklistItemsRequest,
+  PredictGoalRequest,
+  GenerateGoalRequest,
+  SaveGoalRequest,
 } from "../model/types";
-import { createApi } from "@reduxjs/toolkit/query/react";
 import { Alert } from "react-native";
 import { mergeQueryData } from "@/src/shared/store";
 
 export const GOALS_TAG = "Goals" as const;
 type TagTypes = typeof GOALS_TAG;
 
-export const goalsApi = createApi({
-  reducerPath: "goalsApi",
-  baseQuery: baseQueryWithReauth,
-  tagTypes: [GOALS_TAG],
+export const goalsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getGoals: builder.query<GoalResponse, { params?: string }>({
       query: ({ params }) => ({
@@ -53,12 +50,12 @@ export const goalsApi = createApi({
       },
     }),
 
-    getGoal: builder.query<Goal, string>({
-      query: (id) => ({
+    getGoal: builder.query<Goal, { id: string }>({
+      query: ({ id }) => ({
         url: `/goals/${id}`,
         method: "GET",
       }),
-      providesTags: (result, error, id) => [{ type: GOALS_TAG, id }],
+      providesTags: (result, error, { id }) => [{ type: GOALS_TAG, id }],
     }),
 
     createGoal: builder.mutation<Goal, CreateGoalRequest>({
@@ -137,15 +134,37 @@ export const goalsApi = createApi({
       ],
     }),
 
+    predictGoal: builder.mutation<Goal, PredictGoalRequest>({
+      query: (body) => ({
+        url: "/goals/predict",
+        method: "POST",
+        body,
+      }),
+    }),
+
+    generateGoal: builder.mutation<Goal, GenerateGoalRequest>({
+      query: (body) => ({
+        url: "/goals/generate",
+        method: "POST",
+        body,
+      }),
+    }),
+
+    saveGoal: builder.mutation<Goal, SaveGoalRequest>({
+      query: (body) => ({
+        url: "/goals/save",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: [{ type: GOALS_TAG, id: "LIST" }],
+    }),
+
     deleteGoal: builder.mutation<void, string>({
       query: (id) => ({
         url: `/goals/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: (result, error, id) => [
-        { type: GOALS_TAG, id },
-        { type: GOALS_TAG, id: "LIST" },
-      ],
+      invalidatesTags: (result, error, id) => [{ type: GOALS_TAG, id: "LIST" }],
     }),
   }),
 });
@@ -158,5 +177,8 @@ export const {
   useAddChecklistItemMutation,
   useUpdateChecklistItemMutation,
   useBulkUpdateChecklistItemsMutation,
+  usePredictGoalMutation,
+  useGenerateGoalMutation,
+  useSaveGoalMutation,
   useDeleteGoalMutation,
 } = goalsApi;

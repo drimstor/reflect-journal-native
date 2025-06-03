@@ -14,6 +14,7 @@ import { useFonts } from "./useFonts";
 import useAnimatedShow from "./useAnimated";
 import { useKeyboard } from "./useKeyboard";
 import { useBottomSheetIndexState } from "./useBottomSheetIndexState";
+import { useKeyboardAnimateAction } from "./useKeyboardAnimateAction";
 
 export {
   useDebounce,
@@ -33,4 +34,5 @@ export {
   useAnimatedShow,
   useKeyboard,
   useBottomSheetIndexState,
+  useKeyboardAnimateAction,
 };

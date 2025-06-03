@@ -11,17 +11,19 @@ import {
   useThemeStore,
   useBottomSheetStore,
   useFiltersStore,
+  useDeviceStore,
 } from "@/src/shared/store";
 import { useT } from "@/src/shared/lib/hooks";
 import { useEditAnyEntities } from "@/src/entities/common/lib/hooks/useEditAnyEntities";
 import { useEditFormConfig } from "./lib/hooks/useEditFormConfig";
 import { useEditForm } from "./lib/hooks/useEditForm";
 import { useEffect } from "react";
-import { FormField } from "@/src/entities";
+import { FormField } from "@/src/widgets";
 
 const EditEntityView = () => {
   const t = useT();
-  const { navigateToFlow, flowData, bottomSheetHeight } = useBottomSheetStore();
+  const { window } = useDeviceStore();
+  const { navigateToFlow, flowData } = useBottomSheetStore();
   const { colors, theme } = useThemeStore();
   const { resetFilters } = useFiltersStore();
 
@@ -66,7 +68,10 @@ const EditEntityView = () => {
         onClose={handleBack}
         onBack={handleBack}
       />
-      <BottomSheetScrollView>
+      <BottomSheetScrollView
+        customMaxHeight={window.height - 270}
+        additionalHeight={225}
+      >
         <PaddingLayout style={{ gap: 12 }}>
           {formConfig.fields.map((field) => (
             <FormField
@@ -78,18 +83,18 @@ const EditEntityView = () => {
             />
           ))}
         </PaddingLayout>
-        <BottomSheetFooter>
-          <Button
-            backgroundColor={theme === "dark" ? colors.accent : colors.primary}
-            textColor={theme === "dark" ? colors.primary : colors.white}
-            onPress={handleSubmit}
-            isLoading={isLoading}
-            disabled={isLoading}
-          >
-            {t("shared.actions.save")}
-          </Button>
-        </BottomSheetFooter>
       </BottomSheetScrollView>
+      <BottomSheetFooter>
+        <Button
+          backgroundColor={theme === "dark" ? colors.accent : colors.primary}
+          textColor={theme === "dark" ? colors.primary : colors.white}
+          onPress={handleSubmit}
+          isLoading={isLoading}
+          disabled={isLoading}
+        >
+          {t("shared.actions.save")}
+        </Button>
+      </BottomSheetFooter>
     </BottomSheetBox>
   );
 };

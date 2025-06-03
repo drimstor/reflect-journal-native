@@ -1,24 +1,16 @@
-import {
-  baseQueryWithReauth,
-  formatValidationErrors,
-} from "@/src/shared/store";
+import { baseApi } from "@/src/shared/api/baseApi";
+import { formatValidationErrors } from "@/src/shared/store";
 import type {
   Chat,
   CreateChatRequest,
   UpdateChatRequest,
   ChatResponse,
 } from "../model/types";
-import { createApi } from "@reduxjs/toolkit/query/react";
 import { Alert } from "react-native";
 import { mergeQueryData } from "@/src/shared/store";
+import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
 
-export const CHATS_TAG = "Chats" as const;
-type TagTypes = typeof CHATS_TAG;
-
-export const chatsApi = createApi({
-  reducerPath: "chatsApi",
-  baseQuery: baseQueryWithReauth,
-  tagTypes: [CHATS_TAG],
+export const chatsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getChats: builder.query<ChatResponse, { params?: string }>({
       query: ({ params }) => ({
@@ -28,10 +20,13 @@ export const chatsApi = createApi({
       providesTags: (result) =>
         result
           ? [
-              ...result.data.map(({ id }) => ({ type: CHATS_TAG, id })),
-              { type: CHATS_TAG, id: "LIST" },
+              ...result.data.map(({ id }) => ({
+                type: ENTITY_PLURAL.CHAT,
+                id,
+              })),
+              { type: ENTITY_PLURAL.CHAT, id: "LIST" },
             ]
-          : [{ type: CHATS_TAG, id: "LIST" }],
+          : [{ type: ENTITY_PLURAL.CHAT, id: "LIST" }],
       serializeQueryArgs: ({ endpointName, queryArgs }) => {
         // Если есть дополнительные фильтры (кроме page и limit), не используем кеширование
         const params = new URLSearchParams(queryArgs.params || "");
@@ -58,7 +53,7 @@ export const chatsApi = createApi({
         method: "POST",
         body,
       }),
-      invalidatesTags: [{ type: CHATS_TAG, id: "LIST" }],
+      invalidatesTags: [{ type: ENTITY_PLURAL.CHAT, id: "LIST" }],
       async onQueryStarted(_, { queryFulfilled }) {
         try {
           await queryFulfilled;
@@ -80,8 +75,8 @@ export const chatsApi = createApi({
           body,
         }),
         invalidatesTags: (result, error, { id }) => [
-          { type: CHATS_TAG, id },
-          { type: CHATS_TAG, id: "LIST" },
+          { type: ENTITY_PLURAL.CHAT, id },
+          { type: ENTITY_PLURAL.CHAT, id: "LIST" },
         ],
       }
     ),
@@ -92,8 +87,8 @@ export const chatsApi = createApi({
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [
-        { type: CHATS_TAG, id },
-        { type: CHATS_TAG, id: "LIST" },
+        { type: ENTITY_PLURAL.CHAT, id },
+        { type: ENTITY_PLURAL.CHAT, id: "LIST" },
       ],
     }),
   }),

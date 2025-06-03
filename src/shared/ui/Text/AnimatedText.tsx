@@ -1,17 +1,14 @@
 import { FC } from "react";
-import { Animated } from "react-native";
+import Animated from "react-native-reanimated";
 import { sizeStyles, fontStyles, textStyles } from "./Text.styles";
 import { useThemeStore } from "@/src/shared/store";
-import { Text } from "react-native";
 import { TextProps } from "./Text";
 
 interface AnimatedTextProps extends TextProps {
   animatedStyle?: {
-    color: Animated.AnimatedInterpolation<string | number>;
+    color: any;
   };
 }
-
-const AnimatedTextBase = Animated.createAnimatedComponent(Text);
 
 const { contrastReverse } = useThemeStore.getState().colors;
 
@@ -25,7 +22,7 @@ const AnimatedText: FC<AnimatedTextProps> = ({
   animatedStyle,
 }) => {
   return (
-    <AnimatedTextBase
+    <Animated.Text
       style={[
         size && sizeStyles[size],
         color && { color: `${color}${withOpacity ?? ""}` },
@@ -36,7 +33,7 @@ const AnimatedText: FC<AnimatedTextProps> = ({
       ]}
     >
       {children}
-    </AnimatedTextBase>
+    </Animated.Text>
   );
 };
 

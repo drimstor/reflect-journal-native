@@ -5,13 +5,13 @@ import { VirtualizedList } from "@/src/shared/ui";
 import { useFiltersStore, useScreenInfoStore } from "@/src/shared/store";
 import { getFiltersParams } from "@/src/shared/lib/helpers";
 import { useGetAnyEntities } from "@/src/entities/common/lib/hooks/useGetAnyEntities";
-import { LibraryListVariant } from "@/src/shared/model/types";
+import { EntityType } from "@/src/shared/model/types";
 import { TypedPreviewBlock } from "@/src/features";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { useCallback } from "react";
 
 interface LibraryListProps {
-  variant: Exclude<LibraryListVariant, "JournalEntries">;
+  variant: Exclude<EntityType, "JournalEntries">;
   onPress: (item: Journal | Chat) => void;
 }
 
@@ -31,6 +31,13 @@ function LibraryList({ variant, onPress }: LibraryListProps) {
     getFiltersParams(filters),
     !isFocused
   );
+
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     filters.setPage(1);
+  //   }
+  //   console.log("isFocused", isFocused);
+  // }, [isFocused]);
 
   // const educationJournal: Journal = {
   //   name: "English Journal",

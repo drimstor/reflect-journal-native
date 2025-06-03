@@ -1,7 +1,8 @@
 import { FC, ReactNode } from "react";
 import { View } from "react-native";
-import { Text } from "@/src/shared/ui";
+import { Text, MarkdownEmojiText } from "@/src/shared/ui";
 import { styles } from "./InfoBox.styles";
+
 interface InfoBoxProps {
   label: string;
   icon: ReactNode;
@@ -17,9 +18,9 @@ const InfoBox: FC<InfoBoxProps> = ({ label, icon, value, color }) => {
       </Text>
       <View style={styles.infoBoxItem}>
         {icon}
-        <Text font="bold" color={color}>
+        <MarkdownEmojiText font="bold" color={color}>
           {value}
-        </Text>
+        </MarkdownEmojiText>
       </View>
     </View>
   );

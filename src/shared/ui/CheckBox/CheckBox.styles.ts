@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
   checkboxList: {
     paddingVertical: 14,
     flexDirection: "column",
-    gap: 12,
+    gap: 14,
     width: "100%",
     paddingRight: 33,
   },

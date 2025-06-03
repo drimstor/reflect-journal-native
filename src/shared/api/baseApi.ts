@@ -4,7 +4,16 @@ import { baseQueryWithReauth } from "@/src/shared/store";
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["Journals"],
+  tagTypes: [
+    "Journals",
+    "JournalEntries",
+    "User",
+    "Chats",
+    "Messages",
+    "Goals",
+    "Summaries",
+    "Portrait",
+  ],
   endpoints: () => ({}),
 });
 

@@ -1,9 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  LibraryListVariant,
-  SortField,
-  SortOrder,
-} from "@/src/shared/model/types";
+import { EntityType, SortField, SortOrder } from "@/src/shared/model/types";
 import {
   useFiltersStore,
   useBottomSheetStore,
@@ -52,7 +48,7 @@ export const useFilterLogic = (): useFilterLogicResult => {
   const { setBottomSheetVisible } = useBottomSheetStore();
   const { screenInfo } = useScreenInfoStore();
 
-  const variant = screenInfo.name as LibraryListVariant;
+  const variant = screenInfo.name as EntityType;
 
   const [inputValues, setInputValues] = useState<Record<string, string>>({
     related_topics: related_topics ?? "",
@@ -142,7 +138,8 @@ export const useFilterLogic = (): useFilterLogicResult => {
   };
 
   // Доступные варианты сортировки
-  const actions: SortAction[] = actionsConfig[variant];
+  const actions: SortAction[] =
+    actionsConfig[variant as keyof typeof actionsConfig];
 
   const isFiltered = !!(
     ai_response ||

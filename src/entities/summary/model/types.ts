@@ -24,7 +24,13 @@ export interface SummaryResponse {
 }
 
 export interface CreateSummaryRequest {
-  topic: string;
+  summary_type: string;
+  entity_id?: string;
+  topics?: string[];
+  categories?: string[];
+  created_at_from?: string;
+  created_at_to?: string;
+  additional_info?: string;
   name?: string;
 }
 

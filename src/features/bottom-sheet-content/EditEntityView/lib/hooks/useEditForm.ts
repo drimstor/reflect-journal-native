@@ -69,7 +69,15 @@ export const useEditForm = (
       // Находим измененные значения
       const changedValues = Object.entries(values).reduce<Record<string, any>>(
         (acc, [key, value]) => {
-          if (value !== config.initialValues[key]) {
+          // Если это чек-лист, передаем весь массив, а не только измененные элементы
+          if (
+            key === "checklist" &&
+            JSON.stringify(value) !== JSON.stringify(config.initialValues[key])
+          ) {
+            acc[key] = value;
+          }
+          // Для остальных полей проверяем на изменение
+          else if (value !== config.initialValues[key]) {
             acc[key] = value;
           }
           return acc;

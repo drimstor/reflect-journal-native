@@ -1,4 +1,4 @@
-import { LibraryListVariant } from "@/src/shared/model/types";
+import { EntityType } from "@/src/shared/model/types";
 import { useState, useEffect } from "react";
 import { useT } from "@/src/shared/lib/hooks/useLang";
 
@@ -9,7 +9,14 @@ export interface EditFormField {
   /** Ключ поля в объекте данных */
   key: string;
   /** Тип поля ввода */
-  type: "text" | "textarea" | "toggle" | "tags" | "entities";
+  type:
+    | "text"
+    | "textarea"
+    | "toggle"
+    | "tags"
+    | "entities"
+    | "mood"
+    | "check-list";
   /** Заголовок поля */
   label: string;
   /** Подсказка для поля */
@@ -37,7 +44,7 @@ export interface EditFormConfig {
  * @returns Конфигурация формы редактирования
  */
 export const useEditFormConfig = (
-  variant: LibraryListVariant,
+  variant: EntityType,
   entityData?: Record<string, any>
 ): EditFormConfig => {
   const t = useT();
@@ -92,6 +99,13 @@ export const useEditFormConfig = (
         title = t("edit.journalEntries.title");
         fields = [
           {
+            key: "title",
+            type: "text",
+            label: t("edit.journalEntries.titleField.label"),
+            placeholder: t("edit.journalEntries.titleField.placeholder"),
+            required: false,
+          },
+          {
             key: "content",
             type: "textarea",
             label: t("edit.journalEntries.content.label"),
@@ -102,6 +116,12 @@ export const useEditFormConfig = (
             type: "tags",
             label: t("edit.common.relatedTopics.label"),
             placeholder: t("edit.common.relatedTopics.placeholder"),
+          },
+          {
+            key: "mood",
+            type: "mood",
+            label: t("edit.common.mood.label"),
+            required: false,
           },
           {
             key: "bookmarked",
@@ -156,6 +176,11 @@ export const useEditFormConfig = (
             type: "tags",
             label: t("edit.common.relatedTopics.label"),
             placeholder: t("edit.common.relatedTopics.placeholder"),
+          },
+          {
+            key: "checklist",
+            type: "check-list",
+            label: t("edit.goals.tasks.label"),
           },
           {
             key: "bookmarked",

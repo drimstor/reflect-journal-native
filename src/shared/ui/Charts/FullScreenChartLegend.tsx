@@ -1,22 +1,36 @@
 import { ListItemPreview } from "@/src/features";
 import { FC } from "react";
 import { View } from "react-native";
-import { useThemeStore } from "../../store";
+import { useFiltersStore, useThemeStore } from "../../store";
 import { stringToColor } from "../../lib/helpers";
 import { PortraitNode } from "@/src/entities";
 import { useT } from "@/src/shared/lib/hooks";
+import { DotsIcon } from "@/src/shared/ui/icons";
+import { CheckBox } from "..";
 
 interface FullScreenChartLegendProps {
   data: PortraitNode[];
-  onPress: (item: PortraitNode) => void;
+  onPress?: (item: PortraitNode) => void;
+  isSelectMode?: boolean;
 }
 
 const FullScreenChartLegend: FC<FullScreenChartLegendProps> = ({
   data,
   onPress,
+  isSelectMode,
 }) => {
-  const { colors } = useThemeStore();
   const t = useT();
+  const { colors } = useThemeStore();
+  const { multi_select_ids, setMultiSelectIds, multi_select } =
+    useFiltersStore();
+
+  const onPressSelectItem = (name: string) => {
+    if (multi_select_ids?.includes(name)) {
+      setMultiSelectIds(multi_select_ids?.filter((id) => id !== name));
+    } else {
+      setMultiSelectIds([...(multi_select_ids || []), name]);
+    }
+  };
 
   return (
     <View
@@ -45,8 +59,24 @@ const FullScreenChartLegend: FC<FullScreenChartLegendProps> = ({
           }
           backgroundColor={colors.light}
           backgroundColorForAnimate={colors.alternate}
-          onPress={() => onPress(item)}
-          onDotsPress={() => {}}
+          onPress={() => {
+            if (isSelectMode || multi_select) {
+              onPressSelectItem(item.name);
+            } else {
+              onPress?.(item);
+            }
+          }}
+          element={
+            isSelectMode || multi_select ? (
+              <CheckBox
+                checked={!!multi_select_ids?.includes(item.name)}
+                onPress={() => onPressSelectItem(item.name)}
+                checkedColor={colors.accent}
+              />
+            ) : (
+              <DotsIcon color={colors.contrast} size={24} />
+            )
+          }
         />
       ))}
     </View>

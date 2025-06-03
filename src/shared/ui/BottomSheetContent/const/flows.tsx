@@ -77,7 +77,7 @@ export const FLOWS: Record<string, FlowConfig> = {
             "@/src/features/bottom-sheet-content/DatePickerListView/DatePickerListView"
           )
       ),
-      picker: lazy(
+      pickerPeriod: lazy(
         () =>
           import(
             "@/src/features/bottom-sheet-content/DatePickerEntityView/DatePickerEntityView"
@@ -110,6 +110,26 @@ export const FLOWS: Record<string, FlowConfig> = {
       areYouSure: lazy(
         () =>
           import("@/src/features/bottom-sheet-content/LogoutView/LogoutView")
+      ),
+    },
+  },
+  goal: {
+    screens: {
+      create: lazy(
+        () =>
+          import(
+            "@/src/features/bottom-sheet-content/CreateGoalView/CreateGoalView"
+          )
+      ),
+    },
+  },
+  summary: {
+    screens: {
+      create: lazy(
+        () =>
+          import(
+            "@/src/features/bottom-sheet-content/CreateSummaryView/CreateSummaryViewWithDatePicker"
+          )
       ),
     },
   },

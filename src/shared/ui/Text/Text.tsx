@@ -16,7 +16,7 @@ export interface TextProps {
     | "extraLarge"
     | "header";
   font?: "regular" | "bold" | "thin";
-  withOpacity?: number;
+  withOpacity?: number | string;
   color?: string;
   style?: StyleProp<TextStyle>;
   numberOfLines?: number;

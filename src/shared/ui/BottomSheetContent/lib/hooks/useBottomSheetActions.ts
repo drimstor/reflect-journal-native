@@ -1,12 +1,14 @@
 import { useBottomSheetStore } from "@/src/shared/store/zustand/bottomSheet.store";
-import { LibraryListVariant } from "@/src/shared/model/types";
+import { EntityType } from "@/src/shared/model/types";
 import {
   BookmarkCheckIcon,
+  DirectIcon,
   EditPencilIcon,
   TrashIcon,
 } from "@/src/shared/ui/icons";
 import { useFiltersStore, useThemeStore } from "@/src/shared/store";
 import { useT } from "@/src/shared/lib/hooks";
+import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
 
 /**
  * Хук для управления действиями с элементами списка
@@ -14,7 +16,7 @@ import { useT } from "@/src/shared/lib/hooks";
  * @param flowData Элемент, с которым будут выполняться действия
  */
 export const useBottomSheetActions = <T extends { id: string }>(
-  variant: LibraryListVariant,
+  variant: EntityType,
   flowData?: T
 ) => {
   const { setBottomSheetVisible, navigateToFlow, setFlowData, setActions } =
@@ -23,12 +25,25 @@ export const useBottomSheetActions = <T extends { id: string }>(
   const t = useT();
   const { colors } = useThemeStore();
   const { multi_select_ids } = useFiltersStore();
+  const variantsForSummary = [ENTITY_PLURAL.JOURNAL, ENTITY_PLURAL.CHAT];
 
   /**
    * Обработчик нажатия на кнопку с тремя точками (опции)
    */
   const handlePress = () => {
     const defaultActions = [
+      // Показываем пункт создания саммари только для журналов и чатов
+      ...(variantsForSummary.includes(variant)
+        ? [
+            {
+              text: t("edit.summaries.create"),
+              IconComponent: DirectIcon,
+              onPress: () => {
+                navigateToFlow("summary", "create");
+              },
+            },
+          ]
+        : []),
       {
         text: t("shared.actions.edit"),
         IconComponent: EditPencilIcon,

@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useFiltersStore, useThemeStore } from "@/src/shared/store";
-import { LibraryListVariant } from "@/src/shared/model/types";
+import { EntityType } from "@/src/shared/model/types";
 import { Journal } from "@/src/entities/journals/model/types";
 import { Chat } from "@/src/entities/chat/model/types";
 import { Chip, CheckBox } from "@/src/shared/ui";
@@ -13,8 +13,8 @@ import { View } from "react-native";
 import { useMultiSelection } from "@/src/entities";
 
 interface TypedPreviewBlockProps {
-  variant?: LibraryListVariant;
-  onPress: (item: Journal | Chat) => void;
+  variant?: EntityType;
+  onPress?: (item: Journal | Chat) => void;
   disableAnimate?: boolean;
   previewMode?: boolean;
   willCreate?: boolean;
@@ -57,7 +57,7 @@ const TypedPreviewBlock = ({
 
       const { selectionMode, isSelected, handleItemPress } = useMultiSelection({
         itemId: item?.id,
-        onPress: () => onPress(item),
+        onPress: () => onPress?.(item),
       });
 
       return (
@@ -87,6 +87,15 @@ const TypedPreviewBlock = ({
               <Chip
                 color={stringToColor(item?.related_topics[0])}
                 title={item?.related_topics[0]}
+              />
+            ) : item?.entity_type ? (
+              <Chip
+                color={stringToColor(
+                  t(`entities.${item?.entity_type.toLowerCase()}.singular`)
+                )}
+                title={t(
+                  `entities.${item?.entity_type.toLowerCase()}.singular`
+                )}
               />
             ) : null
           }

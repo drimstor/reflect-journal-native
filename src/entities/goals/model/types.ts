@@ -39,6 +39,7 @@ export interface UpdateGoalRequest {
   name?: string;
   bookmarked?: boolean;
   related_topics?: string[];
+  checklist?: ChecklistItem[];
 }
 
 export interface AddChecklistItemRequest {
@@ -54,4 +55,37 @@ export interface BulkUpdateChecklistItemsRequest {
     id: string;
     is_completed: boolean;
   }[];
+}
+
+export interface PredictGoalRequest {
+  source_type: string;
+  source_id: string;
+}
+
+/**
+ * Запрос на генерацию цели без сохранения в БД
+ */
+export interface GenerateGoalRequest {
+  /** Название цели */
+  name: string;
+  /** Дополнительная информация для генерации задач */
+  additional_info?: string;
+  /** Список связанных тем */
+  related_topics?: string[];
+}
+
+/**
+ * Запрос на сохранение сгенерированной цели в БД
+ */
+export interface SaveGoalRequest {
+  /** Название цели */
+  name: string;
+  /** Список элементов чек-листа */
+  checklist: {
+    title: string;
+  }[];
+  /** Список связанных тем */
+  related_topics?: string[];
+  /** Добавить цель в закладки */
+  bookmarked?: boolean;
 }

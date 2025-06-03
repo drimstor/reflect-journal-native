@@ -1,5 +1,5 @@
 import { useColorsAnimateProps } from "../../model/types";
-import { useTimingAnimation } from "@/src/shared/lib/hooks";
+import { useSharedValue, withTiming } from "react-native-reanimated";
 
 export const useColorsAnimate = ({
   backgroundColor,
@@ -7,21 +7,20 @@ export const useColorsAnimate = ({
   color,
   colorForAnimate,
 }: useColorsAnimateProps) => {
-  const { animate, animation } = useTimingAnimation();
+  const animation = useSharedValue(0);
 
-  const animatedColor = animation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [color, colorForAnimate],
-  });
-
-  const animatedBackgroundColor = animation.interpolate({
-    inputRange: [0, 1],
-    outputRange: [backgroundColor, backgroundColorForAnimate],
-  });
+  const animate = (toValue: number) => {
+    animation.value = withTiming(toValue, {
+      duration: 200,
+    });
+  };
 
   return {
     animate,
-    animatedColor,
-    animatedBackgroundColor,
+    animation,
+    backgroundColor,
+    backgroundColorForAnimate,
+    color,
+    colorForAnimate,
   };
 };

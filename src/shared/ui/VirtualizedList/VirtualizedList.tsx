@@ -1,6 +1,6 @@
 import { groupByDate } from "@/src/shared/lib/helpers";
 import React, { useEffect, useMemo } from "react";
-import { Chip, Loader, NoData } from "@/src/shared/ui";
+import { AnimatedAppearance, Chip, Loader, NoData } from "@/src/shared/ui";
 import {
   useDeviceStore,
   useThemeStore,
@@ -13,6 +13,9 @@ import { View, LogBox } from "react-native";
 import { BottomSheetSectionList } from "@gorhom/bottom-sheet";
 import { VirtualizedListProps, WithDateAndId } from "./model/types";
 import { useLang } from "@/src/shared/lib/hooks";
+import { PATHS } from "../../const/PATHS";
+import { useNavigation } from "@react-navigation/native";
+import { NavigationProps } from "../../model/types";
 
 export const SectionHeader = ({ title }: { title: string }) => {
   const { colors } = useThemeStore();
@@ -44,7 +47,7 @@ function VirtualizedList<ItemT extends WithDateAndId>({
   const { locale } = useLang();
   const filters = useFiltersStore();
   const isFilterActive = isAnyFilterActive(filters);
-
+  const navigation = useNavigation<NavigationProps>();
   const loadMore = () => {
     if (data && data.currentPage < data.totalPages && !isFetching) {
       filters.setPage(data.currentPage + 1);
@@ -88,17 +91,23 @@ function VirtualizedList<ItemT extends WithDateAndId>({
             style={{ marginTop: 25 }}
             type={isFilterActive ? "noSearch" : "noData"}
             onPress={() => {
-              if (isFilterActive) filters.resetFilters();
+              if (isFilterActive) {
+                filters.resetFilters();
+              } else {
+                navigation.navigate(PATHS.ADD_ENTRY);
+              }
             }}
           />
         )
       }
       ListFooterComponent={() => (
-        <Loader
-          style={{ marginTop: 25 }}
-          size={window.width - 100}
-          isVisible={isFetching}
-        />
+        <AnimatedAppearance isVisible>
+          <Loader
+            style={{ marginTop: 25 }}
+            size={window.width - 100}
+            isVisible={isFetching}
+          />
+        </AnimatedAppearance>
       )}
     />
   );

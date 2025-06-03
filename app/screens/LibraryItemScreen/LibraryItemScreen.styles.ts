@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 import { ThemeColors } from "@/src/shared/model/types";
-import { Animated } from "react-native";
 
 export const createStyles = (colors: ThemeColors) =>
   StyleSheet.create({

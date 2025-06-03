@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import { useBottomSheetStore } from "@/src/shared/store";
-import type { BottomSheetRef } from "@/src/shared/ui";
 import { Keyboard } from "react-native";
 import { useBottomSheetIndexState } from "@/src/shared/lib/hooks";
 
@@ -9,7 +8,8 @@ export const useBottomSheetVisibility = () => {
     useBottomSheetIndexState();
 
   const isInitialRender = useRef(true);
-  const { setBottomSheetVisible, isBottomSheetVisible } = useBottomSheetStore();
+  const { setBottomSheetVisible, isBottomSheetVisible, setBottomSheetHeight } =
+    useBottomSheetStore();
 
   useEffect(() => {
     if (isInitialRender.current) {
@@ -29,5 +29,5 @@ export const useBottomSheetVisibility = () => {
     setBottomSheetVisible(false);
   };
 
-  return { handleClose, bottomSheetRef };
+  return { handleClose, bottomSheetRef, snapToIndex };
 };

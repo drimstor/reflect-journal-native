@@ -1,30 +1,24 @@
-import { createApi } from "@reduxjs/toolkit/query/react";
-import { baseQueryWithReauth } from "@/src/shared/store";
+import { baseApi } from "@/src/shared/api/baseApi";
 import {
   Message,
   CreateMessageRequest,
   UpdateMessageRequest,
   MessageResponse,
+  CreateAIMessageFromEntityRequest,
 } from "../model/types";
 import { transformMessages } from "../lib/helpers/transformMessages";
 import { IMessage } from "react-native-gifted-chat";
-import { CHATS_TAG, chatsApi } from "./chatsApi";
+import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
 
 export const MESSAGES_TAG = "Messages" as const;
 type TagTypes = typeof MESSAGES_TAG;
-
-// Экспортируем util чатов для инвалидации тегов
-export const chatsApiUtil = chatsApi.util;
 
 // Расширенный тип для чата
 interface ChatMessageResponse extends Omit<MessageResponse, "data"> {
   data: IMessage[];
 }
 
-export const messagesApi = createApi({
-  reducerPath: "messagesApi",
-  baseQuery: baseQueryWithReauth,
-  tagTypes: [MESSAGES_TAG, CHATS_TAG],
+export const messagesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     createMessage: builder.mutation<Message, CreateMessageRequest>({
       query: (data: CreateMessageRequest) => ({
@@ -32,27 +26,12 @@ export const messagesApi = createApi({
         method: "POST",
         body: data,
       }),
-      async onQueryStarted(data, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-
-          // Инвалидируем список чатов при создании нового сообщения
-          dispatch(
-            chatsApiUtil.invalidateTags([{ type: CHATS_TAG, id: "LIST" }])
-          );
-
-          // Если указан chat_id, также инвалидируем конкретный чат
-          if (data.chat_id) {
-            dispatch(
-              chatsApiUtil.invalidateTags([
-                { type: CHATS_TAG, id: data.chat_id },
-              ])
-            );
-          }
-        } catch (error) {
-          // Игнорируем ошибки
-        }
-      },
+      invalidatesTags: (result, error, data) => [
+        { type: ENTITY_PLURAL.CHAT, id: "LIST" },
+        ...(data.chat_id
+          ? [{ type: ENTITY_PLURAL.CHAT, id: data.chat_id }]
+          : []),
+      ],
     }),
 
     getChatMessages: builder.query<
@@ -133,24 +112,9 @@ export const messagesApi = createApi({
       invalidatesTags: (result, error, { message_id }) => [
         { type: MESSAGES_TAG, id: message_id },
         { type: MESSAGES_TAG, id: "LIST" },
+        { type: ENTITY_PLURAL.CHAT, id: result?.chat_id },
+        { type: ENTITY_PLURAL.CHAT, id: "LIST" },
       ],
-      async onQueryStarted({ data }, { dispatch, queryFulfilled }) {
-        try {
-          const { data: responseData } = await queryFulfilled;
-
-          // Если у сообщения есть chat_id, обновляем также чат
-          if (responseData && responseData.chat_id) {
-            dispatch(
-              chatsApiUtil.invalidateTags([
-                { type: CHATS_TAG, id: responseData.chat_id },
-                { type: CHATS_TAG, id: "LIST" },
-              ])
-            );
-          }
-        } catch (error) {
-          // Игнорируем ошибки
-        }
-      },
     }),
 
     deleteMessage: builder.mutation<void, string>({
@@ -161,20 +125,24 @@ export const messagesApi = createApi({
       invalidatesTags: (result, error, message_id) => [
         { type: MESSAGES_TAG, id: message_id },
         { type: MESSAGES_TAG, id: "LIST" },
+        { type: ENTITY_PLURAL.CHAT, id: "LIST" },
       ],
-      // При удалении сообщения также обновляем список чатов
-      async onQueryStarted(_, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
+    }),
 
-          // Принудительно обновляем список чатов
-          dispatch(
-            chatsApiUtil.invalidateTags([{ type: CHATS_TAG, id: "LIST" }])
-          );
-        } catch (error) {
-          // Игнорируем ошибки
-        }
-      },
+    // Создание AI-сообщения на основе сущности
+    createAIMessageFromEntity: builder.mutation<
+      Message,
+      CreateAIMessageFromEntityRequest
+    >({
+      query: (data) => ({
+        url: "/messages/ai-from-entity",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: (result, error, data) => [
+        { type: ENTITY_PLURAL.CHAT, id: "LIST" },
+        { type: MESSAGES_TAG, id: "LIST" },
+      ],
     }),
   }),
 });
@@ -184,4 +152,5 @@ export const {
   useGetChatMessagesQuery,
   useUpdateMessageMutation,
   useDeleteMessageMutation,
+  useCreateAIMessageFromEntityMutation,
 } = messagesApi;

@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, View } from "react-native";
-import { BookmarkCheckIcon, Text } from "@/src/shared/ui";
+import { ArrowLeftIcon, BookmarkCheckIcon, Text } from "@/src/shared/ui";
 import { headerStyles } from "./BottomSheetScreenHeader.styles";
 import { ThemeColors } from "@/src/shared/model/types";
 import { SmallLoader } from "@/src/shared/ui/Loader/SmallLoader";
@@ -13,6 +13,9 @@ interface HeaderProps {
   isLoading: boolean;
   colors: ThemeColors;
   doneText: string;
+  showDatePicker?: boolean;
+  onDateClick?: () => void;
+  showDoneButton?: boolean;
 }
 
 export const BottomSheetScreenHeader = ({
@@ -23,8 +26,20 @@ export const BottomSheetScreenHeader = ({
   isLoading,
   colors,
   doneText,
+  showDatePicker,
+  onDateClick,
+  showDoneButton,
 }: HeaderProps) => {
   const styles = headerStyles(colors);
+
+  // Обработчик нажатия на дату
+  const handleDateClick = () => {
+    // Если нельзя выбирать дату или не передан обработчик, не делаем ничего
+    if (!showDatePicker || !onDateClick) return;
+
+    // Вызываем переданный обработчик клика по дате
+    onDateClick();
+  };
 
   return (
     <View style={styles.headerBox}>
@@ -35,23 +50,31 @@ export const BottomSheetScreenHeader = ({
           fill={isBookmarked}
         />
       </Pressable>
-      <Text font="bold" size="normal" color={colors.contrast}>
-        {date}
-      </Text>
+      <Pressable onPress={handleDateClick}>
+        <Text font="bold" size="normal" color={colors.contrast}>
+          {date}
+          {showDatePicker && (
+            <View style={styles.arrowBox}>
+              <ArrowLeftIcon size={12} color={colors.contrast} />
+            </View>
+          )}
+        </Text>
+      </Pressable>
       <Pressable
         style={styles.pressableRightBox}
         onPress={onSave}
         disabled={isLoading}
       >
-        {isLoading ? (
-          <View style={styles.buttonLoaderBox}>
-            <SmallLoader color={colors.contrast} />
-          </View>
-        ) : (
-          <Text font="bold" size="normal" color={colors.contrast}>
-            {doneText}
-          </Text>
-        )}
+        {showDoneButton &&
+          (isLoading ? (
+            <View style={styles.buttonLoaderBox}>
+              <SmallLoader color={colors.contrast} />
+            </View>
+          ) : (
+            <Text font="bold" size="normal" color={colors.contrast}>
+              {doneText}
+            </Text>
+          ))}
       </Pressable>
     </View>
   );

@@ -70,12 +70,12 @@ const TinderCarousel = ({
         )
       );
 
-      const scale = interpolate(value, [0, 1], [1, 0.95]);
+      const scale = interpolate(value, [0, 1], [1, 0.93]);
 
       const opacity = interpolate(
         value,
         [-1, -0.8, 0, 1],
-        [0, 0.9, 1, 0.85],
+        [0, 0.9, 1, 0.9],
         Extrapolation.EXTEND
       );
 
@@ -112,6 +112,7 @@ const TinderCarousel = ({
         customAnimation={animationStyle}
         renderItem={renderItem as CarouselRenderItem<never>}
         onProgressChange={progress}
+        style={{ overflow: "visible" }}
       />
       {shouldShowPagination && (
         <View

@@ -5,33 +5,40 @@ import {
   Divider,
   Layout,
   Text,
+  MarkdownEmojiText,
   Chip,
   TitleText,
   InfoBox,
   BottomSheet,
-  Carousel,
   PaddingLayout,
   useCarouselConfig,
   useBottomSheetActions,
   AnimatedAppearance,
 } from "@/src/shared/ui";
-import { Header, useHeaderStore, ItemCarousel } from "@/src/widgets";
+import {
+  Header,
+  useHeaderStore,
+  ItemCarousel,
+  CommandWidget,
+} from "@/src/widgets";
 import { useLang, useT } from "@/src/shared/lib/hooks";
 import {
   useBottomSheetStore,
   useDeviceStore,
   useThemeStore,
 } from "@/src/shared/store";
-import { TypedPreviewBlock } from "@/src/features";
-import { ScrollView, View, Animated } from "react-native";
+import { ScrollView, View } from "react-native";
 import { CalendarIcon, DotsIcon } from "@/src/shared/ui/icons";
 import { createStyles } from "./LibraryItemScreen.styles";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { formatDate, getWeekDay } from "@/src/shared/lib/helpers";
 import { stringToColor } from "@/src/shared/lib/helpers";
 import { ChecklistItem } from "@/src/entities/goals/model/types";
 import { PATHS } from "@/src/shared/const";
 import { useChecklistActions } from "./lib/hooks/useChecklistActions";
+import { Journal, useGetAnyEntity, useGetMood } from "@/src/entities";
+import { StackNavigationProps } from "@/src/shared/model/types";
+import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
 
 interface LibraryItemScreenProps {}
 
@@ -42,24 +49,55 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
   const { window } = useDeviceStore();
   const styles = createStyles(colors);
   const { subtitle } = useHeaderStore();
-
-  // const { handleScroll, handleScrollEnd, visibleAnimation } = usePullToAction({
-  //   onAction: navigation.goBack,
-  // });
-
+  const { setNavigation } = useBottomSheetStore();
   const route = useRoute();
   const { variant, item } = route.params as any;
+  const { handlePress } = useBottomSheetActions(variant, item);
+  const navigation = useNavigation<StackNavigationProps>();
+  const [currentItem, setCurrentItem] = useState<any>(null);
+  const mood = useGetMood(currentItem?.mood);
+  const { data } = useGetAnyEntity({ type: variant, id: item.id });
 
-  const { checkboxes, isUpdatingChecklistItem, handleCheckboxToggle } =
-    useChecklistActions(variant, item.id, item?.checklist || []);
+  const isJournalEntry = variant === ENTITY_PLURAL.JOURNAL_ENTRY;
 
-  const { setNavigation } = useBottomSheetStore();
+  useEffect(() => {
+    setCurrentItem(data || item);
+  }, [item, data]);
 
   useEffect(() => {
     setNavigation(false, PATHS.LIBRARY);
   }, [variant]);
 
-  const { handlePress } = useBottomSheetActions(variant, item);
+  // ------------------------------------------------------------ //
+
+  const { data: parentJournal } = useGetAnyEntity({
+    type: ENTITY_PLURAL.JOURNAL,
+    id: item.journal_id,
+    skip: !isJournalEntry,
+  });
+
+  useEffect(() => {
+    if (isJournalEntry && data) {
+      setCurrentItem({
+        ...data,
+        related_entities: (parentJournal as Journal)?.related_entities as any,
+      });
+    }
+  }, [(parentJournal as Journal)?.related_entities, data]);
+
+  const carouselConfig = useCarouselConfig(
+    25,
+    currentItem?.related_entities?.length > 1 ? 60 : 0
+  );
+
+  // ------------------------------------------------------------ //
+
+  // const journal = useAppSelector(getJournalCache(currentItem?.journal_id));
+
+  const { checkboxes, isUpdatingChecklistItem, handleCheckboxToggle } =
+    useChecklistActions(variant, currentItem?.id, currentItem?.checklist || []);
+
+  console.log(currentItem?.related_entities);
 
   return (
     <Layout>
@@ -82,30 +120,26 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
         staticMode
         paddingHorizontal={0}
       >
-        {/* <Animated.View style={[styles.pullIcon, visibleAnimation]}>
-          <BackSquareIcon color={colors.contrast} size={24} />
-        </Animated.View> */}
         <AnimatedAppearance isVisible delay={150}>
           <ScrollView
             contentContainerStyle={styles.globalViewHorizontal}
             showsVerticalScrollIndicator={false}
-            // onScroll={handleScroll}
-            // onScrollEndDrag={handleScrollEnd}
             scrollEventThrottle={16}
             style={{ maxHeight: window.height - 160 }}
           >
             <PaddingLayout>
-              {variant !== "JournalEntries" && (
+              {(currentItem?.name || currentItem?.title) && (
                 <View style={[styles.titleBox]}>
                   <Text size="extraLarge" font="bold" color={colors.contrast}>
-                    {item?.name}
+                    {currentItem?.name || currentItem?.title}
                   </Text>
-                  {item?.related_topics?.[0] && (
-                    <Chip
-                      color={stringToColor(item?.related_topics?.[0])}
-                      title={item?.related_topics?.[0]}
-                    />
-                  )}
+                  {variant !== "JournalEntries" &&
+                    currentItem?.related_topics?.[0] && (
+                      <Chip
+                        color={stringToColor(currentItem?.related_topics?.[0])}
+                        title={currentItem?.related_topics?.[0]}
+                      />
+                    )}
                 </View>
               )}
               <View style={styles.infoTableBox}>
@@ -114,9 +148,9 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
                     label={t("shared.info.created")}
                     icon={<CalendarIcon color={colors.contrast} />}
                     value={`${formatDate(
-                      item?.created_at,
+                      currentItem?.created_at,
                       locale
-                    )}, ${getWeekDay(item?.created_at, t, "short")}`}
+                    )}, ${getWeekDay(currentItem?.created_at, t, "short")}`}
                     color={colors.contrast}
                   />
                 </View>
@@ -125,23 +159,34 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
                     label={t("shared.info.lastUpdated")}
                     icon={<CalendarIcon color={colors.contrast} />}
                     value={`${formatDate(
-                      item?.updated_at,
+                      currentItem?.updated_at,
                       locale
-                    )}, ${getWeekDay(item?.updated_at, t, "short")}`}
+                    )}, ${getWeekDay(currentItem?.updated_at, t, "short")}`}
                     color={colors.contrast}
                   />
                 </View>
-                {/* <View style={styles.infoTableItem}>
-                <InfoBox
-                  label="Assigned to"
-                  icon={<UserBorderIcon color={colors.contrast} />}
-                  value="Tony Ware"
-                  color={colors.contrast}
-                />
-              </View> */}
+                {mood && !Array.isArray(mood) && (
+                  <View style={styles.infoTableItem}>
+                    <InfoBox
+                      label={t("edit.common.mood.label")}
+                      icon={
+                        <Text
+                          size="large"
+                          style={{
+                            lineHeight: 26,
+                          }}
+                        >
+                          {mood?.emoji}
+                        </Text>
+                      }
+                      value={mood?.label || ""}
+                      color={colors.contrast}
+                    />
+                  </View>
+                )}
               </View>
               <Divider style={styles.divider} color={colors.alternate} />
-              {item?.content && (
+              {currentItem?.content && (
                 <>
                   <TitleText
                     text={t("libraryItem.content")}
@@ -150,13 +195,26 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
                     variant="subTitle"
                     style={styles.titleText}
                   />
-                  <Text color={colors.contrast} style={styles.contentText}>
-                    {item?.content}
-                  </Text>
+                  <MarkdownEmojiText
+                    color={colors.contrast}
+                    style={styles.contentText}
+                  >
+                    {currentItem?.content}
+                  </MarkdownEmojiText>
+                  {currentItem?.command &&
+                    variant === ENTITY_PLURAL.SUMMARY && (
+                      <View style={{ marginTop: 18 }}>
+                        <CommandWidget
+                          currentItem={currentItem}
+                          parentJournal={parentJournal as Journal}
+                          sourceType={variant}
+                        />
+                      </View>
+                    )}
                   <Divider style={styles.divider} color={colors.alternate} />
                 </>
               )}
-              {!!item?.related_topics?.length && (
+              {!!currentItem?.related_topics?.length && (
                 <>
                   <TitleText
                     text={t("libraryItem.relatedTopics")}
@@ -166,7 +224,7 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
                     style={styles.titleText}
                   />
                   <View style={styles.tagsBox}>
-                    {item?.related_topics?.map((tag: string) => (
+                    {currentItem?.related_topics?.map((tag: string) => (
                       <Chip
                         key={tag}
                         title={tag}
@@ -178,7 +236,7 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
                   <Divider style={styles.divider} color={colors.alternate} />
                 </>
               )}
-              {item?.ai_response && (
+              {currentItem?.ai_response && (
                 <>
                   <TitleText
                     text={t("libraryItem.aiResponse")}
@@ -187,9 +245,21 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
                     variant="subTitle"
                     style={styles.titleText}
                   />
-                  <Text color={colors.contrast} style={styles.contentText}>
-                    {item?.ai_response}
-                  </Text>
+                  <MarkdownEmojiText
+                    color={colors.contrast}
+                    style={styles.contentText}
+                  >
+                    {currentItem?.ai_response}
+                  </MarkdownEmojiText>
+                  {currentItem?.command && (
+                    <View style={{ marginTop: 18 }}>
+                      <CommandWidget
+                        currentItem={currentItem}
+                        parentJournal={parentJournal as Journal}
+                        sourceType={variant}
+                      />
+                    </View>
+                  )}
                   <Divider style={styles.divider} color={colors.alternate} />
                 </>
               )}
@@ -227,20 +297,30 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
                 </>
               )}
             </PaddingLayout>
-            {!!item?.related_entities?.length && (
+            {!!currentItem?.related_entities?.length && (
               <View style={styles.carouselBox}>
                 <ItemCarousel
                   title={t("libraryItem.relatedEntries")}
-                  data={item?.related_entities}
-                  onSelectItem={(index) => {
-                    // setCurrentIndex(index);
-                    // resetFilters();
+                  data={currentItem?.related_entities}
+                  onPress={(item) => {
+                    if (item.entity_type === ENTITY_PLURAL.CHAT) {
+                      navigation.navigate(PATHS.CHAT, {
+                        item,
+                      });
+                    } else if (item.entity_type === ENTITY_PLURAL.JOURNAL) {
+                      navigation.navigate(PATHS.LIBRARY_LIST, {
+                        variant: item.entity_type,
+                        item,
+                      });
+                    } else {
+                      navigation.push(PATHS.LIBRARY_ITEM, {
+                        variant: item.entity_type,
+                        item,
+                      });
+                    }
                   }}
                   modeConfig={{
-                    ...useCarouselConfig(
-                      25,
-                      item?.related_entities?.length > 1 ? 60 : 0
-                    ),
+                    ...carouselConfig,
                     parallaxAdjacentItemScale: 0.79,
                   }}
                   colors={colors}

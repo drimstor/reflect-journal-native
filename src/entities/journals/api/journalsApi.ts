@@ -1,24 +1,16 @@
-import {
-  baseQueryWithReauth,
-  formatValidationErrors,
-} from "@/src/shared/store";
+import { baseApi } from "@/src/shared/api/baseApi";
+import { formatValidationErrors } from "@/src/shared/store";
 import type {
   Journal,
   CreateJournalRequest,
   UpdateJournalRequest,
   JournalResponse,
 } from "../model/types";
-import { createApi } from "@reduxjs/toolkit/query/react";
 import { Alert } from "react-native";
 import { mergeQueryData } from "@/src/shared/store";
+import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
 
-export const JOURNALS_TAG = "Journals" as const;
-type TagTypes = typeof JOURNALS_TAG;
-
-export const journalsApi = createApi({
-  reducerPath: "journalsApi",
-  baseQuery: baseQueryWithReauth,
-  tagTypes: [JOURNALS_TAG],
+export const journalsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getJournals: builder.query<JournalResponse, { params?: string }>({
       query: ({ params }) => ({
@@ -28,10 +20,13 @@ export const journalsApi = createApi({
       providesTags: (result) =>
         result
           ? [
-              ...result.data.map(({ id }) => ({ type: JOURNALS_TAG, id })),
-              { type: JOURNALS_TAG, id: "LIST" },
+              ...result.data.map(({ id }) => ({
+                type: ENTITY_PLURAL.JOURNAL,
+                id,
+              })),
+              { type: ENTITY_PLURAL.JOURNAL, id: "LIST" },
             ]
-          : [{ type: JOURNALS_TAG, id: "LIST" }],
+          : [{ type: ENTITY_PLURAL.JOURNAL, id: "LIST" }],
       serializeQueryArgs: ({ endpointName, queryArgs }) => {
         // Если есть дополнительные фильтры (кроме page и limit), не используем кеширование
         const params = new URLSearchParams(queryArgs.params || "");
@@ -55,13 +50,23 @@ export const journalsApi = createApi({
       },
     }),
 
+    getJournal: builder.query<Journal, { id: string }>({
+      query: ({ id }) => ({
+        url: `/journals/${id}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, { id }) => [
+        { type: ENTITY_PLURAL.JOURNAL, id },
+      ],
+    }),
+
     createJournal: builder.mutation<Journal, CreateJournalRequest>({
       query: (body) => ({
         url: "/journals/create",
         method: "POST",
         body,
       }),
-      invalidatesTags: [{ type: JOURNALS_TAG, id: "LIST" }],
+      invalidatesTags: [{ type: ENTITY_PLURAL.JOURNAL, id: "LIST" }],
       async onQueryStarted(_, { queryFulfilled }) {
         try {
           await queryFulfilled;
@@ -85,8 +90,8 @@ export const journalsApi = createApi({
         body,
       }),
       invalidatesTags: (result, error, { id }) => [
-        { type: JOURNALS_TAG, id },
-        { type: JOURNALS_TAG, id: "LIST" },
+        { type: ENTITY_PLURAL.JOURNAL, id },
+        { type: ENTITY_PLURAL.JOURNAL, id: "LIST" },
       ],
     }),
 
@@ -96,12 +101,11 @@ export const journalsApi = createApi({
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [
-        { type: JOURNALS_TAG, id },
-        { type: JOURNALS_TAG, id: "LIST" },
+        { type: ENTITY_PLURAL.JOURNAL, id },
+        { type: ENTITY_PLURAL.JOURNAL, id: "LIST" },
       ],
     }),
   }),
-  // overrideExisting: false,
 });
 
 // Необходимо для активации подписки на изменения записей в дневниках
@@ -109,6 +113,7 @@ export const journalsApiUtil = journalsApi.util;
 
 export const {
   useGetJournalsQuery,
+  useGetJournalQuery,
   useCreateJournalMutation,
   useUpdateJournalMutation,
   useDeleteJournalMutation,

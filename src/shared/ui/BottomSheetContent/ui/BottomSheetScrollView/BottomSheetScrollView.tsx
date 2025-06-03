@@ -5,15 +5,22 @@ import { ScrollView } from "react-native";
 
 export const BottomSheetScrollView = ({
   children,
+  additionalHeight = 135,
+  customMaxHeight,
 }: {
   children: React.ReactNode;
+  customMaxHeight?: number;
+  additionalHeight?: number;
 }) => {
   const { window } = useDeviceStore();
   const { keyboardHeight, isKeyboardVisible } = useKeyboard();
 
   const maxHeight = useMemo(
-    () => (isKeyboardVisible ? window.height - keyboardHeight - 135 : "auto"),
-    [isKeyboardVisible, window.height, keyboardHeight]
+    () =>
+      isKeyboardVisible
+        ? window.height - keyboardHeight - additionalHeight
+        : customMaxHeight || "auto",
+    [isKeyboardVisible, window.height, keyboardHeight, customMaxHeight]
   );
 
   const paddingBottom = useMemo(
