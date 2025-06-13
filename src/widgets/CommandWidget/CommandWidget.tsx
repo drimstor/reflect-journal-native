@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { useT } from "@/src/shared/lib/hooks";
 import { Button } from "@/src/shared/ui";
 import { useThemeStore, useBottomSheetStore } from "@/src/shared/store";
-import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import { PATHS } from "@/src/shared/const";
 import { getEntitiesIds, Journal } from "@/src/entities";
 import {
@@ -58,7 +58,7 @@ export const CommandWidget: FC<CommandWidgetProps> = ({
       title: t("commands.createChat"),
       onPress: () => {
         const foundRelatedChat = parentJournal?.related_entities?.find(
-          (entity) => entity.entity_type === ENTITY_PLURAL.CHAT
+          (entity) => entity.entity_type === ENTITY_NAME.CHAT
         );
 
         if (foundRelatedChat) {
@@ -82,11 +82,11 @@ export const CommandWidget: FC<CommandWidgetProps> = ({
           .then((chat) => {
             relateEntities({
               source_type:
-                sourceType === ENTITY_PLURAL.JOURNAL_ENTRY
-                  ? ENTITY_PLURAL.JOURNAL
+                sourceType === ENTITY_NAME.JOURNAL_ENTRY
+                  ? ENTITY_NAME.JOURNAL
                   : sourceType,
               source_id: getEntitiesIds(currentItem.id)[0],
-              target_type: ENTITY_PLURAL.CHAT,
+              target_type: ENTITY_NAME.CHAT,
               target_id: chat.id,
             })
               .unwrap()
@@ -102,6 +102,14 @@ export const CommandWidget: FC<CommandWidgetProps> = ({
                 navigation.navigate(PATHS.CHAT, params);
               });
           });
+      },
+    },
+    client_create_journal: {
+      title: t("commands.createJournal"),
+      onPress: () => {
+        navigation.navigate(PATHS.ADD_ENTRY, {
+          variant: ENTITY_NAME.JOURNAL,
+        });
       },
     },
   };

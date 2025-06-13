@@ -6,7 +6,7 @@ import {
 } from "@/src/shared/store";
 import { CHARTS } from "../../const/static";
 import { useT } from "@/src/shared/lib/hooks";
-import { CheckIcon } from "@/src/shared/ui";
+import { CheckIcon, DirectIcon } from "@/src/shared/ui";
 import { BottomSheetAction } from "@/src/shared/ui/BottomSheetContent";
 
 export const useChartBottomSheet = () => {
@@ -26,49 +26,63 @@ export const useChartBottomSheet = () => {
     return [window.height - 85];
   }, [window.height]);
 
+  const titleActions: BottomSheetAction[] = [
+    {
+      text: t("overview.chart.popularCategories"),
+      IconComponent:
+        flowData?.chartType === "top_types" || !flowData?.chartType
+          ? CheckIcon
+          : undefined,
+      onPress: () => {
+        setFlowData({ chartType: "top_types" });
+        setBottomSheetVisible(false);
+      },
+    },
+    {
+      text: t("overview.chart.popularTopics"),
+      IconComponent:
+        flowData?.chartType === "top_nodes" ? CheckIcon : undefined,
+      onPress: () => {
+        setFlowData({ chartType: "top_nodes" });
+        setBottomSheetVisible(false);
+      },
+    },
+  ];
+
   // Функция для открытия списка переключения типов диаграмм
-  const openChartTypesList = useCallback(() => {
-    const actions: BottomSheetAction[] = [
-      {
-        text: t("overview.chart.popularCategories"),
-        IconComponent:
-          flowData?.chartType === "top_types" || !flowData?.chartType
-            ? CheckIcon
-            : undefined,
-        onPress: () => {
-          setFlowData({ chartType: "top_types" });
-          setBottomSheetVisible(false);
+  const openBottomSheetList = useCallback(
+    (variant: "title" | "topics" | "categories") => (entities?: string[]) => {
+      const listActions = [
+        {
+          text: t("edit.summaries.create"),
+          IconComponent: DirectIcon,
+          onPress: () => {
+            setFlowData({ variant, entitiesValues: entities });
+            navigateToFlow("summary", "create");
+          },
         },
-      },
-      {
-        text: t("overview.chart.popularTopics"),
-        IconComponent:
-          flowData?.chartType === "top_nodes" ? CheckIcon : undefined,
-        onPress: () => {
-          setFlowData({ chartType: "top_nodes" });
-          setBottomSheetVisible(false);
-        },
-      },
-    ];
+      ];
 
-    setActions(actions);
-    navigateToFlow("common", "list");
+      setActions(variant === "title" ? titleActions : listActions);
+      navigateToFlow("common", "list");
 
-    setTimeout(() => {
-      setBottomSheetVisible(true);
-    }, CHARTS.SHEET_OPEN_DELAY);
-  }, [
-    t,
-    flowData,
-    navigateToFlow,
-    setActions,
-    setBottomSheetVisible,
-    setFlowData,
-  ]);
+      setTimeout(() => {
+        setBottomSheetVisible(true);
+      }, CHARTS.SHEET_OPEN_DELAY);
+    },
+    [
+      t,
+      flowData,
+      navigateToFlow,
+      setActions,
+      setBottomSheetVisible,
+      setFlowData,
+    ]
+  );
 
   return {
     snapPoints,
-    openChartTypesList,
+    openBottomSheetList,
     colors,
   };
 };

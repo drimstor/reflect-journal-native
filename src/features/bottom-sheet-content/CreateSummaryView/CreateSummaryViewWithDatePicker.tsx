@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useBottomSheetStore, useFiltersStore } from "@/src/shared/store";
 import CreateSummaryView from "./CreateSummaryView";
 import { useT } from "@/src/shared/lib/hooks";
@@ -14,6 +14,8 @@ const CreateSummaryViewWithDatePicker =
     const t = useT();
     const { navigateToFlow, setFlowData, flowData, isBottomSheetVisible } =
       useBottomSheetStore();
+
+    const { setMultiSelectIds } = useFiltersStore();
 
     const { startDate, endDate } = flowData.datePickerProps || {};
 
@@ -41,6 +43,12 @@ const CreateSummaryViewWithDatePicker =
         handleDateReset();
       }
     }, [isBottomSheetVisible]);
+
+    useEffect(() => {
+      if (flowData.entitiesValues) {
+        setMultiSelectIds(flowData.entitiesValues);
+      }
+    }, [flowData.entitiesValues, flowData.variant]);
 
     return (
       <CreateSummaryView

@@ -4,9 +4,7 @@ import { IconButton } from "@/src/shared/ui";
 import {
   SettingsScreen,
   HomeScreen,
-  AuthScreen,
   LibraryScreen,
-  ChatScreen,
   CreateEntityScreen,
   OverviewScreen,
 } from "@/app/screens";
@@ -14,11 +12,7 @@ import { View } from "react-native";
 import { createStyles } from "./MainStack.styles";
 import {
   HomeIcon,
-  DocumentSolidIcon,
-  CalendarSolidIcon,
-  UserIcon,
   PlusIcon,
-  BoxSolidIcon,
   ChartSolidIcon,
   DirectSolidIcon,
 } from "@/src/shared/ui/icons";

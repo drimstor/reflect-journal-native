@@ -6,6 +6,8 @@ export const BOLD_REGEX = /\*\*(.*?)\*\*/g;
 
 export const HEADER_REGEX = /^(#{1,6})\s+(.+)$/;
 
+export const LIST_REGEX = /^-\s+(.+)$/;
+
 // Маппинг размеров для заголовков
 export const SIZE_MAP = {
   small: "medium",

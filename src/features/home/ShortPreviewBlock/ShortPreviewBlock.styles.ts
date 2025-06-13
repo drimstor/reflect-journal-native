@@ -5,9 +5,9 @@ export const createStyles = (colors: ThemeColors, padding: number) =>
   StyleSheet.create({
     globalBox: {
       padding,
-      backgroundColor: colors.secondary,
       borderRadius: 18,
-      width: 260,
+      width: 310,
+      height: 170,
       marginBottom: 8,
       shadowColor: "#000000",
       shadowOffset: { width: 0, height: 2 },
@@ -23,6 +23,7 @@ export const createStyles = (colors: ThemeColors, padding: number) =>
     },
     subTitleBox: {
       marginTop: 6,
+      marginBottom: "auto",
     },
     progressBarBox: {
       marginTop: 16,

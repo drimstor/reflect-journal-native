@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import {
   BottomSheet,
   Divider,
@@ -9,10 +9,15 @@ import {
   Loader,
   AnimatedAppearance,
   NoData,
+  DirectIcon,
 } from "@/src/shared/ui";
 import { ChartsFiltersPanel, Header } from "@/src/widgets";
 import { useT } from "@/src/shared/lib/hooks";
-import { useDeviceStore, useScreenInfoStore } from "@/src/shared/store";
+import {
+  useDeviceStore,
+  useFiltersStore,
+  useScreenInfoStore,
+} from "@/src/shared/store";
 import { ScrollView, View } from "react-native";
 import { styles } from "./ChartsScreen.styles";
 import { ChartTitle } from "./ui/ChartTitle/ChartTitle";
@@ -29,6 +34,8 @@ const ChartsScreen = () => {
   const { setScreenInfo } = useScreenInfoStore();
   const { window } = useDeviceStore();
   const navigation = useNavigation<NavigationProps>();
+  const { snapPoints, openBottomSheetList, colors } = useChartBottomSheet();
+  const { multi_select_ids, multi_select } = useFiltersStore();
 
   // Инициализация информации о экране
   useEffect(() => {
@@ -49,13 +56,15 @@ const ChartsScreen = () => {
     handlePressBack,
     animationValue,
   } = useChartManagement();
-  const { snapPoints, openChartTypesList, colors } = useChartBottomSheet();
 
   // Данные текущей диаграммы
   const currentChartData =
     chartsData[currentChart as keyof typeof chartsData]?.data;
   const currentChartTitle =
     chartsData[currentChart as keyof typeof chartsData]?.title;
+
+  const mainChartData = chartsData[mainChart as keyof typeof chartsData]?.data;
+  const subChartData = chartsData[subChart as keyof typeof chartsData]?.data;
 
   return (
     <Layout>
@@ -64,7 +73,12 @@ const ChartsScreen = () => {
         backButton
         rightIcon={{
           icon: <DotsIcon color={colors.contrast} />,
-          onPress: () => {},
+          onPress: () =>
+            openBottomSheetList(
+              currentChartTitle === t("overview.chart.popularCategories")
+                ? "categories"
+                : "topics"
+            )(multi_select ? multi_select_ids : []),
         }}
       />
       <BottomSheet
@@ -109,17 +123,13 @@ const ChartsScreen = () => {
               <ChartTitle
                 title={currentChartTitle}
                 isMainChart={currentChart === mainChart}
-                onChangeChartType={openChartTypesList}
+                onChangeChartType={() => openBottomSheetList("title")()}
                 onPressBack={handlePressBack}
               />
               {/* Контейнер с диаграммами */}
               <ChartsContainer
-                mainChartData={
-                  chartsData[mainChart as keyof typeof chartsData]?.data
-                }
-                subChartData={
-                  chartsData[subChart as keyof typeof chartsData]?.data
-                }
+                mainChartData={mainChartData}
+                subChartData={subChartData}
                 onMainChartPress={handlePressBack}
                 mainChartRef={mainChartRef}
                 subChartRef={subChartRef}
@@ -131,6 +141,14 @@ const ChartsScreen = () => {
                   <FullScreenChartLegend
                     data={currentChartData}
                     onPress={(item) => handleItemPress(item, currentChartData)}
+                    onDotsPress={(item) =>
+                      openBottomSheetList(
+                        currentChartTitle ===
+                          t("overview.chart.popularCategories")
+                          ? "categories"
+                          : "topics"
+                      )([item.name])
+                    }
                   />
                 )}
               </PaddingLayout>

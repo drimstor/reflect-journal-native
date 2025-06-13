@@ -13,7 +13,7 @@ const NoData = ({
   onPress,
   style,
 }: {
-  type?: "noData" | "error" | "noSearch" | "noMessage";
+  type?: "noData" | "error" | "noSearch" | "noMessage" | "noGoals";
   onPress?: () => void;
   style?: ViewStyle;
 }) => {
@@ -45,6 +45,12 @@ const NoData = ({
       description: t("shared.noData.noMessageDescription"),
       buttonText: "",
     },
+    noGoals: {
+      img: <NoDataImg />,
+      title: t("shared.noData.noGoalsTitle"),
+      description: t("shared.noData.noGoalsDescription"),
+      buttonText: t("goals.create"),
+    },
   };
 
   const button = config[type];
@@ -60,7 +66,9 @@ const NoData = ({
       >
         {button.title}
       </Text>
-      <Text color={colors.contrast}>{button.description}</Text>
+      <Text color={colors.contrast} style={styles.description}>
+        {button.description}
+      </Text>
       {button.buttonText && onPress && (
         <Button
           style={styles.button}

@@ -8,7 +8,7 @@ import type {
 } from "../model/types";
 // import { Alert } from "react-native";
 import { mergeQueryData } from "@/src/shared/store";
-import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 // import { journalsApiUtil } from "./journalsApi";
 
 export const journalEntriesApi = baseApi.injectEndpoints({
@@ -23,12 +23,12 @@ export const journalEntriesApi = baseApi.injectEndpoints({
           result
             ? [
                 ...result.data.map(({ id }) => ({
-                  type: ENTITY_PLURAL.JOURNAL_ENTRY,
+                  type: ENTITY_NAME.JOURNAL_ENTRY,
                   id,
                 })),
-                { type: ENTITY_PLURAL.JOURNAL_ENTRY, id: "LIST" },
+                { type: ENTITY_NAME.JOURNAL_ENTRY, id: "LIST" },
               ]
-            : [{ type: ENTITY_PLURAL.JOURNAL_ENTRY, id: "LIST" }],
+            : [{ type: ENTITY_NAME.JOURNAL_ENTRY, id: "LIST" }],
         serializeQueryArgs: ({ endpointName, queryArgs }) => {
           const params = new URLSearchParams(queryArgs.params || "");
           const hasOnlyPagination = Array.from(params.keys()).every(
@@ -53,7 +53,7 @@ export const journalEntriesApi = baseApi.injectEndpoints({
         method: "GET",
       }),
       providesTags: (result, error, { id }) => [
-        { type: ENTITY_PLURAL.JOURNAL_ENTRY, id: id },
+        { type: ENTITY_NAME.JOURNAL_ENTRY, id: id },
       ],
     }),
     searchEntries: builder.query<
@@ -69,12 +69,12 @@ export const journalEntriesApi = baseApi.injectEndpoints({
         result
           ? [
               ...result.map(({ id }) => ({
-                type: ENTITY_PLURAL.JOURNAL_ENTRY,
+                type: ENTITY_NAME.JOURNAL_ENTRY,
                 id,
               })),
-              { type: ENTITY_PLURAL.JOURNAL_ENTRY, id: "SEARCH" },
+              { type: ENTITY_NAME.JOURNAL_ENTRY, id: "SEARCH" },
             ]
-          : [{ type: ENTITY_PLURAL.JOURNAL_ENTRY, id: "SEARCH" }],
+          : [{ type: ENTITY_NAME.JOURNAL_ENTRY, id: "SEARCH" }],
     }),
 
     createJournalEntry: builder.mutation<
@@ -87,8 +87,8 @@ export const journalEntriesApi = baseApi.injectEndpoints({
         body,
       }),
       invalidatesTags: (result) => [
-        { type: ENTITY_PLURAL.JOURNAL_ENTRY, id: "LIST" },
-        { type: ENTITY_PLURAL.JOURNAL, id: "LIST" },
+        { type: ENTITY_NAME.JOURNAL_ENTRY, id: "LIST" },
+        { type: ENTITY_NAME.JOURNAL, id: "LIST" },
       ],
       // async onQueryStarted(body, { dispatch, queryFulfilled }) {
       //   try {
@@ -97,7 +97,7 @@ export const journalEntriesApi = baseApi.injectEndpoints({
       //     // Принудительно обновляем список дневников после создания новой записи
       //     dispatch(
       //       journalsApiUtil.invalidateTags([
-      //         { type: ENTITY_PLURAL.JOURNAL, id: "LIST" },
+      //         { type: ENTITY_NAME.JOURNAL, id: "LIST" },
       //       ])
       //     );
 
@@ -105,7 +105,7 @@ export const journalEntriesApi = baseApi.injectEndpoints({
       //     if (body.journal_id) {
       //       dispatch(
       //         journalsApiUtil.invalidateTags([
-      //           { type: ENTITY_PLURAL.JOURNAL, id: body.journal_id },
+      //           { type: ENTITY_NAME.JOURNAL, id: body.journal_id },
       //         ])
       //       );
       //     }
@@ -129,9 +129,9 @@ export const journalEntriesApi = baseApi.injectEndpoints({
         body,
       }),
       invalidatesTags: (result, error, { id, body }) => [
-        { type: ENTITY_PLURAL.JOURNAL_ENTRY, id },
-        { type: ENTITY_PLURAL.JOURNAL_ENTRY, id: "LIST" },
-        { type: ENTITY_PLURAL.JOURNAL, id: "LIST" },
+        { type: ENTITY_NAME.JOURNAL_ENTRY, id },
+        { type: ENTITY_NAME.JOURNAL_ENTRY, id: "LIST" },
+        { type: ENTITY_NAME.JOURNAL, id: "LIST" },
       ],
       // // Если изменена запись, нужно обновить и журнал
       // async onQueryStarted({ body }, { dispatch, queryFulfilled }) {
@@ -142,8 +142,8 @@ export const journalEntriesApi = baseApi.injectEndpoints({
       //     if (data && data.journal_id) {
       //       dispatch(
       //         journalsApiUtil.invalidateTags([
-      //           { type: ENTITY_PLURAL.JOURNAL, id: data.journal_id },
-      //           { type: ENTITY_PLURAL.JOURNAL, id: "LIST" },
+      //           { type: ENTITY_NAME.JOURNAL, id: data.journal_id },
+      //           { type: ENTITY_NAME.JOURNAL, id: "LIST" },
       //         ])
       //       );
       //     }
@@ -159,8 +159,8 @@ export const journalEntriesApi = baseApi.injectEndpoints({
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [
-        { type: ENTITY_PLURAL.JOURNAL_ENTRY, id: "LIST" },
-        { type: ENTITY_PLURAL.JOURNAL, id: "LIST" },
+        { type: ENTITY_NAME.JOURNAL_ENTRY, id: "LIST" },
+        { type: ENTITY_NAME.JOURNAL, id: "LIST" },
       ],
       // // При удалении записи также обновляем список дневников
       // async onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -170,7 +170,7 @@ export const journalEntriesApi = baseApi.injectEndpoints({
       //     // Принудительно обновляем список дневников
       //     dispatch(
       //       journalsApiUtil.invalidateTags([
-      //         { type: ENTITY_PLURAL.JOURNAL, id: "LIST" },
+      //         { type: ENTITY_NAME.JOURNAL, id: "LIST" },
       //       ])
       //     );
       //   } catch (error) {

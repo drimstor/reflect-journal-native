@@ -8,7 +8,7 @@ import {
 } from "@/src/shared/ui/icons";
 import { useFiltersStore, useThemeStore } from "@/src/shared/store";
 import { useT } from "@/src/shared/lib/hooks";
-import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 
 /**
  * Хук для управления действиями с элементами списка
@@ -25,7 +25,7 @@ export const useBottomSheetActions = <T extends { id: string }>(
   const t = useT();
   const { colors } = useThemeStore();
   const { multi_select_ids } = useFiltersStore();
-  const variantsForSummary = [ENTITY_PLURAL.JOURNAL, ENTITY_PLURAL.CHAT];
+  const variantsForSummary = [ENTITY_NAME.JOURNAL, ENTITY_NAME.CHAT];
 
   /**
    * Обработчик нажатия на кнопку с тремя точками (опции)

@@ -6,6 +6,10 @@ export const formatDate = (dateString: string, locale: string): string => {
   });
 };
 
+export const formatReadingTime = (minutes: number, t: Function): string => {
+  return `${minutes} ${t("shared.time.minutes")}`;
+};
+
 export const getWeekDay = (
   date: string,
   t: Function,

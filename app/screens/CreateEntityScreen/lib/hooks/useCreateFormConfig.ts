@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useT } from "@/src/shared/lib/hooks/useLang";
-import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import { FormField } from "@/src/widgets";
 
 /**
@@ -34,7 +34,7 @@ export const useCreateFormConfig = (entityType: string) => {
 
     // Конфигурация полей в зависимости от типа сущности
     switch (entityType) {
-      case ENTITY_PLURAL.JOURNAL:
+      case ENTITY_NAME.JOURNAL:
         title = t("entities.journals.singular");
         fields = [
           {
@@ -64,7 +64,7 @@ export const useCreateFormConfig = (entityType: string) => {
         ];
         break;
 
-      case ENTITY_PLURAL.JOURNAL_ENTRY:
+      case ENTITY_NAME.JOURNAL_ENTRY:
         title = t("entities.journalentriesfull.singular");
         fields = [
           {
@@ -90,7 +90,7 @@ export const useCreateFormConfig = (entityType: string) => {
           },
         ];
         break;
-      case ENTITY_PLURAL.CHAT:
+      case ENTITY_NAME.CHAT:
         title = t("entities.chats.singular");
         fields = [
           {

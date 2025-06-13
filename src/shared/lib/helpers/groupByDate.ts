@@ -1,10 +1,17 @@
+import { SortField } from "@/src/entities/chat/model/types";
+
 interface WithDate {
   updated_at: string;
+  created_at: string;
 }
 
-export const groupByDate = <T extends WithDate>(items: T[], locale: string) => {
+export const groupByDate = <T extends WithDate>(
+  items: T[],
+  locale: string,
+  sortField: Exclude<SortField, "name" | "count"> = "updated_at"
+) => {
   return items.reduce((acc, item) => {
-    const date = new Date(item.updated_at);
+    const date = new Date(item[sortField]);
     const title = date
       .toLocaleDateString(locale, {
         month: "long",

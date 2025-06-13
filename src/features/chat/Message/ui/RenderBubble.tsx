@@ -5,7 +5,7 @@ import { MarkdownEmojiText, Text } from "@/src/shared/ui";
 import { createStyles } from "./RenderBubble.styles";
 import { View } from "react-native";
 import MessageLoaderBox from "../../MessageLoaderBox/MessageLoaderBox";
-import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import { CommandWidgetChat } from "@/src/widgets";
 
 const RenderBubble = (props: BubbleProps<IMessage>) => {
@@ -47,7 +47,7 @@ const RenderBubble = (props: BubbleProps<IMessage>) => {
               id: props.currentMessage._id,
               command: props.currentMessage.command,
             }}
-            sourceType={ENTITY_PLURAL.MESSAGE}
+            sourceType={ENTITY_NAME.MESSAGE}
           />
         )}
       </View>

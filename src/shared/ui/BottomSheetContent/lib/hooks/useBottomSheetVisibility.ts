@@ -8,8 +8,7 @@ export const useBottomSheetVisibility = () => {
     useBottomSheetIndexState();
 
   const isInitialRender = useRef(true);
-  const { setBottomSheetVisible, isBottomSheetVisible, setBottomSheetHeight } =
-    useBottomSheetStore();
+  const { setBottomSheetVisible, isBottomSheetVisible } = useBottomSheetStore();
 
   useEffect(() => {
     if (isInitialRender.current) {

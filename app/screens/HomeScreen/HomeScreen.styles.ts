@@ -12,6 +12,12 @@ export const styles = StyleSheet.create({
     marginTop: 16,
     marginBottom: 8,
   },
+  titleBoxWithButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 8,
+  },
   previewBox: {
     gap: 10,
   },

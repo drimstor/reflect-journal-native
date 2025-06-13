@@ -26,12 +26,13 @@ import {
 } from "@/src/entities";
 import { Goal, SaveGoalRequest } from "@/src/entities/goals/model/types";
 import {
-  ENTITY_PLURAL,
+  ENTITY_NAME,
   ENTITY_WITH_PARENT,
   ENTITY_WITH_PARENT_CONFIG,
 } from "@/src/shared/const/ENTITIES";
 import { PATHS } from "@/src/shared/const";
 import { FormField } from "@/src/widgets";
+import { View } from "react-native";
 
 interface CreateGoalViewProps {
   isBookmarked?: boolean;
@@ -100,7 +101,7 @@ const CreateGoalView = ({
           navigationBack?.();
 
           setTimeout(() => {
-            const params = { item: result, variant: ENTITY_PLURAL.GOAL };
+            const params = { item: result, variant: ENTITY_NAME.GOAL };
             setNavigation(true, PATHS.LIBRARY_ITEM, params);
           }, 200);
         } else if (flowData.requestAssistantMessageStore) {
@@ -119,7 +120,7 @@ const CreateGoalView = ({
                   flowData.requestAssistantMessageStore.source_id
                 )[0]
               : flowData.requestAssistantMessageStore.source_id,
-            target_type: ENTITY_PLURAL.GOAL,
+            target_type: ENTITY_NAME.GOAL,
             target_id: result.id,
           })
             .unwrap()
@@ -127,7 +128,7 @@ const CreateGoalView = ({
               handleBack();
               resetFlowData();
               setTimeout(() => {
-                const params = { item: result, variant: ENTITY_PLURAL.GOAL };
+                const params = { item: result, variant: ENTITY_NAME.GOAL };
                 setNavigation(true, PATHS.LIBRARY_ITEM, params);
               }, 200);
             });
@@ -185,7 +186,7 @@ const CreateGoalView = ({
   );
 
   const renderFooter = () => (
-    <BottomSheetFooter>
+    <BottomSheetFooter isBorderGap={isStandalone}>
       <Button
         backgroundColor={colors.alternate}
         onPress={handleSecondarySubmit}
@@ -219,7 +220,11 @@ const CreateGoalView = ({
   // Для режима BottomSheet (как в оригинальном CreateGoalView)
   return (
     <BottomSheetBox>
-      <BottomSheetHeader title={t("goals.create")} onClose={handleBack} />
+      <BottomSheetHeader
+        title={t("goals.create")}
+        onClose={handleBack}
+        isBorderGap={false}
+      />
       {isPredicting ? (
         <Loader
           style={{ marginTop: 100, marginBottom: 303 }}
@@ -231,7 +236,9 @@ const CreateGoalView = ({
             customMaxHeight={window.height - 350}
             additionalHeight={305}
           >
-            {renderContent()}
+            <View style={{ paddingVertical: 16, paddingBottom: 24 }}>
+              {renderContent()}
+            </View>
           </BottomSheetScrollView>
           {renderFooter()}
         </>

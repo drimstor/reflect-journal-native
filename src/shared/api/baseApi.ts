@@ -13,6 +13,8 @@ export const baseApi = createApi({
     "Goals",
     "Summaries",
     "Portrait",
+    "Affirmations",
+    "Documents",
   ],
   endpoints: () => ({}),
 });

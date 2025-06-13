@@ -1,3 +1,10 @@
-import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 
-export const CAROUSEL_ITEMS = [ENTITY_PLURAL.JOURNAL, ENTITY_PLURAL.CHAT];
+export const CAROUSEL_ITEMS = [ENTITY_NAME.JOURNAL, ENTITY_NAME.CHAT];
+
+export const CAROUSEL_ITEMS_WITH_CATEGORIES = [
+  ENTITY_NAME.JOURNAL,
+  ENTITY_NAME.CHAT,
+  "categories",
+  "topics",
+];

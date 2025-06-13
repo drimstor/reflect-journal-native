@@ -3,7 +3,7 @@ import Svg, { Path } from "react-native-svg";
 import { IconProps } from "../../model/types";
 import { PALLETE_COLORS } from "@/src/shared/const";
 
-export const ClipboardTickSolidIcon: FC<IconProps> = ({
+const ClipboardTickSolidIcon: FC<IconProps> = ({
   size = 24,
   color = PALLETE_COLORS.dark.contrast,
 }) => {
@@ -20,3 +20,5 @@ export const ClipboardTickSolidIcon: FC<IconProps> = ({
     </Svg>
   );
 };
+
+export default ClipboardTickSolidIcon;

@@ -5,7 +5,11 @@ import ElementRenderer from "./ui/ElementRenderer/ElementRenderer";
 
 /**
  * Компонент для отображения текста с поддержкой эмодзи и базового Markdown
- * Поддерживает: эмодзи, жирный текст (**text**), заголовки (# text)
+ * Поддерживает:
+ * - эмодзи
+ * - жирный текст (**text**)
+ * - заголовки разных уровней (# text, ## text, ### text, и т.д.)
+ * - ненумерованные списки (- text)
  */
 const MarkdownEmojiText = ({
   children,

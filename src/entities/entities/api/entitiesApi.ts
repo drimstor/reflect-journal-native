@@ -1,7 +1,6 @@
 import { baseApi } from "@/src/shared/api/baseApi";
 import { EntityType } from "@/src/shared/model/types";
 import {
-  ENTITY_PLURAL,
   ENTITY_WITH_PARENT,
   ENTITY_WITH_PARENT_CONFIG,
 } from "@/src/shared/const/ENTITIES";

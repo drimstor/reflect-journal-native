@@ -35,4 +35,5 @@ export type EntityType =
   | "Goals"
   | "Summaries"
   | "JournalEntries"
-  | "Messages";
+  | "Messages"
+  | "Documents";

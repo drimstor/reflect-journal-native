@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { useEffect } from "react";
 import { FiltersPanel, Header } from "@/src/widgets";
 import { useLang, useT } from "@/src/shared/lib/hooks";
 import { View } from "react-native";
@@ -13,7 +13,7 @@ import {
   useMultiSelection,
 } from "@/src/entities";
 import { PreviewBlock } from "@/src/features";
-import { formatDate, stringToColor } from "@/src/shared/lib/helpers";
+import { formatDate } from "@/src/shared/lib/helpers";
 import {
   getFiltersParams,
   useBottomSheetStore,
@@ -25,18 +25,20 @@ import {
 import {
   Divider,
   Layout,
-  Chip,
   BottomSheet,
   VirtualizedList,
   useBottomSheetActions,
   CheckBox,
   AnimatedAppearance,
 } from "@/src/shared/ui";
+import {
+  ENTITY_NAME,
+  ENTITY_WITH_CHILDREN_CONFIG,
+} from "@/src/shared/const/ENTITIES";
 
-interface LibraryListScreenProps {}
-
-const LibraryListScreen: FC<LibraryListScreenProps> = () => {
+const LibraryListScreen = () => {
   const t = useT();
+  const route = useRoute();
   const { locale } = useLang();
   const navigation = useNavigation<NavigationProps>();
   const { colors } = useThemeStore();
@@ -45,42 +47,44 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
   const filters = useFiltersStore();
   const { setNavigation } = useBottomSheetStore();
   const { setScreenInfo } = useScreenInfoStore();
-
-  const route = useRoute();
   const { variant, item } = route.params as any;
+  const { handlePress } = useBottomSheetActions(variant, item);
 
   const title = item?.name;
   const related_entities = item?.related_entities ?? [];
+  const entityName = ENTITY_WITH_CHILDREN_CONFIG?.[variant];
 
   useEffect(() => {
     filters.resetFilters();
-    setScreenInfo({ name: "JournalEntries" });
+    setScreenInfo({ name: entityName });
   }, []);
 
   useEffect(() => {
     setNavigation(false, PATHS.LIBRARY);
   }, [variant]);
 
+  const ENTITY_ID_CONFIG = {
+    [ENTITY_NAME.JOURNAL_ENTRY]: "journal_id",
+  };
   const params = getFiltersParams({
+    [ENTITY_ID_CONFIG?.[entityName]]: item?.id,
     ...filters,
-    journal_id: item?.id,
-    sort_field: "created_at",
   });
 
-  const { data, isLoading, isFetching } = useGetJournalEntriesQuery({ params });
+  const { data, isFetching } = useGetJournalEntriesQuery({ params });
 
   const renderItem = ({ item }: { item: JournalEntry }) => {
     const journal = item as JournalEntry;
 
     const onPress = () => {
       navigation.navigate(PATHS.LIBRARY_ITEM, {
-        variant: "JournalEntries",
-        item: { ...item, related_entities },
+        variant: entityName,
+        item: { ...journal, related_entities },
       });
     };
 
     const { selectionMode, isSelected, handleItemPress } = useMultiSelection({
-      itemId: item?.id,
+      itemId: journal?.id,
       onPress,
     });
 
@@ -95,7 +99,7 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
         title={journal.title}
         disableAnimate={selectionMode}
         previewMode
-        valueOpacity={""}
+        valueOpacity=""
         element={
           selectionMode && (
             <View style={{ width: 26, height: 26 }}>
@@ -119,14 +123,12 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
     );
   };
 
-  const { handlePress } = useBottomSheetActions(variant, item);
-
   return (
     <Layout>
       <Header
         backButton
         title={title}
-        subtitle={t("library.journals.entriesList")}
+        subtitle={t(`library.${variant.toLowerCase()}.entriesList`)}
         rightIcon={{
           icon: <DotsIcon color={colors.contrast} size={22} />,
           onPress: handlePress,
@@ -139,21 +141,43 @@ const LibraryListScreen: FC<LibraryListScreenProps> = () => {
         animateOnMount={false}
         initialIndex={0}
         staticMode
-        topElement={<View style={{ height: 41 }} />}
         pinnedElement={
-          <View>
+          <View style={{ paddingTop: 25 }}>
             <FiltersPanel style={styles.filtersPanel} />
             <Divider style={{ marginVertical: 0 }} color={colors.alternate} />
           </View>
         }
       >
-        <AnimatedAppearance isVisible delay={150}>
+        <AnimatedAppearance
+          isVisible
+          delay={150}
+          // style={{ maxHeight: window.height - 160, paddingBottom: 100 }}
+        >
           <VirtualizedList
             data={data as any}
             renderItem={renderItem}
             isFetching={isFetching}
+            sortField="created_at"
           />
         </AnimatedAppearance>
+
+        {/* <View
+          style={{
+            position: "absolute",
+            bottom: 100,
+            width: "100%",
+            backgroundColor: colors.secondary,
+          }}
+        >
+          <Divider style={{ marginVertical: 0 }} color={colors.alternate} />
+          <Button
+            onPress={() => filters.resetFilters()}
+            style={{ marginTop: 20, marginBottom: 20 }}
+            size="medium"
+          >
+            Clear filters
+          </Button>
+        </View> */}
       </BottomSheet>
     </Layout>
   );

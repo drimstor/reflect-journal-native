@@ -4,7 +4,7 @@ import {
   useGetSummariesQuery,
   useGetJournalsQuery,
 } from "@/src/entities";
-import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import { EntityType } from "@/src/shared/model/types";
 
 interface PaginatedResponse<T> {
@@ -35,7 +35,7 @@ export const useGetAnyEntities = <T extends EntityType>(
     isFetching: isJournalsFetching,
   } = useGetJournalsQuery(
     { params },
-    { skip: variant !== ENTITY_PLURAL.JOURNAL || skip }
+    { skip: variant !== ENTITY_NAME.JOURNAL || skip }
   );
 
   const {
@@ -44,7 +44,7 @@ export const useGetAnyEntities = <T extends EntityType>(
     isFetching: isChatsFetching,
   } = useGetChatsQuery(
     { params },
-    { skip: variant !== ENTITY_PLURAL.CHAT || skip }
+    { skip: variant !== ENTITY_NAME.CHAT || skip }
   );
 
   const {
@@ -53,7 +53,7 @@ export const useGetAnyEntities = <T extends EntityType>(
     isFetching: isGoalsFetching,
   } = useGetGoalsQuery(
     { params },
-    { skip: variant !== ENTITY_PLURAL.GOAL || skip }
+    { skip: variant !== ENTITY_NAME.GOAL || skip }
   );
 
   const {
@@ -62,7 +62,7 @@ export const useGetAnyEntities = <T extends EntityType>(
     isFetching: isSummariesFetching,
   } = useGetSummariesQuery(
     { params },
-    { skip: variant !== ENTITY_PLURAL.SUMMARY || skip }
+    { skip: variant !== ENTITY_NAME.SUMMARY || skip }
   );
 
   const dataConfig = {

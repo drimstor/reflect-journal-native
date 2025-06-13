@@ -201,12 +201,12 @@ const RelationshipMapScreen = () => {
     <Layout>
       <Header
         title={t("overview.analytics.relationshipMap.title")}
-        subtitle={new Date().toLocaleDateString()}
+        subtitle={"Beta"}
         backButton
-        rightIcon={{
-          icon: <DotsIcon color={colors.contrast} />,
-          onPress: () => {},
-        }}
+        // rightIcon={{
+        //   icon: <DotsIcon color={colors.contrast} />,
+        //   onPress: () => {},
+        // }}
       />
 
       <BottomSheet

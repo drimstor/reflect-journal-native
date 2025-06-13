@@ -28,21 +28,29 @@ import {
   useThemeStore,
 } from "@/src/shared/store";
 import { ScrollView, View } from "react-native";
-import { CalendarIcon, DotsIcon } from "@/src/shared/ui/icons";
+import {
+  CalendarIcon,
+  CheckIcon,
+  DotsIcon,
+  TimerIcon,
+} from "@/src/shared/ui/icons";
 import { createStyles } from "./LibraryItemScreen.styles";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { formatDate, getWeekDay } from "@/src/shared/lib/helpers";
+import {
+  formatDate,
+  getWeekDay,
+  formatReadingTime,
+} from "@/src/shared/lib/helpers";
 import { stringToColor } from "@/src/shared/lib/helpers";
 import { ChecklistItem } from "@/src/entities/goals/model/types";
 import { PATHS } from "@/src/shared/const";
 import { useChecklistActions } from "./lib/hooks/useChecklistActions";
+import { useSetDocumentProgress } from "./lib/hooks/useSetDocumentProgress";
 import { Journal, useGetAnyEntity, useGetMood } from "@/src/entities";
 import { StackNavigationProps } from "@/src/shared/model/types";
-import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 
-interface LibraryItemScreenProps {}
-
-const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
+const LibraryItemScreen = () => {
   const t = useT();
   const { locale } = useLang();
   const { colors } = useThemeStore();
@@ -58,7 +66,7 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
   const mood = useGetMood(currentItem?.mood);
   const { data } = useGetAnyEntity({ type: variant, id: item.id });
 
-  const isJournalEntry = variant === ENTITY_PLURAL.JOURNAL_ENTRY;
+  const isJournalEntry = variant === ENTITY_NAME.JOURNAL_ENTRY;
 
   useEffect(() => {
     setCurrentItem(data || item);
@@ -71,7 +79,7 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
   // ------------------------------------------------------------ //
 
   const { data: parentJournal } = useGetAnyEntity({
-    type: ENTITY_PLURAL.JOURNAL,
+    type: ENTITY_NAME.JOURNAL,
     id: item.journal_id,
     skip: !isJournalEntry,
   });
@@ -97,12 +105,26 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
   const { checkboxes, isUpdatingChecklistItem, handleCheckboxToggle } =
     useChecklistActions(variant, currentItem?.id, currentItem?.checklist || []);
 
-  console.log(currentItem?.related_entities);
+  const isDocument = variant === ENTITY_NAME.DOCUMENT;
+
+  // Hook для отслеживания прогресса просмотра документа (только для документов)
+  const { progress, handleScroll, isLoading } = isDocument
+    ? useSetDocumentProgress({
+        documentId: currentItem?.id || "",
+        enabled: !!currentItem?.id,
+      })
+    : {
+        progress: 0,
+        handleScroll: () => {},
+        isLoading: false,
+      };
 
   return (
     <Layout>
       <Header
-        title={t(`entities.${variant.toLowerCase()}.singular`)}
+        title={t(
+          `entities.${isDocument ? item.type : variant.toLowerCase()}.singular`
+        )}
         subtitle={subtitle}
         backButton
         rightIcon={{
@@ -126,6 +148,7 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
             showsVerticalScrollIndicator={false}
             scrollEventThrottle={16}
             style={{ maxHeight: window.height - 160 }}
+            onScroll={handleScroll}
           >
             <PaddingLayout>
               {(currentItem?.name || currentItem?.title) && (
@@ -184,6 +207,26 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
                     />
                   </View>
                 )}
+                {isDocument && currentItem?.reading_time && (
+                  <View style={styles.infoTableItem}>
+                    <InfoBox
+                      label={t("shared.info.readingTime")}
+                      icon={<TimerIcon color={colors.contrast} />}
+                      value={formatReadingTime(currentItem.reading_time, t)}
+                      color={colors.contrast}
+                    />
+                  </View>
+                )}
+                {isDocument && !isLoading && (
+                  <View style={styles.infoTableItem}>
+                    <InfoBox
+                      label={t("shared.info.progress")}
+                      icon={<CheckIcon color={colors.contrast} />}
+                      value={`${progress}%`}
+                      color={colors.contrast}
+                    />
+                  </View>
+                )}
               </View>
               <Divider style={styles.divider} color={colors.alternate} />
               {currentItem?.content && (
@@ -202,7 +245,9 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
                     {currentItem?.content}
                   </MarkdownEmojiText>
                   {currentItem?.command &&
-                    variant === ENTITY_PLURAL.SUMMARY && (
+                    [ENTITY_NAME.SUMMARY, ENTITY_NAME.DOCUMENT].includes(
+                      variant
+                    ) && (
                       <View style={{ marginTop: 18 }}>
                         <CommandWidget
                           currentItem={currentItem}
@@ -303,11 +348,11 @@ const LibraryItemScreen: FC<LibraryItemScreenProps> = () => {
                   title={t("libraryItem.relatedEntries")}
                   data={currentItem?.related_entities}
                   onPress={(item) => {
-                    if (item.entity_type === ENTITY_PLURAL.CHAT) {
+                    if (item.entity_type === ENTITY_NAME.CHAT) {
                       navigation.navigate(PATHS.CHAT, {
                         item,
                       });
-                    } else if (item.entity_type === ENTITY_PLURAL.JOURNAL) {
+                    } else if (item.entity_type === ENTITY_NAME.JOURNAL) {
                       navigation.navigate(PATHS.LIBRARY_LIST, {
                         variant: item.entity_type,
                         item,

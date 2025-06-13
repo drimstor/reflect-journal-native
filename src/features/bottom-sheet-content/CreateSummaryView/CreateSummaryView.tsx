@@ -37,11 +37,11 @@ import {
   useEntitiesData,
   useGetPortraitStatsQuery,
 } from "@/src/entities";
-import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import { FormField, ItemCarousel } from "@/src/widgets";
 import { PreviewCard } from "../..";
 import { EntityType } from "@/src/shared/model/types";
-import { CAROUSEL_ITEMS } from "./const/static";
+import { CAROUSEL_ITEMS, CAROUSEL_ITEMS_WITH_CATEGORIES } from "./const/static";
 import { View } from "react-native";
 import { formatFromISODate } from "../DatePickerEntityView/lib/utils";
 import { PATHS } from "@/src/shared/const/PATHS";
@@ -77,7 +77,7 @@ const CreateSummaryView = ({
   const { window } = useDeviceStore();
 
   const [currentItemIndex, setCurrentItemIndex] = useState<number>(
-    entityType ? CAROUSEL_ITEMS.indexOf(entityType) : 0
+    entityType ? CAROUSEL_ITEMS_WITH_CATEGORIES.indexOf(entityType) : 0
   );
 
   // ------------------------------------------------------------ //
@@ -90,7 +90,10 @@ const CreateSummaryView = ({
     setSelectedEntityId,
     entitiesCarouselConfig,
     isLoading: isLoadingEntities,
-  } = useEntitiesData(currentCarouselItem);
+  } = useEntitiesData({
+    entityType: currentCarouselItem,
+    skip: !isStandalone,
+  });
 
   const chooseComponent = (
     <ItemCarousel
@@ -114,10 +117,7 @@ const CreateSummaryView = ({
 
   // Запрос на получение данных с учетом фильтров
   const { data, isLoading: isLoadingCharts } = useGetPortraitStatsQuery(
-    {
-      min_count: 1,
-      limit: 25,
-    },
+    { min_count: 1, limit: 25 },
     { skip: !isCategories && !isTopics }
   );
   // Трансформируем данные в формат для диаграмм
@@ -136,7 +136,7 @@ const CreateSummaryView = ({
 
   const ITEMS = [
     {
-      id: ENTITY_PLURAL.JOURNAL,
+      id: ENTITY_NAME.JOURNAL,
       colorKey: "blue",
       getIcon: (color: string, size: number) => (
         <BookIcon color={color} size={size} />
@@ -144,7 +144,7 @@ const CreateSummaryView = ({
       chooseComponent,
     },
     {
-      id: ENTITY_PLURAL.CHAT,
+      id: ENTITY_NAME.CHAT,
       colorKey: "purple",
       getIcon: (color: string, size: number) => (
         <MailIcon color={color} size={size} />
@@ -224,7 +224,7 @@ const CreateSummaryView = ({
 
         setTimeout(
           () => {
-            const params = { item: result, variant: ENTITY_PLURAL.SUMMARY };
+            const params = { item: result, variant: ENTITY_NAME.SUMMARY };
             setNavigation(true, PATHS.LIBRARY_ITEM, params);
           },
           isStandalone ? 200 : 300
@@ -269,6 +269,12 @@ const CreateSummaryView = ({
   });
 
   const carouselConfig = useCarouselConfig(50, 140);
+
+  useEffect(() => {
+    if (!isStandalone) {
+      handleScreenLoading();
+    }
+  }, [isStandalone]);
 
   const periodButton = () => (
     <View style={{ marginVertical: 8 }}>
@@ -344,7 +350,10 @@ const CreateSummaryView = ({
           animatedStyle={animatedStyle}
           size={window.width - 100}
           backgroundColor={colors.secondary}
-          containerStyle={{ minHeight: 1000 }}
+          containerStyle={{
+            minHeight: 1000,
+            paddingTop: isStandalone ? 0 : 40,
+          }}
         />
       </View>
       {isStandalone ? (
@@ -398,7 +407,7 @@ const CreateSummaryView = ({
   );
 
   const renderFooter = () => (
-    <BottomSheetFooter>
+    <BottomSheetFooter isBorderGap={isStandalone}>
       <Button
         backgroundColor={theme === "dark" ? colors.accent : colors.primary}
         textColor={theme === "dark" ? colors.primary : colors.white}
@@ -425,6 +434,7 @@ const CreateSummaryView = ({
   return (
     <BottomSheetBox>
       <BottomSheetHeader
+        isBorderGap={false}
         title={t("edit.summaries.create")}
         onClose={handleClose}
         onBack={handleBack}
@@ -433,7 +443,9 @@ const CreateSummaryView = ({
         customMaxHeight={window.height - 350}
         additionalHeight={305}
       >
-        {renderContent()}
+        <View style={{ paddingVertical: 16, paddingBottom: 24 }}>
+          {renderContent()}
+        </View>
       </BottomSheetScrollView>
       {renderFooter()}
     </BottomSheetBox>

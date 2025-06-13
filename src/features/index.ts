@@ -1,6 +1,7 @@
 import PreviewBlock from "./home/PreviewBlock/PreviewBlock";
 import ShortPreviewBlock from "./home/ShortPreviewBlock/ShortPreviewBlock";
 import GradientPreviewBlock from "./home/GradientPreviewBlock/GradientPreviewBlock";
+import GradientAffirmation from "./home/GradientAffirmation/GradientAffirmation";
 import PreviewCard from "./home/PreviewCard/PreviewCard";
 import ListItemPreview from "./home/ListItemPreview/ListItemPreview";
 import AttachmentsPopup from "./chat/AttachmentsPopup/AttachmentsPopup";
@@ -17,6 +18,7 @@ export {
   PreviewBlock,
   ShortPreviewBlock,
   GradientPreviewBlock,
+  GradientAffirmation,
   PreviewCard,
   ListItemPreview,
   AttachmentsPopup,

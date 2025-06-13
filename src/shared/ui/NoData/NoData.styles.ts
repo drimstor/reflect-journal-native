@@ -9,6 +9,10 @@ export const styles = StyleSheet.create({
   },
   title: {
     marginTop: -10,
+    textAlign: "center",
+  },
+  description: {
+    textAlign: "center",
   },
   button: {
     marginTop: 15,

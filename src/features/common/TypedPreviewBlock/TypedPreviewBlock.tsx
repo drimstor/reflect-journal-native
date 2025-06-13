@@ -1,5 +1,4 @@
-import { useCallback } from "react";
-import { useFiltersStore, useThemeStore } from "@/src/shared/store";
+import { useThemeStore } from "@/src/shared/store";
 import { EntityType } from "@/src/shared/model/types";
 import { Journal } from "@/src/entities/journals/model/types";
 import { Chat } from "@/src/entities/chat/model/types";
@@ -18,6 +17,7 @@ interface TypedPreviewBlockProps {
   disableAnimate?: boolean;
   previewMode?: boolean;
   willCreate?: boolean;
+  backgroundColor?: string;
 }
 
 const TypedPreviewBlock = ({
@@ -26,84 +26,79 @@ const TypedPreviewBlock = ({
   disableAnimate,
   previewMode,
   willCreate,
+  backgroundColor,
 }: TypedPreviewBlockProps) => {
-  const { colors } = useThemeStore();
-  const t = useT();
-  const { locale } = useLang();
-  const filters = useFiltersStore();
+  return ({ item }: { item: any }) => {
+    const { colors } = useThemeStore();
+    const t = useT();
+    const { locale } = useLang();
 
-  return useCallback(
-    ({ item }: { item: any }) => {
-      const infoBoxesConfig = [
-        {
-          label: willCreate
-            ? t("shared.info.willCreate")
-            : item?.updated_at
-            ? t("shared.info.lastUpdated")
-            : t("shared.info.created"),
-          value: formatDate(item?.updated_at || item?.created_at, locale),
-          icon: <CalendarIcon color={colors.contrast} />,
-        },
-        ...(Number.isFinite(item?.entries_count)
-          ? [
-              {
-                label: t("shared.info.entriesCount"),
-                value: String(item?.entries_count),
-                icon: <DocumentTextIcon color={colors.contrast} />,
-              },
-            ]
-          : []),
-      ];
+    const infoBoxesConfig = [
+      {
+        label: willCreate
+          ? t("shared.info.willCreate")
+          : item?.updated_at
+          ? t("shared.info.lastUpdated")
+          : t("shared.info.created"),
+        value: formatDate(item?.updated_at || item?.created_at, locale),
+        icon: <CalendarIcon color={colors.contrast} />,
+      },
+      ...(Number.isFinite(item?.entries_count)
+        ? [
+            {
+              label: t("shared.info.entriesCount"),
+              value: String(item?.entries_count),
+              icon: <DocumentTextIcon color={colors.contrast} />,
+            },
+          ]
+        : []),
+    ];
 
-      const { selectionMode, isSelected, handleItemPress } = useMultiSelection({
-        itemId: item?.id,
-        onPress: () => onPress?.(item),
-      });
+    const { selectionMode, isSelected, handleItemPress } = useMultiSelection({
+      itemId: item?.id,
+      onPress: () => onPress?.(item),
+    });
 
-      return (
-        <PreviewBlock
-          key={item?.id}
-          title={item?.name}
-          value={item?.description}
-          backgroundColor={colors.light}
-          backgroundColorForAnimate={colors.alternate}
-          backgroundIcon={variant || item?.entity_type}
-          bookmarked={item?.bookmarked}
-          checklist={item?.checklist}
-          disableAnimate={disableAnimate || selectionMode}
-          previewMode={previewMode}
-          onPress={handleItemPress}
-          infoBoxes={infoBoxesConfig}
-          element={
-            selectionMode ? (
-              <View style={{ width: 26, height: 26 }}>
-                <CheckBox
-                  checked={isSelected || false}
-                  onPress={handleItemPress}
-                  checkedColor={colors.accent}
-                />
-              </View>
-            ) : item?.related_topics?.[0] ? (
-              <Chip
-                color={stringToColor(item?.related_topics[0])}
-                title={item?.related_topics[0]}
+    return (
+      <PreviewBlock
+        key={item?.id}
+        title={item?.name}
+        value={item?.description}
+        backgroundColor={backgroundColor || colors.light}
+        backgroundColorForAnimate={colors.alternate}
+        backgroundIcon={variant || item?.entity_type}
+        bookmarked={item?.bookmarked}
+        checklist={item?.checklist}
+        disableAnimate={disableAnimate || selectionMode}
+        previewMode={previewMode}
+        onPress={handleItemPress}
+        infoBoxes={infoBoxesConfig}
+        element={
+          selectionMode ? (
+            <View style={{ width: 26, height: 26 }}>
+              <CheckBox
+                checked={isSelected || false}
+                onPress={handleItemPress}
+                checkedColor={colors.accent}
               />
-            ) : item?.entity_type ? (
-              <Chip
-                color={stringToColor(
-                  t(`entities.${item?.entity_type.toLowerCase()}.singular`)
-                )}
-                title={t(
-                  `entities.${item?.entity_type.toLowerCase()}.singular`
-                )}
-              />
-            ) : null
-          }
-        />
-      );
-    },
-    [colors, onPress, filters]
-  );
+            </View>
+          ) : item?.related_topics?.[0] ? (
+            <Chip
+              color={stringToColor(item?.related_topics[0])}
+              title={item?.related_topics[0]}
+            />
+          ) : item?.entity_type ? (
+            <Chip
+              color={stringToColor(
+                t(`entities.${item?.entity_type.toLowerCase()}.singular`)
+              )}
+              title={t(`entities.${item?.entity_type.toLowerCase()}.singular`)}
+            />
+          ) : null
+        }
+      />
+    );
+  };
 };
 
 export default TypedPreviewBlock;

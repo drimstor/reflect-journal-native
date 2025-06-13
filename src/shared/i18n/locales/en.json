@@ -32,11 +32,16 @@
     "editProfile": "Edit profile"
   },
   "home": {
-    "title": "Dashboard"
+    "title": "Dashboard",
+    "articles": "Useful Articles",
+    "todayTasks": "Today Tasks",
+    "advice": "Advice",
+    "newInsights": "New Insights"
   },
   "commands": {
     "createGoal": "Create goal",
-    "createChat": "Discuss in chat"
+    "createChat": "Discuss in chat",
+    "createJournal": "Create journal"
   },
   "library": {
     "title": "Library",
@@ -68,7 +73,15 @@
     "autoDescription": "An automatically created chat linked to your journal."
   },
   "goals": {
-    "create": "Create goal"
+    "create": "Create goal",
+    "allGoals": "All goals",
+    "status": {
+      "toDo": "To Do",
+      "inProgress": "In Progress",
+      "complete": "Complete"
+    },
+    "emptyFiltered": "No goals in this list yet",
+    "emptyFilteredDescription": "Try selecting a different status or create a new goal"
   },
   "libraryItem": {
     "relatedTopics": "Related Topics",
@@ -167,6 +180,12 @@
       "mood": {
         "label": "Mood"
       }
+    },
+    "categories": {
+      "createDescription": "Summary will be created based on the selected categories"
+    },
+    "topics": {
+      "createDescription": "Summary will be created based on the selected topics"
     },
     "chats": {
       "title": "Edit Chat",
@@ -292,11 +311,18 @@
     "journalentries": {
       "singular": "Journal Entry",
       "plural": "Journal Entries"
-    }
-    ,
+    },
     "journalentriesfull": {
       "singular": "Journal Entry",
       "plural": "Journal Entries"
+    },
+    "documents": {
+      "singular": "Document",
+      "plural": "Documents"
+    },
+    "articles": {
+      "singular": "Article",
+      "plural": "Articles"
     }
   },
 
@@ -344,7 +370,9 @@
       "entriesCount": "Entries count",
       "lastUpdated": "Last updated",
       "created": "Created",
-      "willCreate": "Will create"
+      "willCreate": "Will create",
+      "readingTime": "Reading time",
+      "progress": "Progress"
     },
     "validation": {
       "required": "Required field",
@@ -390,10 +418,15 @@
       "noSearchTitle": "No results",
       "noSearchDescription": "Nothing found for your query",
       "noMessageTitle": "No messages",
-      "noMessageDescription": "Start a conversation with AI"
+      "noMessageDescription": "Start a conversation with AI",
+      "noGoalsTitle": "No goals in this list yet",
+      "noGoalsDescription": "Try selecting a different status or create a new goal"
     },
     "charts": {
       "mentions": "mentions"
+    },
+    "time": {
+      "minutes": "mins"
     }
   }
 } 

@@ -49,7 +49,7 @@ const OverviewChartSlider = () => {
           onPress={() => navigation.navigate(PATHS.ADD_ENTRY)}
         />
       ) : (
-        <AnimatedAppearance isVisible={!isLoading && !!data}>
+        <AnimatedAppearance isVisible>
           <TinderCarousel
             height={350}
             data={chartDatasets as any}

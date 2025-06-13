@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import { CreateFormConfig } from "./useCreateFormConfig";
 import { useT } from "@/src/shared/lib/hooks";
 import { Keyboard } from "react-native";
-import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 
 /**
  * Хук для управления формой создания
@@ -84,7 +84,7 @@ export const useCreateForm = (
         enhancedData.bookmarked = isBookmarked;
 
         // Для записей в журнале добавляем идентификатор журнала
-        if (entityType === ENTITY_PLURAL.JOURNAL_ENTRY && journalId) {
+        if (entityType === ENTITY_NAME.JOURNAL_ENTRY && journalId) {
           enhancedData.journal_id = journalId;
         }
 

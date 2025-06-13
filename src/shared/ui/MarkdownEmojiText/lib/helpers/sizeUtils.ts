@@ -6,5 +6,13 @@ export const getHeaderSize = (
   level: number,
   baseSize: MarkdownEmojiTextProps["size"] = "normal"
 ): MarkdownEmojiTextProps["size"] => {
-  return level === 1 ? SIZE_MAP[baseSize] || "large" : baseSize;
+  // Для каждого уровня заголовка увеличиваем размер
+  switch (level) {
+    case 1:
+      return SIZE_MAP[SIZE_MAP[baseSize] || baseSize] || "header";
+    case 2:
+      return SIZE_MAP[baseSize] || "large";
+    default:
+      return baseSize;
+  }
 };

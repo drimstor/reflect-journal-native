@@ -15,7 +15,7 @@ import { useCreateAnyEntities } from "@/src/entities";
 import { useEntitiesData } from "@/src/entities";
 import { useCreateFormConfig } from "./useCreateFormConfig";
 import { useCreateForm } from "./useCreateForm";
-import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import { PATHS } from "@/src/shared/const/PATHS";
 
 /**
@@ -40,7 +40,7 @@ export const useCreateScreenState = () => {
   // Состояния для компонента
   const { value: isBookmarked, toggle: setIsBookmarked } = useToggle();
   const [currentEntity, setCurrentEntity] = useState<string>(
-    ENTITY_PLURAL.JOURNAL_ENTRY
+    ENTITY_NAME.JOURNAL_ENTRY
   );
   const { bottomSheetRef, snapToIndex, closeBottomSheet } =
     useBottomSheetIndexState();
@@ -58,7 +58,7 @@ export const useCreateScreenState = () => {
     selectedEntityId: selectedJournalId,
     setSelectedEntityId: setSelectedJournalId,
     entitiesCarouselConfig: journalsCarouselConfig,
-  } = useEntitiesData(ENTITY_PLURAL.JOURNAL);
+  } = useEntitiesData({ entityType: ENTITY_NAME.JOURNAL });
 
   // ------------------------------------------------------------ //
 
@@ -93,11 +93,11 @@ export const useCreateScreenState = () => {
         };
 
         const pathConfig = {
-          [ENTITY_PLURAL.CHAT]: PATHS.CHAT,
-          [ENTITY_PLURAL.JOURNAL_ENTRY]: PATHS.LIBRARY_ITEM,
-          [ENTITY_PLURAL.JOURNAL]: PATHS.LIBRARY_LIST,
-          [ENTITY_PLURAL.GOAL]: PATHS.LIBRARY_ITEM,
-          [ENTITY_PLURAL.SUMMARY]: PATHS.LIBRARY_ITEM,
+          [ENTITY_NAME.CHAT]: PATHS.CHAT,
+          [ENTITY_NAME.JOURNAL_ENTRY]: PATHS.LIBRARY_ITEM,
+          [ENTITY_NAME.JOURNAL]: PATHS.LIBRARY_LIST,
+          [ENTITY_NAME.GOAL]: PATHS.LIBRARY_ITEM,
+          [ENTITY_NAME.SUMMARY]: PATHS.LIBRARY_ITEM,
         };
 
         setTimeout(() => {
@@ -129,27 +129,27 @@ export const useCreateScreenState = () => {
   const mockData = [
     {
       created_at: date,
-      entity_type: ENTITY_PLURAL.JOURNAL_ENTRY,
+      entity_type: ENTITY_NAME.JOURNAL_ENTRY,
       name: t("entities.journalentriesfull.singular"),
     },
     {
       created_at: date,
-      entity_type: ENTITY_PLURAL.JOURNAL,
+      entity_type: ENTITY_NAME.JOURNAL,
       name: t("entities.journals.singular"),
     },
     {
       created_at: date,
-      entity_type: ENTITY_PLURAL.CHAT,
+      entity_type: ENTITY_NAME.CHAT,
       name: t("entities.chats.singular"),
     },
     {
       created_at: date,
-      entity_type: ENTITY_PLURAL.GOAL,
+      entity_type: ENTITY_NAME.GOAL,
       name: t("entities.goals.singular"),
     },
     {
       created_at: date,
-      entity_type: ENTITY_PLURAL.SUMMARY,
+      entity_type: ENTITY_NAME.SUMMARY,
       name: t("entities.summaries.singular"),
     },
   ];

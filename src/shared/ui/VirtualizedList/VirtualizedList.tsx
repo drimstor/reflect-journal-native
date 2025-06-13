@@ -41,6 +41,7 @@ function VirtualizedList<ItemT extends WithDateAndId>({
   renderItem,
   data,
   isFetching,
+  sortField = "updated_at",
 }: VirtualizedListProps<ItemT>) {
   const { window } = useDeviceStore();
   const { colors } = useThemeStore();
@@ -56,8 +57,8 @@ function VirtualizedList<ItemT extends WithDateAndId>({
 
   const sections = useMemo(() => {
     if (!data?.data) return [];
-    return groupByDate<ItemT>(data.data, locale);
-  }, [data?.data, locale]);
+    return groupByDate<ItemT>(data.data, locale, sortField);
+  }, [data?.data, locale, sortField]);
 
   useEffect(() => {
     LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);

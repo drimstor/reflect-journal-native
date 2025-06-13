@@ -6,7 +6,12 @@ import { EMOJI_REGEX } from "../../const/static";
 export const useMarkdownParser = (text: string) => {
   // Проверяет, нужно ли парсить текст
   const shouldParse = useMemo(() => {
-    return text.includes("**") || text.includes("#") || EMOJI_REGEX.test(text);
+    return (
+      text.includes("**") ||
+      text.includes("#") ||
+      text.includes("- ") ||
+      EMOJI_REGEX.test(text)
+    );
   }, [text]);
 
   // Парсит текст на элементы

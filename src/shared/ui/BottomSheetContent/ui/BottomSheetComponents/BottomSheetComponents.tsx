@@ -14,12 +14,14 @@ interface BottomSheetHeaderProps {
   title: string;
   onClose?: () => void;
   onBack?: () => void;
+  isBorderGap?: boolean;
 }
 
 export const BottomSheetHeader = ({
   title,
   onClose,
   onBack,
+  isBorderGap = true,
 }: BottomSheetHeaderProps) => {
   const { colors } = useThemeStore();
   return (
@@ -48,17 +50,29 @@ export const BottomSheetHeader = ({
           )}
         </View>
       </View>
-      <Divider color={colors.light} />
+      <Divider
+        color={colors.light}
+        style={isBorderGap ? {} : { marginBottom: -4 }}
+      />
     </View>
   );
 };
 
-export const BottomSheetFooter = ({ children }: { children: ReactNode }) => {
+export const BottomSheetFooter = ({
+  children,
+  isBorderGap = true,
+}: {
+  children: ReactNode;
+  isBorderGap?: boolean;
+}) => {
   const { colors } = useThemeStore();
 
   return (
     <View>
-      <Divider color={colors.light} style={styles.divider} />
+      <Divider
+        color={colors.light}
+        style={[styles.divider, isBorderGap ? {} : { marginTop: -4 }]}
+      />
       <View style={styles.footer}>{children}</View>
     </View>
   );

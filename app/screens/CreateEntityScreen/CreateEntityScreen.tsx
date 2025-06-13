@@ -18,7 +18,7 @@ import { useCreateScreenState } from "./lib/hooks/useCreateScreenState";
 import { FormContainer } from "./ui/FormContainer/FormContainer";
 import { ItemCarousel } from "@/src/widgets";
 import { SmallLoader } from "@/src/shared/ui/Loader/SmallLoader";
-import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import DatePickerEntityView from "@/src/features/bottom-sheet-content/DatePickerEntityView/DatePickerEntityView";
 import CreateGoalView from "@/src/features/bottom-sheet-content/CreateGoalView/CreateGoalView";
 import { useNavigation } from "@react-navigation/native";
@@ -60,7 +60,7 @@ const CreateEntityScreen = () => {
     scrollViewRef,
   });
 
-  const isJournalEntry = currentEntity === ENTITY_PLURAL.JOURNAL_ENTRY;
+  const isJournalEntry = currentEntity === ENTITY_NAME.JOURNAL_ENTRY;
 
   // Используем хук для анимированного лоадера экрана
   const {
@@ -83,7 +83,7 @@ const CreateEntityScreen = () => {
         showDatePicker={isJournalEntry}
         onDateClick={handleDateClick}
         showDoneButton={
-          ![ENTITY_PLURAL.GOAL, ENTITY_PLURAL.SUMMARY].includes(
+          ![ENTITY_NAME.GOAL, ENTITY_NAME.SUMMARY].includes(
             currentEntity as EntityType
           )
         }
@@ -137,7 +137,7 @@ const CreateEntityScreen = () => {
           />
         )}
 
-        {currentEntity === ENTITY_PLURAL.GOAL && (
+        {currentEntity === ENTITY_NAME.GOAL && (
           <CreateGoalView
             isStandalone
             isBookmarked={isBookmarked}
@@ -145,7 +145,7 @@ const CreateEntityScreen = () => {
           />
         )}
 
-        {currentEntity === ENTITY_PLURAL.SUMMARY && (
+        {currentEntity === ENTITY_NAME.SUMMARY && (
           <CreateSummaryView
             isStandalone
             isBookmarked={isBookmarked}

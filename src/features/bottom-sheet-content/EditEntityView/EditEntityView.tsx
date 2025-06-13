@@ -67,12 +67,13 @@ const EditEntityView = () => {
         title={formConfig.title}
         onClose={handleBack}
         onBack={handleBack}
+        isBorderGap={false}
       />
       <BottomSheetScrollView
         customMaxHeight={window.height - 270}
         additionalHeight={225}
       >
-        <PaddingLayout style={{ gap: 12 }}>
+        <PaddingLayout style={{ gap: 12, paddingVertical: 16 }}>
           {formConfig.fields.map((field) => (
             <FormField
               key={field.key}
@@ -84,7 +85,7 @@ const EditEntityView = () => {
           ))}
         </PaddingLayout>
       </BottomSheetScrollView>
-      <BottomSheetFooter>
+      <BottomSheetFooter isBorderGap={false}>
         <Button
           backgroundColor={theme === "dark" ? colors.accent : colors.primary}
           textColor={theme === "dark" ? colors.primary : colors.white}

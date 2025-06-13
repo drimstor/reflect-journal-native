@@ -32,11 +32,16 @@
     "editProfile": "Редактировать профиль"
   },
   "home": {
-    "title": "Дашборд"
+    "title": "Дашборд",
+    "articles": "Полезные статьи",
+    "todayTasks": "Задачи на сегодня",
+    "advice": "Советы",
+    "newInsights": "Новые идеи"
   },
   "commands": {
     "createGoal": "Создать цель",
-    "createChat": "Обсудить тему в чате"
+    "createChat": "Обсудить тему в чате",
+    "createJournal": "Создать дневник"
   },
   "library": {
     "title": "Библиотека",
@@ -68,7 +73,15 @@
     "autoDescription": "Автоматически созданный чат, связанный с вашим дневником."
   },
   "goals": {
-    "create": "Создать цель"
+    "create": "Создать цель",
+    "allGoals": "Все цели",
+    "status": {
+      "toDo": "К выполнению",
+      "inProgress": "В процессе", 
+      "complete": "Выполнено"
+    },
+    "emptyFiltered": "В этом списке целей пока ничего нет",
+    "emptyFilteredDescription": "Попробуйте выбрать другой статус или создайте новую цель"
   },
   "libraryItem": {
     "relatedTopics": "Связанные темы",
@@ -167,6 +180,12 @@
       "mood": {
         "label": "Настроение"
       }
+    },
+    "categories": {
+      "createDescription": "Саммари будет создан на основе выбранных категорий"
+    },
+    "topics": {
+      "createDescription": "Саммари будет создан на основе выбранных тем"
     },
     "chats": {
       "title": "Редактирование чата",
@@ -295,7 +314,15 @@
     "journalentriesfull": {
       "singular": "Запись в дневнике",
       "plural": "Записи в дневнике"
-    }  
+    },
+    "documents": {
+      "singular": "Документ",
+      "plural": "Документы"
+    },
+    "articles": {
+      "singular": "Статья",
+      "plural": "Статьи"
+    }
   },
   "shared": {
     "actions": {
@@ -341,7 +368,9 @@
       "entriesCount": "Количество записей",
       "lastUpdated": "Последнее обновление",
       "created": "Создано",
-      "willCreate": "Будет создано"
+      "willCreate": "Будет создано",
+      "readingTime": "Время чтения",
+      "progress": "Прогресс"
     },
     "validation": {
       "required": "Обязательное поле",
@@ -387,10 +416,15 @@
       "noSearchTitle": "Нет результатов",
       "noSearchDescription": "По вашему запросу ничего не найдено",
       "noMessageTitle": "Нет сообщений",
-      "noMessageDescription": "Начните диалог с AI"
+      "noMessageDescription": "Начните диалог с AI",
+      "noGoalsTitle": "В этом списке пока нет целей",
+      "noGoalsDescription": "Попробуйте выбрать другой статус или создайте новую цель"
     },
     "charts": {
       "mentions": "упоминаний"
+    },
+    "time": {
+      "minutes": "мин"
     }
   }
 } 

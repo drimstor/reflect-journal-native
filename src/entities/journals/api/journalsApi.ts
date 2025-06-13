@@ -8,7 +8,7 @@ import type {
 } from "../model/types";
 import { Alert } from "react-native";
 import { mergeQueryData } from "@/src/shared/store";
-import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 
 export const journalsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -21,12 +21,12 @@ export const journalsApi = baseApi.injectEndpoints({
         result
           ? [
               ...result.data.map(({ id }) => ({
-                type: ENTITY_PLURAL.JOURNAL,
+                type: ENTITY_NAME.JOURNAL,
                 id,
               })),
-              { type: ENTITY_PLURAL.JOURNAL, id: "LIST" },
+              { type: ENTITY_NAME.JOURNAL, id: "LIST" },
             ]
-          : [{ type: ENTITY_PLURAL.JOURNAL, id: "LIST" }],
+          : [{ type: ENTITY_NAME.JOURNAL, id: "LIST" }],
       serializeQueryArgs: ({ endpointName, queryArgs }) => {
         // Если есть дополнительные фильтры (кроме page и limit), не используем кеширование
         const params = new URLSearchParams(queryArgs.params || "");
@@ -56,7 +56,7 @@ export const journalsApi = baseApi.injectEndpoints({
         method: "GET",
       }),
       providesTags: (result, error, { id }) => [
-        { type: ENTITY_PLURAL.JOURNAL, id },
+        { type: ENTITY_NAME.JOURNAL, id },
       ],
     }),
 
@@ -66,7 +66,7 @@ export const journalsApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: [{ type: ENTITY_PLURAL.JOURNAL, id: "LIST" }],
+      invalidatesTags: [{ type: ENTITY_NAME.JOURNAL, id: "LIST" }],
       async onQueryStarted(_, { queryFulfilled }) {
         try {
           await queryFulfilled;
@@ -90,8 +90,8 @@ export const journalsApi = baseApi.injectEndpoints({
         body,
       }),
       invalidatesTags: (result, error, { id }) => [
-        { type: ENTITY_PLURAL.JOURNAL, id },
-        { type: ENTITY_PLURAL.JOURNAL, id: "LIST" },
+        { type: ENTITY_NAME.JOURNAL, id },
+        { type: ENTITY_NAME.JOURNAL, id: "LIST" },
       ],
     }),
 
@@ -101,8 +101,8 @@ export const journalsApi = baseApi.injectEndpoints({
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [
-        { type: ENTITY_PLURAL.JOURNAL, id },
-        { type: ENTITY_PLURAL.JOURNAL, id: "LIST" },
+        { type: ENTITY_NAME.JOURNAL, id },
+        { type: ENTITY_NAME.JOURNAL, id: "LIST" },
       ],
     }),
   }),

@@ -3,7 +3,7 @@ import Svg, { Path } from "react-native-svg";
 import { IconProps } from "../../model/types";
 import { PALLETE_COLORS } from "@/src/shared/const";
 
-export const ArchiveSolidIcon: FC<IconProps> = ({
+const ArchiveSolidIcon: FC<IconProps> = ({
   size = 24,
   color = PALLETE_COLORS.dark.contrast,
 }) => {
@@ -16,3 +16,5 @@ export const ArchiveSolidIcon: FC<IconProps> = ({
     </Svg>
   );
 };
+
+export default ArchiveSolidIcon;

@@ -25,14 +25,20 @@ interface CarouselConfig {
  * @param params - Параметры пагинации и фильтрации
  * @returns Объект с данными сущностей, состоянием выбора и конфигурацией карусели
  */
-export const useEntitiesData = (
-  entityType: EntityType,
-  params: string = "?page=1&limit=50"
-) => {
+export const useEntitiesData = ({
+  entityType,
+  params = "?page=1&limit=50",
+  skip,
+}: {
+  entityType: EntityType;
+  params?: string;
+  skip?: boolean;
+}) => {
   // Получение данных через универсальный хук
   const { data: entitiesData, isLoading } = useGetAnyEntities(
     entityType,
-    params
+    params,
+    skip
   );
 
   // Трансформация данных для карусели

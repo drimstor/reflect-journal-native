@@ -8,7 +8,7 @@ import type {
 } from "../model/types";
 import { Alert } from "react-native";
 import { mergeQueryData } from "@/src/shared/store";
-import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 
 export const chatsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -21,12 +21,12 @@ export const chatsApi = baseApi.injectEndpoints({
         result
           ? [
               ...result.data.map(({ id }) => ({
-                type: ENTITY_PLURAL.CHAT,
+                type: ENTITY_NAME.CHAT,
                 id,
               })),
-              { type: ENTITY_PLURAL.CHAT, id: "LIST" },
+              { type: ENTITY_NAME.CHAT, id: "LIST" },
             ]
-          : [{ type: ENTITY_PLURAL.CHAT, id: "LIST" }],
+          : [{ type: ENTITY_NAME.CHAT, id: "LIST" }],
       serializeQueryArgs: ({ endpointName, queryArgs }) => {
         // Если есть дополнительные фильтры (кроме page и limit), не используем кеширование
         const params = new URLSearchParams(queryArgs.params || "");
@@ -53,7 +53,7 @@ export const chatsApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: [{ type: ENTITY_PLURAL.CHAT, id: "LIST" }],
+      invalidatesTags: [{ type: ENTITY_NAME.CHAT, id: "LIST" }],
       async onQueryStarted(_, { queryFulfilled }) {
         try {
           await queryFulfilled;
@@ -75,8 +75,8 @@ export const chatsApi = baseApi.injectEndpoints({
           body,
         }),
         invalidatesTags: (result, error, { id }) => [
-          { type: ENTITY_PLURAL.CHAT, id },
-          { type: ENTITY_PLURAL.CHAT, id: "LIST" },
+          { type: ENTITY_NAME.CHAT, id },
+          { type: ENTITY_NAME.CHAT, id: "LIST" },
         ],
       }
     ),
@@ -87,8 +87,8 @@ export const chatsApi = baseApi.injectEndpoints({
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [
-        { type: ENTITY_PLURAL.CHAT, id },
-        { type: ENTITY_PLURAL.CHAT, id: "LIST" },
+        { type: ENTITY_NAME.CHAT, id },
+        { type: ENTITY_NAME.CHAT, id: "LIST" },
       ],
     }),
   }),

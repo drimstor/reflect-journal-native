@@ -3,7 +3,7 @@ import Svg, { Path } from "react-native-svg";
 import { IconProps } from "../../model/types";
 import { PALLETE_COLORS } from "../../const";
 
-export const CheckIcon: React.FC<IconProps> = ({
+const CheckIcon: React.FC<IconProps> = ({
   size = 24,
   color = PALLETE_COLORS.dark.contrast,
   ...props
@@ -20,3 +20,5 @@ export const CheckIcon: React.FC<IconProps> = ({
     </Svg>
   );
 };
+
+export default CheckIcon;

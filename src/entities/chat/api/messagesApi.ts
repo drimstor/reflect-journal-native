@@ -8,7 +8,7 @@ import {
 } from "../model/types";
 import { transformMessages } from "../lib/helpers/transformMessages";
 import { IMessage } from "react-native-gifted-chat";
-import { ENTITY_PLURAL } from "@/src/shared/const/ENTITIES";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 
 export const MESSAGES_TAG = "Messages" as const;
 type TagTypes = typeof MESSAGES_TAG;
@@ -27,10 +27,8 @@ export const messagesApi = baseApi.injectEndpoints({
         body: data,
       }),
       invalidatesTags: (result, error, data) => [
-        { type: ENTITY_PLURAL.CHAT, id: "LIST" },
-        ...(data.chat_id
-          ? [{ type: ENTITY_PLURAL.CHAT, id: data.chat_id }]
-          : []),
+        { type: ENTITY_NAME.CHAT, id: "LIST" },
+        ...(data.chat_id ? [{ type: ENTITY_NAME.CHAT, id: data.chat_id }] : []),
       ],
     }),
 
@@ -112,8 +110,8 @@ export const messagesApi = baseApi.injectEndpoints({
       invalidatesTags: (result, error, { message_id }) => [
         { type: MESSAGES_TAG, id: message_id },
         { type: MESSAGES_TAG, id: "LIST" },
-        { type: ENTITY_PLURAL.CHAT, id: result?.chat_id },
-        { type: ENTITY_PLURAL.CHAT, id: "LIST" },
+        { type: ENTITY_NAME.CHAT, id: result?.chat_id },
+        { type: ENTITY_NAME.CHAT, id: "LIST" },
       ],
     }),
 
@@ -125,7 +123,7 @@ export const messagesApi = baseApi.injectEndpoints({
       invalidatesTags: (result, error, message_id) => [
         { type: MESSAGES_TAG, id: message_id },
         { type: MESSAGES_TAG, id: "LIST" },
-        { type: ENTITY_PLURAL.CHAT, id: "LIST" },
+        { type: ENTITY_NAME.CHAT, id: "LIST" },
       ],
     }),
 
@@ -140,7 +138,7 @@ export const messagesApi = baseApi.injectEndpoints({
         body: data,
       }),
       invalidatesTags: (result, error, data) => [
-        { type: ENTITY_PLURAL.CHAT, id: "LIST" },
+        { type: ENTITY_NAME.CHAT, id: "LIST" },
         { type: MESSAGES_TAG, id: "LIST" },
       ],
     }),

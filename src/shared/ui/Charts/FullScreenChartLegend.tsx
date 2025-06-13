@@ -1,6 +1,6 @@
 import { ListItemPreview } from "@/src/features";
 import { FC } from "react";
-import { View } from "react-native";
+import { Pressable, TouchableOpacity, View } from "react-native";
 import { useFiltersStore, useThemeStore } from "../../store";
 import { stringToColor } from "../../lib/helpers";
 import { PortraitNode } from "@/src/entities";
@@ -12,12 +12,14 @@ interface FullScreenChartLegendProps {
   data: PortraitNode[];
   onPress?: (item: PortraitNode) => void;
   isSelectMode?: boolean;
+  onDotsPress?: (item: PortraitNode) => void;
 }
 
 const FullScreenChartLegend: FC<FullScreenChartLegendProps> = ({
   data,
   onPress,
   isSelectMode,
+  onDotsPress,
 }) => {
   const t = useT();
   const { colors } = useThemeStore();
@@ -74,7 +76,9 @@ const FullScreenChartLegend: FC<FullScreenChartLegendProps> = ({
                 checkedColor={colors.accent}
               />
             ) : (
-              <DotsIcon color={colors.contrast} size={24} />
+              <TouchableOpacity onPress={() => onDotsPress?.(item)}>
+                <DotsIcon color={colors.contrast} size={24} />
+              </TouchableOpacity>
             )
           }
         />
