@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { ScrollView, View } from "react-native";
 import { createStyles } from "./CreateEntityScreen.styles";
 import {
@@ -17,7 +17,6 @@ import { useCreateScreenState } from "./lib/hooks/useCreateScreenState";
 // Импорт подкомпонентов
 import { FormContainer } from "./ui/FormContainer/FormContainer";
 import { ItemCarousel } from "@/src/widgets";
-import { SmallLoader } from "@/src/shared/ui/Loader/SmallLoader";
 import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import DatePickerEntityView from "@/src/features/bottom-sheet-content/DatePickerEntityView/DatePickerEntityView";
 import CreateGoalView from "@/src/features/bottom-sheet-content/CreateGoalView/CreateGoalView";
