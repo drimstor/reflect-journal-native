@@ -133,4 +133,20 @@ export const FLOWS: Record<string, FlowConfig> = {
       ),
     },
   },
+  test: {
+    screens: {
+      skip: lazy(
+        () =>
+          import(
+            "@/src/features/bottom-sheet-content/SkipQuestionView/SkipQuestionView"
+          )
+      ),
+      exit: lazy(
+        () =>
+          import(
+            "@/src/features/bottom-sheet-content/ExitTestView/ExitTestView"
+          )
+      ),
+    },
+  },
 };

@@ -1,54 +1,54 @@
-import React, { FC, useEffect, useState } from "react";
+import { Journal, useGetAnyEntity, useGetMood } from "@/src/entities";
+import { ChecklistItem } from "@/src/entities/goals/model/types";
+import { PATHS } from "@/src/shared/const";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import {
-  CheckBox,
-  CheckboxList,
-  Divider,
-  Layout,
-  Text,
-  MarkdownEmojiText,
-  Chip,
-  TitleText,
-  InfoBox,
-  BottomSheet,
-  PaddingLayout,
-  useCarouselConfig,
-  useBottomSheetActions,
-  AnimatedAppearance,
-} from "@/src/shared/ui";
-import {
-  Header,
-  useHeaderStore,
-  ItemCarousel,
-  CommandWidget,
-} from "@/src/widgets";
+  formatDate,
+  formatReadingTime,
+  getWeekDay,
+  stringToColor,
+} from "@/src/shared/lib/helpers";
 import { useLang, useT } from "@/src/shared/lib/hooks";
+import { StackNavigationProps } from "@/src/shared/model/types";
 import {
   useBottomSheetStore,
   useDeviceStore,
   useThemeStore,
 } from "@/src/shared/store";
-import { ScrollView, View } from "react-native";
+import {
+  AnimatedAppearance,
+  BottomSheet,
+  CheckBox,
+  CheckboxList,
+  Chip,
+  Divider,
+  InfoBox,
+  Layout,
+  MarkdownEmojiText,
+  PaddingLayout,
+  Text,
+  TitleText,
+  useBottomSheetActions,
+  useCarouselConfig,
+} from "@/src/shared/ui";
 import {
   CalendarIcon,
   CheckIcon,
   DotsIcon,
   TimerIcon,
 } from "@/src/shared/ui/icons";
-import { createStyles } from "./LibraryItemScreen.styles";
-import { useNavigation, useRoute } from "@react-navigation/native";
 import {
-  formatDate,
-  getWeekDay,
-  formatReadingTime,
-} from "@/src/shared/lib/helpers";
-import { stringToColor } from "@/src/shared/lib/helpers";
-import { ChecklistItem } from "@/src/entities/goals/model/types";
-import { PATHS } from "@/src/shared/const";
+  CommandWidget,
+  Header,
+  ItemCarousel,
+  useHeaderStore,
+} from "@/src/widgets";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import { ScrollView, View } from "react-native";
 import { useChecklistActions } from "./lib/hooks/useChecklistActions";
 import { useSetDocumentProgress } from "./lib/hooks/useSetDocumentProgress";
-import { Journal, useGetAnyEntity, useGetMood } from "@/src/entities";
-import { StackNavigationProps } from "@/src/shared/model/types";
-import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
+import { createStyles } from "./LibraryItemScreen.styles";
 
 const LibraryItemScreen = () => {
   const t = useT();
@@ -177,17 +177,19 @@ const LibraryItemScreen = () => {
                     color={colors.contrast}
                   />
                 </View>
-                <View style={styles.infoTableItem}>
-                  <InfoBox
-                    label={t("shared.info.lastUpdated")}
-                    icon={<CalendarIcon color={colors.contrast} />}
-                    value={`${formatDate(
-                      currentItem?.updated_at,
-                      locale
-                    )}, ${getWeekDay(currentItem?.updated_at, t, "short")}`}
-                    color={colors.contrast}
-                  />
-                </View>
+                {currentItem?.updated_at && (
+                  <View style={styles.infoTableItem}>
+                    <InfoBox
+                      label={t("shared.info.lastUpdated")}
+                      icon={<CalendarIcon color={colors.contrast} />}
+                      value={`${formatDate(
+                        currentItem?.updated_at,
+                        locale
+                      )}, ${getWeekDay(currentItem?.updated_at, t, "short")}`}
+                      color={colors.contrast}
+                    />
+                  </View>
+                )}
                 {mood && !Array.isArray(mood) && (
                   <View style={styles.infoTableItem}>
                     <InfoBox

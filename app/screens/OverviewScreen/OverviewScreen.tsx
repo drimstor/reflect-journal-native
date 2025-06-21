@@ -1,4 +1,13 @@
-import { useMemo } from "react";
+import { PreviewBlock } from "@/src/features";
+import { PATHS } from "@/src/shared/const";
+import { formatDate, stringToColor } from "@/src/shared/lib/helpers";
+import {
+  useBottomSheetIndexState,
+  useLang,
+  useT,
+} from "@/src/shared/lib/hooks";
+import { EntityType, NavigationProps } from "@/src/shared/model/types";
+import { useDeviceStore, useThemeStore } from "@/src/shared/store";
 import {
   BottomSheet,
   CalendarIcon,
@@ -6,21 +15,17 @@ import {
   Layout,
   PaddingLayout,
 } from "@/src/shared/ui";
-import { Header, OverviewChartSlider } from "@/src/widgets";
-import { useT, useBottomSheetIndexState } from "@/src/shared/lib/hooks";
-import { useThemeStore, useDeviceStore } from "@/src/shared/store";
-import { View } from "react-native";
-import { PreviewBlock } from "@/src/features";
-import { stringToColor } from "@/src/shared/lib/helpers";
 import { SectionHeader } from "@/src/shared/ui/VirtualizedList/VirtualizedList";
-import { EntityType, NavigationProps } from "@/src/shared/model/types";
+import { Header, OverviewChartSlider } from "@/src/widgets";
 import { useNavigation } from "@react-navigation/native";
-import { PATHS } from "@/src/shared/const";
+import { useMemo } from "react";
+import { View } from "react-native";
 
 const OverviewScreen = () => {
   const t = useT();
   const { colors } = useThemeStore();
   const { window } = useDeviceStore();
+  const { locale } = useLang();
 
   // Используем новый хук для управления индексом BottomSheet
   const { bottomSheetRef, bottomSheetIndex, snapToIndex } =
@@ -120,7 +125,7 @@ const OverviewScreen = () => {
               infoBoxes={[
                 {
                   label: t("shared.info.lastUpdated"),
-                  value: "Aug 25",
+                  value: formatDate(new Date().toISOString(), locale),
                   icon: <CalendarIcon color={colors.contrast} />,
                 },
               ]}

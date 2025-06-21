@@ -1,19 +1,17 @@
-import { useEffect } from "react";
-import { FiltersPanel, Header } from "@/src/widgets";
-import { useLang, useT } from "@/src/shared/lib/hooks";
-import { View } from "react-native";
-import { CalendarIcon, DotsIcon } from "@/src/shared/ui/icons";
-import { createStyles } from "./LibraryListScreen.styles";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { NavigationProps } from "@/src/shared/model/types";
-import { PATHS } from "@/src/shared/const";
 import {
   JournalEntry,
   useGetJournalEntriesQuery,
   useMultiSelection,
 } from "@/src/entities";
 import { PreviewBlock } from "@/src/features";
+import { PATHS } from "@/src/shared/const";
+import {
+  ENTITY_NAME,
+  ENTITY_WITH_CHILDREN_CONFIG,
+} from "@/src/shared/const/ENTITIES";
 import { formatDate } from "@/src/shared/lib/helpers";
+import { useLang, useT } from "@/src/shared/lib/hooks";
+import { NavigationProps } from "@/src/shared/model/types";
 import {
   getFiltersParams,
   useBottomSheetStore,
@@ -23,18 +21,20 @@ import {
   useThemeStore,
 } from "@/src/shared/store";
 import {
+  AnimatedAppearance,
+  BottomSheet,
+  CheckBox,
   Divider,
   Layout,
-  BottomSheet,
   VirtualizedList,
   useBottomSheetActions,
-  CheckBox,
-  AnimatedAppearance,
 } from "@/src/shared/ui";
-import {
-  ENTITY_NAME,
-  ENTITY_WITH_CHILDREN_CONFIG,
-} from "@/src/shared/const/ENTITIES";
+import { CalendarIcon, DotsIcon } from "@/src/shared/ui/icons";
+import { FiltersPanel, Header } from "@/src/widgets";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { useEffect } from "react";
+import { View } from "react-native";
+import { createStyles } from "./LibraryListScreen.styles";
 
 const LibraryListScreen = () => {
   const t = useT();
@@ -87,6 +87,8 @@ const LibraryListScreen = () => {
       itemId: journal?.id,
       onPress,
     });
+
+    // navigation.navigate(PATHS.TEST);
 
     return (
       <PreviewBlock
@@ -175,7 +177,7 @@ const LibraryListScreen = () => {
             style={{ marginTop: 20, marginBottom: 20 }}
             size="medium"
           >
-            Clear filters
+            Пройти еще раз
           </Button>
         </View> */}
       </BottomSheet>

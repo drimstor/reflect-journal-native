@@ -1,5 +1,5 @@
-import { StyleSheet, Platform } from "react-native";
 import { ThemeColors } from "@/src/shared/model/types";
+import { Platform, StyleSheet } from "react-native";
 
 export const createStyles = (themeColors: ThemeColors) => {
   return StyleSheet.create({
@@ -18,12 +18,10 @@ export const createStyles = (themeColors: ThemeColors) => {
     },
     multiline: {
       height: 150,
-      paddingVertical: 8,
       alignItems: "flex-start",
     },
     superMultiline: {
       height: 220,
-      paddingVertical: 8,
       alignItems: "flex-start",
     },
     textField: {
@@ -33,6 +31,8 @@ export const createStyles = (themeColors: ThemeColors) => {
       width: "100%",
       flex: 1,
       minWidth: 0,
+      height: "100%",
+      padding: 16,
       fontFamily: "ZonaPro-Regular",
       ...Platform.select({
         android: {
@@ -46,12 +46,10 @@ export const createStyles = (themeColors: ThemeColors) => {
 
 export const sizeStyles = StyleSheet.create({
   small: {
-    paddingHorizontal: 16,
     height: 32,
     borderRadius: 10,
   },
   medium: {
-    padding: 16,
     height: 52,
     borderRadius: 12,
   },

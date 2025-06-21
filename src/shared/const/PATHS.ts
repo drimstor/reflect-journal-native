@@ -13,4 +13,5 @@ export enum PATHS {
   CHAT = "/chat",
   RELATIONSHIP_MAP = "/relationship-map",
   CHARTS = "/charts",
+  TEST = "/test",
 }

@@ -1,11 +1,11 @@
-import { FC, memo } from "react";
-import { View, TextInput, Pressable, Platform } from "react-native";
-import Text from "../Text/Text";
-import { createStyles, sizeStyles } from "./TextField.styles";
 import { useThemeStore } from "@/src/shared/store";
-import { EyeIcon, EyeSlashIcon } from "../icons";
+import { FC, memo } from "react";
+import { Pressable, TextInput, View } from "react-native";
 import { useToggle } from "../../lib/hooks";
+import { EyeIcon, EyeSlashIcon } from "../icons";
+import Text from "../Text/Text";
 import { TextFieldProps } from "./model/types";
+import { createStyles, sizeStyles } from "./TextField.styles";
 
 const TextField: FC<TextFieldProps> = ({
   value,
@@ -55,6 +55,8 @@ const TextField: FC<TextFieldProps> = ({
             styles.textField,
             secureTextEntry && { paddingRight: 50 },
             // Явно указываем цвет текста для Android
+            multiline && styles.multiline,
+            superMultiline && styles.superMultiline,
             { color: textColor ?? colors.contrast },
           ]}
           maxLength={phone ? 10 : undefined}

@@ -1,15 +1,16 @@
-import { PATHS } from "@/src/shared/const";
 import {
   AuthScreen,
-  HomeScreen,
-  LibraryScreen,
-  LibraryItemScreen,
-  ChatScreen,
-  LibraryListScreen,
-  CreateEntityScreen,
-  RelationshipMapScreen,
   ChartsScreen,
+  ChatScreen,
+  CreateEntityScreen,
+  HomeScreen,
+  LibraryItemScreen,
+  LibraryListScreen,
+  LibraryScreen,
+  RelationshipMapScreen,
+  TestScreen,
 } from "@/app/screens";
+import { PATHS } from "@/src/shared/const";
 
 export const screensData = [
   { name: PATHS.HOME, component: HomeScreen, options: { animation: "none" } },
@@ -52,5 +53,10 @@ export const screensData = [
     name: PATHS.CHARTS,
     component: ChartsScreen,
     options: { animation: "none" },
+  },
+  {
+    name: PATHS.TEST,
+    component: TestScreen,
+    options: { animation: "default" },
   },
 ];
