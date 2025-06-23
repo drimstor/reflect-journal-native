@@ -1,26 +1,24 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useGetPortraitGraphQuery } from "@/src/entities/portrait/api/portraitApi";
+import { PATHS } from "@/src/shared/const/PATHS";
+import { stringToColor } from "@/src/shared/lib/helpers";
+import { getContrastColor } from "@/src/shared/lib/helpers/getContrastColor";
+import { useT } from "@/src/shared/lib/hooks";
+import { NavigationProps } from "@/src/shared/model/types";
+import { useDeviceStore, useThemeStore } from "@/src/shared/store";
 import {
   AnimatedAppearance,
   BottomSheet,
   Chip,
   Divider,
-  DotsIcon,
   Layout,
-  Loader,
   NoData,
 } from "@/src/shared/ui";
 import { ChartsFiltersPanel, Header } from "@/src/widgets";
-import { useT } from "@/src/shared/lib/hooks";
-import { useThemeStore, useDeviceStore } from "@/src/shared/store";
+import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, View } from "react-native";
 import VisNetwork, { VisNetworkRef } from "react-native-vis-network";
 import { styles } from "./RelationshipMapScreen.styles";
-import { useGetPortraitGraphQuery } from "@/src/entities/portrait/api/portraitApi";
-import { stringToColor } from "@/src/shared/lib/helpers";
-import { getContrastColor } from "@/src/shared/lib/helpers/getContrastColor";
-import { NavigationProps } from "@/src/shared/model/types";
-import { useNavigation } from "@react-navigation/native";
-import { PATHS } from "@/src/shared/const/PATHS";
 
 const RelationshipMapScreen = () => {
   const t = useT();
@@ -176,7 +174,6 @@ const RelationshipMapScreen = () => {
     // Для отладки
     if (graphData?.nodes) {
       const nodeItem = graphData.nodes.find((item) => item.id === nodeId);
-      console.log("Выбран узел:", nodeItem);
     }
   };
 

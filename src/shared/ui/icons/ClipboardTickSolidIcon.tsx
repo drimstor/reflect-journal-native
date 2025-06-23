@@ -1,7 +1,7 @@
+import { PALLETE_COLORS } from "@/src/shared/const";
 import React, { FC } from "react";
 import Svg, { Path } from "react-native-svg";
 import { IconProps } from "../../model/types";
-import { PALLETE_COLORS } from "@/src/shared/const";
 
 const ClipboardTickSolidIcon: FC<IconProps> = ({
   size = 24,

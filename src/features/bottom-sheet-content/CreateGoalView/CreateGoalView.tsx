@@ -1,22 +1,3 @@
-import React from "react";
-import {
-  Button,
-  BottomSheetHeader,
-  BottomSheetFooter,
-  PaddingLayout,
-  BottomSheetBox,
-  BottomSheetScrollView,
-  Loader,
-} from "@/src/shared/ui";
-import {
-  useThemeStore,
-  useBottomSheetStore,
-  useDeviceStore,
-} from "@/src/shared/store";
-import { useT } from "@/src/shared/lib/hooks";
-import { useEditFormConfig } from "./lib/hooks/useEditFormConfig";
-import { useEditForm } from "./lib/hooks/useEditForm";
-import { useEffect, useState } from "react";
 import {
   getEntitiesIds,
   useGenerateGoalMutation,
@@ -25,14 +6,32 @@ import {
   useSaveGoalMutation,
 } from "@/src/entities";
 import { Goal, SaveGoalRequest } from "@/src/entities/goals/model/types";
+import { PATHS } from "@/src/shared/const";
 import {
   ENTITY_NAME,
   ENTITY_WITH_PARENT,
   ENTITY_WITH_PARENT_CONFIG,
 } from "@/src/shared/const/ENTITIES";
-import { PATHS } from "@/src/shared/const";
+import { useT } from "@/src/shared/lib/hooks";
+import {
+  useBottomSheetStore,
+  useDeviceStore,
+  useThemeStore,
+} from "@/src/shared/store";
+import {
+  BottomSheetBox,
+  BottomSheetFooter,
+  BottomSheetHeader,
+  BottomSheetScrollView,
+  Button,
+  Loader,
+  PaddingLayout,
+} from "@/src/shared/ui";
 import { FormField } from "@/src/widgets";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
+import { useEditForm } from "./lib/hooks/useEditForm";
+import { useEditFormConfig } from "./lib/hooks/useEditFormConfig";
 
 interface CreateGoalViewProps {
   isBookmarked?: boolean;
@@ -101,7 +100,7 @@ const CreateGoalView = ({
           navigationBack?.();
 
           setTimeout(() => {
-            const params = { item: result, variant: ENTITY_NAME.GOAL };
+            const params = { item: result, variant: ENTITY_NAME.GOALS };
             setNavigation(true, PATHS.LIBRARY_ITEM, params);
           }, 200);
         } else if (flowData.requestAssistantMessageStore) {
@@ -120,7 +119,7 @@ const CreateGoalView = ({
                   flowData.requestAssistantMessageStore.source_id
                 )[0]
               : flowData.requestAssistantMessageStore.source_id,
-            target_type: ENTITY_NAME.GOAL,
+            target_type: ENTITY_NAME.GOALS,
             target_id: result.id,
           })
             .unwrap()
@@ -128,7 +127,7 @@ const CreateGoalView = ({
               handleBack();
               resetFlowData();
               setTimeout(() => {
-                const params = { item: result, variant: ENTITY_NAME.GOAL };
+                const params = { item: result, variant: ENTITY_NAME.GOALS };
                 setNavigation(true, PATHS.LIBRARY_ITEM, params);
               }, 200);
             });

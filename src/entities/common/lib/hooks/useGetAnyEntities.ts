@@ -1,8 +1,9 @@
 import {
   useGetChatsQuery,
   useGetGoalsQuery,
-  useGetSummariesQuery,
   useGetJournalsQuery,
+  useGetSummariesQuery,
+  useGetTestsQuery,
 } from "@/src/entities";
 import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import { EntityType } from "@/src/shared/model/types";
@@ -19,7 +20,7 @@ interface PaginatedResponse<T> {
  * Позволяет получить список сущностей (журналы, чаты, цели или саммари) в зависимости от переданного типа.
  * Использует соответствующие RTK Query хуки для каждого типа сущности.
  *
- * @param variant - Тип сущности (Journal, Chat, Goal, Summary)
+ * @param variant - Тип сущности (Journal, Chat, Goal, Summary, Test, TestResult)
  * @param params - Строка с параметрами запроса
  * @param skip - Флаг для пропуска запроса
  * @returns Объект с данными и состоянием загрузки для выбранного типа сущности
@@ -35,7 +36,7 @@ export const useGetAnyEntities = <T extends EntityType>(
     isFetching: isJournalsFetching,
   } = useGetJournalsQuery(
     { params },
-    { skip: variant !== ENTITY_NAME.JOURNAL || skip }
+    { skip: variant !== ENTITY_NAME.JOURNALS || skip }
   );
 
   const {
@@ -44,7 +45,7 @@ export const useGetAnyEntities = <T extends EntityType>(
     isFetching: isChatsFetching,
   } = useGetChatsQuery(
     { params },
-    { skip: variant !== ENTITY_NAME.CHAT || skip }
+    { skip: variant !== ENTITY_NAME.CHATS || skip }
   );
 
   const {
@@ -53,7 +54,7 @@ export const useGetAnyEntities = <T extends EntityType>(
     isFetching: isGoalsFetching,
   } = useGetGoalsQuery(
     { params },
-    { skip: variant !== ENTITY_NAME.GOAL || skip }
+    { skip: variant !== ENTITY_NAME.GOALS || skip }
   );
 
   const {
@@ -62,7 +63,16 @@ export const useGetAnyEntities = <T extends EntityType>(
     isFetching: isSummariesFetching,
   } = useGetSummariesQuery(
     { params },
-    { skip: variant !== ENTITY_NAME.SUMMARY || skip }
+    { skip: variant !== ENTITY_NAME.SUMMARIES || skip }
+  );
+
+  const {
+    data: Tests,
+    isLoading: isTestsLoading,
+    isFetching: isTestsFetching,
+  } = useGetTestsQuery(
+    { params },
+    { skip: variant !== ENTITY_NAME.TESTS || skip }
   );
 
   const dataConfig = {
@@ -70,6 +80,7 @@ export const useGetAnyEntities = <T extends EntityType>(
     Chats,
     Goals,
     Summaries,
+    Tests,
   };
 
   const loadingConfig = {
@@ -77,6 +88,7 @@ export const useGetAnyEntities = <T extends EntityType>(
     Chats: isChatsLoading,
     Goals: isGoalsLoading,
     Summaries: isSummariesLoading,
+    Tests: isTestsLoading,
   };
 
   const fetchingConfig = {
@@ -84,6 +96,7 @@ export const useGetAnyEntities = <T extends EntityType>(
     Chats: isChatsFetching,
     Goals: isGoalsFetching,
     Summaries: isSummariesFetching,
+    Tests: isTestsFetching,
   };
 
   return {

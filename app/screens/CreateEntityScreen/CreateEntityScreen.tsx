@@ -1,28 +1,28 @@
+import { useKeyboardAnimateAction, useT } from "@/src/shared/lib/hooks";
+import { useDeviceStore, useThemeStore } from "@/src/shared/store";
+import {
+  AnimatedLoader,
+  BottomSheet,
+  BottomSheetScreenHeader,
+  Divider,
+  useAnimatedLoading,
+} from "@/src/shared/ui";
 import React from "react";
 import { ScrollView, View } from "react-native";
 import { createStyles } from "./CreateEntityScreen.styles";
-import {
-  Divider,
-  BottomSheetScreenHeader,
-  BottomSheet,
-  useAnimatedLoading,
-  AnimatedLoader,
-} from "@/src/shared/ui";
-import { useDeviceStore, useThemeStore } from "@/src/shared/store";
-import { useT, useKeyboardAnimateAction } from "@/src/shared/lib/hooks";
 
 // Импорт хука состояния
 import { useCreateScreenState } from "./lib/hooks/useCreateScreenState";
 
 // Импорт подкомпонентов
-import { FormContainer } from "./ui/FormContainer/FormContainer";
-import { ItemCarousel } from "@/src/widgets";
-import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
-import DatePickerEntityView from "@/src/features/bottom-sheet-content/DatePickerEntityView/DatePickerEntityView";
 import CreateGoalView from "@/src/features/bottom-sheet-content/CreateGoalView/CreateGoalView";
-import { useNavigation } from "@react-navigation/native";
 import CreateSummaryView from "@/src/features/bottom-sheet-content/CreateSummaryView/CreateSummaryView";
+import DatePickerEntityView from "@/src/features/bottom-sheet-content/DatePickerEntityView/DatePickerEntityView";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import { EntityType } from "@/src/shared/model/types";
+import { ItemCarousel } from "@/src/widgets";
+import { useNavigation } from "@react-navigation/native";
+import { FormContainer } from "./ui/FormContainer/FormContainer";
 
 const CreateEntityScreen = () => {
   const t = useT();
@@ -59,7 +59,7 @@ const CreateEntityScreen = () => {
     scrollViewRef,
   });
 
-  const isJournalEntry = currentEntity === ENTITY_NAME.JOURNAL_ENTRY;
+  const isJournalEntry = currentEntity === ENTITY_NAME.JOURNAL_ENTRIES;
 
   // Используем хук для анимированного лоадера экрана
   const {
@@ -82,7 +82,7 @@ const CreateEntityScreen = () => {
         showDatePicker={isJournalEntry}
         onDateClick={handleDateClick}
         showDoneButton={
-          ![ENTITY_NAME.GOAL, ENTITY_NAME.SUMMARY].includes(
+          ![ENTITY_NAME.GOALS, ENTITY_NAME.SUMMARIES].includes(
             currentEntity as EntityType
           )
         }
@@ -136,7 +136,7 @@ const CreateEntityScreen = () => {
           />
         )}
 
-        {currentEntity === ENTITY_NAME.GOAL && (
+        {currentEntity === ENTITY_NAME.GOALS && (
           <CreateGoalView
             isStandalone
             isBookmarked={isBookmarked}
@@ -144,7 +144,7 @@ const CreateEntityScreen = () => {
           />
         )}
 
-        {currentEntity === ENTITY_NAME.SUMMARY && (
+        {currentEntity === ENTITY_NAME.SUMMARIES && (
           <CreateSummaryView
             isStandalone
             isBookmarked={isBookmarked}

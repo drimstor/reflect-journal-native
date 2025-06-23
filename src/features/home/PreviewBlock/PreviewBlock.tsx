@@ -1,35 +1,36 @@
-import { Pressable, View, ColorValue } from "react-native";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  interpolateColor,
-} from "react-native-reanimated";
-import { createStyles } from "./PreviewBlock.styles";
-import {
-  InfoBox,
-  TitleText,
-  Text,
-  Chip,
-  ProgressBar,
-  MarkdownEmojiText,
-} from "@/src/shared/ui";
-import { ReactNode, useEffect } from "react";
-import { useT } from "@/src/shared/lib/hooks";
-import { useThemeStore } from "@/src/shared/store";
+import { ChecklistItem } from "@/src/entities/goals/model/types";
 import { calculateProgress, stringToColor } from "@/src/shared/lib/helpers";
+import { useT } from "@/src/shared/lib/hooks";
+import { EntityType } from "@/src/shared/model/types";
+import { useThemeStore } from "@/src/shared/store";
 import {
+  Chip,
+  InfoBox,
+  MarkdownEmojiText,
+  ProgressBar,
+  Text,
+  TitleText,
+} from "@/src/shared/ui";
+import {
+  ArchiveSolidIcon,
   BackSquareSolidIcon,
+  ChartIcon,
+  ClipboardSolidIcon,
   ClipboardTickSolidIcon,
   DirectSolidIcon,
-  ArchiveSolidIcon,
-  MailSolidIcon,
   LifebuoySolidIcon,
-  ChartIcon,
   LinkSolidIcon,
+  MailSolidIcon,
 } from "@/src/shared/ui/icons";
-import { EntityType } from "@/src/shared/model/types";
-import { ChecklistItem } from "@/src/entities/goals/model/types";
+import { ReactNode } from "react";
+import { Pressable, View } from "react-native";
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
+import { createStyles } from "./PreviewBlock.styles";
 
 interface PreviewBlockProps {
   title?: string;
@@ -110,6 +111,7 @@ const PreviewBlock = ({
     Charts: <LifebuoySolidIcon color={colors.contrast} size={190} />,
     RelationshipMap: <LinkSolidIcon color={colors.contrast} size={160} />,
     Timeline: <ChartIcon color={colors.contrast} size={160} />,
+    Tests: <ClipboardSolidIcon color={colors.contrast} size={160} />,
   };
 
   return (

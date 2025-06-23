@@ -36,3 +36,19 @@ export type * from "./affirmations/model/types";
 export * from "./documents/const/static";
 export * from "./documents/api/documentsApi";
 export type * from "./documents/model/types";
+export * from "./tests/api/testsApi";
+export type {
+  Test,
+  TestQuestion,
+  TestQuestionOption,
+  TestFilters,
+  TestSortField,
+  TestStatus,
+  TestProgress,
+  TestAnswerState,
+  LocalizedTest,
+  LocalizedTestQuestion,
+  LocalizedTestQuestionOption,
+  LocalizedText,
+} from "./tests/model/types";
+export type { TestResult } from "./tests/model/types";

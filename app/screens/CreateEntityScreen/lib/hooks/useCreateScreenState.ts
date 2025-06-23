@@ -1,22 +1,21 @@
-import { useState, useMemo, useRef } from "react";
-import { ScrollView } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useFiltersStore } from "@/src/shared/store";
+import { useCreateAnyEntities, useEntitiesData } from "@/src/entities";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
+import { PATHS } from "@/src/shared/const/PATHS";
+import { formatDate, getWeekDay } from "@/src/shared/lib/helpers";
 import {
+  useBottomSheetIndexState,
   useLang,
   useT,
   useToggle,
-  useBottomSheetIndexState,
 } from "@/src/shared/lib/hooks";
+import { EntityType, NavigationProps } from "@/src/shared/model/types";
+import { useFiltersStore } from "@/src/shared/store";
 import { useCarouselConfig } from "@/src/shared/ui";
-import { NavigationProps, EntityType } from "@/src/shared/model/types";
-import { formatDate, getWeekDay } from "@/src/shared/lib/helpers";
-import { useCreateAnyEntities } from "@/src/entities";
-import { useEntitiesData } from "@/src/entities";
-import { useCreateFormConfig } from "./useCreateFormConfig";
+import { useNavigation } from "@react-navigation/native";
+import { useMemo, useRef, useState } from "react";
+import { ScrollView } from "react-native";
 import { useCreateForm } from "./useCreateForm";
-import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
-import { PATHS } from "@/src/shared/const/PATHS";
+import { useCreateFormConfig } from "./useCreateFormConfig";
 
 /**
  * Тип конфигурации карусели
@@ -40,7 +39,7 @@ export const useCreateScreenState = () => {
   // Состояния для компонента
   const { value: isBookmarked, toggle: setIsBookmarked } = useToggle();
   const [currentEntity, setCurrentEntity] = useState<string>(
-    ENTITY_NAME.JOURNAL_ENTRY
+    ENTITY_NAME.JOURNAL_ENTRIES
   );
   const { bottomSheetRef, snapToIndex, closeBottomSheet } =
     useBottomSheetIndexState();
@@ -58,7 +57,7 @@ export const useCreateScreenState = () => {
     selectedEntityId: selectedJournalId,
     setSelectedEntityId: setSelectedJournalId,
     entitiesCarouselConfig: journalsCarouselConfig,
-  } = useEntitiesData({ entityType: ENTITY_NAME.JOURNAL });
+  } = useEntitiesData({ entityType: ENTITY_NAME.JOURNALS });
 
   // ------------------------------------------------------------ //
 
@@ -84,7 +83,6 @@ export const useCreateScreenState = () => {
       try {
         resetFilters();
         const item = await createEntity(formData);
-        console.log("Создаем сущность:", currentEntity, item);
         navigation.goBack();
 
         const params = {
@@ -93,11 +91,11 @@ export const useCreateScreenState = () => {
         };
 
         const pathConfig = {
-          [ENTITY_NAME.CHAT]: PATHS.CHAT,
-          [ENTITY_NAME.JOURNAL_ENTRY]: PATHS.LIBRARY_ITEM,
-          [ENTITY_NAME.JOURNAL]: PATHS.LIBRARY_LIST,
-          [ENTITY_NAME.GOAL]: PATHS.LIBRARY_ITEM,
-          [ENTITY_NAME.SUMMARY]: PATHS.LIBRARY_ITEM,
+          [ENTITY_NAME.CHATS]: PATHS.CHAT,
+          [ENTITY_NAME.JOURNAL_ENTRIES]: PATHS.LIBRARY_ITEM,
+          [ENTITY_NAME.JOURNALS]: PATHS.LIBRARY_LIST,
+          [ENTITY_NAME.GOALS]: PATHS.LIBRARY_ITEM,
+          [ENTITY_NAME.SUMMARIES]: PATHS.LIBRARY_ITEM,
         };
 
         setTimeout(() => {
@@ -129,27 +127,27 @@ export const useCreateScreenState = () => {
   const mockData = [
     {
       created_at: date,
-      entity_type: ENTITY_NAME.JOURNAL_ENTRY,
+      entity_type: ENTITY_NAME.JOURNAL_ENTRIES,
       name: t("entities.journalentriesfull.singular"),
     },
     {
       created_at: date,
-      entity_type: ENTITY_NAME.JOURNAL,
+      entity_type: ENTITY_NAME.JOURNALS,
       name: t("entities.journals.singular"),
     },
     {
       created_at: date,
-      entity_type: ENTITY_NAME.CHAT,
+      entity_type: ENTITY_NAME.CHATS,
       name: t("entities.chats.singular"),
     },
     {
       created_at: date,
-      entity_type: ENTITY_NAME.GOAL,
+      entity_type: ENTITY_NAME.GOALS,
       name: t("entities.goals.singular"),
     },
     {
       created_at: date,
-      entity_type: ENTITY_NAME.SUMMARY,
+      entity_type: ENTITY_NAME.SUMMARIES,
       name: t("entities.summaries.singular"),
     },
   ];

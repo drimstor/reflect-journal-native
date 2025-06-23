@@ -1,5 +1,11 @@
-import { StyleProp, View, ViewStyle } from "react-native";
-import { styles } from "./FiltersPanel.styles";
+import { FiltersSearch } from "@/src/features";
+import {
+  useBottomSheetStore,
+  useDeviceStore,
+  useFiltersStore,
+  useScreenInfoStore,
+  useThemeStore,
+} from "@/src/shared/store";
 import { IconButton } from "@/src/shared/ui";
 import {
   BookmarkCheckIcon,
@@ -8,14 +14,10 @@ import {
   FilterIcon,
   SortIcon,
 } from "@/src/shared/ui/icons";
-import {
-  useBottomSheetStore,
-  useDeviceStore,
-  useFiltersStore,
-  useThemeStore,
-} from "@/src/shared/store";
-import { useEffect, useMemo } from "react";
-import { FiltersSearch } from "@/src/features";
+import { useMemo } from "react";
+import { StyleProp, View, ViewStyle } from "react-native";
+import { ENTITY_NAME } from "../../shared/const/ENTITIES";
+import { styles } from "./FiltersPanel.styles";
 
 interface FiltersPanelProps {
   style?: StyleProp<ViewStyle>;
@@ -26,6 +28,9 @@ const FiltersPanel = ({ style }: FiltersPanelProps) => {
   const { window } = useDeviceStore();
   const { setBottomSheetVisible, navigateToFlow, setFlowData } =
     useBottomSheetStore();
+  const { screenInfo } = useScreenInfoStore();
+  const isTest = screenInfo?.name === ENTITY_NAME.TESTS;
+
   const {
     sort_field,
     bookmarked,
@@ -44,10 +49,23 @@ const FiltersPanel = ({ style }: FiltersPanelProps) => {
       icon: <CalendarIcon color={colors.contrast} variant="outlined" />,
       isActive: created_at_from || updated_at_from,
       onPress: () => {
-        navigateToFlow("date", "list");
-        setTimeout(() => {
-          setBottomSheetVisible(true);
-        }, 150);
+        if (isTest) {
+          navigateToFlow("date", "pickerPeriod");
+
+          setFlowData({
+            sort_field: "created_at",
+            isWithoutHeaderControls: true,
+          });
+
+          setTimeout(() => {
+            setBottomSheetVisible(true);
+          }, 150);
+        } else {
+          navigateToFlow("date", "list");
+          setTimeout(() => {
+            setBottomSheetVisible(true);
+          }, 150);
+        }
       },
     },
     {
@@ -75,6 +93,7 @@ const FiltersPanel = ({ style }: FiltersPanelProps) => {
       icon: <CheckListIcon color={colors.contrast} />,
       isActive: multi_select,
       onPress: () => {
+        if (isTest) return;
         setMultiSelect(multi_select ? false : true);
       },
     },
@@ -82,6 +101,7 @@ const FiltersPanel = ({ style }: FiltersPanelProps) => {
       icon: <BookmarkCheckIcon color={colors.contrast} />,
       isActive: bookmarked,
       onPress: () => {
+        if (isTest) return;
         setBookmarked(bookmarked ? undefined : true);
       },
     },

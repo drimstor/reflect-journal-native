@@ -18,6 +18,7 @@ import {
 import {
   AnimatedAppearance,
   BottomSheet,
+  Button,
   CheckBox,
   CheckboxList,
   Chip,
@@ -34,6 +35,8 @@ import {
 import {
   CalendarIcon,
   CheckIcon,
+  ClipboardTextIcon,
+  DocumentTextIcon,
   DotsIcon,
   TimerIcon,
 } from "@/src/shared/ui/icons";
@@ -53,7 +56,7 @@ import { createStyles } from "./LibraryItemScreen.styles";
 const LibraryItemScreen = () => {
   const t = useT();
   const { locale } = useLang();
-  const { colors } = useThemeStore();
+  const { colors, theme } = useThemeStore();
   const { window } = useDeviceStore();
   const styles = createStyles(colors);
   const { subtitle } = useHeaderStore();
@@ -66,7 +69,9 @@ const LibraryItemScreen = () => {
   const mood = useGetMood(currentItem?.mood);
   const { data } = useGetAnyEntity({ type: variant, id: item.id });
 
-  const isJournalEntry = variant === ENTITY_NAME.JOURNAL_ENTRY;
+  const isJournalEntry = variant === ENTITY_NAME.JOURNAL_ENTRIES;
+  const isTest = variant === ENTITY_NAME.TESTS;
+  const isTestResult = variant === ENTITY_NAME.TEST_RESULTS;
 
   useEffect(() => {
     setCurrentItem(data || item);
@@ -79,7 +84,7 @@ const LibraryItemScreen = () => {
   // ------------------------------------------------------------ //
 
   const { data: parentJournal } = useGetAnyEntity({
-    type: ENTITY_NAME.JOURNAL,
+    type: ENTITY_NAME.JOURNALS,
     id: item.journal_id,
     skip: !isJournalEntry,
   });
@@ -105,7 +110,7 @@ const LibraryItemScreen = () => {
   const { checkboxes, isUpdatingChecklistItem, handleCheckboxToggle } =
     useChecklistActions(variant, currentItem?.id, currentItem?.checklist || []);
 
-  const isDocument = variant === ENTITY_NAME.DOCUMENT;
+  const isDocument = variant === ENTITY_NAME.DOCUMENTS;
 
   // Hook для отслеживания прогресса просмотра документа (только для документов)
   const { progress, handleScroll, isLoading } = isDocument
@@ -119,6 +124,18 @@ const LibraryItemScreen = () => {
         isLoading: false,
       };
 
+  const handleStartTest = () => {
+    navigation.navigate(PATHS.TEST, {
+      testId: currentItem?.id,
+    });
+  };
+
+  const handleTakeTestAgain = () => {
+    navigation.navigate(PATHS.TEST, {
+      testId: currentItem?.test_id,
+    });
+  };
+
   return (
     <Layout>
       <Header
@@ -127,10 +144,14 @@ const LibraryItemScreen = () => {
         )}
         subtitle={subtitle}
         backButton
-        rightIcon={{
-          icon: <DotsIcon color={colors.contrast} size={22} />,
-          onPress: handlePress,
-        }}
+        rightIcon={
+          isTest
+            ? undefined
+            : {
+                icon: <DotsIcon color={colors.contrast} size={22} />,
+                onPress: handlePress,
+              }
+        }
       />
       <BottomSheet
         snapPoints={[window.height - 85]}
@@ -229,6 +250,54 @@ const LibraryItemScreen = () => {
                     />
                   </View>
                 )}
+                {isTest && currentItem?.lead_time && (
+                  <View style={styles.infoTableItem}>
+                    <InfoBox
+                      label={t("test.leadTime")}
+                      icon={<TimerIcon color={colors.contrast} />}
+                      value={`${currentItem.lead_time} ${t(
+                        "shared.time.minutes"
+                      )}`}
+                      color={colors.contrast}
+                    />
+                  </View>
+                )}
+                {isTest && currentItem?.type && (
+                  <View style={styles.infoTableItem}>
+                    <InfoBox
+                      label={t("shared.info.type")}
+                      value={t(`test.type.${currentItem?.type}`)}
+                      icon={<ClipboardTextIcon color={colors.contrast} />}
+                      color={colors.contrast}
+                    />
+                  </View>
+                )}
+                {isTest && currentItem?.questions && (
+                  <View style={styles.infoTableItem}>
+                    <InfoBox
+                      label={t("shared.info.questionsCount")}
+                      value={currentItem?.questions?.length}
+                      icon={<DocumentTextIcon color={colors.contrast} />}
+                      color={colors.contrast}
+                    />
+                  </View>
+                )}
+                {isTestResult && (
+                  <View style={styles.infoTableItem}>
+                    <InfoBox
+                      label={t("shared.info.progress")}
+                      value={`${
+                        Object.values(currentItem?.answers || {}).filter(
+                          Boolean
+                        ).length
+                      } ${t("shared.info.of")} ${
+                        Object.keys(currentItem?.answers || {}).length
+                      }`}
+                      icon={<CheckIcon color={colors.contrast} />}
+                      color={colors.contrast}
+                    />
+                  </View>
+                )}
               </View>
               <Divider style={styles.divider} color={colors.alternate} />
               {currentItem?.content && (
@@ -247,7 +316,7 @@ const LibraryItemScreen = () => {
                     {currentItem?.content}
                   </MarkdownEmojiText>
                   {currentItem?.command &&
-                    [ENTITY_NAME.SUMMARY, ENTITY_NAME.DOCUMENT].includes(
+                    [ENTITY_NAME.SUMMARIES, ENTITY_NAME.DOCUMENTS].includes(
                       variant
                     ) && (
                       <View style={{ marginTop: 18 }}>
@@ -344,17 +413,31 @@ const LibraryItemScreen = () => {
                 </>
               )}
             </PaddingLayout>
+            {/* Кнопка "Начать тест" для тестов */}
+            {isTest && (
+              <PaddingLayout>
+                <Button
+                  onPress={handleStartTest}
+                  backgroundColor={
+                    theme === "dark" ? colors.accent : colors.primary
+                  }
+                  textColor={theme === "dark" ? colors.primary : colors.white}
+                >
+                  {t("test.startTest")}
+                </Button>
+              </PaddingLayout>
+            )}
             {!!currentItem?.related_entities?.length && (
               <View style={styles.carouselBox}>
                 <ItemCarousel
                   title={t("libraryItem.relatedEntries")}
                   data={currentItem?.related_entities}
                   onPress={(item) => {
-                    if (item.entity_type === ENTITY_NAME.CHAT) {
+                    if (item.entity_type === ENTITY_NAME.CHATS) {
                       navigation.navigate(PATHS.CHAT, {
                         item,
                       });
-                    } else if (item.entity_type === ENTITY_NAME.JOURNAL) {
+                    } else if (item.entity_type === ENTITY_NAME.JOURNALS) {
                       navigation.navigate(PATHS.LIBRARY_LIST, {
                         variant: item.entity_type,
                         item,

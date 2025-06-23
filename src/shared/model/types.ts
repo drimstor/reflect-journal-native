@@ -36,4 +36,6 @@ export type EntityType =
   | "Summaries"
   | "JournalEntries"
   | "Messages"
-  | "Documents";
+  | "Documents"
+  | "Tests"
+  | "TestResults";

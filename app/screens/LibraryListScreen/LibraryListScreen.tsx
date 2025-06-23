@@ -1,17 +1,10 @@
-import {
-  JournalEntry,
-  useGetJournalEntriesQuery,
-  useMultiSelection,
-} from "@/src/entities";
-import { PreviewBlock } from "@/src/features";
 import { PATHS } from "@/src/shared/const";
 import {
   ENTITY_NAME,
   ENTITY_WITH_CHILDREN_CONFIG,
 } from "@/src/shared/const/ENTITIES";
-import { formatDate } from "@/src/shared/lib/helpers";
-import { useLang, useT } from "@/src/shared/lib/hooks";
-import { NavigationProps } from "@/src/shared/model/types";
+import { useT } from "@/src/shared/lib/hooks";
+import { StackNavigationProps } from "@/src/shared/model/types";
 import {
   getFiltersParams,
   useBottomSheetStore,
@@ -23,24 +16,25 @@ import {
 import {
   AnimatedAppearance,
   BottomSheet,
-  CheckBox,
+  Button,
   Divider,
   Layout,
   VirtualizedList,
   useBottomSheetActions,
 } from "@/src/shared/ui";
-import { CalendarIcon, DotsIcon } from "@/src/shared/ui/icons";
+import { DotsIcon } from "@/src/shared/ui/icons";
 import { FiltersPanel, Header } from "@/src/widgets";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect } from "react";
 import { View } from "react-native";
+import { useLibraryListData } from "./lib/hooks/useLibraryListData";
+import { useLibraryListRenderer } from "./lib/hooks/useLibraryListRenderer";
 import { createStyles } from "./LibraryListScreen.styles";
 
 const LibraryListScreen = () => {
   const t = useT();
   const route = useRoute();
-  const { locale } = useLang();
-  const navigation = useNavigation<NavigationProps>();
+  const navigation = useNavigation<StackNavigationProps>();
   const { colors } = useThemeStore();
   const { window } = useDeviceStore();
   const styles = createStyles(colors);
@@ -52,7 +46,7 @@ const LibraryListScreen = () => {
 
   const title = item?.name;
   const related_entities = item?.related_entities ?? [];
-  const entityName = ENTITY_WITH_CHILDREN_CONFIG?.[variant];
+  const entityName = ENTITY_WITH_CHILDREN_CONFIG?.[variant]; // children entity
 
   useEffect(() => {
     filters.resetFilters();
@@ -64,77 +58,62 @@ const LibraryListScreen = () => {
   }, [variant]);
 
   const ENTITY_ID_CONFIG = {
-    [ENTITY_NAME.JOURNAL_ENTRY]: "journal_id",
+    [ENTITY_NAME.JOURNAL_ENTRIES]: "journal_id",
+    [ENTITY_NAME.TEST_RESULTS]: "test_id",
   };
   const params = getFiltersParams({
     [ENTITY_ID_CONFIG?.[entityName]]: item?.id,
     ...filters,
   });
 
-  const { data, isFetching } = useGetJournalEntriesQuery({ params });
+  // Используем новый универсальный хук для получения данных
+  const { data, isFetching, isLoading } = useLibraryListData({
+    entityName,
+    params,
+  });
 
-  const renderItem = ({ item }: { item: JournalEntry }) => {
-    const journal = item as JournalEntry;
+  // Используем новый универсальный рендерер
+  const { renderItem } = useLibraryListRenderer({
+    entityName,
+    related_entities,
+  });
 
-    const onPress = () => {
-      navigation.navigate(PATHS.LIBRARY_ITEM, {
-        variant: entityName,
-        item: { ...journal, related_entities },
-      });
-    };
+  const isTest = variant === ENTITY_NAME.TESTS;
 
-    const { selectionMode, isSelected, handleItemPress } = useMultiSelection({
-      itemId: journal?.id,
-      onPress,
-    });
+  const isTestAndFinishedLoading =
+    isTest &&
+    !isLoading &&
+    !isFetching &&
+    data?.data &&
+    Array.isArray(data?.data);
 
-    // navigation.navigate(PATHS.TEST);
+  const isTestAndNoResults = isTestAndFinishedLoading && !data?.data?.length;
+  const isTestAndHasResults = isTestAndFinishedLoading && !!data?.data?.length;
 
-    return (
-      <PreviewBlock
-        key={journal.id}
-        value={journal.content}
-        backgroundColor={colors.light}
-        backgroundColorForAnimate={colors.alternate}
-        tags={journal.related_topics}
-        bookmarked={journal.bookmarked}
-        title={journal.title}
-        disableAnimate={selectionMode}
-        previewMode
-        valueOpacity=""
-        element={
-          selectionMode && (
-            <View style={{ width: 26, height: 26 }}>
-              <CheckBox
-                checked={isSelected || false}
-                onPress={handleItemPress}
-                checkedColor={colors.accent}
-              />
-            </View>
-          )
-        }
-        onPress={handleItemPress}
-        infoBoxes={[
-          {
-            label: t("shared.info.created"),
-            value: formatDate(journal.created_at, locale),
-            icon: <CalendarIcon color={colors.contrast} />,
-          },
-        ]}
-      />
-    );
-  };
+  // Поменять условие // Автоматический редирект для тестов если результатов нет
+  useEffect(() => {
+    if (isTestAndNoResults) {
+      // Если результатов тестов нет, заменяем текущий экран на экран элемента библиотеки
+      navigation.replace(PATHS.LIBRARY_ITEM, { variant, item });
+    }
+  }, [isTestAndNoResults, variant, item]);
 
   return (
     <Layout>
       <Header
         backButton
-        title={title}
-        subtitle={t(`library.${variant.toLowerCase()}.entriesList`)}
-        rightIcon={{
-          icon: <DotsIcon color={colors.contrast} size={22} />,
-          onPress: handlePress,
-        }}
+        title={isTest && isLoading ? t("library.title") : title}
+        subtitle={
+          isTest && isLoading ? "" : t(`library.${variant.toLowerCase()}.list`)
+        }
+        rightIcon={
+          isTest
+            ? undefined
+            : {
+                icon: <DotsIcon color={colors.contrast} size={22} />,
+                onPress: handlePress,
+              }
+        }
       />
       <BottomSheet
         snapPoints={[window.height - 85]}
@@ -153,7 +132,11 @@ const LibraryListScreen = () => {
         <AnimatedAppearance
           isVisible
           delay={150}
-          // style={{ maxHeight: window.height - 160, paddingBottom: 100 }}
+          style={
+            isTestAndHasResults
+              ? { maxHeight: window.height - 160, paddingBottom: 100 }
+              : {}
+          }
         >
           <VirtualizedList
             data={data as any}
@@ -163,23 +146,27 @@ const LibraryListScreen = () => {
           />
         </AnimatedAppearance>
 
-        {/* <View
-          style={{
-            position: "absolute",
-            bottom: 100,
-            width: "100%",
-            backgroundColor: colors.secondary,
-          }}
-        >
-          <Divider style={{ marginVertical: 0 }} color={colors.alternate} />
-          <Button
-            onPress={() => filters.resetFilters()}
-            style={{ marginTop: 20, marginBottom: 20 }}
-            size="medium"
+        {isTestAndHasResults && (
+          <View
+            style={{
+              position: "absolute",
+              bottom: 100,
+              width: "100%",
+              backgroundColor: colors.secondary,
+            }}
           >
-            Пройти еще раз
-          </Button>
-        </View> */}
+            <Divider style={{ marginVertical: 0 }} color={colors.alternate} />
+            <Button
+              onPress={() => {
+                navigation.navigate(PATHS.LIBRARY_ITEM, { variant, item });
+              }}
+              style={{ marginTop: 20, marginBottom: 20 }}
+              size="medium"
+            >
+              {t("test.takeAgain")}
+            </Button>
+          </View>
+        )}
       </BottomSheet>
     </Layout>
   );

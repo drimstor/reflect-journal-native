@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
 import { ThemeColors } from "@/src/shared/model/types";
+import { StyleSheet } from "react-native";
 
 export const createStyles = (colors: ThemeColors) =>
   StyleSheet.create({
@@ -84,5 +84,9 @@ export const createStyles = (colors: ThemeColors) =>
     RelationshipMap: {
       bottom: -70,
       right: -35,
+    },
+    Tests: {
+      bottom: -60,
+      right: -30,
     },
   });

@@ -1,14 +1,14 @@
 import { baseApi } from "@/src/shared/api/baseApi";
-import {
-  Message,
-  CreateMessageRequest,
-  UpdateMessageRequest,
-  MessageResponse,
-  CreateAIMessageFromEntityRequest,
-} from "../model/types";
-import { transformMessages } from "../lib/helpers/transformMessages";
-import { IMessage } from "react-native-gifted-chat";
 import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
+import { IMessage } from "react-native-gifted-chat";
+import { transformMessages } from "../lib/helpers/transformMessages";
+import {
+  CreateAIMessageFromEntityRequest,
+  CreateMessageRequest,
+  Message,
+  MessageResponse,
+  UpdateMessageRequest,
+} from "../model/types";
 
 export const MESSAGES_TAG = "Messages" as const;
 type TagTypes = typeof MESSAGES_TAG;
@@ -27,8 +27,10 @@ export const messagesApi = baseApi.injectEndpoints({
         body: data,
       }),
       invalidatesTags: (result, error, data) => [
-        { type: ENTITY_NAME.CHAT, id: "LIST" },
-        ...(data.chat_id ? [{ type: ENTITY_NAME.CHAT, id: data.chat_id }] : []),
+        { type: ENTITY_NAME.CHATS, id: "LIST" },
+        ...(data.chat_id
+          ? [{ type: ENTITY_NAME.CHATS, id: data.chat_id }]
+          : []),
       ],
     }),
 
@@ -110,8 +112,8 @@ export const messagesApi = baseApi.injectEndpoints({
       invalidatesTags: (result, error, { message_id }) => [
         { type: MESSAGES_TAG, id: message_id },
         { type: MESSAGES_TAG, id: "LIST" },
-        { type: ENTITY_NAME.CHAT, id: result?.chat_id },
-        { type: ENTITY_NAME.CHAT, id: "LIST" },
+        { type: ENTITY_NAME.CHATS, id: result?.chat_id },
+        { type: ENTITY_NAME.CHATS, id: "LIST" },
       ],
     }),
 
@@ -123,7 +125,7 @@ export const messagesApi = baseApi.injectEndpoints({
       invalidatesTags: (result, error, message_id) => [
         { type: MESSAGES_TAG, id: message_id },
         { type: MESSAGES_TAG, id: "LIST" },
-        { type: ENTITY_NAME.CHAT, id: "LIST" },
+        { type: ENTITY_NAME.CHATS, id: "LIST" },
       ],
     }),
 
@@ -138,7 +140,7 @@ export const messagesApi = baseApi.injectEndpoints({
         body: data,
       }),
       invalidatesTags: (result, error, data) => [
-        { type: ENTITY_NAME.CHAT, id: "LIST" },
+        { type: ENTITY_NAME.CHATS, id: "LIST" },
         { type: MESSAGES_TAG, id: "LIST" },
       ],
     }),

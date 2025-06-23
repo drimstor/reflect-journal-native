@@ -1,14 +1,13 @@
-import { useGetJournalEntryQuery } from "@/src/entities/journals/api/journalEntriesApi";
-import { useGetGoalQuery } from "@/src/entities/goals/api/goalsApi";
-import { useGetSummaryQuery } from "@/src/entities/summary/api/summaryApi";
-import { useGetDocumentByIdQuery } from "@/src/entities/documents/api/documentsApi";
-import { JournalEntry } from "@/src/entities/journals/model/types";
-import { Goal } from "@/src/entities/goals/model/types";
-import { Summary } from "@/src/entities/summary/model/types";
+import { useGetJournalQuery } from "@/src/entities";
 import { DocumentResponse } from "@/src/entities/documents/model/types";
+import { useGetGoalQuery } from "@/src/entities/goals/api/goalsApi";
+import { Goal } from "@/src/entities/goals/model/types";
+import { useGetJournalEntryQuery } from "@/src/entities/journals/api/journalEntriesApi";
+import { JournalEntry } from "@/src/entities/journals/model/types";
+import { useGetSummaryQuery } from "@/src/entities/summary/api/summaryApi";
+import { Summary } from "@/src/entities/summary/model/types";
 import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import { EntityType } from "@/src/shared/model/types";
-import { useGetJournalQuery } from "@/src/entities";
 
 export type SingleEntity<T extends EntityType> = T extends "JournalEntry"
   ? JournalEntry
@@ -38,19 +37,19 @@ export function useGetAnyEntity<T extends EntityType>({
   id,
   skip,
 }: UseGetAnyEntityProps<T>) {
-  if (type === ENTITY_NAME.JOURNAL) {
+  if (type === ENTITY_NAME.JOURNALS) {
     return useGetJournalQuery({ id }, { skip });
   }
-  if (type === ENTITY_NAME.JOURNAL_ENTRY) {
+  if (type === ENTITY_NAME.JOURNAL_ENTRIES) {
     return useGetJournalEntryQuery({ id }, { skip });
   }
-  if (type === ENTITY_NAME.GOAL) {
+  if (type === ENTITY_NAME.GOALS) {
     return useGetGoalQuery({ id }, { skip });
   }
-  if (type === ENTITY_NAME.SUMMARY) {
+  if (type === ENTITY_NAME.SUMMARIES) {
     return useGetSummaryQuery({ id }, { skip });
   }
-  // if (type === ENTITY_NAME.DOCUMENT) {
+  // if (type === ENTITY_NAME.DOCUMENTS) {
   //   return useGetDocumentByIdQuery({ id }, { skip });
   // }
 

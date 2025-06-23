@@ -1,14 +1,13 @@
 import { baseApi } from "@/src/shared/api/baseApi";
-import { formatValidationErrors } from "@/src/shared/store";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
+import { formatValidationErrors, mergeQueryData } from "@/src/shared/store";
+import { Alert } from "react-native";
 import type {
   Chat,
+  ChatResponse,
   CreateChatRequest,
   UpdateChatRequest,
-  ChatResponse,
 } from "../model/types";
-import { Alert } from "react-native";
-import { mergeQueryData } from "@/src/shared/store";
-import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 
 export const chatsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -21,12 +20,12 @@ export const chatsApi = baseApi.injectEndpoints({
         result
           ? [
               ...result.data.map(({ id }) => ({
-                type: ENTITY_NAME.CHAT,
+                type: ENTITY_NAME.CHATS,
                 id,
               })),
-              { type: ENTITY_NAME.CHAT, id: "LIST" },
+              { type: ENTITY_NAME.CHATS, id: "LIST" },
             ]
-          : [{ type: ENTITY_NAME.CHAT, id: "LIST" }],
+          : [{ type: ENTITY_NAME.CHATS, id: "LIST" }],
       serializeQueryArgs: ({ endpointName, queryArgs }) => {
         // Если есть дополнительные фильтры (кроме page и limit), не используем кеширование
         const params = new URLSearchParams(queryArgs.params || "");
@@ -53,7 +52,7 @@ export const chatsApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: [{ type: ENTITY_NAME.CHAT, id: "LIST" }],
+      invalidatesTags: [{ type: ENTITY_NAME.CHATS, id: "LIST" }],
       async onQueryStarted(_, { queryFulfilled }) {
         try {
           await queryFulfilled;
@@ -75,8 +74,8 @@ export const chatsApi = baseApi.injectEndpoints({
           body,
         }),
         invalidatesTags: (result, error, { id }) => [
-          { type: ENTITY_NAME.CHAT, id },
-          { type: ENTITY_NAME.CHAT, id: "LIST" },
+          { type: ENTITY_NAME.CHATS, id },
+          { type: ENTITY_NAME.CHATS, id: "LIST" },
         ],
       }
     ),
@@ -87,8 +86,8 @@ export const chatsApi = baseApi.injectEndpoints({
         method: "DELETE",
       }),
       invalidatesTags: (result, error, id) => [
-        { type: ENTITY_NAME.CHAT, id },
-        { type: ENTITY_NAME.CHAT, id: "LIST" },
+        { type: ENTITY_NAME.CHATS, id },
+        { type: ENTITY_NAME.CHATS, id: "LIST" },
       ],
     }),
   }),

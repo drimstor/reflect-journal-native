@@ -1,8 +1,8 @@
-import { useState, useCallback, useEffect } from "react";
-import { CreateFormConfig } from "./useCreateFormConfig";
-import { useT } from "@/src/shared/lib/hooks";
-import { Keyboard } from "react-native";
 import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
+import { useT } from "@/src/shared/lib/hooks";
+import { useCallback, useEffect, useState } from "react";
+import { Keyboard } from "react-native";
+import { CreateFormConfig } from "./useCreateFormConfig";
 
 /**
  * Хук для управления формой создания
@@ -84,7 +84,7 @@ export const useCreateForm = (
         enhancedData.bookmarked = isBookmarked;
 
         // Для записей в журнале добавляем идентификатор журнала
-        if (entityType === ENTITY_NAME.JOURNAL_ENTRY && journalId) {
+        if (entityType === ENTITY_NAME.JOURNAL_ENTRIES && journalId) {
           enhancedData.journal_id = journalId;
         }
 

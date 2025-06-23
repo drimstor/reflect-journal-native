@@ -1,36 +1,3 @@
-import React, { useMemo } from "react";
-import {
-  Button,
-  BottomSheetHeader,
-  BottomSheetFooter,
-  PaddingLayout,
-  BottomSheetBox,
-  BottomSheetScrollView,
-  Carousel,
-  useCarouselConfig,
-  BookIcon,
-  MailIcon,
-  Divider,
-  TitleText,
-  DocumentTextIcon,
-  CategoryIcon,
-  BrushIcon,
-  Text,
-  FullScreenChartLegend,
-  AnimatedLoader,
-  useAnimatedLoading,
-  CpuIcon,
-} from "@/src/shared/ui";
-import {
-  useThemeStore,
-  useBottomSheetStore,
-  useDeviceStore,
-  useFiltersStore,
-} from "@/src/shared/store";
-import { useT } from "@/src/shared/lib/hooks";
-import { useEditFormConfig } from "./lib/hooks/useEditFormConfig";
-import { useEditForm } from "./lib/hooks/useEditForm";
-import { useEffect, useState } from "react";
 import {
   transformPortraitDataToCharts,
   useCreateSummaryMutation,
@@ -38,13 +5,45 @@ import {
   useGetPortraitStatsQuery,
 } from "@/src/entities";
 import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
-import { FormField, ItemCarousel } from "@/src/widgets";
-import { PreviewCard } from "../..";
-import { EntityType } from "@/src/shared/model/types";
-import { CAROUSEL_ITEMS, CAROUSEL_ITEMS_WITH_CATEGORIES } from "./const/static";
-import { View } from "react-native";
-import { formatFromISODate } from "../DatePickerEntityView/lib/utils";
 import { PATHS } from "@/src/shared/const/PATHS";
+import { useT } from "@/src/shared/lib/hooks";
+import { EntityType } from "@/src/shared/model/types";
+import {
+  useBottomSheetStore,
+  useDeviceStore,
+  useFiltersStore,
+  useThemeStore,
+} from "@/src/shared/store";
+import {
+  AnimatedLoader,
+  BookIcon,
+  BottomSheetBox,
+  BottomSheetFooter,
+  BottomSheetHeader,
+  BottomSheetScrollView,
+  BrushIcon,
+  Button,
+  Carousel,
+  CategoryIcon,
+  CpuIcon,
+  Divider,
+  DocumentTextIcon,
+  FullScreenChartLegend,
+  MailIcon,
+  PaddingLayout,
+  Text,
+  TitleText,
+  useAnimatedLoading,
+  useCarouselConfig,
+} from "@/src/shared/ui";
+import { FormField, ItemCarousel } from "@/src/widgets";
+import React, { useEffect, useMemo, useState } from "react";
+import { View } from "react-native";
+import { PreviewCard } from "../..";
+import { formatFromISODate } from "../DatePickerEntityView/lib/utils";
+import { CAROUSEL_ITEMS, CAROUSEL_ITEMS_WITH_CATEGORIES } from "./const/static";
+import { useEditForm } from "./lib/hooks/useEditForm";
+import { useEditFormConfig } from "./lib/hooks/useEditFormConfig";
 
 interface CreateSummaryViewProps {
   isBookmarked?: boolean;
@@ -136,7 +135,7 @@ const CreateSummaryView = ({
 
   const ITEMS = [
     {
-      id: ENTITY_NAME.JOURNAL,
+      id: ENTITY_NAME.JOURNALS,
       colorKey: "blue",
       getIcon: (color: string, size: number) => (
         <BookIcon color={color} size={size} />
@@ -144,7 +143,7 @@ const CreateSummaryView = ({
       chooseComponent,
     },
     {
-      id: ENTITY_NAME.CHAT,
+      id: ENTITY_NAME.CHATS,
       colorKey: "purple",
       getIcon: (color: string, size: number) => (
         <MailIcon color={color} size={size} />
@@ -224,7 +223,7 @@ const CreateSummaryView = ({
 
         setTimeout(
           () => {
-            const params = { item: result, variant: ENTITY_NAME.SUMMARY };
+            const params = { item: result, variant: ENTITY_NAME.SUMMARIES };
             setNavigation(true, PATHS.LIBRARY_ITEM, params);
           },
           isStandalone ? 200 : 300

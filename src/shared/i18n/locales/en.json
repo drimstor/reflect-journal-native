@@ -47,7 +47,7 @@
     "title": "Library",
     "journals": {
       "description": "List of your journals",
-      "entriesList": "List of entries"
+      "list": "List of entries"
     },
     "chats": {
       "description": "List of your chats"
@@ -57,6 +57,10 @@
     },
     "summaries": {
       "description": "List of your summaries"
+    },
+    "tests": {
+      "description": "List of available tests",
+      "list": "Test results"
     }
   },
   "addEntry": {
@@ -320,6 +324,14 @@
       "singular": "Document",
       "plural": "Documents"
     },
+    "tests": {
+      "singular": "Test",
+      "plural": "Tests"
+    },
+    "testresults": {
+      "singular": "Test Result",
+      "plural": "Test Results"
+    },
     "articles": {
       "singular": "Article",
       "plural": "Articles"
@@ -329,7 +341,26 @@
   "test": {
     "question": "Question:",
     "yourAnswer": "Your answer:",
-    "enterAnswer": "Enter your answer"
+    "enterAnswer": "Enter your answer",
+    "noAnalysis": "No analysis available",
+    "score": "Score",
+    "takeAgain": "Take test again",
+    "startTest": "Start Test",
+    "submit": "Submit Test",
+    "loading": "Loading test...",
+    "loadError": "Failed to load test",
+    "submitError": "Failed to submit test result",
+    "completed": "Test Completed",
+    "thankYou": "Thank you for taking the test!",
+    "aiAnalysis": "AI Analysis",
+    "resultText": "Test Result",
+    "leadTime": "Completion Time",
+    "resultsCount": "Number of Completions",
+    "rating": "Rating",
+    "enterRating": "Enter rating",
+    "type": {
+      "questions": "Interview"
+    }
   },
   "shared": {
     "actions": {
@@ -351,6 +382,7 @@
       "sort": "Sort",
       "back": "Back",
       "next": "Next",
+      "previous": "Previous",
       "submit": "Submit",
       "continue": "Continue",
       "skip": "Skip",
@@ -362,7 +394,8 @@
       "reset": "Reset",
       "resetSearch": "Reset search",
       "yes": "Yes",
-      "no": "No"
+      "no": "No",
+      "exit": "Exit"
     },
     "status": {
       "loading": "Loading",
@@ -372,13 +405,15 @@
       "notFound": "Not found"
     },
     "info": {
+      "questionsCount": "Questions count",
       "entriesCount": "Entries count",
       "lastUpdated": "Last updated",
       "created": "Created",
       "willCreate": "Will create",
       "readingTime": "Reading time",
       "progress": "Progress",
-      "of": "of"
+      "of": "of",
+      "type": "Type"
     },
     "validation": {
       "required": "Required field",

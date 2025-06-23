@@ -24,12 +24,13 @@ const SkipQuestionView = () => {
     setBottomSheetVisible(false);
   };
 
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     resetFilters();
-  //     navigateToFlow("common", "success");
-  //   }
-  // }, [isSuccess]);
+  const handleSkip = () => {
+    // Вызываем функцию пропуска вопроса, переданную через flowData
+    if (flowData.onSkip && typeof flowData.onSkip === "function") {
+      flowData.onSkip();
+    }
+    setBottomSheetVisible(false);
+  };
 
   return (
     <BottomSheetBox>
@@ -46,7 +47,7 @@ const SkipQuestionView = () => {
         <Button
           backgroundColor={colors.error}
           textColor={colors.white}
-          onPress={handleBack}
+          onPress={handleSkip}
           isLoading={false}
         >
           {t("shared.actions.skip")}

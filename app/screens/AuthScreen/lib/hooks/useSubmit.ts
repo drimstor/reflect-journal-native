@@ -1,16 +1,16 @@
 import { useLoginMutation, useRegisterMutation } from "@/src/entities";
 import { PATHS } from "@/src/shared/const";
 import { useT } from "@/src/shared/lib/hooks";
+import { NavigationProps } from "@/src/shared/model/types";
 import { useNavigation } from "@react-navigation/native";
+import { useEffect, useRef } from "react";
+import { Keyboard } from "react-native";
+import { initialValues } from "../../const/static";
 import {
   TextFields,
   UseSubmitProps,
   ValidationErrors,
 } from "../../model/types";
-import { NavigationProps } from "@/src/shared/model/types";
-import { useEffect, useRef } from "react";
-import { initialValues } from "../../const/static";
-import { Keyboard } from "react-native";
 
 export const useSubmit = ({
   textFields,
@@ -106,7 +106,6 @@ export const useSubmit = ({
     if (wasAutoFilled) {
       // Закрываем клавиатуру при автозаполнении
       Keyboard.dismiss();
-      console.log("Автозаполнение обнаружено, клавиатура закрыта");
     }
 
     // Обновляем предыдущие значения

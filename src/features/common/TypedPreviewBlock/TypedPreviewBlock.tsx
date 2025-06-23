@@ -1,15 +1,20 @@
-import { useThemeStore } from "@/src/shared/store";
-import { EntityType } from "@/src/shared/model/types";
-import { Journal } from "@/src/entities/journals/model/types";
-import { Chat } from "@/src/entities/chat/model/types";
-import { Chip, CheckBox } from "@/src/shared/ui";
-import { formatDate } from "@/src/shared/lib/helpers";
-import { CalendarIcon, DocumentTextIcon } from "@/src/shared/ui/icons";
-import { stringToColor } from "@/src/shared/lib/helpers";
-import { PreviewBlock } from "@/src/features";
-import { useLang, useT } from "@/src/shared/lib/hooks";
-import { View } from "react-native";
 import { useMultiSelection } from "@/src/entities";
+import { Chat } from "@/src/entities/chat/model/types";
+import { Journal } from "@/src/entities/journals/model/types";
+import { PreviewBlock } from "@/src/features";
+import { formatDate, stringToColor } from "@/src/shared/lib/helpers";
+import { useLang, useT } from "@/src/shared/lib/hooks";
+import { EntityType } from "@/src/shared/model/types";
+import { useThemeStore } from "@/src/shared/store";
+import { CheckBox, Chip } from "@/src/shared/ui";
+import {
+  CalendarIcon,
+  ClipboardTextIcon,
+  DocumentTextIcon,
+  TimerIcon,
+} from "@/src/shared/ui/icons";
+import { View } from "react-native";
+import { ENTITY_NAME } from "../../../shared/const/ENTITIES";
 
 interface TypedPreviewBlockProps {
   variant?: EntityType;
@@ -34,21 +39,39 @@ const TypedPreviewBlock = ({
     const { locale } = useLang();
 
     const infoBoxesConfig = [
-      {
-        label: willCreate
-          ? t("shared.info.willCreate")
-          : item?.updated_at
-          ? t("shared.info.lastUpdated")
-          : t("shared.info.created"),
-        value: formatDate(item?.updated_at || item?.created_at, locale),
-        icon: <CalendarIcon color={colors.contrast} />,
-      },
+      ...(variant !== ENTITY_NAME.TESTS
+        ? [
+            {
+              label: willCreate
+                ? t("shared.info.willCreate")
+                : item?.updated_at
+                ? t("shared.info.lastUpdated")
+                : t("shared.info.created"),
+              value: formatDate(item?.updated_at || item?.created_at, locale),
+              icon: <CalendarIcon color={colors.contrast} />,
+            },
+          ]
+        : []),
       ...(Number.isFinite(item?.entries_count)
         ? [
             {
               label: t("shared.info.entriesCount"),
               value: String(item?.entries_count),
               icon: <DocumentTextIcon color={colors.contrast} />,
+            },
+          ]
+        : []),
+      ...(variant === ENTITY_NAME.TESTS && item?.type && item?.lead_time
+        ? [
+            {
+              label: t("test.leadTime"),
+              value: `${item?.lead_time} ${t("shared.time.minutes")}`,
+              icon: <TimerIcon color={colors.contrast} />,
+            },
+            {
+              label: t("shared.info.type"),
+              value: t(`test.type.${item?.type}`),
+              icon: <ClipboardTextIcon color={colors.contrast} />,
             },
           ]
         : []),

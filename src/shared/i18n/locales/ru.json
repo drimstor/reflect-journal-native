@@ -47,7 +47,7 @@
     "title": "Библиотека",
     "journals": {
       "description": "Список ваших дневников",
-      "entriesList": "Список записей"
+      "list": "Список записей"
     },
     "chats": {
       "description": "Список ваших чатов"
@@ -57,6 +57,10 @@
     },
     "summaries": {
       "description": "Список ваших саммари"
+    },
+    "tests": {
+      "description": "Список доступных тестов",
+      "list": "Результаты теста"
     }
   },
   "addEntry": {
@@ -319,6 +323,14 @@
       "singular": "Документ",
       "plural": "Документы"
     },
+    "tests": {
+      "singular": "Тест",
+      "plural": "Тесты"
+    },
+    "testresults": {
+      "singular": "Результат теста",
+      "plural": "Результаты теста"
+    },
     "articles": {
       "singular": "Статья",
       "plural": "Статьи"
@@ -327,7 +339,26 @@
   "test": {
     "question": "Вопрос:",
     "yourAnswer": "Ваш ответ:",
-    "enterAnswer": "Введите ваш ответ"
+    "enterAnswer": "Введите ваш ответ",
+    "noAnalysis": "Анализ недоступен",
+    "score": "Баллы",
+    "takeAgain": "Пройти тест еще раз",
+    "startTest": "Начать тест",
+    "submit": "Завершить тест",
+    "loading": "Загрузка теста...",
+    "loadError": "Не удалось загрузить тест",
+    "submitError": "Не удалось отправить результат теста",
+    "completed": "Тест завершен",
+    "thankYou": "Спасибо за прохождение теста!",
+    "aiAnalysis": "Анализ ИИ",
+    "resultText": "Результат теста",
+    "leadTime": "Время прохождения",
+    "resultsCount": "Количество прохождений",
+    "rating": "Оценка",
+    "enterRating": "Введите оценку",
+    "type": {
+      "questions": "Интервью"
+    }
   },
   "shared": {
     "actions": {
@@ -349,6 +380,7 @@
       "sort": "Сортировка",
       "back": "Назад",
       "next": "Далее",
+      "previous": "Назад",
       "submit": "Отправить",
       "continue": "Продолжить",
       "skip": "Пропустить",
@@ -360,7 +392,8 @@
       "reset": "Сбросить",
       "resetSearch": "Сбросить поиск",
       "yes": "Да",
-      "no": "Нет"
+      "no": "Нет",
+      "exit": "Выйти"
     },
     "status": {
       "loading": "Загрузка",
@@ -370,13 +403,15 @@
       "notFound": "Не найдено"
     },
     "info": {
+      "questionsCount": "Количество вопросов",
       "entriesCount": "Количество записей",
       "lastUpdated": "Последнее обновление",
       "created": "Создано",
       "willCreate": "Будет создано",
       "readingTime": "Время чтения",
       "progress": "Прогресс",
-      "of": "из"
+      "of": "из",
+      "type": "Тип"
     },
     "validation": {
       "required": "Обязательное поле",

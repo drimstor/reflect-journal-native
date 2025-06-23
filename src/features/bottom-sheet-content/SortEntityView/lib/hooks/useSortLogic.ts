@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
+import { useT } from "@/src/shared/lib/hooks";
 import { SortField, SortOrder } from "@/src/shared/model/types";
 import {
-  useFiltersStore,
   useBottomSheetStore,
+  useFiltersStore,
   useScreenInfoStore,
 } from "@/src/shared/store";
-import { useT } from "@/src/shared/lib/hooks";
-import { EditPencilIcon, CalendarIcon, IntegerIcon } from "@/src/shared/ui";
+import { CalendarIcon, EditPencilIcon, IntegerIcon } from "@/src/shared/ui";
+import { useEffect, useState } from "react";
+import { ENTITY_NAME } from "../../../../../shared/const/ENTITIES";
 
 interface SortAction {
   text: string;
@@ -42,7 +43,9 @@ export const useSortLogic = (): UseSortLogicResult => {
     switch (screenName) {
       case "Charts":
         return "count";
-      case "JournalEntries":
+      case ENTITY_NAME.JOURNAL_ENTRIES:
+        return "created_at";
+      case ENTITY_NAME.TESTS:
         return "created_at";
       default:
         return "updated_at";
@@ -110,6 +113,19 @@ export const useSortLogic = (): UseSortLogicResult => {
       {
         text: t("sort.sortByUpdated"),
         key: "updated_at",
+        IconComponent: CalendarIcon,
+      },
+    ];
+  } else if (screenName === ENTITY_NAME.TESTS) {
+    actions = [
+      {
+        text: t("sort.sortByName"),
+        key: "name",
+        IconComponent: EditPencilIcon,
+      },
+      {
+        text: t("sort.sortByCreated"),
+        key: "created_at",
         IconComponent: CalendarIcon,
       },
     ];

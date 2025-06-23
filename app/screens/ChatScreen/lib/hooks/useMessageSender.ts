@@ -1,15 +1,14 @@
-import { useCallback, useState } from "react";
-import { IMessage } from "react-native-gifted-chat";
-import { GiftedChat } from "react-native-gifted-chat";
 import {
+  getMessagesEndpointParams,
   useCreateMessageMutation,
   useGetCurrentUserQuery,
 } from "@/src/entities";
-import { MessageGiftedChat } from "@/src/entities/chat/model/types";
-import { useAppDispatch, useAppSelector } from "@/src/shared/store";
-import { getMessagesEndpointParams } from "@/src/entities";
 import { messagesApi } from "@/src/entities/chat/api/messagesApi";
+import { MessageGiftedChat } from "@/src/entities/chat/model/types";
 import { normalizeGiftedChatDate } from "@/src/shared/lib/helpers/normalizeGiftedChatDate";
+import { useAppDispatch, useAppSelector } from "@/src/shared/store";
+import { useCallback, useState } from "react";
+import { GiftedChat, IMessage } from "react-native-gifted-chat";
 
 export const useMessageSender = ({
   chatId,
@@ -81,8 +80,6 @@ export const useMessageSender = ({
       content: text.trim(),
     }).then((response) => {
       if ("data" in response && response.data) {
-        console.log("response.data", response.data);
-
         const newMessage: MessageGiftedChat = {
           _id: response.data.id.toString(),
           text: response.data.content,

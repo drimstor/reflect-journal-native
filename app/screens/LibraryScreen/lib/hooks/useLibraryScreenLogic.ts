@@ -1,11 +1,10 @@
-import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { PATHS } from "@/src/shared/const";
-import { NavigationProps } from "@/src/shared/model/types";
-import { useFiltersStore } from "@/src/shared/store";
 import { Chat, Journal } from "@/src/entities";
+import { PATHS } from "@/src/shared/const";
+import { EntityType, NavigationProps } from "@/src/shared/model/types";
+import { useFiltersStore } from "@/src/shared/store";
+import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 import { LIBRARY_ITEMS } from "../../const/static";
-import { EntityType } from "@/src/shared/model/types";
 
 export const useLibraryScreenLogic = ({
   snapToIndex,
@@ -33,7 +32,8 @@ export const useLibraryScreenLogic = ({
       resetFilters();
 
       if (bottomSheetIndex === 1) {
-        if (currentIndex === 0) {
+        // Для дневников (0) и тестов (4) переходим на список
+        if (currentIndex === 0 || currentIndex === 4) {
           return navigation.navigate(PATHS.LIBRARY_LIST, params);
         } else {
           return navigation.navigate(PATHS.LIBRARY_ITEM, params);
@@ -42,12 +42,13 @@ export const useLibraryScreenLogic = ({
 
       snapToIndex(1);
       setTimeout(() => {
-        if (currentIndex === 0) {
+        // Для дневников (0) и тестов (4) переходим на список
+        if (currentIndex === 0 || currentIndex === 4) {
           return navigation.navigate(PATHS.LIBRARY_LIST, params);
         } else {
           navigation.navigate(PATHS.LIBRARY_ITEM, params);
         }
-      }, 250);
+      }, 350);
     };
 
     return navigateToNextScreen();

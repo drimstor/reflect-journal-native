@@ -1,26 +1,26 @@
-import React from "react";
+import { FONTS } from "@/src/shared/const";
+import { useLang, useT } from "@/src/shared/lib/hooks";
 import {
-  Text,
-  Button,
-  BottomSheetHeader,
-  BottomSheetFooter,
-  PaddingLayout,
-  BottomSheetBox,
-} from "@/src/shared/ui";
-import {
-  useThemeStore,
   useBottomSheetStore,
   useFiltersStore,
+  useThemeStore,
 } from "@/src/shared/store";
-import { useLang, useT } from "@/src/shared/lib/hooks";
-import { Calendar } from "react-native-calendars";
+import {
+  BottomSheetBox,
+  BottomSheetFooter,
+  BottomSheetHeader,
+  Button,
+  PaddingLayout,
+  Text,
+} from "@/src/shared/ui";
+import React from "react";
 import { View } from "react-native";
+import { Calendar } from "react-native-calendars";
+import { MarkedDates } from "react-native-calendars/src/types";
 import { createStyles } from "./DatePickerEntityView.styles";
 import { initCalendarLocales } from "./const/static";
-import { formatFromISODate } from "./lib/utils";
 import { useCalendarLocalization, useDateSelection } from "./lib/hooks";
-import { FONTS } from "@/src/shared/const";
-import { MarkedDates, MarkingTypes } from "react-native-calendars/src/types";
+import { formatFromISODate } from "./lib/utils";
 
 // Инициализация локализации календаря
 initCalendarLocales();
@@ -149,10 +149,6 @@ const DatePickerEntityView: React.FC<DatePickerEntityViewProps> = ({
         setBottomSheetVisible(false);
       } else {
         // Используем коллбэк для внешнего управления
-        console.log("1", {
-          startDate,
-          endDate,
-        });
         onDateSelected({
           startDate: startDate,
           endDate: endDate,

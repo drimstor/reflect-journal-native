@@ -1,17 +1,18 @@
-import { useState, useEffect } from "react";
-import { EntityType, SortField, SortOrder } from "@/src/shared/model/types";
+import { useT } from "@/src/shared/lib/hooks";
+import { EntityType } from "@/src/shared/model/types";
 import {
-  useFiltersStore,
   useBottomSheetStore,
+  useFiltersStore,
   useScreenInfoStore,
 } from "@/src/shared/store";
-import { useT } from "@/src/shared/lib/hooks";
 import {
   CategoryIcon,
   ClipboardCheckIcon,
   CpuIcon,
   DocumentTextIcon,
 } from "@/src/shared/ui";
+import { useEffect, useState } from "react";
+import { ENTITY_NAME } from "../../../../../shared/const/ENTITIES";
 
 interface SortAction {
   text: string;
@@ -129,11 +130,12 @@ export const useFilterLogic = (): useFilterLogicResult => {
   };
 
   const actionsConfig = {
-    Goals: [isCompletedConfig, relatedTopicsConfig],
-    Chats: [relatedTopicsConfig],
-    Journals: [aiResponseConfig, relatedTopicsConfig],
-    Summaries: [relatedTopicsConfig],
-    JournalEntries: [relatedTopicsConfig],
+    [ENTITY_NAME.GOALS]: [isCompletedConfig, relatedTopicsConfig],
+    [ENTITY_NAME.CHATS]: [relatedTopicsConfig],
+    [ENTITY_NAME.JOURNALS]: [aiResponseConfig, relatedTopicsConfig],
+    [ENTITY_NAME.SUMMARIES]: [relatedTopicsConfig],
+    [ENTITY_NAME.JOURNAL_ENTRIES]: [relatedTopicsConfig],
+    [ENTITY_NAME.TESTS]: [relatedTopicsConfig],
     Charts: [relatedTopicsConfig, categoryConfig],
   };
 

@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
-import { Journal } from "@/src/entities/journals/model/types";
 import { Chat } from "@/src/entities/chat/model/types";
-import { VirtualizedList } from "@/src/shared/ui";
-import { useFiltersStore, useScreenInfoStore } from "@/src/shared/store";
-import { getFiltersParams } from "@/src/shared/lib/helpers";
 import { useGetAnyEntities } from "@/src/entities/common/lib/hooks/useGetAnyEntities";
-import { EntityType } from "@/src/shared/model/types";
+import { Journal } from "@/src/entities/journals/model/types";
 import { TypedPreviewBlock } from "@/src/features";
+import { getFiltersParams } from "@/src/shared/lib/helpers";
+import { EntityType } from "@/src/shared/model/types";
+import { useFiltersStore, useScreenInfoStore } from "@/src/shared/store";
+import { VirtualizedList } from "@/src/shared/ui";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
+import { ENTITY_NAME } from "../../shared/const/ENTITIES";
 
 interface LibraryListProps {
   variant: Exclude<EntityType, "JournalEntries">;
@@ -36,7 +36,6 @@ function LibraryList({ variant, onPress }: LibraryListProps) {
   //   if (isFocused) {
   //     filters.setPage(1);
   //   }
-  //   console.log("isFocused", isFocused);
   // }, [isFocused]);
 
   // const educationJournal: Journal = {
@@ -80,6 +79,7 @@ function LibraryList({ variant, onPress }: LibraryListProps) {
       data={data}
       renderItem={TypedPreviewBlock({ variant, onPress })}
       isFetching={isFetching}
+      sortField={variant === ENTITY_NAME.TESTS ? "created_at" : "updated_at"}
     />
   );
 }

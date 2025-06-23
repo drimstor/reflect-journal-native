@@ -1,14 +1,14 @@
-import { useBottomSheetStore } from "@/src/shared/store/zustand/bottomSheet.store";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
+import { useT } from "@/src/shared/lib/hooks";
 import { EntityType } from "@/src/shared/model/types";
+import { useFiltersStore, useThemeStore } from "@/src/shared/store";
+import { useBottomSheetStore } from "@/src/shared/store/zustand/bottomSheet.store";
 import {
   BookmarkCheckIcon,
   DirectIcon,
   EditPencilIcon,
   TrashIcon,
 } from "@/src/shared/ui/icons";
-import { useFiltersStore, useThemeStore } from "@/src/shared/store";
-import { useT } from "@/src/shared/lib/hooks";
-import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 
 /**
  * Хук для управления действиями с элементами списка
@@ -25,7 +25,7 @@ export const useBottomSheetActions = <T extends { id: string }>(
   const t = useT();
   const { colors } = useThemeStore();
   const { multi_select_ids } = useFiltersStore();
-  const variantsForSummary = [ENTITY_NAME.JOURNAL, ENTITY_NAME.CHAT];
+  const variantsForSummary = [ENTITY_NAME.JOURNALS, ENTITY_NAME.CHATS];
 
   /**
    * Обработчик нажатия на кнопку с тремя точками (опции)

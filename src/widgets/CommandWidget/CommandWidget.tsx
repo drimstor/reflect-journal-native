@@ -1,16 +1,17 @@
-import React, { FC } from "react";
-import { useT } from "@/src/shared/lib/hooks";
-import { Button } from "@/src/shared/ui";
-import { useThemeStore, useBottomSheetStore } from "@/src/shared/store";
-import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
-import { PATHS } from "@/src/shared/const";
-import { getEntitiesIds, Journal } from "@/src/entities";
 import {
+  getEntitiesIds,
+  Journal,
   useCreateChatMutation,
   useRelateEntitiesMutation,
 } from "@/src/entities";
+import { PATHS } from "@/src/shared/const";
+import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
+import { useT } from "@/src/shared/lib/hooks";
 import { EntityType, NavigationProps } from "@/src/shared/model/types";
+import { useBottomSheetStore, useThemeStore } from "@/src/shared/store";
+import { Button } from "@/src/shared/ui";
 import { useNavigation } from "@react-navigation/native";
+import React, { FC } from "react";
 
 interface CommandWidgetProps {
   currentItem: any;
@@ -58,7 +59,7 @@ export const CommandWidget: FC<CommandWidgetProps> = ({
       title: t("commands.createChat"),
       onPress: () => {
         const foundRelatedChat = parentJournal?.related_entities?.find(
-          (entity) => entity.entity_type === ENTITY_NAME.CHAT
+          (entity) => entity.entity_type === ENTITY_NAME.CHATS
         );
 
         if (foundRelatedChat) {
@@ -82,11 +83,11 @@ export const CommandWidget: FC<CommandWidgetProps> = ({
           .then((chat) => {
             relateEntities({
               source_type:
-                sourceType === ENTITY_NAME.JOURNAL_ENTRY
-                  ? ENTITY_NAME.JOURNAL
+                sourceType === ENTITY_NAME.JOURNAL_ENTRIES
+                  ? ENTITY_NAME.JOURNALS
                   : sourceType,
               source_id: getEntitiesIds(currentItem.id)[0],
-              target_type: ENTITY_NAME.CHAT,
+              target_type: ENTITY_NAME.CHATS,
               target_id: chat.id,
             })
               .unwrap()
@@ -108,7 +109,7 @@ export const CommandWidget: FC<CommandWidgetProps> = ({
       title: t("commands.createJournal"),
       onPress: () => {
         navigation.navigate(PATHS.ADD_ENTRY, {
-          variant: ENTITY_NAME.JOURNAL,
+          variant: ENTITY_NAME.JOURNALS,
         });
       },
     },

@@ -24,12 +24,13 @@ const ExitTestView = () => {
     setBottomSheetVisible(false);
   };
 
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     resetFilters();
-  //     navigateToFlow("common", "success");
-  //   }
-  // }, [isSuccess]);
+  const handleExit = () => {
+    // Вызываем функцию выхода из теста, переданную через flowData
+    if (flowData.onExit && typeof flowData.onExit === "function") {
+      flowData.onExit();
+    }
+    setBottomSheetVisible(false);
+  };
 
   return (
     <BottomSheetBox>
@@ -46,10 +47,10 @@ const ExitTestView = () => {
         <Button
           backgroundColor={colors.error}
           textColor={colors.white}
-          onPress={() => {}}
+          onPress={handleExit}
           isLoading={false}
         >
-          {t("shared.actions.logout")}
+          {t("shared.actions.exit")}
         </Button>
       </BottomSheetFooter>
     </BottomSheetBox>

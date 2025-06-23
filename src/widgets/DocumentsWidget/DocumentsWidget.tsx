@@ -1,14 +1,14 @@
-import React, { FC } from "react";
-import { ScrollView, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { PaddingLayout, TitleText } from "@/src/shared/ui";
-import { useThemeStore } from "@/src/shared/store";
-import { useGetPadding, useT } from "@/src/shared/lib/hooks";
-import { formatReadingTime } from "@/src/shared/lib/helpers";
+import { ShortPreviewBlock } from "@/src/features";
 import { PATHS } from "@/src/shared/const";
 import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
+import { formatReadingTime } from "@/src/shared/lib/helpers";
+import { useGetPadding, useT } from "@/src/shared/lib/hooks";
 import { StackNavigationProps } from "@/src/shared/model/types";
-import { ShortPreviewBlock } from "@/src/features";
+import { useThemeStore } from "@/src/shared/store";
+import { PaddingLayout, TitleText } from "@/src/shared/ui";
+import { useNavigation } from "@react-navigation/native";
+import React, { FC } from "react";
+import { ScrollView, View } from "react-native";
 import { styles } from "./DocumentsWidget.styles";
 
 interface DocumentsWidgetProps {
@@ -57,7 +57,7 @@ const DocumentsWidget: FC<DocumentsWidgetProps> = ({
               opacityCaption={t("shared.info.readingTime") + ": "}
               onPress={() =>
                 navigation.push(PATHS.LIBRARY_ITEM, {
-                  variant: ENTITY_NAME.DOCUMENT,
+                  variant: ENTITY_NAME.DOCUMENTS,
                   item: document,
                 })
               }

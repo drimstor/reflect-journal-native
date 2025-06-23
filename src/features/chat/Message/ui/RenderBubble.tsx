@@ -1,12 +1,11 @@
-import { Bubble, Time, BubbleProps } from "react-native-gifted-chat";
-import { IMessage } from "react-native-gifted-chat";
-import { useThemeStore } from "@/src/shared/store";
-import { MarkdownEmojiText, Text } from "@/src/shared/ui";
-import { createStyles } from "./RenderBubble.styles";
-import { View } from "react-native";
-import MessageLoaderBox from "../../MessageLoaderBox/MessageLoaderBox";
 import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
+import { useThemeStore } from "@/src/shared/store";
+import { MarkdownEmojiText } from "@/src/shared/ui";
 import { CommandWidgetChat } from "@/src/widgets";
+import { View } from "react-native";
+import { Bubble, BubbleProps, IMessage, Time } from "react-native-gifted-chat";
+import MessageLoaderBox from "../../MessageLoaderBox/MessageLoaderBox";
+import { createStyles } from "./RenderBubble.styles";
 
 const RenderBubble = (props: BubbleProps<IMessage>) => {
   const { colors, theme } = useThemeStore();
@@ -47,7 +46,7 @@ const RenderBubble = (props: BubbleProps<IMessage>) => {
               id: props.currentMessage._id,
               command: props.currentMessage.command,
             }}
-            sourceType={ENTITY_NAME.MESSAGE}
+            sourceType={ENTITY_NAME.MESSAGES}
           />
         )}
       </View>

@@ -1,22 +1,22 @@
-import { View } from "react-native";
-import {
-  Layout,
-  Carousel,
-  BottomSheet,
-  Chip,
-  useCarouselConfig,
-  Divider,
-} from "@/src/shared/ui";
 import { PreviewCard } from "@/src/features";
-import { FiltersPanel, Header, LibraryList } from "@/src/widgets";
 import { useT } from "@/src/shared/lib/hooks";
-import { useThemeStore, useFiltersStore } from "@/src/shared/store";
-import { CpuIcon, DotsIcon } from "@/src/shared/ui/icons";
-import { styles } from "./LibraryScreen.styles";
-import { useLibraryScreenLogic } from "./lib/hooks/useLibraryScreenLogic";
-import { LIBRARY_ITEMS } from "./const/static";
 import { EntityType } from "@/src/shared/model/types";
+import { useFiltersStore, useThemeStore } from "@/src/shared/store";
+import {
+  BottomSheet,
+  Carousel,
+  Chip,
+  Divider,
+  Layout,
+  useCarouselConfig,
+} from "@/src/shared/ui";
+import { CpuIcon, DotsIcon } from "@/src/shared/ui/icons";
+import { FiltersPanel, Header, LibraryList } from "@/src/widgets";
+import { View } from "react-native";
+import { styles } from "./LibraryScreen.styles";
+import { LIBRARY_ITEMS } from "./const/static";
 import { useLibraryBottomSheet } from "./lib/hooks/useLibraryBottomSheet";
+import { useLibraryScreenLogic } from "./lib/hooks/useLibraryScreenLogic";
 import { useMultiSelectActions } from "./lib/hooks/useMultiSelectActions";
 
 const LibraryScreen = () => {
