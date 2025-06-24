@@ -56,27 +56,6 @@ export const journalEntriesApi = baseApi.injectEndpoints({
         { type: ENTITY_NAME.JOURNAL_ENTRIES, id: id },
       ],
     }),
-    searchEntries: builder.query<
-      JournalEntry[],
-      { query: string; journal_id?: string }
-    >({
-      query: ({ query, journal_id }) => ({
-        url: "/journal-entries/search",
-        method: "GET",
-        params: { query, journal_id },
-      }),
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.map(({ id }) => ({
-                type: ENTITY_NAME.JOURNAL_ENTRIES,
-                id,
-              })),
-              { type: ENTITY_NAME.JOURNAL_ENTRIES, id: "SEARCH" },
-            ]
-          : [{ type: ENTITY_NAME.JOURNAL_ENTRIES, id: "SEARCH" }],
-    }),
-
     createJournalEntry: builder.mutation<
       JournalEntry,
       CreateJournalEntryRequest
@@ -184,7 +163,6 @@ export const journalEntriesApi = baseApi.injectEndpoints({
 export const {
   useGetJournalEntriesQuery,
   useGetJournalEntryQuery,
-  useSearchEntriesQuery,
   useCreateJournalEntryMutation,
   useUpdateJournalEntryMutation,
   useDeleteJournalEntryMutation,

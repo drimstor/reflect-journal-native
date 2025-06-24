@@ -1,6 +1,6 @@
+import LottieView from "lottie-react-native";
 import React, { FC } from "react";
 import { View } from "react-native";
-import LottieView from "lottie-react-native";
 import { useThemeStore } from "../../store";
 import { LoaderProps } from "./model/types";
 
@@ -14,11 +14,19 @@ export const Loader: FC<LoaderProps> = ({
   isVisible = true,
 }) => {
   if (!isVisible) return null;
+
   const { theme } = useThemeStore();
 
   return (
     <View
-      style={[{ marginHorizontal: "auto", width: size, height: size }, style]}
+      style={[
+        {
+          marginHorizontal: "auto",
+          width: size,
+          height: size,
+        },
+        style,
+      ]}
     >
       <LottieView
         source={

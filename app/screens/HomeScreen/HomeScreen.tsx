@@ -1,27 +1,27 @@
-import React, { FC, useEffect } from "react";
+import { useT } from "@/src/shared/lib/hooks";
+import { useDeviceStore, useThemeStore } from "@/src/shared/store";
 import {
+  AnimatedLoader,
   Layout,
   PaddingLayout,
   TitleText,
-  AnimatedLoader,
   useAnimatedLoading,
 } from "@/src/shared/ui";
+import { DotsIcon } from "@/src/shared/ui/icons";
 import {
-  Header,
-  AffirmationWidget,
   AdviceWidget,
-  TasksWidget,
+  AffirmationWidget,
   CategoriesWidget,
-  TopicsWidget,
   DocumentsWidget,
+  Header,
+  TasksWidget,
+  TopicsWidget,
 } from "@/src/widgets";
-import { useT } from "@/src/shared/lib/hooks";
-import { useDeviceStore, useThemeStore } from "@/src/shared/store";
+import React, { FC, useEffect } from "react";
 import { ScrollView, View } from "react-native";
 import { styles } from "./HomeScreen.styles";
-import { DotsIcon } from "@/src/shared/ui/icons";
-import { useHomeScreenData } from "./lib/hooks/useHomeScreenData";
 import { useGetDocumentsProgress } from "./lib/hooks/useGetDocumentsProgress";
+import { useHomeScreenData } from "./lib/hooks/useHomeScreenData";
 
 interface HomeScreenProps {}
 

@@ -1,19 +1,16 @@
 import { baseApi } from "@/src/shared/api/baseApi";
-import { formatValidationErrors } from "@/src/shared/store";
+import { formatValidationErrors, mergeQueryData } from "@/src/shared/store";
+import { Alert } from "react-native";
 import type {
+  BulkUpdateChecklistItemsRequest,
+  CreateGoalRequest,
+  GenerateGoalRequest,
   Goal,
   GoalResponse,
-  CreateGoalRequest,
-  UpdateGoalRequest,
-  AddChecklistItemRequest,
-  UpdateChecklistItemRequest,
-  BulkUpdateChecklistItemsRequest,
   PredictGoalRequest,
-  GenerateGoalRequest,
   SaveGoalRequest,
+  UpdateGoalRequest,
 } from "../model/types";
-import { Alert } from "react-native";
-import { mergeQueryData } from "@/src/shared/store";
 
 export const GOALS_TAG = "Goals" as const;
 type TagTypes = typeof GOALS_TAG;
@@ -92,34 +89,6 @@ export const goalsApi = baseApi.injectEndpoints({
       }
     ),
 
-    addChecklistItem: builder.mutation<
-      Goal,
-      { goalId: string; body: AddChecklistItemRequest }
-    >({
-      query: ({ goalId, body }) => ({
-        url: `/goals/${goalId}/checklist`,
-        method: "POST",
-        body,
-      }),
-      invalidatesTags: (result, error, { goalId }) => [
-        { type: GOALS_TAG, id: goalId },
-      ],
-    }),
-
-    updateChecklistItem: builder.mutation<
-      Goal,
-      { goalId: string; itemId: string; body: UpdateChecklistItemRequest }
-    >({
-      query: ({ goalId, itemId, body }) => ({
-        url: `/goals/${goalId}/checklist/${itemId}`,
-        method: "PATCH",
-        body,
-      }),
-      invalidatesTags: (result, error, { goalId }) => [
-        { type: GOALS_TAG, id: goalId },
-      ],
-    }),
-
     bulkUpdateChecklistItems: builder.mutation<
       Goal,
       { goalId: string; body: BulkUpdateChecklistItemsRequest }
@@ -174,8 +143,6 @@ export const {
   useGetGoalQuery,
   useCreateGoalMutation,
   useUpdateGoalMutation,
-  useAddChecklistItemMutation,
-  useUpdateChecklistItemMutation,
   useBulkUpdateChecklistItemsMutation,
   usePredictGoalMutation,
   useGenerateGoalMutation,

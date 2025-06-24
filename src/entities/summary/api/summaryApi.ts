@@ -1,13 +1,12 @@
 import { baseApi } from "@/src/shared/api/baseApi";
-import { formatValidationErrors } from "@/src/shared/store";
+import { formatValidationErrors, mergeQueryData } from "@/src/shared/store";
+import { Alert } from "react-native";
 import type {
+  CreateSummaryRequest,
   Summary,
   SummaryResponse,
-  CreateSummaryRequest,
   UpdateSummaryRequest,
 } from "../model/types";
-import { Alert } from "react-native";
-import { mergeQueryData } from "@/src/shared/store";
 
 export const SUMMARY_TAG = "Summaries" as const;
 type TagTypes = typeof SUMMARY_TAG;
@@ -87,17 +86,6 @@ export const summaryApi = baseApi.injectEndpoints({
       ],
     }),
 
-    refreshSummary: builder.mutation<Summary, string>({
-      query: (id) => ({
-        url: `/summary/refresh/${id}`,
-        method: "PUT",
-      }),
-      invalidatesTags: (result, error, id) => [
-        { type: SUMMARY_TAG, id },
-        { type: SUMMARY_TAG, id: "LIST" },
-      ],
-    }),
-
     deleteSummary: builder.mutation<void, string>({
       query: (id) => ({
         url: `/summary/${id}`,
@@ -116,6 +104,5 @@ export const {
   useGetSummaryQuery,
   useCreateSummaryMutation,
   useUpdateSummaryMutation,
-  useRefreshSummaryMutation,
   useDeleteSummaryMutation,
 } = summaryApi;
