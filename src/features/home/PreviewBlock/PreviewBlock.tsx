@@ -112,6 +112,7 @@ const PreviewBlock = ({
     RelationshipMap: <LinkSolidIcon color={colors.contrast} size={160} />,
     Timeline: <ChartIcon color={colors.contrast} size={160} />,
     Tests: <ClipboardSolidIcon color={colors.contrast} size={160} />,
+    TestResults: <ClipboardSolidIcon color={colors.contrast} size={160} />,
   };
 
   return (

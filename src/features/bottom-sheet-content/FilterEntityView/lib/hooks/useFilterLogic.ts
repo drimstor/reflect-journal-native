@@ -136,6 +136,7 @@ export const useFilterLogic = (): useFilterLogicResult => {
     [ENTITY_NAME.SUMMARIES]: [relatedTopicsConfig],
     [ENTITY_NAME.JOURNAL_ENTRIES]: [relatedTopicsConfig],
     [ENTITY_NAME.TESTS]: [relatedTopicsConfig],
+    [ENTITY_NAME.TEST_RESULTS]: [relatedTopicsConfig],
     Charts: [relatedTopicsConfig, categoryConfig],
   };
 

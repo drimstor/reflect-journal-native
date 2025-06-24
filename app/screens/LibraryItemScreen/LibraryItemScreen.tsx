@@ -1,5 +1,6 @@
 import { Journal, useGetAnyEntity, useGetMood } from "@/src/entities";
 import { ChecklistItem } from "@/src/entities/goals/model/types";
+import TestQuestionsAnswers from "@/src/features/test/TestQuestionsAnswers/TestQuestionsAnswers";
 import { PATHS } from "@/src/shared/const";
 import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import {
@@ -50,6 +51,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { useChecklistActions } from "./lib/hooks/useChecklistActions";
+import { useParentEntity } from "./lib/hooks/useParentEntity";
 import { useSetDocumentProgress } from "./lib/hooks/useSetDocumentProgress";
 import { createStyles } from "./LibraryItemScreen.styles";
 
@@ -62,32 +64,32 @@ const LibraryItemScreen = () => {
   const { subtitle } = useHeaderStore();
   const { setNavigation } = useBottomSheetStore();
   const route = useRoute();
-  const { variant, item } = route.params as any;
-  const { handlePress } = useBottomSheetActions(variant, item);
+  const { variant, item } = (route.params as any) || {};
+  const safeVariant = variant || "";
+  const safeItem = item || { id: "" };
+
+  const { handlePress } = useBottomSheetActions(safeVariant, safeItem);
   const navigation = useNavigation<StackNavigationProps>();
   const [currentItem, setCurrentItem] = useState<any>(null);
-  const mood = useGetMood(currentItem?.mood);
-  const { data } = useGetAnyEntity({ type: variant, id: item.id });
+  const mood = useGetMood(currentItem?.mood || "");
+  const { data } = useGetAnyEntity({ type: safeVariant, id: safeItem.id });
 
-  const isJournalEntry = variant === ENTITY_NAME.JOURNAL_ENTRIES;
-  const isTest = variant === ENTITY_NAME.TESTS;
-  const isTestResult = variant === ENTITY_NAME.TEST_RESULTS;
+  const isJournalEntry = safeVariant === ENTITY_NAME.JOURNAL_ENTRIES;
+  const isTest = safeVariant === ENTITY_NAME.TESTS;
+  const isTestResult = safeVariant === ENTITY_NAME.TEST_RESULTS;
 
   useEffect(() => {
-    setCurrentItem(data || item);
-  }, [item, data]);
+    setCurrentItem(data || safeItem);
+  }, [safeItem, data]);
 
   useEffect(() => {
     setNavigation(false, PATHS.LIBRARY);
-  }, [variant]);
+  }, [safeVariant]);
 
   // ------------------------------------------------------------ //
 
-  const { data: parentJournal } = useGetAnyEntity({
-    type: ENTITY_NAME.JOURNALS,
-    id: item.journal_id,
-    skip: !isJournalEntry,
-  });
+  // Получение родительской сущности
+  const { parentJournal, parentTest } = useParentEntity(safeVariant, safeItem);
 
   useEffect(() => {
     if (isJournalEntry && data) {
@@ -100,7 +102,7 @@ const LibraryItemScreen = () => {
 
   const carouselConfig = useCarouselConfig(
     25,
-    currentItem?.related_entities?.length > 1 ? 60 : 0
+    (currentItem?.related_entities?.length || 0) > 1 ? 60 : 0
   );
 
   // ------------------------------------------------------------ //
@@ -108,21 +110,19 @@ const LibraryItemScreen = () => {
   // const journal = useAppSelector(getJournalCache(currentItem?.journal_id));
 
   const { checkboxes, isUpdatingChecklistItem, handleCheckboxToggle } =
-    useChecklistActions(variant, currentItem?.id, currentItem?.checklist || []);
+    useChecklistActions(
+      safeVariant,
+      currentItem?.id,
+      currentItem?.checklist || []
+    );
 
-  const isDocument = variant === ENTITY_NAME.DOCUMENTS;
+  const isDocument = safeVariant === ENTITY_NAME.DOCUMENTS;
 
-  // Hook для отслеживания прогресса просмотра документа (только для документов)
-  const { progress, handleScroll, isLoading } = isDocument
-    ? useSetDocumentProgress({
-        documentId: currentItem?.id || "",
-        enabled: !!currentItem?.id,
-      })
-    : {
-        progress: 0,
-        handleScroll: () => {},
-        isLoading: false,
-      };
+  // Hook для отслеживания прогресса просмотра документа (всегда вызываем хук)
+  const { progress, handleScroll, isLoading } = useSetDocumentProgress({
+    documentId: currentItem?.id || "",
+    enabled: isDocument && !!currentItem?.id,
+  });
 
   const handleStartTest = () => {
     navigation.navigate(PATHS.TEST, {
@@ -130,17 +130,13 @@ const LibraryItemScreen = () => {
     });
   };
 
-  const handleTakeTestAgain = () => {
-    navigation.navigate(PATHS.TEST, {
-      testId: currentItem?.test_id,
-    });
-  };
-
   return (
     <Layout>
       <Header
         title={t(
-          `entities.${isDocument ? item.type : variant.toLowerCase()}.singular`
+          `entities.${
+            isDocument ? safeItem.type : safeVariant.toLowerCase()
+          }.singular`
         )}
         subtitle={subtitle}
         backButton
@@ -177,7 +173,7 @@ const LibraryItemScreen = () => {
                   <Text size="extraLarge" font="bold" color={colors.contrast}>
                     {currentItem?.name || currentItem?.title}
                   </Text>
-                  {variant !== "JournalEntries" &&
+                  {safeVariant !== "JournalEntries" &&
                     currentItem?.related_topics?.[0] && (
                       <Chip
                         color={stringToColor(currentItem?.related_topics?.[0])}
@@ -289,9 +285,9 @@ const LibraryItemScreen = () => {
                       value={`${
                         Object.values(currentItem?.answers || {}).filter(
                           Boolean
-                        ).length
+                        )?.length
                       } ${t("shared.info.of")} ${
-                        Object.keys(currentItem?.answers || {}).length
+                        Object.keys(currentItem?.answers || {})?.length
                       }`}
                       icon={<CheckIcon color={colors.contrast} />}
                       color={colors.contrast}
@@ -316,9 +312,11 @@ const LibraryItemScreen = () => {
                     {currentItem?.content}
                   </MarkdownEmojiText>
                   {currentItem?.command &&
-                    [ENTITY_NAME.SUMMARIES, ENTITY_NAME.DOCUMENTS].includes(
-                      variant
-                    ) && (
+                    [
+                      ENTITY_NAME.SUMMARIES,
+                      ENTITY_NAME.DOCUMENTS,
+                      ENTITY_NAME.TEST_RESULTS,
+                    ].includes(safeVariant) && (
                       <View style={{ marginTop: 18 }}>
                         <CommandWidget
                           currentItem={currentItem}
@@ -330,7 +328,7 @@ const LibraryItemScreen = () => {
                   <Divider style={styles.divider} color={colors.alternate} />
                 </>
               )}
-              {!!currentItem?.related_topics?.length && (
+              {!!(currentItem?.related_topics?.length || 0) && (
                 <>
                   <TitleText
                     text={t("libraryItem.relatedTopics")}
@@ -340,7 +338,7 @@ const LibraryItemScreen = () => {
                     style={styles.titleText}
                   />
                   <View style={styles.tagsBox}>
-                    {currentItem?.related_topics?.map((tag: string) => (
+                    {(currentItem?.related_topics || []).map((tag: string) => (
                       <Chip
                         key={tag}
                         title={tag}
@@ -379,7 +377,7 @@ const LibraryItemScreen = () => {
                   <Divider style={styles.divider} color={colors.alternate} />
                 </>
               )}
-              {checkboxes?.length > 0 && (
+              {!!(checkboxes?.length || 0) && (
                 <>
                   <TitleText
                     text={t("libraryItem.checklist")}
@@ -389,7 +387,7 @@ const LibraryItemScreen = () => {
                     style={styles.titleText}
                   />
                   <CheckboxList>
-                    {checkboxes?.map((item: ChecklistItem) => (
+                    {(checkboxes || []).map((item: ChecklistItem) => (
                       <CheckBox
                         textDecoration
                         key={item.id}
@@ -412,6 +410,19 @@ const LibraryItemScreen = () => {
                   <Divider style={styles.divider} color={colors.alternate} />
                 </>
               )}
+              {/* Добавляем блок с вопросами и ответами для результатов тестов */}
+              {isTestResult &&
+                parentTest &&
+                "questions" in parentTest &&
+                currentItem?.answers && (
+                  <>
+                    <TestQuestionsAnswers
+                      questions={parentTest.questions}
+                      answers={currentItem.answers}
+                    />
+                    <Divider style={styles.divider} color={colors.alternate} />
+                  </>
+                )}
             </PaddingLayout>
             {/* Кнопка "Начать тест" для тестов */}
             {isTest && (
@@ -427,7 +438,7 @@ const LibraryItemScreen = () => {
                 </Button>
               </PaddingLayout>
             )}
-            {!!currentItem?.related_entities?.length && (
+            {!!(currentItem?.related_entities?.length || 0) && (
               <View style={styles.carouselBox}>
                 <ItemCarousel
                   title={t("libraryItem.relatedEntries")}

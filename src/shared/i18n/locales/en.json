@@ -41,7 +41,8 @@
   "commands": {
     "createGoal": "Create goal",
     "createChat": "Discuss in chat",
-    "createJournal": "Create journal"
+    "createJournal": "Create journal",
+    "takeTest": "Take test"
   },
   "library": {
     "title": "Library",
@@ -228,6 +229,9 @@
         "placeholder": "Enter summary name"
       }
     },
+    "testResults": {
+      "title": "Edit Test Result"
+    },
     "common": {
       "relatedTopics": {
         "label": "Related Topics",
@@ -339,8 +343,11 @@
   },
 
   "test": {
-    "question": "Question:",
-    "yourAnswer": "Your answer:",
+    "question": "Question",
+    "questionsAndAnswers": "Questions and Answers",
+    "yourAnswer": "Your answer",
+    "noAnswer": "No answer",
+    "category": "Category",
     "enterAnswer": "Enter your answer",
     "noAnalysis": "No analysis available",
     "score": "Score",

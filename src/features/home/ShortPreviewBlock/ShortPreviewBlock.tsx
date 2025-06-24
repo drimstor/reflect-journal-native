@@ -1,15 +1,15 @@
-import { View, Pressable } from "react-native";
+import { useGetPadding } from "@/src/shared/lib/hooks";
+import { ThemeColors } from "@/src/shared/model/types";
+import { ProgressBar, Text, TitleText } from "@/src/shared/ui";
+import { ReactNode } from "react";
+import { Pressable, View } from "react-native";
 import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
   interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
 } from "react-native-reanimated";
 import { createStyles } from "./ShortPreviewBlock.styles";
-import { TitleText, Text, ProgressBar } from "@/src/shared/ui";
-import { ThemeColors } from "@/src/shared/model/types";
-import { ReactNode } from "react";
-import { useGetPadding } from "@/src/shared/lib/hooks";
 
 interface ShortPreviewBlockProps {
   colors: ThemeColors;

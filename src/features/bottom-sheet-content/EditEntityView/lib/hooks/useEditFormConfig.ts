@@ -1,6 +1,7 @@
-import { EntityType } from "@/src/shared/model/types";
-import { useState, useEffect } from "react";
 import { useT } from "@/src/shared/lib/hooks/useLang";
+import { EntityType } from "@/src/shared/model/types";
+import { useEffect, useState } from "react";
+import { ENTITY_NAME } from "../../../../../shared/const/ENTITIES";
 
 /**
  * Тип поля формы редактирования
@@ -60,7 +61,7 @@ export const useEditFormConfig = (
     let title = "";
 
     switch (variant) {
-      case "Journals":
+      case ENTITY_NAME.JOURNALS:
         title = t("edit.journals.title");
         fields = [
           {
@@ -95,7 +96,7 @@ export const useEditFormConfig = (
         ];
         break;
 
-      case "JournalEntries":
+      case ENTITY_NAME.JOURNAL_ENTRIES:
         title = t("edit.journalEntries.title");
         fields = [
           {
@@ -131,7 +132,7 @@ export const useEditFormConfig = (
         ];
         break;
 
-      case "Chats":
+      case ENTITY_NAME.CHATS:
         title = t("edit.chats.title");
         fields = [
           {
@@ -161,7 +162,7 @@ export const useEditFormConfig = (
         ];
         break;
 
-      case "Goals":
+      case ENTITY_NAME.GOALS:
         title = t("edit.goals.title");
         fields = [
           {
@@ -190,7 +191,7 @@ export const useEditFormConfig = (
         ];
         break;
 
-      case "Summaries":
+      case ENTITY_NAME.SUMMARIES:
         title = t("edit.summaries.title");
         fields = [
           {
@@ -200,6 +201,23 @@ export const useEditFormConfig = (
             placeholder: t("edit.summaries.name.placeholder"),
             required: true,
           },
+          {
+            key: "related_topics",
+            type: "tags",
+            label: t("edit.common.relatedTopics.label"),
+            placeholder: t("edit.common.relatedTopics.placeholder"),
+          },
+          {
+            key: "bookmarked",
+            type: "toggle",
+            label: t("edit.common.bookmarked.label"),
+          },
+        ];
+        break;
+
+      case ENTITY_NAME.TEST_RESULTS:
+        title = t("edit.testResults.title");
+        fields = [
           {
             key: "related_topics",
             type: "tags",

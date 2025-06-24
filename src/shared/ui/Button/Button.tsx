@@ -1,16 +1,11 @@
-import { ReactNode } from "react";
-import {
-  TouchableOpacity,
-  ActivityIndicator,
-  StyleProp,
-  ViewStyle,
-} from "react-native";
+import { getContrastColor } from "@/src/shared/lib/helpers/getContrastColor";
 import { PaletteColor } from "@/src/shared/model/types";
-import { sizeStyles, createStyles } from "./Button.styles";
 import { useThemeStore } from "@/src/shared/store";
 import { Text } from "@/src/shared/ui";
-import { getContrastColor } from "@/src/shared/lib/helpers/getContrastColor";
+import { ReactNode } from "react";
+import { StyleProp, TouchableOpacity, ViewStyle } from "react-native";
 import { SmallLoader } from "../Loader/SmallLoader";
+import { createStyles, sizeStyles } from "./Button.styles";
 interface ButtonProps {
   children: ReactNode | string;
   onPress: () => void;
@@ -21,6 +16,7 @@ interface ButtonProps {
   disabled?: boolean;
   isLoading?: boolean;
   style?: StyleProp<ViewStyle>;
+  isDynamicHeight?: boolean;
 }
 const { primary } = useThemeStore.getState().colors;
 
@@ -34,6 +30,7 @@ const Button = ({
   textColor,
   disabled = false,
   isLoading,
+  isDynamicHeight,
 }: ButtonProps) => {
   const { colors } = useThemeStore();
   const styles = createStyles(colors);
@@ -49,6 +46,7 @@ const Button = ({
         size && sizeStyles[size],
         disabled && styles.disabled,
         style && style,
+        isDynamicHeight && { maxHeight: "auto" },
       ]}
     >
       {isLoading ? (

@@ -41,7 +41,8 @@
   "commands": {
     "createGoal": "Создать цель",
     "createChat": "Обсудить тему в чате",
-    "createJournal": "Создать дневник"
+    "createJournal": "Создать дневник",
+    "takeTest": "Пройти тест"
   },
   "library": {
     "title": "Библиотека",
@@ -227,6 +228,9 @@
         "placeholder": "Введите название саммари"
       }
     },
+    "testResults": {
+      "title": "Редактирование результата теста"
+    },
     "common": {
       "relatedTopics": {
         "label": "Связанные темы",
@@ -337,8 +341,11 @@
     }
   },
   "test": {
-    "question": "Вопрос:",
-    "yourAnswer": "Ваш ответ:",
+    "question": "Вопрос",
+    "questionsAndAnswers": "Вопросы и ответы",
+    "yourAnswer": "Ваш ответ",
+    "noAnswer": "Нет ответа",
+    "category": "Категория",
     "enterAnswer": "Введите ваш ответ",
     "noAnalysis": "Анализ недоступен",
     "score": "Баллы",
@@ -393,7 +400,9 @@
       "resetSearch": "Сбросить поиск",
       "yes": "Да",
       "no": "Нет",
-      "exit": "Выйти"
+      "exit": "Выйти",
+      "showMore": "Показать еще",
+      "showLess": "Показать меньше"
     },
     "status": {
       "loading": "Загрузка",

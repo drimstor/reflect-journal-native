@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { ChecklistItem } from "@/src/entities/goals/model/types";
 import { useBulkUpdateChecklistItemsMutation } from "@/src/entities/goals/api/goalsApi";
+import { ChecklistItem } from "@/src/entities/goals/model/types";
 import useDebounce from "@/src/shared/lib/hooks/useDebounce";
+import { useEffect, useState } from "react";
 
 /**
  * Хук для управления чеклистами с дебаунсированным обновлением на сервере.
@@ -32,7 +32,7 @@ export const useChecklistActions = (
 
   // Обновляем чекбоксы при изменении initialChecklist
   useEffect(() => {
-    if (initialChecklist?.length) {
+    if ((initialChecklist?.length || 0) > 0) {
       setCheckboxes(initialChecklist);
     }
   }, [initialChecklist]);
@@ -40,7 +40,7 @@ export const useChecklistActions = (
   // Эффект для отправки изменений на сервер после дебаунса
   useEffect(() => {
     // Если не Goals или нет начальных данных, не отправляем запрос
-    if (variant !== "Goals" || !initialChecklist?.length) return;
+    if (variant !== "Goals" || !(initialChecklist?.length || 0)) return;
 
     // Находим измененные элементы
     const changedItems = checkboxes.filter((item) => {

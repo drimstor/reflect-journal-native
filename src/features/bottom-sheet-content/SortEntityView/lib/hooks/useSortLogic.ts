@@ -116,7 +116,9 @@ export const useSortLogic = (): UseSortLogicResult => {
         IconComponent: CalendarIcon,
       },
     ];
-  } else if (screenName === ENTITY_NAME.TESTS) {
+  } else if (
+    [ENTITY_NAME.TESTS, ENTITY_NAME.TEST_RESULTS].includes(screenName)
+  ) {
     actions = [
       {
         text: t("sort.sortByName"),

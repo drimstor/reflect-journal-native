@@ -1,5 +1,6 @@
 import { EntityType } from "@/src/shared/model/types";
 import { useCallback } from "react";
+import { ENTITY_NAME } from "../../../../shared/const/ENTITIES";
 
 interface DeleteHookResult {
   deleteEntity: () => Promise<void>;
@@ -14,25 +15,29 @@ const useDynamicDeleteHook = (
   // Ленивый импорт соответствующего хука
   let deleteHook;
   switch (variant) {
-    case "Journals":
+    case ENTITY_NAME.JOURNALS:
       const { useDeleteJournalMutation } = require("@/src/entities");
       deleteHook = useDeleteJournalMutation;
       break;
-    case "JournalEntries":
+    case ENTITY_NAME.JOURNAL_ENTRIES:
       const { useDeleteJournalEntryMutation } = require("@/src/entities");
       deleteHook = useDeleteJournalEntryMutation;
       break;
-    case "Chats":
+    case ENTITY_NAME.CHATS:
       const { useDeleteChatMutation } = require("@/src/entities");
       deleteHook = useDeleteChatMutation;
       break;
-    case "Goals":
+    case ENTITY_NAME.GOALS:
       const { useDeleteGoalMutation } = require("@/src/entities");
       deleteHook = useDeleteGoalMutation;
       break;
-    case "Summaries":
+    case ENTITY_NAME.SUMMARIES:
       const { useDeleteSummaryMutation } = require("@/src/entities");
       deleteHook = useDeleteSummaryMutation;
+      break;
+    case ENTITY_NAME.TEST_RESULTS:
+      const { useDeleteTestResultMutation } = require("@/src/entities");
+      deleteHook = useDeleteTestResultMutation;
       break;
     default:
       throw new Error(`Неподдерживаемый тип: ${variant}`);

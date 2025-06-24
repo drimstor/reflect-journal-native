@@ -30,6 +30,7 @@ const FiltersPanel = ({ style }: FiltersPanelProps) => {
     useBottomSheetStore();
   const { screenInfo } = useScreenInfoStore();
   const isTest = screenInfo?.name === ENTITY_NAME.TESTS;
+  const isTestResult = screenInfo?.name === ENTITY_NAME.TEST_RESULTS;
 
   const {
     sort_field,
@@ -49,7 +50,7 @@ const FiltersPanel = ({ style }: FiltersPanelProps) => {
       icon: <CalendarIcon color={colors.contrast} variant="outlined" />,
       isActive: created_at_from || updated_at_from,
       onPress: () => {
-        if (isTest) {
+        if (isTest || isTestResult) {
           navigateToFlow("date", "pickerPeriod");
 
           setFlowData({

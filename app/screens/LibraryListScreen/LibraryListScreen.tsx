@@ -7,6 +7,7 @@ import { useT } from "@/src/shared/lib/hooks";
 import { StackNavigationProps } from "@/src/shared/model/types";
 import {
   getFiltersParams,
+  isAnyFilterActive,
   useBottomSheetStore,
   useDeviceStore,
   useFiltersStore,
@@ -44,6 +45,8 @@ const LibraryListScreen = () => {
   const { variant, item } = route.params as any;
   const { handlePress } = useBottomSheetActions(variant, item);
 
+  console.log({ item });
+
   const title = item?.name;
   const related_entities = item?.related_entities ?? [];
   const entityName = ENTITY_WITH_CHILDREN_CONFIG?.[variant]; // children entity
@@ -51,6 +54,8 @@ const LibraryListScreen = () => {
   useEffect(() => {
     filters.resetFilters();
     setScreenInfo({ name: entityName });
+
+    return filters.resetFilters;
   }, []);
 
   useEffect(() => {
@@ -61,6 +66,7 @@ const LibraryListScreen = () => {
     [ENTITY_NAME.JOURNAL_ENTRIES]: "journal_id",
     [ENTITY_NAME.TEST_RESULTS]: "test_id",
   };
+
   const params = getFiltersParams({
     [ENTITY_ID_CONFIG?.[entityName]]: item?.id,
     ...filters,
@@ -81,18 +87,14 @@ const LibraryListScreen = () => {
   const isTest = variant === ENTITY_NAME.TESTS;
 
   const isTestAndFinishedLoading =
-    isTest &&
-    !isLoading &&
-    !isFetching &&
-    data?.data &&
-    Array.isArray(data?.data);
+    isTest && !isLoading && data?.data && Array.isArray(data?.data);
 
   const isTestAndNoResults = isTestAndFinishedLoading && !data?.data?.length;
   const isTestAndHasResults = isTestAndFinishedLoading && !!data?.data?.length;
 
   // Поменять условие // Автоматический редирект для тестов если результатов нет
   useEffect(() => {
-    if (isTestAndNoResults) {
+    if (isTestAndNoResults && !isAnyFilterActive(filters)) {
       // Если результатов тестов нет, заменяем текущий экран на экран элемента библиотеки
       navigation.replace(PATHS.LIBRARY_ITEM, { variant, item });
     }
@@ -107,7 +109,7 @@ const LibraryListScreen = () => {
           isTest && isLoading ? "" : t(`library.${variant.toLowerCase()}.list`)
         }
         rightIcon={
-          isTest
+          isTest && !filters.multi_select_ids?.length
             ? undefined
             : {
                 icon: <DotsIcon color={colors.contrast} size={22} />,

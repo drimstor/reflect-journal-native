@@ -1,24 +1,23 @@
-import {
-  Text,
-  Button,
-  BottomSheetHeader,
-  BottomSheetFooter,
-  PaddingLayout,
-  BottomSheetBox,
-  BottomSheetScrollView,
-} from "@/src/shared/ui";
-import {
-  useThemeStore,
-  useBottomSheetStore,
-  useFiltersStore,
-  useDeviceStore,
-} from "@/src/shared/store";
-import { useT } from "@/src/shared/lib/hooks";
 import { useEditAnyEntities } from "@/src/entities/common/lib/hooks/useEditAnyEntities";
-import { useEditFormConfig } from "./lib/hooks/useEditFormConfig";
-import { useEditForm } from "./lib/hooks/useEditForm";
-import { useEffect } from "react";
+import { useT } from "@/src/shared/lib/hooks";
+import {
+  useBottomSheetStore,
+  useDeviceStore,
+  useFiltersStore,
+  useThemeStore,
+} from "@/src/shared/store";
+import {
+  BottomSheetBox,
+  BottomSheetFooter,
+  BottomSheetHeader,
+  BottomSheetScrollView,
+  Button,
+  PaddingLayout,
+} from "@/src/shared/ui";
 import { FormField } from "@/src/widgets";
+import { useEffect } from "react";
+import { useEditForm } from "./lib/hooks/useEditForm";
+import { useEditFormConfig } from "./lib/hooks/useEditFormConfig";
 
 const EditEntityView = () => {
   const t = useT();

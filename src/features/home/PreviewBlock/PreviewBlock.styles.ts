@@ -56,7 +56,7 @@ export const createStyles = (colors: ThemeColors) =>
       right: -60,
     },
     Chats: {
-      bottom: -40,
+      bottom: -50,
       right: -20,
     },
     Goals: {
@@ -86,6 +86,10 @@ export const createStyles = (colors: ThemeColors) =>
       right: -35,
     },
     Tests: {
+      bottom: -60,
+      right: -30,
+    },
+    TestResults: {
       bottom: -60,
       right: -30,
     },

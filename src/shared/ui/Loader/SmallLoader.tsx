@@ -1,6 +1,6 @@
+import LottieView from "lottie-react-native";
 import React, { FC } from "react";
 import { View } from "react-native";
-import LottieView from "lottie-react-native";
 import { useThemeStore } from "../../store";
 import { LoaderProps } from "./model/types";
 
@@ -8,7 +8,7 @@ import { LoaderProps } from "./model/types";
 import loadingAnimation from "./animations/small-loader.json";
 
 export const SmallLoader: FC<LoaderProps> = ({
-  size = 90,
+  size = 50,
   style,
   isVisible = true,
   color,
@@ -18,7 +18,16 @@ export const SmallLoader: FC<LoaderProps> = ({
 
   return (
     <View
-      style={[{ marginHorizontal: "auto", width: size, height: size }, style]}
+      style={[
+        {
+          marginHorizontal: "auto",
+          width: size,
+          height: size,
+          transform: [{ scale: 1.8 }],
+          maxHeight: size,
+        },
+        style,
+      ]}
     >
       <LottieView
         source={loadingAnimation}

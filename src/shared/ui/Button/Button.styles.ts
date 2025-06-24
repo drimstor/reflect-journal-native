@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
 import { PALLETE_COLORS } from "@/src/shared/const";
 import { ThemeColors } from "@/src/shared/model/types";
+import { StyleSheet } from "react-native";
 
 export const createStyles = (colors: ThemeColors) =>
   StyleSheet.create({
@@ -10,6 +10,7 @@ export const createStyles = (colors: ThemeColors) =>
       justifyContent: "center",
       borderRadius: 12,
       paddingHorizontal: 16,
+      paddingVertical: 6,
       backgroundColor: colors.primary,
     },
     disabled: {
@@ -18,6 +19,7 @@ export const createStyles = (colors: ThemeColors) =>
     },
     text: {
       marginTop: -2,
+      textAlign: "center",
     },
   });
 

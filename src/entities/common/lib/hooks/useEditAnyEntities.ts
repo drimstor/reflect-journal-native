@@ -1,5 +1,6 @@
 import { EntityType } from "@/src/shared/model/types";
 import { useCallback } from "react";
+import { ENTITY_NAME } from "../../../../shared/const/ENTITIES";
 
 interface EditHookResult {
   editEntity: (data: any) => Promise<void>;
@@ -14,25 +15,29 @@ const useDynamicEditHook = (
   // Ленивый импорт соответствующего хука
   let editHook;
   switch (variant) {
-    case "Journals":
+    case ENTITY_NAME.JOURNALS:
       const { useUpdateJournalMutation } = require("@/src/entities");
       editHook = useUpdateJournalMutation;
       break;
-    case "JournalEntries":
+    case ENTITY_NAME.JOURNAL_ENTRIES:
       const { useUpdateJournalEntryMutation } = require("@/src/entities");
       editHook = useUpdateJournalEntryMutation;
       break;
-    case "Chats":
+    case ENTITY_NAME.CHATS:
       const { useUpdateChatMutation } = require("@/src/entities");
       editHook = useUpdateChatMutation;
       break;
-    case "Goals":
+    case ENTITY_NAME.GOALS:
       const { useUpdateGoalMutation } = require("@/src/entities");
       editHook = useUpdateGoalMutation;
       break;
-    case "Summaries":
+    case ENTITY_NAME.SUMMARIES:
       const { useUpdateSummaryMutation } = require("@/src/entities");
       editHook = useUpdateSummaryMutation;
+      break;
+    case ENTITY_NAME.TEST_RESULTS:
+      const { useUpdateTestResultMutation } = require("@/src/entities");
+      editHook = useUpdateTestResultMutation;
       break;
     default:
       throw new Error(`Неподдерживаемый тип: ${variant}`);

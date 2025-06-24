@@ -1,4 +1,8 @@
-import { useGetJournalQuery } from "@/src/entities";
+import {
+  useGetJournalQuery,
+  useGetTestQuery,
+  useGetTestResultQuery,
+} from "@/src/entities";
 import { DocumentResponse } from "@/src/entities/documents/model/types";
 import { useGetGoalQuery } from "@/src/entities/goals/api/goalsApi";
 import { Goal } from "@/src/entities/goals/model/types";
@@ -48,6 +52,12 @@ export function useGetAnyEntity<T extends EntityType>({
   }
   if (type === ENTITY_NAME.SUMMARIES) {
     return useGetSummaryQuery({ id }, { skip });
+  }
+  if (type === ENTITY_NAME.TEST_RESULTS) {
+    return useGetTestResultQuery({ id }, { skip });
+  }
+  if (type === ENTITY_NAME.TESTS) {
+    return useGetTestQuery({ id }, { skip });
   }
   // if (type === ENTITY_NAME.DOCUMENTS) {
   //   return useGetDocumentByIdQuery({ id }, { skip });

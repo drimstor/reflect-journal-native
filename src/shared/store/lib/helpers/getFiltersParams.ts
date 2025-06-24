@@ -1,7 +1,11 @@
 import { FiltersState, isAnyFilterActive } from "@/src/shared/store";
 
 export const getFiltersParams = (
-  filters: FiltersState & { journal_id?: string; min_count?: number },
+  filters: FiltersState & {
+    journal_id?: string;
+    min_count?: number;
+    test_id?: string;
+  },
   baseParams: boolean = true
 ): string => {
   const params = new URLSearchParams();
@@ -48,9 +52,12 @@ export const getFiltersParams = (
     params.append("bookmarked", filters.bookmarked.toString());
   }
 
-  // Добавляем journal_id если он установлен
   if (filters.journal_id) {
     params.append("journal_id", filters.journal_id);
+  }
+
+  if (filters.test_id) {
+    params.append("test_id", filters.test_id);
   }
 
   if (filters.category) {
