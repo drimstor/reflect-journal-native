@@ -12,7 +12,7 @@ import { ScrollView, TouchableOpacity, View } from "react-native";
 import { styles } from "./TopicsWidget.styles";
 
 interface TopicsWidgetProps {
-  data?: PortraitNode[];
+  data?: PortraitNode[]; // !!
 }
 
 const TopicsWidget: FC<TopicsWidgetProps> = ({ data }) => {
