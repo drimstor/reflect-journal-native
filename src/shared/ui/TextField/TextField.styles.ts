@@ -41,6 +41,9 @@ export const createStyles = (themeColors: ThemeColors) => {
         },
       }),
     },
+    passwordToggle: {
+      marginRight: 16,
+    },
   });
 };
 

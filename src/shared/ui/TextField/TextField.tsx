@@ -73,7 +73,10 @@ const TextField: FC<TextFieldProps> = ({
           autoFocus={autoFocus}
         />
         {secureTextEntry && (
-          <Pressable onPress={() => toggleShowPassword(!showPassword)}>
+          <Pressable
+            style={styles.passwordToggle}
+            onPress={() => toggleShowPassword(!showPassword)}
+          >
             {showPassword ? (
               <EyeIcon color={colors.contrast + 80} size={20} />
             ) : (
