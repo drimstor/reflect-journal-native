@@ -47,6 +47,8 @@ export const useSortLogic = (): UseSortLogicResult => {
         return "created_at";
       case ENTITY_NAME.TESTS:
         return "created_at";
+      case ENTITY_NAME.TEST_RESULTS:
+        return "created_at";
       default:
         return "updated_at";
     }
@@ -116,15 +118,21 @@ export const useSortLogic = (): UseSortLogicResult => {
         IconComponent: CalendarIcon,
       },
     ];
-  } else if (
-    [ENTITY_NAME.TESTS, ENTITY_NAME.TEST_RESULTS].includes(screenName)
-  ) {
+  } else if (screenName === ENTITY_NAME.TESTS) {
     actions = [
       {
         text: t("sort.sortByName"),
         key: "name",
         IconComponent: EditPencilIcon,
       },
+      {
+        text: t("sort.sortByCreated"),
+        key: "created_at",
+        IconComponent: CalendarIcon,
+      },
+    ];
+  } else if (screenName === ENTITY_NAME.TEST_RESULTS) {
+    actions = [
       {
         text: t("sort.sortByCreated"),
         key: "created_at",
