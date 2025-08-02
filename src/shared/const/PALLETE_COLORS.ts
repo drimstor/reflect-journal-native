@@ -1,6 +1,6 @@
 export const PALLETE_COLORS = {
   light: {
-    background: "#F5F6F7",
+    background: "#F1F2F3",
     primary: "#212529",
     secondary: "#ffffff",
     alternate: "#eaedf1",
@@ -40,3 +40,5 @@ export const PALLETE_COLORS = {
     purple: "#b9a7f6",
   },
 };
+
+// new secondary #2d3042
