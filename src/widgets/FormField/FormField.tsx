@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { View, Switch } from "react-native";
-import { MoodSelector, Text, TextField } from "@/src/shared/ui";
-import { useThemeStore } from "@/src/shared/store";
-import { useT } from "@/src/shared/lib/hooks";
 import { CheckListEditor } from "@/src/features";
+import { useT } from "@/src/shared/lib/hooks";
+import { useThemeStore } from "@/src/shared/store";
+import { Info, MoodSelector, Text, TextField, Toggle } from "@/src/shared/ui";
+import React, { useEffect, useState } from "react";
+import { View } from "react-native";
 import { styles } from "./FormField.styles";
 
 export interface FormField {
@@ -20,6 +20,7 @@ export interface FormField {
   placeholder?: string; // Подсказка для поля
   required?: boolean; // Является ли поле обязательным
   superMultiline?: boolean; // Является ли поле многострочным
+  tooltipText?: string; // Подсказка для поля
 }
 
 interface FormFieldProps {
@@ -39,7 +40,7 @@ export const FormField: React.FC<FormFieldProps> = ({
   onChange,
 }) => {
   const t = useT();
-  const { colors, theme } = useThemeStore();
+  const { colors } = useThemeStore();
 
   // Форматируем значение если оно массив
   const formattedValue = Array.isArray(value) ? value.join(", ") : value;
@@ -122,18 +123,18 @@ export const FormField: React.FC<FormFieldProps> = ({
 
     case "toggle":
       return (
-        <View style={styles.toggleContainer}>
-          <Text color={colors.contrast}>{field.label}</Text>
-          <Switch
-            value={value || false}
-            onValueChange={handleToggleChange}
-            trackColor={{ true: colors.accent }}
-            style={{
-              ...styles.toggle,
-              borderColor: colors.alternate,
-            }}
-          />
-        </View>
+        <Toggle
+          label={
+            field.tooltipText ? (
+              <Info tooltipText={field.tooltipText}>{field.label}</Info>
+            ) : (
+              field.label
+            )
+          }
+          value={value || false}
+          onValueChange={handleToggleChange}
+          style={{ container: { marginVertical: 4 } }}
+        />
       );
 
     case "tags":

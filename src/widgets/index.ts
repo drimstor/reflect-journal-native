@@ -1,37 +1,39 @@
-import Header from "./Header/Header";
-import FiltersPanel from "./FiltersPanel/FiltersPanel";
-import { useHeaderStore } from "./Header/store/header.store";
-import LibraryList from "./LibraryList/LibraryList";
+import AdviceSection from "./AdviceSection/AdviceSection";
+import AdviceWidget from "./AdviceWidget/AdviceWidget";
+import AffirmationWidget from "./AffirmationWidget/AffirmationWidget";
+import CategoriesWidget from "./CategoriesWidget/CategoriesWidget";
 import ChatView from "./ChatView/ChatView";
-import ChartsFiltersPanel from "./FiltersPanel/ChartsFiltersPanel";
-import OverviewChartSlider from "./OverviewChartSlider/OverviewChartSlider";
-import { ItemCarousel } from "./ItemCarousel/ItemCarousel";
 import { CommandWidget } from "./CommandWidget/CommandWidget";
 import { CommandWidgetChat } from "./CommandWidget/CommandWidgetChat";
-import { FormField } from "./FormField/FormField";
-import AffirmationWidget from "./AffirmationWidget/AffirmationWidget";
-import AdviceWidget from "./AdviceWidget/AdviceWidget";
-import TasksWidget from "./TasksWidget/TasksWidget";
-import CategoriesWidget from "./CategoriesWidget/CategoriesWidget";
-import TopicsWidget from "./TopicsWidget/TopicsWidget";
 import DocumentsWidget from "./DocumentsWidget/DocumentsWidget";
+import ChartsFiltersPanel from "./FiltersPanel/ChartsFiltersPanel";
+import FiltersPanel from "./FiltersPanel/FiltersPanel";
+import { FormField } from "./FormField/FormField";
+import Header from "./Header/Header";
+import { useHeaderStore } from "./Header/store/header.store";
+import { ItemCarousel } from "./ItemCarousel/ItemCarousel";
+import LibraryList from "./LibraryList/LibraryList";
+import OverviewChartSlider from "./OverviewChartSlider/OverviewChartSlider";
+import TasksWidget from "./TasksWidget/TasksWidget";
+import TopicsWidget from "./TopicsWidget/TopicsWidget";
 
 export {
-  Header,
-  FiltersPanel,
-  useHeaderStore,
-  LibraryList,
-  ChatView,
-  ChartsFiltersPanel,
-  OverviewChartSlider,
-  ItemCarousel,
-  CommandWidget,
-  FormField,
-  CommandWidgetChat,
-  AffirmationWidget,
+  AdviceSection,
   AdviceWidget,
-  TasksWidget,
+  AffirmationWidget,
   CategoriesWidget,
-  TopicsWidget,
+  ChartsFiltersPanel,
+  ChatView,
+  CommandWidget,
+  CommandWidgetChat,
   DocumentsWidget,
+  FiltersPanel,
+  FormField,
+  Header,
+  ItemCarousel,
+  LibraryList,
+  OverviewChartSlider,
+  TasksWidget,
+  TopicsWidget,
+  useHeaderStore,
 };

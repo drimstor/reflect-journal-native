@@ -8,11 +8,14 @@ import {
 import { MainStack } from "../MainStack/MainStack";
 import { navTheme } from "./const/navTheme";
 import { screensData } from "./const/screensData";
+import { useNavigationHandler } from "./lib/hooks/useNavigationHandler";
 const Stack = createNativeStackNavigator();
 
 const Navigation = ({ initialPath }: { initialPath: string }) => {
+  const { handleStateChange } = useNavigationHandler();
+
   return (
-    <NavigationContainer theme={navTheme}>
+    <NavigationContainer theme={navTheme} onStateChange={handleStateChange}>
       <Stack.Navigator
         initialRouteName={initialPath}
         screenOptions={{ headerShown: false }}

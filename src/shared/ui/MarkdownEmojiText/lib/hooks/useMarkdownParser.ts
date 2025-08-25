@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { parseText } from "../helpers/textParser";
 import { EMOJI_REGEX } from "../../const/static";
+import { parseText } from "../helpers/textParser";
 
 // Хук для парсинга markdown текста
 export const useMarkdownParser = (text: string) => {

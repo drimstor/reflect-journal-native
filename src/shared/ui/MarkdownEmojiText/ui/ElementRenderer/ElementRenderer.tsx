@@ -1,6 +1,6 @@
 import Text from "../../../Text/Text";
-import { ParsedElement, MarkdownEmojiTextProps } from "../../model/types";
 import { getHeaderSize } from "../../lib/helpers/sizeUtils";
+import { MarkdownEmojiTextProps, ParsedElement } from "../../model/types";
 
 interface ElementRendererProps {
   element: ParsedElement;
@@ -9,6 +9,7 @@ interface ElementRendererProps {
   font?: MarkdownEmojiTextProps["font"];
   color?: string;
   withOpacity?: number | string;
+  isEmoji?: boolean;
 }
 
 // Компонент для рендера отдельного элемента
@@ -19,6 +20,7 @@ const ElementRenderer = ({
   font,
   color,
   withOpacity,
+  isEmoji,
 }: ElementRendererProps) => {
   switch (element.type) {
     case "bold":
@@ -48,6 +50,8 @@ const ElementRenderer = ({
       );
 
     case "emoji":
+      if (!isEmoji) return null;
+
       return (
         <Text
           key={index}

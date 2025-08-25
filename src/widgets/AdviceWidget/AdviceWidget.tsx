@@ -1,15 +1,10 @@
-import { useThemeStore } from "@/src/shared/store";
 import { GradientAffirmation } from "@/src/features";
+import { useThemeStore } from "@/src/shared/store";
 import { LampIcon } from "@/src/shared/ui/icons";
 import { View } from "react-native";
-import { AffirmationResponse } from "@/src/entities/affirmations/model/types";
+import { IAdviceWidgetProps } from "./types";
 
-interface AdviceWidgetProps {
-  /** Внешние данные совета (опционально) */
-  data?: AffirmationResponse;
-}
-
-const AdviceWidget = ({ data: externalData }: AdviceWidgetProps) => {
+const AdviceWidget = ({ data: externalData }: IAdviceWidgetProps) => {
   const { colors, theme } = useThemeStore();
 
   return (

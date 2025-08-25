@@ -1,31 +1,35 @@
 {
   "expo": {
-    "name": "ReflectJournal",
-    "slug": "reflect-journal",
-    "scheme": "reflect-journal",
+    "name": "Reflexity",
+    "slug": "reflexity",
+    "scheme": "reflexity",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/logo.png",
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.reflectjournal"
+      "bundleIdentifier": "com.anonymous.reflexity"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/logo.png",
+        "backgroundColor": "#F1F2F3"
       },
-      "package": "com.anonymous.reflectjournal"
+      "package": "com.anonymous.reflexity"
     },
     "plugins": [
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "backgroundColor": "#F1F2F3",
+          "image": "./assets/images/logo.png",
+          "dark": {
+            "image": "./assets/images/logo.png",
+            "backgroundColor": "#181822"
+          },
           "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "resizeMode": "contain"
         }
       ],
       "expo-font"

@@ -29,7 +29,10 @@
     "notifications": "Уведомления",
     "theme": "Тема",
     "language": "Язык",
-    "editProfile": "Редактировать профиль"
+    "editProfile": "Редактировать профиль",
+    "appearance": "Внешний вид",
+    "emoji": "Эмодзи",
+    "emojiTooltip": "Отображение эмодзи в ответах ИИ"
   },
   "home": {
     "title": "Дашборд",
@@ -130,7 +133,21 @@
     "filterByRelatedTopics": "Связанным темам",
     "filterByCategory": "Категориям",
     "enterTopic": "Введите тему",
-    "enterCategory": "Введите категорию"
+    "enterCategory": "Введите категорию",
+    "adviceCategories": {
+      "title": "Исключить категории",
+      "categories": {
+        "sleep": "Сон",
+        "nutrition": "Питание",
+        "communication": "Общение",
+        "relationships": "Отношения",
+        "work_and_hobby": "Работа и хобби",
+        "sports": "Спорт",
+        "rest": "Отдых",
+        "mental_health": "Ментальное здоровье",
+        "finance": "Финансы"
+      }
+    }
   },
   "create": {
     "title": "Выберите основу для саммари",
@@ -240,7 +257,8 @@
         "label": "Добавить в избранное"
       },
       "aiResponse": {
-        "label": "Ответ ИИ"
+        "label": "Ответ ИИ",
+        "tooltip": "ИИ анализирует запись и дает персонализированный отклик"
       },
       "tags": {
         "helperText": "Вводите темы через запятую"

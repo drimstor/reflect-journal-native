@@ -1,14 +1,15 @@
 import {
-  useGetDailyAffirmationQuery,
-  useGetDailyAdviceQuery,
-} from "@/src/entities/affirmations/api/affirmationsApi";
-import { useGetGoalsQuery } from "@/src/entities/goals/api/goalsApi";
-import { useGetAllDocumentsQuery } from "@/src/entities/documents/api/documentsApi";
-import {
-  useGetPortraitStatsQuery,
   transformPortraitData,
+  useGetPortraitStatsQuery,
 } from "@/src/entities";
+import {
+  useGetDailyAdviceQuery,
+  useGetDailyAffirmationQuery,
+} from "@/src/entities/affirmations/api/affirmationsApi";
+import { useGetAllDocumentsQuery } from "@/src/entities/documents/api/documentsApi";
+import { useGetGoalsQuery } from "@/src/entities/goals/api/goalsApi";
 import { useLang, useT } from "@/src/shared/lib/hooks";
+import { useAdviceCategoriesFilter } from "@/src/shared/lib/hooks/useAdviceCategoriesFilter";
 import { useEffect, useMemo } from "react";
 
 /**
@@ -18,6 +19,9 @@ import { useEffect, useMemo } from "react";
 export const useHomeScreenData = () => {
   const { locale } = useLang();
   const t = useT();
+
+  // Получение исключенных категорий для советов
+  const { excludedCategories } = useAdviceCategoriesFilter();
 
   const {
     data: affirmationData,
@@ -29,10 +33,11 @@ export const useHomeScreenData = () => {
     data: adviceData,
     isLoading: isAdviceLoading,
     refetch: refetchAdvice,
-  } = useGetDailyAdviceQuery();
+    isError: isAdviceError,
+  } = useGetDailyAdviceQuery({ excluded_categories: excludedCategories });
 
   const { data: goalsData, isLoading: isGoalsLoading } = useGetGoalsQuery({
-    params: "page=1&limit=20",
+    params: "page=1&limit=3",
   });
 
   const {
@@ -99,7 +104,7 @@ export const useHomeScreenData = () => {
     isLoading,
     data: {
       affirmation: affirmationData,
-      advice: adviceData,
+      advice: isAdviceError ? undefined : adviceData,
       goals: goalsData,
       documents: documentsData,
       portrait: portraitDataFormatted,
@@ -110,6 +115,11 @@ export const useHomeScreenData = () => {
       goals: isGoalsLoading,
       documents: isDocumentsLoading,
       portrait: isPortraitLoading,
+    },
+    refetch: {
+      refetchAffirmation,
+      refetchAdvice,
+      refetchDocuments,
     },
   };
 };

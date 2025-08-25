@@ -22,6 +22,8 @@ function LibraryList({ variant, onPress }: LibraryListProps) {
 
   useFocusEffect(
     useCallback(() => {
+      // Динамическая установка screenInfo для виджета на основе variant
+      // Используется в основном экране Library для отображения текущей категории
       setScreenInfo({ name: variant });
     }, [variant])
   );

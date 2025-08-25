@@ -24,6 +24,8 @@ export interface EditFormField {
   placeholder?: string;
   /** Является ли поле обязательным */
   required?: boolean;
+  /** Подсказка для поля */
+  tooltipText?: string;
 }
 
 /**
@@ -87,6 +89,7 @@ export const useEditFormConfig = (
             key: "ai_response",
             type: "toggle",
             label: t("edit.common.aiResponse.label"),
+            tooltipText: t("edit.common.aiResponse.tooltip"),
           },
           {
             key: "bookmarked",

@@ -1,46 +1,34 @@
-import { FC, useCallback, useEffect, useState } from "react";
+import { PATHS } from "@/src/shared/const/PATHS";
+import { useT } from "@/src/shared/lib/hooks";
+import { NavigationProps } from "@/src/shared/model/types";
+import { useDeviceStore, useFiltersStore } from "@/src/shared/store";
 import {
+  AnimatedAppearance,
   BottomSheet,
   Divider,
-  Layout,
-  PaddingLayout,
   DotsIcon,
   FullScreenChartLegend,
+  Layout,
   Loader,
-  AnimatedAppearance,
   NoData,
-  DirectIcon,
+  PaddingLayout,
 } from "@/src/shared/ui";
 import { ChartsFiltersPanel, Header } from "@/src/widgets";
-import { useT } from "@/src/shared/lib/hooks";
-import {
-  useDeviceStore,
-  useFiltersStore,
-  useScreenInfoStore,
-} from "@/src/shared/store";
+import { useNavigation } from "@react-navigation/native";
 import { ScrollView, View } from "react-native";
 import { styles } from "./ChartsScreen.styles";
+import { useChartBottomSheet } from "./lib/hooks/useChartBottomSheet";
+import { useChartData } from "./lib/hooks/useChartData";
+import { useChartManagement } from "./lib/hooks/useChartManagement";
 import { ChartTitle } from "./ui/ChartTitle/ChartTitle";
 import { ChartsContainer } from "./ui/ChartsContainer/ChartsContainer";
-import { useChartData } from "./lib/hooks/useChartData";
-import { useChartBottomSheet } from "./lib/hooks/useChartBottomSheet";
-import { useChartManagement } from "./lib/hooks/useChartManagement";
-import { PATHS } from "@/src/shared/const/PATHS";
-import { useNavigation } from "@react-navigation/native";
-import { NavigationProps } from "@/src/shared/model/types";
 
 const ChartsScreen = () => {
   const t = useT();
-  const { setScreenInfo } = useScreenInfoStore();
   const { window } = useDeviceStore();
   const navigation = useNavigation<NavigationProps>();
   const { snapPoints, openBottomSheetList, colors } = useChartBottomSheet();
   const { multi_select_ids, multi_select } = useFiltersStore();
-
-  // Инициализация информации о экране
-  useEffect(() => {
-    setScreenInfo({ name: "Charts" });
-  }, []);
 
   // Хуки для управления данными и состоянием
   const { chartsData, isLoading } = useChartData();

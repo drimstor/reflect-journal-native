@@ -45,14 +45,14 @@ const LibraryListScreen = () => {
   const { variant, item } = route.params as any;
   const { handlePress } = useBottomSheetActions(variant, item);
 
-  console.log({ item });
-
   const title = item?.name;
   const related_entities = item?.related_entities ?? [];
   const entityName = ENTITY_WITH_CHILDREN_CONFIG?.[variant]; // children entity
 
   useEffect(() => {
     filters.resetFilters();
+    // Для этого экрана нужна динамическая установка screenInfo на основе entityName
+    // так как название экрана зависит от параметров маршрута
     setScreenInfo({ name: entityName });
 
     return filters.resetFilters;

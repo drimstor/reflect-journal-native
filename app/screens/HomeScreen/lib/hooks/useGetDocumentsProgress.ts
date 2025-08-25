@@ -1,13 +1,13 @@
-import { useEffect, useState, useCallback } from "react";
+import { DOCUMENT_PROGRESS_PREFIX, DocumentResponse } from "@/src/entities";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
-import { DOCUMENT_PROGRESS_PREFIX } from "@/src/entities";
+import { useCallback, useEffect, useState } from "react";
 
 interface DocumentProgress {
   [documentId: string]: number;
 }
 
-export const useGetDocumentsProgress = (documents: any[]) => {
+export const useGetDocumentsProgress = (documents?: DocumentResponse[]) => {
   const [progressData, setProgressData] = useState<DocumentProgress>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
 

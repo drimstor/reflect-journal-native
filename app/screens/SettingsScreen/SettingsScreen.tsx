@@ -1,19 +1,25 @@
-import { FC } from "react";
+import { useLang, useT } from "@/src/shared/lib/hooks";
+import {
+  useBottomSheetStore,
+  useSettingsStore,
+  useThemeStore,
+} from "@/src/shared/store";
 import {
   ArrowLeftIcon,
-  ArrowRightLongIcon,
   BellIcon,
   BrushIcon,
   CardIcon,
+  EmojiIcon,
   GlobalIcon,
+  Info,
   Layout,
   LogoutIcon,
   MenuList,
   PaddingLayout,
   Text,
+  Toggle,
 } from "@/src/shared/ui";
-import { useLang, useT } from "@/src/shared/lib/hooks";
-import { useBottomSheetStore, useThemeStore } from "@/src/shared/store";
+import { FC } from "react";
 
 import { ProfileMenu } from "@/src/features";
 import { ScrollView, View } from "react-native";
@@ -25,6 +31,10 @@ const SettingsScreen: FC<SettingsScreenProps> = () => {
   const { colors, toggleTheme, theme } = useThemeStore();
   const { toggleLanguage, locale } = useLang();
   const { navigateToFlow, setBottomSheetVisible } = useBottomSheetStore();
+  const {
+    appearance: { isEmoji },
+    updateSettings,
+  } = useSettingsStore();
 
   const accountSettings = [
     {
@@ -39,7 +49,7 @@ const SettingsScreen: FC<SettingsScreenProps> = () => {
     },
   ];
 
-  const otherSettings = [
+  const appearanceSettings = [
     {
       text: t("settings.theme"),
       IconComponent: BrushIcon,
@@ -53,6 +63,38 @@ const SettingsScreen: FC<SettingsScreenProps> = () => {
         </Text>
       ),
     },
+    {
+      text: (
+        <Info
+          textProps={{
+            font: "bold",
+            style: { fontSize: 16, marginTop: -2 },
+          }}
+          gap={6}
+          tooltipText={t("settings.emojiTooltip")}
+        >
+          {t("settings.emoji")}
+        </Info>
+      ),
+      IconComponent: EmojiIcon,
+      onPress: () => {
+        updateSettings({ appearance: { isEmoji: !isEmoji } });
+      },
+      element: (
+        <Toggle
+          size="small"
+          label={t("settings.emoji")}
+          value={isEmoji}
+          onValueChange={() => {
+            updateSettings({ appearance: { isEmoji: !isEmoji } });
+          }}
+          style={{ container: { marginRight: -10, marginVertical: -4 } }}
+        />
+      ),
+    },
+  ];
+
+  const otherSettings = [
     {
       text: t("settings.language"),
       IconComponent: GlobalIcon,
@@ -88,7 +130,7 @@ const SettingsScreen: FC<SettingsScreenProps> = () => {
           <MenuList
             title={t("settings.account")}
             listItemVariant="reverse"
-            style={{ marginVertical: 40 }}
+            style={{ marginBottom: 20, marginTop: 40 }}
             items={accountSettings.map(({ text, IconComponent }) => ({
               text,
               onPress: () => {},
@@ -105,6 +147,21 @@ const SettingsScreen: FC<SettingsScreenProps> = () => {
                 </View>
               ),
             }))}
+          />
+          <MenuList
+            title={t("settings.appearance")}
+            listItemVariant="reverse"
+            style={{ marginBottom: 20 }}
+            items={appearanceSettings.map(
+              ({ text, IconComponent, onPress, element }) => ({
+                text,
+                onPress,
+                element,
+                IconComponent: (props) => (
+                  <IconComponent {...props} color={props.color} size={22} />
+                ),
+              })
+            )}
           />
           <MenuList
             title={t("settings.other")}

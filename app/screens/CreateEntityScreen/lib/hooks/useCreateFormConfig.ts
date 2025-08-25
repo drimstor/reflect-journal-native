@@ -60,6 +60,7 @@ export const useCreateFormConfig = (entityType: string) => {
             key: "ai_response",
             type: "toggle",
             label: t("edit.common.aiResponse.label"),
+            tooltipText: t("edit.common.aiResponse.tooltip"),
           },
         ];
         break;

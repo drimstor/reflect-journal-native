@@ -1,7 +1,11 @@
 import { baseApi } from "@/src/shared/api/baseApi";
 import { tokenService } from "@/src/shared/store";
-import { LoginRequest, RegisterRequest, UserResponse } from "../model/types";
-import { TokenResponse } from "../model/types";
+import {
+  LoginRequest,
+  RegisterRequest,
+  TokenResponse,
+  UserResponse,
+} from "../model/types";
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

@@ -1,14 +1,14 @@
+import { useThemeStore } from "@/src/shared/store";
+import { Divider, Text } from "@/src/shared/ui";
 import { FC, ReactNode } from "react";
 import { LayoutChangeEvent, StyleProp, View, ViewStyle } from "react-native";
-import ListItem from "./MenuListItem";
 import { createStyles } from "./MenuList.styles";
-import { Divider, Text } from "@/src/shared/ui";
-import { useThemeStore } from "@/src/shared/store";
+import ListItem from "./MenuListItem";
 import ListItemReverse from "./MenuListItemReverse";
 
 interface ListProps {
   items: Array<{
-    text: string;
+    text: string | ReactNode;
     IconComponent: (props: { color: string; size: number }) => ReactNode;
     onPress: () => void;
     element?: ReactNode;

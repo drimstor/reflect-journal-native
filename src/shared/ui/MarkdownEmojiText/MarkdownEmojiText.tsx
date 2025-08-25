@@ -1,6 +1,7 @@
+import { useSettingsStore } from "../../store/zustand/settings.store";
 import Text from "../Text/Text";
-import { MarkdownEmojiTextProps } from "./model/types";
 import { useMarkdownParser } from "./lib/hooks/useMarkdownParser";
+import { MarkdownEmojiTextProps } from "./model/types";
 import ElementRenderer from "./ui/ElementRenderer/ElementRenderer";
 
 /**
@@ -21,6 +22,10 @@ const MarkdownEmojiText = ({
   numberOfLines,
   ellipsizeMode,
 }: MarkdownEmojiTextProps) => {
+  const {
+    appearance: { isEmoji },
+  } = useSettingsStore();
+
   // Если не строка, возвращаем обычный Text
   if (typeof children !== "string") {
     return (
@@ -76,6 +81,7 @@ const MarkdownEmojiText = ({
           font={font}
           color={color}
           withOpacity={withOpacity}
+          isEmoji={isEmoji}
         />
       ))}
     </Text>

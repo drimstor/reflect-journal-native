@@ -2,6 +2,7 @@ export interface AffirmationResponse {
   content: string;
   id: string;
   type: "affirmation" | "advice" | "personal_insight";
+  category?: string;
 }
 
 export interface DailyAffirmationRequest {
@@ -9,5 +10,5 @@ export interface DailyAffirmationRequest {
 }
 
 export interface DailyAdviceRequest {
-  language?: string;
+  excluded_categories?: string[];
 }

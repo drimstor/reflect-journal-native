@@ -212,12 +212,7 @@ const LibraryItemScreen = () => {
                     <InfoBox
                       label={t("edit.common.mood.label")}
                       icon={
-                        <Text
-                          size="large"
-                          style={{
-                            lineHeight: 26,
-                          }}
-                        >
+                        <Text size="large" style={{ marginBottom: -6 }}>
                           {mood?.emoji}
                         </Text>
                       }

@@ -4,12 +4,10 @@ import {
   AnimatedLoader,
   Layout,
   PaddingLayout,
-  TitleText,
   useAnimatedLoading,
 } from "@/src/shared/ui";
-import { DotsIcon } from "@/src/shared/ui/icons";
 import {
-  AdviceWidget,
+  AdviceSection,
   AffirmationWidget,
   CategoriesWidget,
   DocumentsWidget,
@@ -18,7 +16,7 @@ import {
   TopicsWidget,
 } from "@/src/widgets";
 import React, { FC, useEffect } from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView } from "react-native";
 import { styles } from "./HomeScreen.styles";
 import { useGetDocumentsProgress } from "./lib/hooks/useGetDocumentsProgress";
 import { useHomeScreenData } from "./lib/hooks/useHomeScreenData";
@@ -34,9 +32,7 @@ const HomeScreen: FC<HomeScreenProps> = () => {
   const { isLoading, data } = useHomeScreenData();
 
   // Получение прогресса документов
-  const { getDocumentProgress } = useGetDocumentsProgress(
-    data?.documents || []
-  );
+  const { getDocumentProgress } = useGetDocumentsProgress(data?.documents);
 
   const {
     isLoading: isScreenLoading,
@@ -109,13 +105,7 @@ const HomeScreen: FC<HomeScreenProps> = () => {
 
           <TasksWidget data={data.goals} />
 
-          <PaddingLayout style={styles.globalBox}>
-            <View style={{ ...styles.titleBoxWithButton, marginBottom: 16 }}>
-              <TitleText text={t("home.advice")} textColor={colors.contrast} />
-              <DotsIcon color={colors.contrast} size={26} />
-            </View>
-            <AdviceWidget data={data.advice} />
-          </PaddingLayout>
+          <AdviceSection data={data.advice} />
 
           <CategoriesWidget data={data.portrait?.categories} />
 

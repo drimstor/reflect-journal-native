@@ -149,4 +149,14 @@ export const FLOWS: Record<string, FlowConfig> = {
       ),
     },
   },
+  adviceFilter: {
+    screens: {
+      categories: lazy(
+        () =>
+          import(
+            "@/src/features/bottom-sheet-content/FilterAdviceCategoriesView/FilterAdviceCategoriesView"
+          )
+      ),
+    },
+  },
 };

@@ -29,7 +29,10 @@
     "notifications": "Notifications",
     "theme": "Theme",
     "language": "Language",
-    "editProfile": "Edit profile"
+    "editProfile": "Edit profile",
+    "appearance": "Appearance",
+    "emoji": "Emoji",
+    "emojiTooltip": "Display emoji in AI responses"
   },
   "home": {
     "title": "Dashboard",
@@ -117,7 +120,21 @@
     "filterByRelatedTopics": "Related Topics",
     "filterByCategory": "Categories",
     "enterTopic": "Enter topic",
-    "enterCategory": "Enter category"
+    "enterCategory": "Enter category",
+    "adviceCategories": {
+      "title": "Exclude categories",
+      "categories": {
+        "sleep": "Sleep",
+        "nutrition": "Nutrition",
+        "communication": "Communication",
+        "relationships": "Relationships",
+        "work_and_hobby": "Work & Hobby",
+        "sports": "Sports",
+        "rest": "Rest",
+        "mental_health": "Mental Health",
+        "finance": "Finance"
+      }
+    }
   },
   "date": {
     "byCreated": "By creation date",
@@ -241,7 +258,8 @@
         "label": "Add to favorites"
       },
       "aiResponse": {
-        "label": "AI Response"
+          "label": "AI Response", 
+          "tooltip": "AI analyzes the entry and gives a personalized response"
       },
       "tags": {
         "helperText": "Enter tags separated by commas"

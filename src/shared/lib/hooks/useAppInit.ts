@@ -1,10 +1,13 @@
-import { useState, useCallback, useEffect } from "react";
-import * as SplashScreen from "expo-splash-screen";
-import { tokenService } from "@/src/shared/store";
 import { PATHS } from "@/src/shared/const";
+import { tokenService } from "@/src/shared/store";
+import * as SplashScreen from "expo-splash-screen";
+import { useCallback, useEffect, useState } from "react";
 
 // Предотвращаем автоматическое скрытие сплэш-скрина
 SplashScreen.preventAutoHideAsync();
+
+// Настраиваем анимацию fade для сплэш-скрина
+SplashScreen.setOptions({ duration: 1000, fade: true });
 
 export const useAppInit = () => {
   const [appIsReady, setAppIsReady] = useState(false);
@@ -27,8 +30,8 @@ export const useAppInit = () => {
     }
   }, [tokenService]);
 
-  const onLayoutRootView = async () => {
-    await SplashScreen.hideAsync();
+  const onLayoutRootView = () => {
+    SplashScreen.hide();
   };
 
   useEffect(() => {

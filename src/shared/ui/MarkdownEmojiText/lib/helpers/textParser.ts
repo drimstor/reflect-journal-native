@@ -1,10 +1,10 @@
-import { ParsedElement } from "../../model/types";
 import {
-  EMOJI_REGEX,
   BOLD_REGEX,
+  EMOJI_REGEX,
   HEADER_REGEX,
   LIST_REGEX,
 } from "../../const/static";
+import { ParsedElement } from "../../model/types";
 
 /**
  * Добавляет текстовый элемент в массив, если контент не пустой

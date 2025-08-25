@@ -1,12 +1,12 @@
 import { FC, ReactNode } from "react";
 import { TouchableOpacity } from "react-native";
-import { createStyles } from "./MenuList.styles";
-import Text from "../Text/Text";
 import { useThemeStore } from "../../store";
+import Text from "../Text/Text";
+import { createStyles } from "./MenuList.styles";
 
 interface ListItemProps {
   onPress: () => void;
-  text: string;
+  text: string | ReactNode;
   IconComponent: (props: { color: string; size: number }) => ReactNode;
 }
 
