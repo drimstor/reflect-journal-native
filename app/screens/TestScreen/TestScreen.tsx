@@ -19,7 +19,7 @@ import {
   Text,
 } from "@/src/shared/ui";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, Keyboard, TouchableWithoutFeedback, View } from "react-native";
 import { ENTITY_NAME } from "../../../src/shared/const/ENTITIES";
 import { FormField, Header } from "../../../src/widgets";

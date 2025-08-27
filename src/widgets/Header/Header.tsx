@@ -1,13 +1,12 @@
+import { useGetPadding } from "@/src/shared/lib/hooks";
+import { NavigationProps } from "@/src/shared/model/types";
+import { useDeviceStore, useThemeStore } from "@/src/shared/store";
+import { IconButton, Text } from "@/src/shared/ui";
+import { ArrowLeftIcon } from "@/src/shared/ui/icons";
+import { useNavigation } from "@react-navigation/native";
 import { View } from "react-native";
 import { styles } from "./Header.styles";
-import { IconButton, Text } from "@/src/shared/ui";
-import { useDeviceStore, useThemeStore } from "@/src/shared/store";
-import { ArrowLeftIcon } from "@/src/shared/ui/icons";
-import { useGetPadding } from "@/src/shared/lib/hooks";
-import { useNavigation } from "@react-navigation/native";
 import { HeaderProps } from "./model/types";
-import { useHeaderStore } from "./store/header.store";
-import { NavigationProps } from "@/src/shared/model/types";
 
 const Header = ({
   title,

@@ -9,7 +9,7 @@ export const createStyles = (theme: ThemeColors) => {
       backgroundColor: theme.contrastReverse,
       alignItems: "center",
       justifyContent: "center",
-      borderRadius: "50%",
+      borderRadius: 27.5, // Половина от width/height (55/2)
       borderWidth: 1,
       borderColor: theme.alternate,
       shadowColor: "#000000",
