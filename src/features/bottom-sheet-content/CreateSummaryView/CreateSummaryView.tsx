@@ -37,7 +37,7 @@ import {
   useCarouselConfig,
 } from "@/src/shared/ui";
 import { FormField, ItemCarousel } from "@/src/widgets";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { View } from "react-native";
 import { PreviewCard } from "../..";
 import { formatFromISODate } from "../DatePickerEntityView/lib/utils";
@@ -368,7 +368,7 @@ const CreateSummaryView = ({
               )}
             </Text>
           </PaddingLayout>
-          <Divider color={colors.alternate + 70} />
+          <Divider color={`${colors.alternate}70`} />
         </>
       )}
       {(isCategories || isTopics) &&

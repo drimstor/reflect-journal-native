@@ -9,7 +9,7 @@ export const createStyles = (
   animation: Animated.Value
 ) => {
   const borderColor =
-    theme === "dark" ? colors.secondary : colors.alternate + 50;
+    theme === "dark" ? colors.secondary : `${colors.alternate}50`;
   return StyleSheet.create({
     tabBarStyle: {
       backgroundColor: colors.primary,

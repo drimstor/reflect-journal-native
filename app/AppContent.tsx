@@ -1,6 +1,7 @@
 import { useAppInit, useFonts, usePrefetch } from "@/src/shared/lib/hooks";
 import { BackgroundLayout, UILayout } from "@/src/shared/ui";
 import { View } from "react-native";
+import Navigation from "./stacks/Navigation/Navigation";
 
 const AppContent = () => {
   usePrefetch();
@@ -12,8 +13,7 @@ const AppContent = () => {
     <View onLayout={onLayoutRootView}>
       <UILayout>
         <BackgroundLayout>
-          <></>
-          {/* <Navigation initialPath={initialPath} /> */}
+          <Navigation initialPath={initialPath} />
         </BackgroundLayout>
       </UILayout>
     </View>
