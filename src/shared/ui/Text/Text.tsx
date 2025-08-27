@@ -1,8 +1,12 @@
-import { FC, ReactNode } from "react";
-import { StyleProp, TextStyle, TextProps as RNTextProps } from "react-native";
-import { sizeStyles, fontStyles, textStyles } from "./Text.styles";
 import { useThemeStore } from "@/src/shared/store";
-import { Text as RNText } from "react-native";
+import { FC, ReactNode } from "react";
+import {
+  Text as RNText,
+  TextProps as RNTextProps,
+  StyleProp,
+  TextStyle,
+} from "react-native";
+import { fontStyles, sizeStyles, textStyles } from "./Text.styles";
 
 export interface TextProps {
   children: ReactNode;

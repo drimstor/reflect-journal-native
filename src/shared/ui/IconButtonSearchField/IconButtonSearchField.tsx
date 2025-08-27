@@ -1,18 +1,18 @@
+import { useThemeStore } from "@/src/shared/store";
 import { FC, useMemo } from "react";
 import {
-  StyleProp,
-  ViewStyle,
   Animated,
-  TextInput,
   Pressable,
+  StyleProp,
+  TextInput,
+  ViewStyle,
 } from "react-native";
-import { createStyles } from "./IconButtonSearchField.styles";
-import { useThemeStore } from "@/src/shared/store";
-import { PlusIcon, SearchIcon } from "../icons";
 import { useT } from "../../lib/hooks";
+import { PlusIcon, SearchIcon } from "../icons";
+import { createStyles } from "./IconButtonSearchField.styles";
 import { useAnimation } from "./lib/hooks/useAnimation";
-import { useSearchFieldState } from "./lib/hooks/useSearchFieldState";
 import { useSearchFieldLayout } from "./lib/hooks/useSearchFieldLayout";
+import { useSearchFieldState } from "./lib/hooks/useSearchFieldState";
 
 interface IconButtonSearchFieldProps {
   style?: StyleProp<ViewStyle>;
@@ -56,7 +56,7 @@ const IconButtonSearchField: FC<IconButtonSearchFieldProps> = ({
           value={value}
           maxLength={50}
           placeholder={t("shared.actions.search") + "..."}
-          placeholderTextColor={colors.contrast + "80"}
+          placeholderTextColor={`${colors.contrast}80`}
           onChangeText={onChangeText}
           keyboardType={"default"}
         />

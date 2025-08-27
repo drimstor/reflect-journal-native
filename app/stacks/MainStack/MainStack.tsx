@@ -30,7 +30,7 @@ export const MainStack = () => {
   const styles = createStyles(colors, theme, isTablet, isAndroid, animation);
 
   const transparentAlternate =
-    theme === "dark" ? colors.alternate : colors.alternate + 80;
+    theme === "dark" ? colors.alternate : `${colors.alternate}80`;
 
   return (
     <BottomTabs.Navigator

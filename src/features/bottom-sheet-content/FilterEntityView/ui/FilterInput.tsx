@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from "react";
-import { View, TextInput, Pressable, TextInputProps } from "react-native";
-import { useThemeStore } from "@/src/shared/store";
-import { PlusIcon } from "@/src/shared/ui/icons";
 import { FONTS } from "@/src/shared/const";
 import { useT } from "@/src/shared/lib/hooks";
+import { useThemeStore } from "@/src/shared/store";
+import { PlusIcon } from "@/src/shared/ui/icons";
+import React, { useEffect, useRef } from "react";
+import { Pressable, TextInput, TextInputProps, View } from "react-native";
 import { styles } from "./FilterInput.styles";
 
 interface FilterInputProps extends Omit<TextInputProps, "style"> {
@@ -58,7 +58,7 @@ const FilterInput = React.memo(
           value={value}
           maxLength={40}
           placeholder={placeholder}
-          placeholderTextColor={colors.contrast + "80"}
+          placeholderTextColor={`${colors.contrast}80`}
           onChangeText={onChangeText}
           keyboardType={"default"}
           {...props}
