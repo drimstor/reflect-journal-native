@@ -1,16 +1,15 @@
-import { Layout, Text, Button, CheckBox, TextField } from "@/src/shared/ui";
-import { Header } from "@/src/widgets";
-import { View, ScrollView, Keyboard } from "react-native";
-import { createStyles } from "./AuthScreen.styles";
+import { useGetPadding, useT, useToggle } from "@/src/shared/lib/hooks";
 import { useThemeStore } from "@/src/shared/store";
-import { useGetPadding, useToggle } from "@/src/shared/lib/hooks";
-import { useT } from "@/src/shared/lib/hooks";
+import { Button, CheckBox, Layout, Text, TextField } from "@/src/shared/ui";
 import { ConvertShapeIcon, MessageIcon } from "@/src/shared/ui/icons";
-import { useState, useEffect, useRef } from "react";
-import { useSubmit } from "./lib/hooks/useSubmit";
-import { TextFields, ValidationErrors, Variant } from "./model/types";
+import { Header } from "@/src/widgets";
+import { useState } from "react";
+import { ScrollView, View } from "react-native";
+import { createStyles } from "./AuthScreen.styles";
 import { initialValues } from "./const/static";
 import { useGoogleAuth } from "./lib/hooks/useGoogleAuth";
+import { useSubmit } from "./lib/hooks/useSubmit";
+import { TextFields, ValidationErrors, Variant } from "./model/types";
 
 const AuthScreen = () => {
   const t = useT();

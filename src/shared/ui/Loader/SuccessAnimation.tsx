@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC } from "react";
 import { View } from "react-native";
-import LottieView from "lottie-react-native";
+// import LottieView from "lottie-react-native";
 import { LoaderProps } from "./model/types";
 
-import successAnimation from "./animations/success.json";
+// import successAnimation from "./animations/success.json";
 
 interface SuccessAnimationProps extends LoaderProps {
   startFrame?: number;
@@ -17,21 +17,21 @@ export const SuccessAnimation: FC<SuccessAnimationProps> = ({
   startFrame = 20,
   endFrame = 100,
 }) => {
-  const lottieRef = useRef<LottieView>(null);
+  // const lottieRef = useRef<LottieView>(null);
 
-  const playAnimation = () => {
-    lottieRef.current?.reset();
+  // const playAnimation = () => {
+  //   lottieRef.current?.reset();
 
-    setTimeout(() => {
-      lottieRef.current?.play(startFrame, endFrame);
-    }, 50);
-  };
+  //   setTimeout(() => {
+  //     lottieRef.current?.play(startFrame, endFrame);
+  //   }, 50);
+  // };
 
-  useEffect(() => {
-    if (isVisible) playAnimation();
-  }, [isVisible, startFrame, endFrame]);
+  // useEffect(() => {
+  //   if (isVisible) playAnimation();
+  // }, [isVisible, startFrame, endFrame]);
 
-  if (!isVisible) return null;
+  // if (!isVisible) return null;
 
   return (
     <View
@@ -45,13 +45,13 @@ export const SuccessAnimation: FC<SuccessAnimationProps> = ({
         style,
       ]}
     >
-      <LottieView
+      {/* <LottieView
         ref={lottieRef}
         source={successAnimation}
         style={{ width: size, height: size }}
         autoPlay={false}
         loop={false}
-      />
+      /> */}
     </View>
   );
 };

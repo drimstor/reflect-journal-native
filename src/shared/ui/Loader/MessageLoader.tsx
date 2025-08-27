@@ -1,11 +1,11 @@
 import React, { FC } from "react";
 import { View } from "react-native";
-import LottieView from "lottie-react-native";
+// import LottieView from "lottie-react-native";
 import { useThemeStore } from "../../store";
 import { LoaderProps } from "./model/types";
 
 // Импортируем JSON анимацию
-import loadingAnimation from "./animations/message-loader.json";
+// import loadingAnimation from "./animations/message-loader.json";
 
 export const MessageLoader: FC<LoaderProps> = ({
   size = 180,
@@ -23,7 +23,7 @@ export const MessageLoader: FC<LoaderProps> = ({
         style,
       ]}
     >
-      <LottieView
+      {/* <LottieView
         source={loadingAnimation}
         style={{ width: size, height: size / 2 }}
         autoPlay
@@ -34,7 +34,7 @@ export const MessageLoader: FC<LoaderProps> = ({
             color: colors.contrast || "#cccccc",
           },
         ]}
-      />
+      /> */}
     </View>
   );
 };

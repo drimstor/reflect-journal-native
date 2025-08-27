@@ -1,5 +1,5 @@
+import { Theme, ThemeColors } from "@/src/shared/model/types";
 import { Animated, StyleSheet } from "react-native";
-import { ThemeColors, Theme } from "@/src/shared/model/types";
 
 export const createStyles = (
   colors: ThemeColors,
@@ -8,6 +8,8 @@ export const createStyles = (
   isAndroid: boolean,
   animation: Animated.Value
 ) => {
+  const borderColor =
+    theme === "dark" ? colors.secondary : colors.alternate + 50;
   return StyleSheet.create({
     tabBarStyle: {
       backgroundColor: colors.primary,
@@ -18,7 +20,8 @@ export const createStyles = (
       borderRadius: 40,
       paddingHorizontal: 12,
       borderWidth: 0.5,
-      borderColor: theme === "dark" ? colors.secondary : colors.alternate + 50,
+      borderColor,
+      borderTopColor: borderColor,
       transform: [
         {
           translateY: animation.interpolate({
@@ -30,7 +33,7 @@ export const createStyles = (
       opacity: animation,
     },
     tabBarItemStyle: {
-      top: isTablet ? (isAndroid ? 30 : 0) : 20,
+      top: isTablet ? (isAndroid ? 30 : 0) : 15,
     },
     plusIconBox: {
       backgroundColor: colors.white,

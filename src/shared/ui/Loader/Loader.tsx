@@ -1,12 +1,12 @@
-import LottieView from "lottie-react-native";
+// import LottieView from "lottie-react-native";
 import React, { FC } from "react";
 import { View } from "react-native";
 import { useThemeStore } from "../../store";
 import { LoaderProps } from "./model/types";
 
 // Импортируем JSON анимацию
-import loadingDarkAnimation from "./animations/slow-spinner-dark.json";
-import loadingLightAnimation from "./animations/slow-spinner-light.json";
+// import loadingDarkAnimation from "./animations/slow-spinner-dark.json";
+// import loadingLightAnimation from "./animations/slow-spinner-light.json";
 
 export const Loader: FC<LoaderProps> = ({
   size = 50,
@@ -28,14 +28,14 @@ export const Loader: FC<LoaderProps> = ({
         style,
       ]}
     >
-      <LottieView
+      {/* <LottieView
         source={
           theme === "light" ? loadingLightAnimation : loadingDarkAnimation
         }
         style={{ width: size, height: size }}
         autoPlay
         loop
-      />
+      /> */}
     </View>
   );
 };

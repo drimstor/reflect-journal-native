@@ -1,19 +1,21 @@
-import { FC, useEffect } from "react";
-import { TouchableOpacity } from "react-native";
-import OutsidePressHandler from "react-native-outside-press";
 import { useThemeStore } from "@/src/shared/store";
 import {
   DocumentTextIcon,
-  MicrophoneIcon,
   ImageIcon,
+  MicrophoneIcon,
 } from "@/src/shared/ui/icons";
+import React, { FC, useEffect, useState } from "react";
+import { TouchableOpacity } from "react-native";
+import OutsidePressHandler from "react-native-outside-press";
 import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
   interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
 } from "react-native-reanimated";
 import { createStyles } from "./AttachmentsPopup.styles";
+// import { useVoiceRecording } from "./lib/hooks/useVoiceRecording";
+// import { RecordingControl } from "./ui/RecordingControl/RecordingControl";
 
 interface AttachmentsPopupProps {
   isVisible: boolean;
@@ -25,6 +27,21 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
   onClose,
 }) => {
   const { colors, theme } = useThemeStore();
+  const [isRecordingVisible, setIsRecordingVisible] = useState(false);
+
+  // Используем кастомный хук для управления записью
+  // const {
+  //   isRecording,
+  //   isPaused,
+  //   recordingTime,
+  //   recognizedText,
+  //   error,
+  //   startRecording,
+  //   stopRecording,
+  //   pauseRecording,
+  //   resumeRecording,
+  //   resetRecording,
+  // } = useVoiceRecording();
 
   const animationValue = useSharedValue(0);
 
@@ -48,26 +65,80 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
   const styles = createStyles(colors, theme);
   const iconColor = theme === "dark" ? colors.accent : colors.primary;
 
+  // // Обработчик нажатия на микрофон
+  // const handleMicrophonePress = async () => {
+  //   setIsRecordingVisible(true);
+  //   await startRecording();
+  //   onClose(); // Закрываем попап с вложениями
+  // };
+
+  // // Обработчик остановки записи
+  // const handleStopRecording = async () => {
+  //   await stopRecording();
+  //   setIsRecordingVisible(false);
+
+  //   // Выводим распознанный текст в консоль
+  //   if (recognizedText) {
+  //     console.log("Распознанный текст из голоса:", recognizedText);
+  //   }
+
+  //   // Сбрасываем состояние записи
+  //   resetRecording();
+  // };
+
+  // // Обработчик паузы
+  // const handlePauseRecording = () => {
+  //   pauseRecording();
+  // };
+
+  // // Обработчик возобновления
+  // const handleResumeRecording = async () => {
+  //   await resumeRecording();
+  // };
+
   const buttonsConfig = [
     { icon: <DocumentTextIcon color={iconColor} size={22} /> },
-    { icon: <MicrophoneIcon color={iconColor} size={24} /> },
+    {
+      icon: <MicrophoneIcon color={iconColor} size={24} />,
+      // onPress: handleMicrophonePress,
+    },
     { icon: <ImageIcon color={iconColor} size={22} /> },
   ];
 
   return (
-    <OutsidePressHandler
-      style={[styles.container, { pointerEvents: isVisible ? "auto" : "none" }]}
-      onOutsidePress={onClose}
-      disabled={!isVisible}
-    >
-      <Animated.View style={[styles.popup, animatedStyle]}>
-        {buttonsConfig.map((button, index) => (
-          <TouchableOpacity key={index} style={styles.button}>
-            {button.icon}
-          </TouchableOpacity>
-        ))}
-      </Animated.View>
-    </OutsidePressHandler>
+    <>
+      <OutsidePressHandler
+        style={[
+          styles.container,
+          { pointerEvents: isVisible ? "auto" : "none" },
+        ]}
+        onOutsidePress={onClose}
+        disabled={!isVisible}
+      >
+        <Animated.View style={[styles.popup, animatedStyle]}>
+          {buttonsConfig.map((button, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.button}
+              // onPress={button.onPress}
+            >
+              {button.icon}
+            </TouchableOpacity>
+          ))}
+        </Animated.View>
+      </OutsidePressHandler>
+
+      {/* Блок управления записью */}
+      {/* <RecordingControl
+        isVisible={isRecordingVisible}
+        isPaused={isPaused}
+        recordingTime={recordingTime}
+        error={error}
+        onPause={handlePauseRecording}
+        onResume={handleResumeRecording}
+        onStop={handleStopRecording}
+      /> */}
+    </>
   );
 };
 

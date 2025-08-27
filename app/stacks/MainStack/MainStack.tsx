@@ -1,25 +1,25 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { PATHS } from "@/src/shared/const";
-import { IconButton } from "@/src/shared/ui";
 import {
-  SettingsScreen,
+  CreateEntityScreen,
   HomeScreen,
   LibraryScreen,
-  CreateEntityScreen,
   OverviewScreen,
+  SettingsScreen,
 } from "@/app/screens";
-import { View } from "react-native";
-import { createStyles } from "./MainStack.styles";
+import { PATHS } from "@/src/shared/const";
+import { useDeviceStore, useThemeStore } from "@/src/shared/store";
+import { IconButton } from "@/src/shared/ui";
 import {
-  HomeIcon,
-  PlusIcon,
   ChartSolidIcon,
   DirectSolidIcon,
+  HomeIcon,
+  PlusIcon,
+  SettingsSolidIcon,
 } from "@/src/shared/ui/icons";
-import { useThemeStore, useDeviceStore } from "@/src/shared/store";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as Haptics from "expo-haptics";
+import { View } from "react-native";
 import { useTabBarAnimation } from "./lib/hooks/useTabBarAnimation";
-import { SettingsSolidIcon } from "@/src/shared/ui/icons";
+import { createStyles } from "./MainStack.styles";
 
 const BottomTabs = createBottomTabNavigator();
 
