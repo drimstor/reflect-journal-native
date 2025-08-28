@@ -4,7 +4,7 @@ import {
   ImageIcon,
   MicrophoneIcon,
 } from "@/src/shared/ui/icons";
-import React, { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import OutsidePressHandler from "react-native-outside-press";
 import Animated, {
@@ -14,8 +14,8 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { createStyles } from "./AttachmentsPopup.styles";
-// import { useVoiceRecording } from "./lib/hooks/useVoiceRecording";
-// import { RecordingControl } from "./ui/RecordingControl/RecordingControl";
+import { useVoiceRecording } from "./lib/hooks/useVoiceRecording";
+import { RecordingControl } from "./ui/RecordingControl/RecordingControl";
 
 interface AttachmentsPopupProps {
   isVisible: boolean;
@@ -30,18 +30,18 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
   const [isRecordingVisible, setIsRecordingVisible] = useState(false);
 
   // Используем кастомный хук для управления записью
-  // const {
-  //   isRecording,
-  //   isPaused,
-  //   recordingTime,
-  //   recognizedText,
-  //   error,
-  //   startRecording,
-  //   stopRecording,
-  //   pauseRecording,
-  //   resumeRecording,
-  //   resetRecording,
-  // } = useVoiceRecording();
+  const {
+    isRecording,
+    isPaused,
+    recordingTime,
+    recognizedText,
+    error,
+    startRecording,
+    stopRecording,
+    pauseRecording,
+    resumeRecording,
+    resetRecording,
+  } = useVoiceRecording();
 
   const animationValue = useSharedValue(0);
 
@@ -65,42 +65,42 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
   const styles = createStyles(colors, theme);
   const iconColor = theme === "dark" ? colors.accent : colors.primary;
 
-  // // Обработчик нажатия на микрофон
-  // const handleMicrophonePress = async () => {
-  //   setIsRecordingVisible(true);
-  //   await startRecording();
-  //   onClose(); // Закрываем попап с вложениями
-  // };
+  // Обработчик нажатия на микрофон
+  const handleMicrophonePress = async () => {
+    setIsRecordingVisible(true);
+    await startRecording();
+    onClose(); // Закрываем попап с вложениями
+  };
 
-  // // Обработчик остановки записи
-  // const handleStopRecording = async () => {
-  //   await stopRecording();
-  //   setIsRecordingVisible(false);
+  // Обработчик остановки записи
+  const handleStopRecording = async () => {
+    await stopRecording();
+    setIsRecordingVisible(false);
 
-  //   // Выводим распознанный текст в консоль
-  //   if (recognizedText) {
-  //     console.log("Распознанный текст из голоса:", recognizedText);
-  //   }
+    // Выводим распознанный текст в консоль
+    if (recognizedText) {
+      console.log("Распознанный текст из голоса:", recognizedText);
+    }
 
-  //   // Сбрасываем состояние записи
-  //   resetRecording();
-  // };
+    // Сбрасываем состояние записи
+    resetRecording();
+  };
 
-  // // Обработчик паузы
-  // const handlePauseRecording = () => {
-  //   pauseRecording();
-  // };
+  // Обработчик паузы
+  const handlePauseRecording = () => {
+    pauseRecording();
+  };
 
-  // // Обработчик возобновления
-  // const handleResumeRecording = async () => {
-  //   await resumeRecording();
-  // };
+  // Обработчик возобновления
+  const handleResumeRecording = async () => {
+    await resumeRecording();
+  };
 
   const buttonsConfig = [
     { icon: <DocumentTextIcon color={iconColor} size={22} /> },
     {
       icon: <MicrophoneIcon color={iconColor} size={24} />,
-      // onPress: handleMicrophonePress,
+      onPress: handleMicrophonePress,
     },
     { icon: <ImageIcon color={iconColor} size={22} /> },
   ];
@@ -120,7 +120,7 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
             <TouchableOpacity
               key={index}
               style={styles.button}
-              // onPress={button.onPress}
+              onPress={button.onPress}
             >
               {button.icon}
             </TouchableOpacity>
@@ -129,7 +129,7 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
       </OutsidePressHandler>
 
       {/* Блок управления записью */}
-      {/* <RecordingControl
+      <RecordingControl
         isVisible={isRecordingVisible}
         isPaused={isPaused}
         recordingTime={recordingTime}
@@ -137,7 +137,7 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
         onPause={handlePauseRecording}
         onResume={handleResumeRecording}
         onStop={handleStopRecording}
-      /> */}
+      />
     </>
   );
 };

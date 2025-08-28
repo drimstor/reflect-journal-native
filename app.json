@@ -2,57 +2,43 @@
   "expo": {
     "name": "Reflexity",
     "slug": "reflexity",
-    "scheme": "reflexity",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo.png",
-    "userInterfaceStyle": "automatic",
+    "icon": "./assets/images/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.reflexity",
-      "infoPlist": {
-        "NSSpeechRecognitionUsageDescription": "Приложению требуется доступ к распознаванию речи для преобразования голоса в текст",
-        "NSMicrophoneUsageDescription": "Приложению требуется доступ к микрофону для записи голосовых сообщений"
-      }
+      "bundleIdentifier": "com.anonymous.reflexity"
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-logo-android.png",
-        "backgroundColor": "#F1F2F3"
-      },
       "package": "com.anonymous.reflexity",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
       "permissions": [
-        "RECORD_AUDIO",
-        "android.permission.RECORD_AUDIO"
+        "android.permission.INTERNET",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.VIBRATE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
       ]
-    },
-    "plugins": [
-      [
-        "expo-splash-screen",
-        {
-          "backgroundColor": "#F1F2F3",
-          "image": "./assets/images/adaptive-logo-android.png",
-          "dark": {
-            "image": "./assets/images/adaptive-logo-android.png",
-            "backgroundColor": "#181822"
-          },
-          "imageWidth": 200,
-          "resizeMode": "contain"
-        }
-      ],
-      "expo-font",
-      "@react-native-voice/voice",
-      "expo-secure-store",
-      "expo-web-browser"
-    ],
-    "experiments": {
-      "typedRoutes": true
     },
     "extra": {
       "eas": {
         "projectId": "4426d270-9874-4efd-a402-a0951bee7179"
       }
     },
-    "owner": "viacheslav_gurin"
+    "plugins": []
   }
 }

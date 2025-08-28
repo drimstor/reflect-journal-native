@@ -5,6 +5,7 @@ import Voice, {
   SpeechStartEvent,
 } from "@react-native-voice/voice";
 import { useEffect, useRef, useState } from "react";
+import { PermissionsAndroid, Platform } from "react-native";
 
 interface UseVoiceRecordingReturn {
   // Состояния
@@ -29,7 +30,7 @@ export const useVoiceRecording = (): UseVoiceRecordingReturn => {
   const [recognizedText, setRecognizedText] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<NodeJS.Timeout | null | number>(null);
   const startTimeRef = useRef<number>(0);
   const pausedTimeRef = useRef<number>(0);
 
@@ -103,12 +104,62 @@ export const useVoiceRecording = (): UseVoiceRecordingReturn => {
   };
 
   // Методы управления записью
+  // Проверка разрешений для Android
+  const checkAndroidPermissions = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+        {
+          title: "Разрешение на запись аудио",
+          message:
+            "Приложению требуется доступ к микрофону для записи голосовых сообщений",
+          buttonPositive: "Разрешить",
+          buttonNegative: "Отклонить",
+        }
+      );
+      return granted === PermissionsAndroid.RESULTS.GRANTED;
+    } catch (err) {
+      console.error("Ошибка при запросе разрешений:", err);
+      return false;
+    }
+  };
+
+  // Проверка доступности Voice и разрешений
+  const checkVoiceAvailability = async () => {
+    try {
+      if (Platform.OS === "android") {
+        const hasPermission = await checkAndroidPermissions();
+        if (!hasPermission) {
+          setError("Необходимо разрешение на использование микрофона");
+          return false;
+        }
+      }
+      const isAvailable = await Voice.isAvailable();
+      if (!isAvailable) {
+        setError("Распознавание речи недоступно на этом устройстве");
+        return false;
+      }
+
+      return true;
+    } catch (e) {
+      console.error("Ошибка при проверке доступности Voice:", e);
+      setError("Не удалось проверить доступность распознавания речи");
+      return false;
+    }
+  };
+
   const startRecording = async () => {
     try {
       setError(null);
       setRecognizedText("");
       setRecordingTime(0);
       pausedTimeRef.current = 0;
+
+      // Проверяем доступность и разрешения
+      const isAvailable = await checkVoiceAvailability();
+      if (!isAvailable) {
+        return;
+      }
 
       await Voice.start("ru-RU"); // Используем русский язык
       setIsRecording(true);
