@@ -40,9 +40,27 @@
     },
     "plugins": [
       "expo-font",
-      "@react-native-voice/voice",
       "expo-secure-store",
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "35.0.0",
+            "enableProguardInReleaseBuilds": true,
+            "enableJetifier": true,
+            "extraProperties": {
+              "android.useAndroidX": "true",
+              "android.enableJetifier": "true",
+              "android.disableOldTargetPlatformWarnings": "true",
+              "android.suppressUnsupportedCompileSdk": "34",
+              "android.jetifier.ignorelist": "bcprov"
+            }
+          }
+        }
+      ]
     ],
     "extra": {
       "eas": {

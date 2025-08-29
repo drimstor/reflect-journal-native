@@ -3,7 +3,7 @@ import Voice, {
   SpeechErrorEvent,
   SpeechResultsEvent,
   SpeechStartEvent,
-} from "@react-native-voice/voice";
+} from "@react-native-community/voice";
 import { useEffect, useRef, useState } from "react";
 import { PermissionsAndroid, Platform } from "react-native";
 
