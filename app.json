@@ -51,9 +51,7 @@
             "buildToolsVersion": "35.0.0",
             "enableProguardInReleaseBuilds": true,
             "enableJetifier": true,
-            "dependencies": [
-              "androidx.core:core-splashscreen:1.0.1"
-            ],
+
             "extraProperties": {
               "android.useAndroidX": "true",
               "android.enableJetifier": "true",
