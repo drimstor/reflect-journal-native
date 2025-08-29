@@ -57,7 +57,8 @@
               "android.enableJetifier": "true",
               "android.disableOldTargetPlatformWarnings": "true",
               "android.suppressUnsupportedCompileSdk": "34",
-              "android.jetifier.ignorelist": "bcprov"
+              "android.jetifier.ignorelist": "bcprov",
+              "android.jetifier.blacklist": "com.android.support"
             }
           }
         }
