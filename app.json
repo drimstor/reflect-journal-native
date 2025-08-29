@@ -2,10 +2,11 @@
   "expo": {
     "name": "Reflexity",
     "slug": "reflexity",
+    "scheme": "reflexity",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
@@ -16,7 +17,12 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.reflexity"
+      "bundleIdentifier": "com.anonymous.reflexity",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "Приложению требуется доступ к микрофону для записи голосовых сообщений",
+        "NSPhotoLibraryUsageDescription": "Приложению требуется доступ к фото для загрузки изображений",
+        "NSPhotoLibraryAddUsageDescription": "Приложению требуется доступ к фото для сохранения изображений"
+      }
     },
     "android": {
       "package": "com.anonymous.reflexity",
@@ -26,19 +32,22 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": [
-        "android.permission.INTERNET",
-        "android.permission.READ_EXTERNAL_STORAGE",
-        "android.permission.RECORD_AUDIO",
-        "android.permission.SYSTEM_ALERT_WINDOW",
-        "android.permission.VIBRATE",
-        "android.permission.WRITE_EXTERNAL_STORAGE"
+        "RECORD_AUDIO",
+        "MODIFY_AUDIO_SETTINGS",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
       ]
     },
+    "plugins": [
+      "expo-font",
+      "@react-native-voice/voice",
+      "expo-secure-store",
+      "expo-web-browser"
+    ],
     "extra": {
       "eas": {
         "projectId": "4426d270-9874-4efd-a402-a0951bee7179"
       }
-    },
-    "plugins": []
+    }
   }
 }
