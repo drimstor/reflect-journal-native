@@ -11,6 +11,9 @@
       "distribution": "internal",
       "android": {
         "buildType": "apk"
+      },
+      "hooks": {
+        "postInstall": "./eas-build-post-install.sh"
       }
     },
     "production": {
