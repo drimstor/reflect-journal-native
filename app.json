@@ -50,11 +50,11 @@
             "targetSdkVersion": 34,
             "buildToolsVersion": "35.0.0",
             "enableProguardInReleaseBuilds": true,
-            "enableJetifier": true,
+            "enableJetifier": false,
 
             "extraProperties": {
               "android.useAndroidX": "true",
-              "android.enableJetifier": "true",
+              "android.enableJetifier": "false",
               "android.disableOldTargetPlatformWarnings": "true",
               "android.suppressUnsupportedCompileSdk": "34",
               "android.jetifier.ignorelist": "bcprov",
