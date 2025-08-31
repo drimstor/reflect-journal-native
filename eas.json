@@ -8,13 +8,7 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal",
-      "android": {
-        "buildType": "apk",
-        "hooks": {
-          "postInstall": "./eas-build-post-install.sh"
-        }
-      }
+      "distribution": "internal"
     },
     "production": {
       "android": {

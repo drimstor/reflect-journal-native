@@ -42,29 +42,7 @@
       "expo-font",
       "expo-secure-store",
       "expo-web-browser",
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "compileSdkVersion": 35,
-            "targetSdkVersion": 34,
-            "buildToolsVersion": "35.0.0",
-            "enableProguardInReleaseBuilds": true,
-            "enableJetifier": true,
-            "dependencies": [
-              "com.google.android.material:material:1.8.0"
-            ],
-            "extraProperties": {
-              "android.useAndroidX": "true",
-              "android.enableJetifier": "true",
-              "android.disableOldTargetPlatformWarnings": "true",
-              "android.suppressUnsupportedCompileSdk": "34",
-              "android.jetifier.ignorelist": "bcprov,android-arch-core-common,android-arch-lifecycle-common,com.android.support,com.facebook.react",
-              "android.jetifier.replaceOnly": "false"
-            }
-          }
-        }
-      ]
+      "@react-native-community/voice"
     ],
     "extra": {
       "eas": {
