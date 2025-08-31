@@ -41,8 +41,7 @@
     "plugins": [
       "expo-font",
       "expo-secure-store",
-      "expo-web-browser",
-      "@react-native-community/voice"
+      "expo-web-browser"
     ],
     "extra": {
       "eas": {
