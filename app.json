@@ -50,15 +50,14 @@
             "targetSdkVersion": 34,
             "buildToolsVersion": "35.0.0",
             "enableProguardInReleaseBuilds": true,
-            "enableJetifier": false,
-
+            "enableJetifier": true,
             "extraProperties": {
               "android.useAndroidX": "true",
-              "android.enableJetifier": "false",
+              "android.enableJetifier": "true",
               "android.disableOldTargetPlatformWarnings": "true",
               "android.suppressUnsupportedCompileSdk": "34",
-              "android.jetifier.ignorelist": "bcprov",
-              "android.jetifier.blacklist": "com.android.support"
+              "android.jetifier.ignorelist": "bcprov,android-arch-core-common,android-arch-lifecycle-common,com.android.support,com.facebook.react",
+              "android.jetifier.replaceOnly": "false"
             }
           }
         }
