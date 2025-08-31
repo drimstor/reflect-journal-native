@@ -41,7 +41,16 @@
     "plugins": [
       "expo-font",
       "expo-secure-store",
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "useAndroidX": true,
+            "enableJetifier": true
+          }
+        }
+      ]
     ],
     "extra": {
       "eas": {
