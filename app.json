@@ -51,6 +51,9 @@
             "buildToolsVersion": "35.0.0",
             "enableProguardInReleaseBuilds": true,
             "enableJetifier": true,
+            "dependencies": [
+              "com.google.android.material:material:1.8.0"
+            ],
             "extraProperties": {
               "android.useAndroidX": "true",
               "android.enableJetifier": "true",
