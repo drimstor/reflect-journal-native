@@ -47,7 +47,10 @@
         {
           "android": {
             "useAndroidX": true,
-            "enableJetifier": true
+            "enableJetifier": true,
+            "extraProperties": {
+              "android.enableJetifier": "true"
+            }
           }
         }
       ]
