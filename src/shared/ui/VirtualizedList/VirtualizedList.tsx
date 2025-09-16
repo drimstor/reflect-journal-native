@@ -1,4 +1,5 @@
 import { groupByDate } from "@/src/shared/lib/helpers";
+import { useLang } from "@/src/shared/lib/hooks";
 import {
   isAnyFilterActive,
   useDeviceStore,
@@ -12,15 +13,14 @@ import {
   Loader,
   NoData,
 } from "@/src/shared/ui";
-import React, { useEffect, useMemo } from "react";
-import { LogBox, SectionList, View } from "react-native";
-import { styles } from "./VirtualizedList.styles";
-// import { BottomSheetSectionList } from "@gorhom/bottom-sheet";
-import { useLang } from "@/src/shared/lib/hooks";
+import { BottomSheetSectionList } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useMemo } from "react";
+import { LogBox, View } from "react-native";
 import { PATHS } from "../../const/PATHS";
 import { NavigationProps } from "../../model/types";
 import { VirtualizedListProps, WithDateAndId } from "./model/types";
+import { styles } from "./VirtualizedList.styles";
 
 export const SectionHeader = ({ title }: { title: string }) => {
   const { colors } = useThemeStore();
@@ -70,7 +70,7 @@ function VirtualizedList<ItemT extends WithDateAndId>({
   }, [data]);
 
   return (
-    <SectionList
+    <BottomSheetSectionList
       scrollEnabled
       sections={sections}
       renderItem={renderItem}

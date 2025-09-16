@@ -1,3 +1,10 @@
+import { useTimingAnimation } from "@/src/shared/lib/hooks";
+import {
+  BottomSheetBackdrop,
+  BottomSheetBackdropProps,
+  default as BottomSheetLibrary,
+  BottomSheetScrollView,
+} from "@gorhom/bottom-sheet";
 import {
   forwardRef,
   ReactNode,
@@ -8,13 +15,6 @@ import {
   useState,
 } from "react";
 import { Animated, StyleProp, ViewStyle } from "react-native";
-// import {
-//   BottomSheetBackdrop,
-//   BottomSheetBackdropProps,
-//   default as BottomSheetLibrary,
-//   BottomSheetScrollView,
-// } from "@gorhom/bottom-sheet";
-import { useTimingAnimation } from "@/src/shared/lib/hooks";
 import { getExpandAnimatedStyle } from "./lib/helpers/getExpandAnimatedStyle";
 
 export interface BottomSheetRef {
