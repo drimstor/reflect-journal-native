@@ -1,21 +1,26 @@
 import { groupByDate } from "@/src/shared/lib/helpers";
-import React, { useEffect, useMemo } from "react";
-import { AnimatedAppearance, Chip, Loader, NoData } from "@/src/shared/ui";
 import {
-  useDeviceStore,
-  useThemeStore,
-  useFiltersStore,
   isAnyFilterActive,
+  useDeviceStore,
+  useFiltersStore,
+  useThemeStore,
 } from "@/src/shared/store";
-import { Divider } from "@/src/shared/ui";
+import {
+  AnimatedAppearance,
+  Chip,
+  Divider,
+  Loader,
+  NoData,
+} from "@/src/shared/ui";
+import React, { useEffect, useMemo } from "react";
+import { LogBox, SectionList, View } from "react-native";
 import { styles } from "./VirtualizedList.styles";
-import { View, LogBox } from "react-native";
-import { BottomSheetSectionList } from "@gorhom/bottom-sheet";
-import { VirtualizedListProps, WithDateAndId } from "./model/types";
+// import { BottomSheetSectionList } from "@gorhom/bottom-sheet";
 import { useLang } from "@/src/shared/lib/hooks";
-import { PATHS } from "../../const/PATHS";
 import { useNavigation } from "@react-navigation/native";
+import { PATHS } from "../../const/PATHS";
 import { NavigationProps } from "../../model/types";
+import { VirtualizedListProps, WithDateAndId } from "./model/types";
 
 export const SectionHeader = ({ title }: { title: string }) => {
   const { colors } = useThemeStore();
@@ -65,7 +70,7 @@ function VirtualizedList<ItemT extends WithDateAndId>({
   }, [data]);
 
   return (
-    <BottomSheetSectionList
+    <SectionList
       scrollEnabled
       sections={sections}
       renderItem={renderItem}

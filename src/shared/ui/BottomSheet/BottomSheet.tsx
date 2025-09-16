@@ -1,19 +1,19 @@
 import {
+  forwardRef,
   ReactNode,
   useCallback,
-  useRef,
-  useState,
-  forwardRef,
   useImperativeHandle,
   useMemo,
+  useRef,
+  useState,
 } from "react";
-import { StyleProp, ViewStyle, Animated } from "react-native";
-import {
-  BottomSheetBackdrop,
-  BottomSheetBackdropProps,
-  default as BottomSheetLibrary,
-  BottomSheetScrollView,
-} from "@gorhom/bottom-sheet";
+import { Animated, StyleProp, ViewStyle } from "react-native";
+// import {
+//   BottomSheetBackdrop,
+//   BottomSheetBackdropProps,
+//   default as BottomSheetLibrary,
+//   BottomSheetScrollView,
+// } from "@gorhom/bottom-sheet";
 import { useTimingAnimation } from "@/src/shared/lib/hooks";
 import { getExpandAnimatedStyle } from "./lib/helpers/getExpandAnimatedStyle";
 
