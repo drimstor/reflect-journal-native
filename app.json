@@ -62,12 +62,9 @@
           "android": {
             "useAndroidX": true,
             "enableJetifier": true,
-            "extraProperties": {
-              "android.enableResourceOptimizations": "false",
-              "android.enableJetifier": "true"
-            },
             "gradleProperties": {
-              "org.gradle.jvmargs": "-Xmx4096m -XX:MaxMetaspaceSize=1024m"
+              "org.gradle.jvmargs": "-Xmx4096m -XX:MaxMetaspaceSize=1024m",
+              "android.enableResourceOptimizations": "false"
             }
           }
         }
