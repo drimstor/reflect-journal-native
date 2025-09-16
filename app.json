@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Reflexity",
-    "slug": "reflexity",
+    "slug": "reflect-journal",
     "scheme": "reflexity",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,7 +17,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.reflexity",
+      "bundleIdentifier": "com.loungeway.reflect-journal",
       "infoPlist": {
         "NSMicrophoneUsageDescription": "Приложению требуется доступ к микрофону для записи голосовых сообщений",
         "NSPhotoLibraryUsageDescription": "Приложению требуется доступ к фото для загрузки изображений",
@@ -27,7 +27,7 @@
       }
     },
     "android": {
-      "package": "com.anonymous.reflexity",
+      "package": "com.loungeway.reflect-journal",
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-logo.png",
@@ -62,9 +62,12 @@
           "android": {
             "useAndroidX": true,
             "enableJetifier": true,
+            "extraProperties": {
+              "android.enableResourceOptimizations": "false",
+              "android.enableJetifier": "true"
+            },
             "gradleProperties": {
-              "org.gradle.jvmargs": "-Xmx4096m -XX:MaxMetaspaceSize=1024m",
-              "android.enableResourceOptimizations": "false"
+              "org.gradle.jvmargs": "-Xmx4096m -XX:MaxMetaspaceSize=1024m"
             }
           }
         }
@@ -72,7 +75,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "4426d270-9874-4efd-a402-a0951bee7179"
+        "projectId": "dc34c5dd-1225-458c-b831-70832ef91cda"
       }
     }
   }
