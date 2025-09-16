@@ -1,4 +1,5 @@
 import { useAppInit, useFonts, usePrefetch } from "@/src/shared/lib/hooks";
+// import { useNotificationInit } from "@/src/shared/lib/hooks/useNotificationInit";
 import { BackgroundLayout, UILayout } from "@/src/shared/ui";
 import { View } from "react-native";
 import Navigation from "./stacks/Navigation/Navigation";
@@ -7,6 +8,10 @@ const AppContent = () => {
   usePrefetch();
   const { onLayoutRootView, initialPath, appIsReady } = useAppInit();
   const fontsLoaded = useFonts();
+
+  // Временно отключено - диагностика RCTFatal ошибки
+  // useNotificationInit();
+
   if (!appIsReady || !fontsLoaded) return null;
 
   return (

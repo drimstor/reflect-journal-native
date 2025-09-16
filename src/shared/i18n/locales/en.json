@@ -523,5 +523,30 @@
         "fileUnit": "MB"
       }
     }
+  },
+  "notifications": {
+    "dailyReminder": {
+      "title": "Time for your journal",
+      "body": "Don't forget to write down your thoughts today!"
+    },
+    "permissions": {
+      "title": "Notification Permission",
+      "message": "Allow notifications to receive daily journal reminders",
+      "granted": "Notifications allowed",
+      "denied": "Notifications denied",
+      "requestButton": "Allow Notifications"
+    },
+    "settings": {
+      "title": "Notification Settings",
+      "dailyReminderEnabled": "Daily Reminder",
+      "reminderTime": "Reminder Time",
+      "testNotification": "Test Notification"
+    },
+    "messages": {
+      "reminderScheduled": "Daily reminder scheduled",
+      "reminderCancelled": "Daily reminder cancelled",
+      "testSent": "Test notification sent",
+      "permissionRequired": "Notification permission required"
+    }
   }
 } 
