@@ -48,13 +48,22 @@
       "expo-web-browser",
       "expo-image-picker",
       [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/icon.png",
+          "color": "#4da3b0",
+          "sounds": []
+        }
+      ],
+      [
         "expo-build-properties",
         {
           "android": {
             "useAndroidX": true,
             "enableJetifier": true,
             "extraProperties": {
-              "android.enableJetifier": "true"
+              "android.enableJetifier": "true",
+              "android.enableResourceOptimizations": "false"
             }
           }
         }
