@@ -8,7 +8,7 @@
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash-icon.png",
+      "image": "./assets/images/logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -30,7 +30,7 @@
       "package": "com.anonymous.reflexity",
       "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/adaptive-logo.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
@@ -47,6 +47,7 @@
       "expo-secure-store",
       "expo-web-browser",
       "expo-image-picker",
+      "expo-splash-screen",
       [
         "expo-notifications",
         {
@@ -61,8 +62,8 @@
           "android": {
             "useAndroidX": true,
             "enableJetifier": true,
-            "extraProperties": {
-              "android.enableJetifier": "true",
+            "gradleProperties": {
+              "org.gradle.jvmargs": "-Xmx4096m -XX:MaxMetaspaceSize=1024m",
               "android.enableResourceOptimizations": "false"
             }
           }
