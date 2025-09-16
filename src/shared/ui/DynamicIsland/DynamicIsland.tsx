@@ -1,24 +1,23 @@
 import { Animated, View } from "react-native";
 // import { styles } from "./DynamicIsland.styles";
-import { SiriLoader } from "../Loader/SiriLoader";
-import { useSpringAnimation, useToggle } from "../../lib/hooks";
 import { useEffect } from "react";
 import {
+  LongPressGestureHandler,
+  State,
+  TapGestureHandler,
+} from "react-native-gesture-handler";
+import { capitalizeText } from "../../lib/helpers";
+import { useSpringAnimation, useToggle } from "../../lib/hooks";
+import {
   clearAllSnackbars,
-  removeSnackbar,
   selectSnackbars,
   useAppDispatch,
   useAppSelector,
   useDeviceStore,
   useStatusBarStore,
 } from "../../store";
-import {
-  LongPressGestureHandler,
-  State,
-  TapGestureHandler,
-} from "react-native-gesture-handler";
+import { SiriLoader } from "../Loader/SiriLoader";
 import Text from "../Text/Text";
-import { capitalizeText } from "../../lib/helpers";
 
 const DynamicIsland = () => {
   const { window } = useDeviceStore();

@@ -18,11 +18,13 @@ import { createStyles } from "./AttachmentsPopup.styles";
 interface AttachmentsPopupProps {
   isVisible: boolean;
   onClose: () => void;
+  onImagePickerPress?: () => void; // Обработчик нажатия на выбор изображений
 }
 
 const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
   isVisible,
   onClose,
+  onImagePickerPress,
 }) => {
   const { colors, theme } = useThemeStore();
   const [isRecordingVisible, setIsRecordingVisible] = useState(false);
@@ -94,13 +96,24 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
   //   await resumeRecording();
   // };
 
+  // Обработчик нажатия на выбор изображений
+  const handleImagePress = () => {
+    if (onImagePickerPress) {
+      onImagePickerPress();
+    }
+    onClose(); // Закрываем попап после выбора
+  };
+
   const buttonsConfig = [
     { icon: <DocumentTextIcon color={iconColor} size={22} /> },
     {
       icon: <MicrophoneIcon color={iconColor} size={24} />,
       // onPress: handleMicrophonePress,
     },
-    { icon: <ImageIcon color={iconColor} size={22} /> },
+    {
+      icon: <ImageIcon color={iconColor} size={22} />,
+      onPress: handleImagePress,
+    },
   ];
 
   return (
@@ -118,7 +131,7 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
             <TouchableOpacity
               key={index}
               style={styles.button}
-              // onPress={button.onPress}
+              onPress={button.onPress}
             >
               {button.icon}
             </TouchableOpacity>

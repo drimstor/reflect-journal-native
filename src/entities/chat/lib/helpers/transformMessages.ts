@@ -1,5 +1,5 @@
-import { IMessage } from "react-native-gifted-chat";
 import { Message as MessageType } from "@/src/entities/chat/model/types";
+import { IMessage } from "react-native-gifted-chat";
 
 export const transformMessages = (messages: MessageType[]): IMessage[] =>
   messages.map((msg) => ({
@@ -10,4 +10,5 @@ export const transformMessages = (messages: MessageType[]): IMessage[] =>
       _id: msg.user_id,
     },
     command: msg.command,
+    images: msg.images,
   }));

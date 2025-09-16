@@ -1,7 +1,6 @@
 import { baseApi } from "@/src/shared/api/baseApi";
 // import { formatValidationErrors } from "@/src/shared/store";
 import type {
-  CreateJournalEntryRequest,
   JournalEntry,
   JournalEntryResponse,
   UpdateJournalEntryRequest,
@@ -56,46 +55,17 @@ export const journalEntriesApi = baseApi.injectEndpoints({
         { type: ENTITY_NAME.JOURNAL_ENTRIES, id: id },
       ],
     }),
-    createJournalEntry: builder.mutation<
-      JournalEntry,
-      CreateJournalEntryRequest
-    >({
-      query: (body) => ({
+    createJournalEntry: builder.mutation<JournalEntry, FormData>({
+      query: (formData) => ({
         url: "/journal-entries/create",
         method: "POST",
-        body,
+        body: formData,
+        formData: true,
       }),
       invalidatesTags: (result) => [
         { type: ENTITY_NAME.JOURNAL_ENTRIES, id: "LIST" },
         { type: ENTITY_NAME.JOURNALS, id: "LIST" },
       ],
-      // async onQueryStarted(body, { dispatch, queryFulfilled }) {
-      //   try {
-      //     await queryFulfilled;
-
-      //     // Принудительно обновляем список дневников после создания новой записи
-      //     dispatch(
-      //       journalsApiUtil.invalidateTags([
-      //         { type: ENTITY_NAME.JOURNALS, id: "LIST" },
-      //       ])
-      //     );
-
-      //     // Если указан journal_id, также принудительно обновляем конкретный дневник
-      //     if (body.journal_id) {
-      //       dispatch(
-      //         journalsApiUtil.invalidateTags([
-      //           { type: ENTITY_NAME.JOURNALS, id: body.journal_id },
-      //         ])
-      //       );
-      //     }
-      //   } catch (error: any) {
-      //     Alert.alert(
-      //       "Ошибка",
-      //       formatValidationErrors(error.error?.data) ||
-      //         "Не удалось создать запись"
-      //     );
-      //   }
-      // },
     }),
 
     updateJournalEntry: builder.mutation<

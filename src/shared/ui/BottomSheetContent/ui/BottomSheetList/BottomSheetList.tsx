@@ -1,6 +1,5 @@
-import React from "react";
-import { List } from "@/src/shared/ui";
 import { useBottomSheetStore } from "@/src/shared/store";
+import { List } from "@/src/shared/ui";
 import { LayoutChangeEvent } from "react-native";
 
 const BottomSheetList = () => {

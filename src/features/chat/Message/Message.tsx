@@ -1,14 +1,14 @@
-import React, { FC, useEffect } from "react";
-import { Keyboard, View } from "react-native";
 import { useBottomSheetStore } from "@/src/shared/store";
 import { Portal } from "@gorhom/portal";
+import { FC, useEffect } from "react";
+import { Keyboard } from "react-native";
 import { LongPressGestureHandler, State } from "react-native-gesture-handler";
-import RenderBubble from "./ui/RenderBubble";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import { ANIMATION_DELAY } from "./const/static";
-import { ExtendedBubbleProps } from "./model/types";
 import { useMessageAnimation } from "./lib/hooks/useMessageAnimation";
 import { useMessageMeasure } from "./lib/hooks/useMessageMeasure";
-import Animated, { useAnimatedStyle } from "react-native-reanimated";
+import { ExtendedBubbleProps } from "./model/types";
+import RenderBubble from "./ui/RenderBubble";
 
 const Message: FC<ExtendedBubbleProps> = (props) => {
   const { isBottomSheetVisible, setBottomSheetVisible } = useBottomSheetStore();
@@ -25,11 +25,9 @@ const Message: FC<ExtendedBubbleProps> = (props) => {
   } = useMessageMeasure();
 
   // Создаем анимированный стиль с использованием Reanimated
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ scale: scale.value }, { translateY: translateY.value }],
-    };
-  });
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }, { translateY: translateY.value }],
+  }));
 
   useEffect(() => {
     if (!isBottomSheetVisible) {
@@ -43,6 +41,8 @@ const Message: FC<ExtendedBubbleProps> = (props) => {
     id: props.currentMessage._id,
     user_id: props.currentMessage.user._id,
     text: props.currentMessage.text,
+    // images: props.currentMessage.images,
+    // command: props.currentMessage.command,
   };
 
   const handleStateChange = ({ nativeEvent }: { nativeEvent: any }) => {
@@ -88,7 +88,7 @@ const Message: FC<ExtendedBubbleProps> = (props) => {
             ]}
             onTouchEnd={() => setBottomSheetVisible(false)}
           >
-            <RenderBubble {...props} />
+            <RenderBubble {...props} disableImageLoaders={true} />
           </Animated.View>
         </Portal>
       )}

@@ -40,7 +40,9 @@ export * from "./assets";
 export type { BottomSheetRef } from "./BottomSheet/BottomSheet";
 export * from "./BottomSheetContent";
 export { BottomSheetScreenHeader } from "./BottomSheetScreenHeader/BottomSheetScreenHeader";
+export { FullScreenPreview } from "./FullScreenPreview/FullScreenPreview";
 export * from "./icons";
+export { ImageGrid } from "./ImageGrid/ImageGrid";
 export { AnimatedLoader } from "./Loader/AnimatedLoader";
 export type { AnimatedLoaderProps } from "./Loader/AnimatedLoader";
 export { useAnimatedLoading } from "./Loader/hooks/useAnimatedLoading";
@@ -90,6 +92,6 @@ export {
   Toggle,
   Tooltip,
   UILayout,
-  useCarouselConfig,
   VirtualizedList,
+  useCarouselConfig,
 };

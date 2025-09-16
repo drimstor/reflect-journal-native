@@ -1,6 +1,6 @@
-import { StyleSheet } from "react-native";
-import { Theme, ThemeColors } from "@/src/shared/model/types";
 import { FONTS } from "@/src/shared/const";
+import { Theme, ThemeColors } from "@/src/shared/model/types";
+import { StyleSheet } from "react-native";
 
 export const createStyles = (colors: ThemeColors, theme: Theme) =>
   StyleSheet.create({
@@ -11,20 +11,24 @@ export const createStyles = (colors: ThemeColors, theme: Theme) =>
     toolbar: {
       backgroundColor: "transparent",
       padding: 8,
+      paddingHorizontal: 13,
       marginBottom: 25,
       borderTopWidth: 0,
       borderColor: colors.alternate,
     },
-    composerContainer: {
-      flexDirection: "row",
-      alignItems: "flex-end",
+    composerContainerWrapper: {
       backgroundColor: theme === "light" ? colors.white : colors.secondary,
       borderColor: colors.alternate,
       borderRadius: 30,
       borderWidth: 1,
       padding: 10,
+      gap: 8,
+      width: "100%",
+    },
+    composerContainer: {
+      flexDirection: "row",
+      alignItems: "flex-end",
       gap: 10,
-      marginHorizontal: 4.5,
     },
     input: {
       flex: 1,

@@ -1,12 +1,11 @@
-import { AnimatedAppearance, BottomSheet, Text } from "@/src/shared/ui";
+import { useKeyboard } from "@/src/shared/lib/hooks";
 import { useThemeStore } from "@/src/shared/store";
 import { useBottomSheetStore } from "@/src/shared/store/zustand/bottomSheet.store";
-import { useKeyboard } from "@/src/shared/lib/hooks";
-import { useCallback, Suspense } from "react";
+import { BottomSheet } from "@/src/shared/ui";
+import { Suspense, useCallback } from "react";
 import { View } from "react-native";
-import React from "react";
-import { FLOWS } from "./const/flows";
 import { SmallLoader } from "../Loader/SmallLoader";
+import { FLOWS } from "./const/flows";
 import { useBottomSheetVisibility } from "./lib/hooks/useBottomSheetVisibility";
 
 const BottomSheetContent = () => {

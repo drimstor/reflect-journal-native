@@ -1,7 +1,5 @@
+import { Theme, ThemeColors } from "@/src/shared/model/types";
 import { StyleSheet } from "react-native";
-import { PALLETE_COLORS } from "@/src/shared/const/PALLETE_COLORS";
-import { ThemeColors } from "@/src/shared/model/types";
-import { Theme } from "@/src/shared/model/types";
 export const createDotsStyles = (colors: ThemeColors, theme: Theme) =>
   StyleSheet.create({
     dotsContainer: {

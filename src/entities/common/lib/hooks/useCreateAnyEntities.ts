@@ -45,14 +45,34 @@ const useDynamicCreateHook = (variant: EntityType): CreateHookResult => {
       let requestData;
       switch (variant) {
         case "JournalEntries":
-          requestData = {
-            journal_id: data.journal_id,
-            content: data.content,
-            bookmarked: data.bookmarked || false,
-            created_at: data.created_at,
-            title: data.title,
-            mood: data.mood,
-          };
+          // Для записей дневника всегда используем FormData
+          const formData = new FormData();
+          formData.append("content", data.content);
+          formData.append("journal_id", data.journal_id);
+          formData.append("bookmarked", String(data.bookmarked || false));
+
+          if (data.created_at) {
+            formData.append("created_at", data.created_at);
+          }
+          if (data.title) {
+            formData.append("title", data.title);
+          }
+          if (data.mood) {
+            formData.append("mood", data.mood);
+          }
+
+          // Добавляем изображения если есть
+          if (data.images && data.images.length > 0) {
+            data.images.forEach((image: any, index: number) => {
+              formData.append(`images`, {
+                uri: image.uri,
+                name: `image_${index}.jpg`,
+                type: "image/jpeg",
+              } as any);
+            });
+          }
+
+          requestData = formData;
           break;
         case "Journals":
           requestData = {

@@ -1,12 +1,12 @@
-import React, { FC } from "react";
-import { Animated, View } from "react-native";
-import { Loader, NoData } from "@/src/shared/ui";
-import { GiftedChat, IMessage } from "react-native-gifted-chat";
-import { useDeviceStore, useThemeStore } from "@/src/shared/store";
+import { MessageGiftedChat } from "@/src/entities/chat/model/types";
 import { DateChip, Message, MessageInput } from "@/src/features";
 import { useLang } from "@/src/shared/lib/hooks";
+import { useDeviceStore, useThemeStore } from "@/src/shared/store";
+import { Loader, NoData } from "@/src/shared/ui";
+import React, { FC } from "react";
+import { Animated, View } from "react-native";
+import { GiftedChat, IMessage } from "react-native-gifted-chat";
 import { useChatAnimation } from "./lib/hooks/useChatAnimation";
-import { MessageGiftedChat } from "@/src/entities/chat/model/types";
 
 const ChatView: FC<{
   item: any;

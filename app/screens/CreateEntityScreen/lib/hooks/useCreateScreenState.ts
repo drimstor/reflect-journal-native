@@ -29,12 +29,13 @@ interface CarouselConfig {
 /**
  * Хук для управления состоянием экрана создания сущности
  */
-export const useCreateScreenState = () => {
+export const useCreateScreenState = (getSelectedImages?: () => any[]) => {
   const t = useT();
   const { locale } = useLang();
   const navigation = useNavigation<NavigationProps>();
   const { resetFilters } = useFiltersStore();
   const scrollViewRef = useRef<ScrollView>(null);
+  const [snapPoints, setSnapPoints] = useState<number[]>([580]);
 
   // Состояния для компонента
   const { value: isBookmarked, toggle: setIsBookmarked } = useToggle();
@@ -45,8 +46,19 @@ export const useCreateScreenState = () => {
     useBottomSheetIndexState();
 
   // Обработчики для даты
-  const handleDateClick = () => {
-    snapToIndex(0);
+  const handleDateClickForJournalEntries = () => {
+    setSnapPoints([580]);
+    requestAnimationFrame(() => {
+      snapToIndex(0);
+    });
+  };
+
+  // Обработчики для даты
+  const handleDateClickForSummaries = () => {
+    setSnapPoints([650]);
+    requestAnimationFrame(() => {
+      snapToIndex(0);
+    });
   };
 
   // ------------------------------------------------------------ //
@@ -82,6 +94,18 @@ export const useCreateScreenState = () => {
     async (formData) => {
       try {
         resetFilters();
+
+        // Добавляем изображения для записей дневника
+        if (
+          currentEntity === ENTITY_NAME.JOURNAL_ENTRIES &&
+          getSelectedImages
+        ) {
+          const selectedImages = getSelectedImages();
+          if (selectedImages && selectedImages.length > 0) {
+            formData.images = selectedImages;
+          }
+        }
+
         const item = await createEntity(formData);
         navigation.goBack();
 
@@ -180,8 +204,13 @@ export const useCreateScreenState = () => {
     handleChange,
     handleSubmit,
     formattedDate,
-    handleDateClick,
     handleDateSelected,
+    handleDateClickForJournalEntries,
+    handleDateClickForSummaries,
     bottomSheetRef,
+    snapPoints,
+    setSnapPoints,
+    snapToIndex,
+    closeBottomSheet,
   };
 };

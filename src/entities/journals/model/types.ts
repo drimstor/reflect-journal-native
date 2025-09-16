@@ -50,6 +50,7 @@ export interface JournalEntry {
   bookmarked: boolean;
   mood?: string;
   command?: string;
+  images?: string[];
 }
 
 export interface CreateJournalEntryRequest {
@@ -58,6 +59,7 @@ export interface CreateJournalEntryRequest {
   related_topics?: string[];
   bookmarked?: boolean;
   created_at?: string;
+  images?: string[];
 }
 
 export interface UpdateJournalEntryRequest {

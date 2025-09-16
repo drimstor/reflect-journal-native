@@ -1,16 +1,16 @@
+import { PreviewCardProps } from "@/src/features/home/PreviewCard/PreviewCard";
 import { useDeviceStore, useThemeStore } from "@/src/shared/store";
-import React, { ReactElement, useRef, useState } from "react";
+import * as Haptics from "expo-haptics";
+import { ReactElement, useRef } from "react";
 import { StyleProp, View, ViewStyle } from "react-native";
+import { useSharedValue } from "react-native-reanimated";
 import {
   CarouselRenderItem,
   ICarouselInstance,
   default as LibraryCarousel,
   Pagination,
 } from "react-native-reanimated-carousel";
-import { useSharedValue } from "react-native-reanimated";
 import { createDotsStyles } from "./Carousel.styles";
-import { PreviewCardProps } from "@/src/features/home/PreviewCard/PreviewCard";
-import * as Haptics from "expo-haptics";
 
 interface CarouselProps {
   height: number;
@@ -24,6 +24,11 @@ interface CarouselProps {
     parallaxScrollingOffset: number;
   };
   handler?: (index: number) => void;
+  defaultIndex?: number;
+  dotColors?: {
+    dot: string;
+    activeDot: string;
+  };
 }
 
 const Carousel = ({
@@ -35,6 +40,8 @@ const Carousel = ({
   modeConfig,
   handler,
   mode = "parallax",
+  defaultIndex = 0,
+  dotColors,
 }: CarouselProps) => {
   const ref = useRef<ICarouselInstance>(null);
   const progress = useSharedValue(0);
@@ -63,7 +70,7 @@ const Carousel = ({
         onScrollStart={onScrollStart}
         onSnapToItem={handleSnapToItem}
         renderItem={renderItem as CarouselRenderItem<never>}
-        defaultIndex={0}
+        defaultIndex={defaultIndex}
         onProgressChange={progress}
         mode={mode}
         modeConfig={modeConfig}
@@ -73,8 +80,16 @@ const Carousel = ({
         <Pagination.Basic
           progress={progress}
           data={data}
-          dotStyle={styles.dot}
-          activeDotStyle={styles.activeDot}
+          dotStyle={{
+            ...styles.dot,
+            ...(dotColors?.dot && { backgroundColor: dotColors?.dot }),
+          }}
+          activeDotStyle={{
+            ...styles.activeDot,
+            ...(dotColors?.activeDot && {
+              backgroundColor: dotColors?.activeDot,
+            }),
+          }}
           containerStyle={styles.dotsContainer}
         />
       )}

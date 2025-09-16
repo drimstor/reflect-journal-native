@@ -73,7 +73,10 @@
       "journals": "Выберите дневник",
       "chats": "Выберите чат"
     },
-    "startWriting": "Начните писать..."
+    "startWriting": "Начните писать...",
+    "images": {
+      "title": "Прикрепить изображения"
+    }
   },
   "chat": {
     "placeholder": "Введите сообщение...",
@@ -96,7 +99,8 @@
     "content": "Содержимое",
     "checklist": "Чек-лист",
     "aiResponse": "Ответ ИИ",
-    "relatedEntries": "Связанные записи"
+    "relatedEntries": "Связанные записи",
+    "images": "Изображения"
   },
   "sort": {
     "sortBy": "Сортировать по",
@@ -495,6 +499,29 @@
     },
     "time": {
       "minutes": "мин"
+    },
+    "media": {
+      "pickFromGallery": "Выбрать из галереи",
+      "openCamera": "Открыть камеру",
+      "fileSizes": {
+        "bytes": "Б",
+        "kilobytes": "КБ",
+        "megabytes": "МБ"
+      },
+      "errors": {
+        "galleryPermissionTitle": "Требуется разрешение",
+        "galleryPermissionMessage": "Для загрузки изображений из галереи необходимо предоставить доступ к фото.",
+        "cameraPermissionTitle": "Требуется разрешение",
+        "cameraPermissionMessage": "Для создания фото необходимо предоставить доступ к камере.",
+        "galleryError": "Ошибка при выборе изображений из галереи",
+        "cameraError": "Ошибка при создании фото с камеры"
+      },
+      "limits": {
+        "maximum": "Лимит - ",
+        "photos": "изображений",
+        "maxFileSize": "Максимальный размер файла",
+        "fileUnit": "МБ"
+      }
     }
   }
 } 

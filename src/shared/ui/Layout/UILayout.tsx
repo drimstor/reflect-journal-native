@@ -1,14 +1,14 @@
-import React, { FC, ReactNode, useMemo } from "react";
-import { View } from "react-native";
-import Snackbar from "../Snackbar/Snackbar";
+import { hasDynamicIsland } from "@/src/shared/lib/helpers/deviceFeatures";
 import {
-  useAppSelector,
   selectSnackbars,
+  useAppSelector,
   useDeviceStore,
 } from "@/src/shared/store";
+import { FC, ReactNode, useMemo } from "react";
+import { View } from "react-native";
 import BottomSheetContent from "../BottomSheetContent/BottomSheetContent";
 import DynamicIsland from "../DynamicIsland/DynamicIsland";
-import { hasDynamicIsland } from "@/src/shared/lib/helpers/deviceFeatures";
+import Snackbar from "../Snackbar/Snackbar";
 
 interface UILayoutProps {
   children: ReactNode;

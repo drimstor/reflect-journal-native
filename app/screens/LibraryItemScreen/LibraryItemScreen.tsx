@@ -24,6 +24,7 @@ import {
   CheckboxList,
   Chip,
   Divider,
+  FullScreenPreview,
   InfoBox,
   Layout,
   MarkdownEmojiText,
@@ -48,7 +49,7 @@ import {
   useHeaderStore,
 } from "@/src/widgets";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { useChecklistActions } from "./lib/hooks/useChecklistActions";
 import { useParentEntity } from "./lib/hooks/useParentEntity";
@@ -321,6 +322,29 @@ const LibraryItemScreen = () => {
                       </View>
                     )}
                   <Divider style={styles.divider} color={colors.alternate} />
+                </>
+              )}
+              {currentItem?.images && currentItem.images.length > 0 && (
+                <>
+                  <TitleText
+                    text={t("libraryItem.images")}
+                    textColor={colors.contrast}
+                    element={<DotsIcon color={colors.contrast} size={22} />}
+                    variant="subTitle"
+                    style={styles.titleText}
+                  />
+                  <FullScreenPreview
+                    images={currentItem.images}
+                    maxVisible={6}
+                    imageSize={100}
+                    spacing={8}
+                    columns={3}
+                    containerStyle={styles.imagesBox}
+                  />
+                  <Divider
+                    style={{ marginVertical: 20 }}
+                    color={colors.alternate}
+                  />
                 </>
               )}
               {!!(currentItem?.related_topics?.length || 0) && (

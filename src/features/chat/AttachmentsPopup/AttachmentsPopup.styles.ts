@@ -5,8 +5,8 @@ export const createStyles = (colors: ThemeColors, theme: Theme) =>
   StyleSheet.create({
     container: {
       position: "absolute",
-      bottom: 70,
-      right: -0.5,
+      bottom: 60,
+      right: -11,
       zIndex: 1000,
     },
     popup: {

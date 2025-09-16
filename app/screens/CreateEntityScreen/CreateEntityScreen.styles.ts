@@ -11,5 +11,12 @@ export const createStyles = (colors: ThemeColors) => {
     globalContentBox: {
       paddingBottom: 370,
     },
+    snackbarsContainer: {
+      position: "absolute",
+      top: -12,
+      left: 0,
+      right: 0,
+      zIndex: 1000,
+    },
   });
 };

@@ -50,6 +50,7 @@ export interface Message {
   created_at: string;
   updated_at: string;
   command?: string;
+  images?: string[]; // URL изображений
 }
 
 export interface MessageGiftedChat {
@@ -58,11 +59,20 @@ export interface MessageGiftedChat {
   createdAt: string;
   user: { _id: string };
   command?: string;
+  images?: string[]; // URL изображений
 }
 
 export interface CreateMessageRequest {
   content: string;
   chat_id: string;
+  images?: string[]; // URL изображений для отправки
+}
+
+// Тип для создания сообщения с файлами изображений
+export interface CreateMessageWithImagesData {
+  content: string;
+  chat_id: string;
+  imageFiles?: File[]; // Файлы изображений для загрузки
 }
 
 export interface UpdateMessageRequest {

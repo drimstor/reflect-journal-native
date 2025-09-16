@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
 import { ThemeColors } from "@/src/shared/model/types";
+import { StyleSheet } from "react-native";
 
 export const createStyles = (colors: ThemeColors) =>
   StyleSheet.create({
@@ -44,6 +44,7 @@ export const createStyles = (colors: ThemeColors) =>
     },
     carouselBox: {
       // width: "0%",
+      marginTop: -8,
     },
     carousel: {
       // borderWidth: 1,
@@ -54,6 +55,9 @@ export const createStyles = (colors: ThemeColors) =>
     },
     divider: {
       marginVertical: 24,
+    },
+    imagesBox: {
+      marginTop: 8,
     },
     pullIcon: {
       position: "absolute",

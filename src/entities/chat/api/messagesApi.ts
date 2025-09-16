@@ -4,7 +4,6 @@ import { IMessage } from "react-native-gifted-chat";
 import { transformMessages } from "../lib/helpers/transformMessages";
 import {
   CreateAIMessageFromEntityRequest,
-  CreateMessageRequest,
   Message,
   MessageResponse,
   UpdateMessageRequest,
@@ -20,18 +19,22 @@ interface ChatMessageResponse extends Omit<MessageResponse, "data"> {
 
 export const messagesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    createMessage: builder.mutation<Message, CreateMessageRequest>({
-      query: (data: CreateMessageRequest) => ({
+    // Единый эндпоинт для создания сообщений (всегда через FormData)
+    createMessageWithImages: builder.mutation<Message, FormData>({
+      query: (formData: FormData) => ({
         url: "/messages",
         method: "POST",
-        body: data,
+        body: formData,
+        formData: true, // Указываем, что отправляем FormData
       }),
-      invalidatesTags: (result, error, data) => [
-        { type: ENTITY_NAME.CHATS, id: "LIST" },
-        ...(data.chat_id
-          ? [{ type: ENTITY_NAME.CHATS, id: data.chat_id }]
-          : []),
-      ],
+      invalidatesTags: (result, error, formData) => {
+        // Получаем chat_id из FormData для инвалидации тегов
+        const chatId = formData.get("chat_id") as string;
+        return [
+          { type: ENTITY_NAME.CHATS, id: "LIST" },
+          ...(chatId ? [{ type: ENTITY_NAME.CHATS, id: chatId }] : []),
+        ];
+      },
     }),
 
     getChatMessages: builder.query<
@@ -54,7 +57,7 @@ export const messagesApi = baseApi.injectEndpoints({
             ]
           : [{ type: MESSAGES_TAG, id: "LIST" }],
       serializeQueryArgs: ({ endpointName, queryArgs }) =>
-        `${endpointName}-${queryArgs.chat_id}`,
+        `${endpointName}-${queryArgs?.chat_id}`,
       merge: (currentCache, newItems) => {
         // Если кеша нет, просто возвращаем новые данные
         if (!currentCache) {
@@ -148,7 +151,7 @@ export const messagesApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useCreateMessageMutation,
+  useCreateMessageWithImagesMutation,
   useGetChatMessagesQuery,
   useUpdateMessageMutation,
   useDeleteMessageMutation,

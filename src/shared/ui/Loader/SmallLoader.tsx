@@ -1,11 +1,11 @@
-// import LottieView from "lottie-react-native";
-import React, { FC } from "react";
+import LottieView from "lottie-react-native";
+import { FC } from "react";
 import { View } from "react-native";
 import { useThemeStore } from "../../store";
 import { LoaderProps } from "./model/types";
 
 // Импортируем JSON анимацию
-// import loadingAnimation from "./animations/small-loader.json";
+import loadingAnimation from "./animations/small-loader.json";
 
 export const SmallLoader: FC<LoaderProps> = ({
   size = 50,
@@ -29,7 +29,7 @@ export const SmallLoader: FC<LoaderProps> = ({
         style,
       ]}
     >
-      {/* <LottieView
+      <LottieView
         source={loadingAnimation}
         style={{ width: size, height: size }}
         autoPlay
@@ -44,7 +44,7 @@ export const SmallLoader: FC<LoaderProps> = ({
             color: color || colors.contrastReverse,
           },
         ]}
-      /> */}
+      />
     </View>
   );
 };

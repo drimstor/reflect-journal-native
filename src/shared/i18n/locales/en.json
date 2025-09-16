@@ -73,7 +73,10 @@
       "journals": "Choose journal",
       "chats": "Choose chat"
     },
-    "startWriting": "Start writing..."
+    "startWriting": "Start writing...",
+    "images": {
+      "title": "Attach images"
+    }
   },
   "chat": {
     "placeholder": "Enter message...",
@@ -96,7 +99,8 @@
     "content": "Content",
     "checklist": "Checklist",
     "aiResponse": "AI Response",
-    "relatedEntries": "Related Entries"
+    "relatedEntries": "Related Entries",
+    "images": "Images"
   },
   "sort": {
     "sortBy": "Sort by",
@@ -495,6 +499,29 @@
     },
     "time": {
       "minutes": "mins"
+    },
+    "media": {
+      "pickFromGallery": "Pick from Gallery",
+      "openCamera": "Open Camera",
+      "fileSizes": {
+        "bytes": "B",
+        "kilobytes": "KB",
+        "megabytes": "MB"
+      },
+      "errors": {
+        "galleryPermissionTitle": "Permission Required",
+        "galleryPermissionMessage": "To upload images from gallery, you need to provide access to photos.",
+        "cameraPermissionTitle": "Permission Required",
+        "cameraPermissionMessage": "To take photos, you need to provide camera access.",
+        "galleryError": "Error selecting images from gallery",
+        "cameraError": "Error taking photo with camera"
+      },
+      "limits": {
+        "maximum": "Limit - ",
+        "photos": "images",
+        "maxFileSize": "Maximum file size",
+        "fileUnit": "MB"
+      }
     }
   }
 } 

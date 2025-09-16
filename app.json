@@ -21,7 +21,8 @@
       "infoPlist": {
         "NSMicrophoneUsageDescription": "Приложению требуется доступ к микрофону для записи голосовых сообщений",
         "NSPhotoLibraryUsageDescription": "Приложению требуется доступ к фото для загрузки изображений",
-        "NSPhotoLibraryAddUsageDescription": "Приложению требуется доступ к фото для сохранения изображений"
+        "NSPhotoLibraryAddUsageDescription": "Приложению требуется доступ к фото для сохранения изображений",
+        "NSCameraUsageDescription": "Приложению требуется доступ к камере для создания фотографий"
       }
     },
     "android": {
@@ -35,13 +36,15 @@
         "RECORD_AUDIO",
         "MODIFY_AUDIO_SETTINGS",
         "READ_EXTERNAL_STORAGE",
-        "WRITE_EXTERNAL_STORAGE"
+        "WRITE_EXTERNAL_STORAGE",
+        "CAMERA"
       ]
     },
     "plugins": [
       "expo-font",
       "expo-secure-store",
       "expo-web-browser",
+      "expo-image-picker",
       [
         "expo-build-properties",
         {
