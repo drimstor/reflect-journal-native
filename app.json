@@ -56,8 +56,6 @@
           "sounds": []
         }
       ],
-      "./plugins/diagnostics-plugin.js",
-      "./plugins/material-conflict-resolver.js",
       [
         "expo-build-properties",
         {
