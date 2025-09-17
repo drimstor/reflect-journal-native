@@ -1,12 +1,11 @@
 import {
   transformPortraitDataToCharts,
-  useCreateSummaryMutation,
   useEntitiesData,
   useGetPortraitStatsQuery,
 } from "@/src/entities";
 import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import { PATHS } from "@/src/shared/const/PATHS";
-import { useT } from "@/src/shared/lib/hooks";
+import { useBackgroundSummary, useT } from "@/src/shared/lib/hooks";
 import { EntityType } from "@/src/shared/model/types";
 import {
   useBottomSheetStore,
@@ -193,15 +192,18 @@ const CreateSummaryView = ({
   // Получаем конфигурацию формы в зависимости от типа currentItemIndex
   const formConfig = useEditFormConfig(ITEMS[currentItemIndex].id);
 
-  const [createSummary, { isLoading: isCreatingSummary }] =
-    useCreateSummaryMutation();
+  const { createSummaryInBackground } = useBackgroundSummary();
+  const [isCreatingSummary, setIsCreatingSummary] = useState(false);
 
   // Инициализируем форму с начальными значениями из конфигурации
   const { values, errors, handleChange, handleSubmit, resetForm } = useEditForm(
     formConfig,
     async (formData) => {
       try {
-        const result = await createSummary({
+        setIsCreatingSummary(true);
+
+        // Создаем запрос для саммари
+        const summaryRequest = {
           ...formData,
           summary_type: entityType || ITEMS[currentItemIndex].id,
           ...(currentCarouselItem && {
@@ -213,23 +215,34 @@ const CreateSummaryView = ({
             ...(isCategories && { categories: multi_select_ids }),
             ...(isTopics && { topics: multi_select_ids }),
           }),
-        }).unwrap();
+        };
+
+        // Запускаем создание в фоне
+        await createSummaryInBackground(summaryRequest, {
+          onSuccess: (result) => {
+            // При успешном создании переходим к просмотру
+            setTimeout(() => {
+              const params = { item: result, variant: ENTITY_NAME.SUMMARIES };
+              setNavigation(true, PATHS.LIBRARY_ITEM, params);
+            }, 300);
+          },
+          onError: (error) => {
+            console.error("Ошибка при создании саммари:", error);
+          },
+          showImmediateToast: true, // Показываем уведомление сразу
+        });
+
+        // Сразу закрываем форму, не дожидаясь ответа
+        setIsCreatingSummary(false);
 
         if (isStandalone) {
           navigationBack?.();
         } else {
           handleClose();
         }
-
-        setTimeout(
-          () => {
-            const params = { item: result, variant: ENTITY_NAME.SUMMARIES };
-            setNavigation(true, PATHS.LIBRARY_ITEM, params);
-          },
-          isStandalone ? 200 : 300
-        );
       } catch (error) {
-        console.error("Ошибка при создании сумммари:", error);
+        setIsCreatingSummary(false);
+        console.error("Ошибка при запуске создания саммари:", error);
       }
     }
   );

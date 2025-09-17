@@ -53,8 +53,8 @@ export const useNotificationInit = (): UseNotificationInitReturn => {
         const success = await notificationService.scheduleDailyReminder({
           title: "Время для дневника",
           body: "Не забудьте записать свои мысли сегодня!",
-          hour: 20,
-          minute: 0,
+          hour: 19,
+          minute: 59,
         });
 
         if (success) {

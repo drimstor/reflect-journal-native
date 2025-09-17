@@ -5,7 +5,7 @@ import {
   NotificationData,
   notificationService,
 } from "../services/NotificationService";
-import { useLang } from "./useLang";
+import { useT } from "./useLang";
 
 interface UseNotificationsReturn {
   // Состояние разрешений
@@ -35,7 +35,7 @@ interface UseNotificationsReturn {
  * Предоставляет удобный интерфейс для отправки уведомлений и управления ими
  */
 export const useNotifications = (): UseNotificationsReturn => {
-  const { t } = useLang();
+  const t = useT();
   const [permissionStatus, setPermissionStatus] = useState<
     "granted" | "denied" | "undetermined"
   >("undetermined");

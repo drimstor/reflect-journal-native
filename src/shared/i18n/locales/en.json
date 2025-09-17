@@ -549,6 +549,23 @@
       "reminderCancelled": "Daily reminder cancelled",
       "testSent": "Test notification sent",
       "permissionRequired": "Notification permission required"
+    },
+    "summary": {
+      "creating": {
+        "title": "Creating summary...",
+        "body": "Data analysis started. You will receive notification when it's ready"
+      },
+      "created": {
+        "title": "Summary ready!",
+        "body": "Your analysis has been successfully created and is ready to view"
+      },
+      "error": {
+        "title": "Summary creation error",
+        "body": "Failed to create analysis. Please try again"
+      }
+    },
+    "backgroundTasks": {
+      "single": "Creating summary..."
     }
   }
 } 
