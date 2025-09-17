@@ -50,6 +50,13 @@ const MessageInput: FC<MessageInputProps> = ({
     allowsEditing: false,
   });
 
+  // Обработчик распознанного текста
+  const handleSpeechRecognized = (recognizedText: string) => {
+    // Добавляем распознанный текст к существующему тексту
+    const newText = text ? text + " " + recognizedText : recognizedText;
+    onChangeText(newText);
+  };
+
   // Обработчик отправки сообщения
   const handleSend = () => {
     if (text.trim() || selectedImages.length > 0) {
@@ -108,6 +115,7 @@ const MessageInput: FC<MessageInputProps> = ({
                 isVisible={isAttachmentsVisible}
                 onClose={toggleAttachments}
                 onImagePickerPress={handleImagePicker}
+                onSpeechRecognized={handleSpeechRecognized}
               />
             </View>
           </View>

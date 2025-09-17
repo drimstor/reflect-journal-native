@@ -1,9 +1,5 @@
 import { useThemeStore } from "@/src/shared/store";
-import {
-  DocumentTextIcon,
-  ImageIcon,
-  MicrophoneIcon,
-} from "@/src/shared/ui/icons";
+import { ImageIcon, MicrophoneIcon } from "@/src/shared/ui/icons";
 import { FC, useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 import OutsidePressHandler from "react-native-outside-press";
@@ -61,7 +57,7 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
   };
 
   const buttonsConfig = [
-    { icon: <DocumentTextIcon color={iconColor} size={22} /> },
+    // { icon: <DocumentTextIcon color={iconColor} size={22} /> },
     {
       icon: <MicrophoneIcon color={iconColor} size={24} />,
       onPress: undefined,

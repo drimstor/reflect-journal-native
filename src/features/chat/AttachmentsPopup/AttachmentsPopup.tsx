@@ -5,6 +5,7 @@ interface AttachmentsPopupProps {
   isVisible: boolean;
   onClose: () => void;
   onImagePickerPress?: () => void;
+  onSpeechRecognized?: (text: string) => void; // Обработчик распознанного текста
 }
 
 // Динамический импорт компонентов по платформе

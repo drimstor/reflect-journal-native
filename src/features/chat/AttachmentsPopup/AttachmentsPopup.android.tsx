@@ -1,9 +1,5 @@
 import { useThemeStore } from "@/src/shared/store";
-import {
-  DocumentTextIcon,
-  ImageIcon,
-  MicrophoneIcon,
-} from "@/src/shared/ui/icons";
+import { ImageIcon, MicrophoneIcon } from "@/src/shared/ui/icons";
 import { FC, useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 import OutsidePressHandler from "react-native-outside-press";
@@ -71,14 +67,12 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
     if (isListening) {
       stopListening();
     } else {
-      console.log("startListening");
       startListening();
     }
-    onClose(); // Закрываем попап после начала записи
   };
 
   const buttonsConfig = [
-    { icon: <DocumentTextIcon color={iconColor} size={22} /> },
+    // { icon: <DocumentTextIcon color={iconColor} size={22} /> },
     {
       icon: (
         <MicrophoneIcon

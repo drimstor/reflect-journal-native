@@ -12,6 +12,8 @@ export const useSpeechRecognition = (
   const [isListening, setIsListening] = useState(false);
   const [recognizedText, setRecognizedText] = useState("");
 
+  console.log({ recognizedText });
+
   // Слушатель событий распознавания речи
   useSpeechRecognitionEvent("start", () => {
     setIsListening(true);
@@ -37,7 +39,7 @@ export const useSpeechRecognition = (
   // Запуск распознавания речи
   const startListening = useCallback(async () => {
     try {
-      // Проверяем доступность и разрешения
+      // Проверяем разрешения
       const { status } =
         await ExpoSpeechRecognitionModule.requestPermissionsAsync();
 
@@ -49,16 +51,8 @@ export const useSpeechRecognition = (
         return;
       }
 
-      const available = await ExpoSpeechRecognitionModule.getAvailableAsync();
-      if (!available) {
-        Alert.alert(
-          "Недоступно",
-          "Распознавание речи недоступно на этом устройстве"
-        );
-        return;
-      }
-
-      // Запускаем распознавание
+      // Запускаем распознавание без проверки доступности
+      // так как getAvailableAsync может отсутствовать в текущей версии
       await ExpoSpeechRecognitionModule.start({
         lang: "ru-RU",
         interimResults: true,
