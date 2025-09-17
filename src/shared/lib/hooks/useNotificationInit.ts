@@ -64,6 +64,21 @@ export const useNotificationInit = (): UseNotificationInitReturn => {
         }
       }
 
+      // Отправляем тестовое уведомление после успешной инициализации
+      if (hasPermissions) {
+        const testNotificationId = await notificationService.sendNotification({
+          title: "Уведомления работают!",
+          body: "Инициализация прошла успешно. Теперь вы будете получать напоминания о ведении дневника.",
+          data: { type: "initialization-test" },
+        });
+
+        if (testNotificationId) {
+          console.log("Тестовое уведомление отправлено успешно");
+        } else {
+          console.warn("Не удалось отправить тестовое уведомление");
+        }
+      }
+
       setIsInitialized(true);
       setInitializationError(null);
       console.log("Инициализация уведомлений завершена успешно");
@@ -85,7 +100,7 @@ export const useNotificationInit = (): UseNotificationInitReturn => {
     // Добавляем задержку для обеспечения полной загрузки приложения
     const initTimer = setTimeout(() => {
       initializeNotifications();
-    }, 2000); // 2 секунды задержки
+    }, 5000); // 2 секунды задержки
 
     return () => {
       clearTimeout(initTimer);
