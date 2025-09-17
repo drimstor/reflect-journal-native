@@ -4,7 +4,7 @@ import {
   ImageIcon,
   MicrophoneIcon,
 } from "@/src/shared/ui/icons";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 import OutsidePressHandler from "react-native-outside-press";
 import Animated, {
@@ -14,35 +14,27 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { createStyles } from "./AttachmentsPopup.styles";
-import { useVoiceRecording } from "./lib/hooks/useVoiceRecording";
-import { RecordingControl } from "./ui/RecordingControl/RecordingControl";
+import { useSpeechRecognition } from "./lib/hooks/useSpeechRecognition";
 
 interface AttachmentsPopupProps {
   isVisible: boolean;
   onClose: () => void;
   onImagePickerPress?: () => void; // Обработчик нажатия на выбор изображений
+  onSpeechRecognized?: (text: string) => void; // Обработчик распознанного текста
 }
 
 const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
   isVisible,
   onClose,
   onImagePickerPress,
+  onSpeechRecognized,
 }) => {
   const { colors, theme } = useThemeStore();
-  const [isRecordingVisible, setIsRecordingVisible] = useState(false);
+  console.log("AttachmentsPopup Android");
 
-  // Используем кастомный хук для управления записью (только для Android)
-  const {
-    isPaused,
-    recordingTime,
-    recognizedText,
-    error,
-    startRecording,
-    stopRecording,
-    pauseRecording,
-    resumeRecording,
-    resetRecording,
-  } = useVoiceRecording();
+  // Используем кастомный хук для распознавания речи
+  const { isListening, startListening, stopListening } =
+    useSpeechRecognition(onSpeechRecognized);
 
   const animationValue = useSharedValue(0);
 
@@ -66,37 +58,6 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
   const styles = createStyles(colors, theme);
   const iconColor = theme === "dark" ? colors.accent : colors.primary;
 
-  // Обработчик нажатия на микрофон (только для Android)
-  const handleMicrophonePress = async () => {
-    setIsRecordingVisible(true);
-    await startRecording();
-    onClose(); // Закрываем попап с вложениями
-  };
-
-  // Обработчик остановки записи (только для Android)
-  const handleStopRecording = async () => {
-    await stopRecording();
-    setIsRecordingVisible(false);
-
-    // Выводим распознанный текст в консоль
-    if (recognizedText) {
-      console.log("Распознанный текст из голоса:", recognizedText);
-    }
-
-    // Сбрасываем состояние записи
-    resetRecording();
-  };
-
-  // Обработчик паузы (только для Android)
-  const handlePauseRecording = () => {
-    pauseRecording();
-  };
-
-  // Обработчик возобновления (только для Android)
-  const handleResumeRecording = async () => {
-    await resumeRecording();
-  };
-
   // Обработчик нажатия на выбор изображений
   const handleImagePress = () => {
     if (onImagePickerPress) {
@@ -105,10 +66,26 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
     onClose(); // Закрываем попап после выбора
   };
 
+  // Обработчик нажатия на микрофон
+  const handleMicrophonePress = () => {
+    if (isListening) {
+      stopListening();
+    } else {
+      console.log("startListening");
+      startListening();
+    }
+    onClose(); // Закрываем попап после начала записи
+  };
+
   const buttonsConfig = [
     { icon: <DocumentTextIcon color={iconColor} size={22} /> },
     {
-      icon: <MicrophoneIcon color={iconColor} size={24} />,
+      icon: (
+        <MicrophoneIcon
+          color={isListening ? colors.error : iconColor}
+          size={24}
+        />
+      ),
       onPress: handleMicrophonePress,
     },
     {
@@ -118,38 +95,23 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
   ];
 
   return (
-    <>
-      <OutsidePressHandler
-        style={[
-          styles.container,
-          { pointerEvents: isVisible ? "auto" : "none" },
-        ]}
-        onOutsidePress={onClose}
-        disabled={!isVisible}
-      >
-        <Animated.View style={[styles.popup, animatedStyle]}>
-          {buttonsConfig.map((button, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.button}
-              onPress={button.onPress}
-            >
-              {button.icon}
-            </TouchableOpacity>
-          ))}
-        </Animated.View>
-      </OutsidePressHandler>
-
-      <RecordingControl
-        isVisible={isRecordingVisible}
-        isPaused={isPaused}
-        recordingTime={recordingTime}
-        error={error}
-        onPause={handlePauseRecording}
-        onResume={handleResumeRecording}
-        onStop={handleStopRecording}
-      />
-    </>
+    <OutsidePressHandler
+      style={[styles.container, { pointerEvents: isVisible ? "auto" : "none" }]}
+      onOutsidePress={onClose}
+      disabled={!isVisible}
+    >
+      <Animated.View style={[styles.popup, animatedStyle]}>
+        {buttonsConfig.map((button, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.button}
+            onPress={button.onPress}
+          >
+            {button.icon}
+          </TouchableOpacity>
+        ))}
+      </Animated.View>
+    </OutsidePressHandler>
   );
 };
 

@@ -26,6 +26,8 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
   onClose,
   onImagePickerPress,
 }) => {
+  console.log("AttachmentsPopup iOS");
+
   const { colors, theme } = useThemeStore();
 
   const animationValue = useSharedValue(0);
