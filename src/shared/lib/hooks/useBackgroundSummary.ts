@@ -59,16 +59,18 @@ export const useBackgroundSummary = (): UseBackgroundSummaryReturn => {
 
       // Показываем стартовое уведомление
       if (showImmediateToast) {
-        await sendNotification(
-          t("notifications.summary.creating.title"),
-          t("notifications.summary.creating.body"),
-          {
-            type: "summary_started",
-            timestamp: Date.now(),
-          }
-        );
+        // await sendNotification(
+        //   t("notifications.summary.creating.title"),
+        //   t("notifications.summary.creating.body"),
+        //   {
+        //     type: "summary_started",
+        //     timestamp: Date.now(),
+        //   }
+        // );
         addSnackbarHandler(
-          t("notifications.summary.creating.title"),
+          `${t("notifications.summary.creating.title")} ${t(
+            "notifications.summary.creating.body"
+          )}`,
           "success"
         );
       }
@@ -84,16 +86,18 @@ export const useBackgroundSummary = (): UseBackgroundSummaryReturn => {
       const taskOptions = {
         onSuccess: async (result: any) => {
           // Отправляем уведомление об успехе
-          await sendNotification(
-            t("notifications.summary.created.title"),
-            t("notifications.summary.created.body"),
-            {
-              type: "summary_created",
-              summaryId: result.id,
-            }
-          );
+          // await sendNotification(
+          //   t("notifications.summary.created.title"),
+          //   t("notifications.summary.created.body"),
+          //   {
+          //     type: "summary_created",
+          //     summaryId: result.id,
+          //   }
+          // );
           addSnackbarHandler(
-            t("notifications.summary.created.title"),
+            `${t("notifications.summary.created.title")} ${t(
+              "notifications.summary.created.body"
+            )}`,
             "success"
           );
 
@@ -102,15 +106,20 @@ export const useBackgroundSummary = (): UseBackgroundSummaryReturn => {
         },
         onError: async (error: any) => {
           // Отправляем уведомление об ошибке
-          await sendNotification(
-            t("notifications.summary.error.title"),
-            t("notifications.summary.error.body"),
-            {
-              type: "summary_error",
-              error: error instanceof Error ? error.message : "Unknown error",
-            }
+          // await sendNotification(
+          //   t("notifications.summary.error.title"),
+          //   t("notifications.summary.error.body"),
+          //   {
+          //     type: "summary_error",
+          //     error: error instanceof Error ? error.message : "Unknown error",
+          //   }
+          // );
+          addSnackbarHandler(
+            `${t("notifications.summary.error.title")} ${t(
+              "notifications.summary.error.body"
+            )}`,
+            "error"
           );
-          addSnackbarHandler(t("notifications.summary.error.title"), "error");
 
           // Вызываем пользовательский колбэк
           onError?.(error);
