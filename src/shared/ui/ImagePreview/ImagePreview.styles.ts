@@ -80,7 +80,7 @@ export const createStyles = (colors: ThemeColors) =>
       borderRadius: 15,
       width: 30,
       height: 30,
-      padding: 3.5,
+      padding: 3,
     },
 
     loaderContainer: {

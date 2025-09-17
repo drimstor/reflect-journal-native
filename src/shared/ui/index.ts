@@ -1,4 +1,5 @@
 import AnimatedAppearance from "./AnimatedAppearance/AnimatedAppearance";
+import { AudioRecorder } from "./AudioRecorder/AudioRecorder";
 import BottomSheet from "./BottomSheet/BottomSheet";
 import Button from "./Button/Button";
 import DiagramChart from "./Charts/DiagramChart";
@@ -59,6 +60,7 @@ export type { TextProps } from "./Text/Text";
 export {
   AnimatedAppearance,
   AnimatedText,
+  AudioRecorder,
   BackgroundLayout,
   BottomSheet,
   Button,
@@ -92,6 +94,6 @@ export {
   Toggle,
   Tooltip,
   UILayout,
-  VirtualizedList,
   useCarouselConfig,
+  VirtualizedList,
 };

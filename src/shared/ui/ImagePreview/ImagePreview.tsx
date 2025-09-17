@@ -135,7 +135,7 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
             onPress={() => onMorePress?.()}
           >
             <Text style={styles.moreImagesPlus}>
-              <PlusIcon color={colors.white} size={22} />
+              <PlusIcon color={colors.white} size={24} />
             </Text>
           </TouchableOpacity>
         )}

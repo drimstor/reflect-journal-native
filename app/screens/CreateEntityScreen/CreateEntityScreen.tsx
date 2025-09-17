@@ -12,6 +12,7 @@ import {
 } from "@/src/shared/store";
 import {
   AnimatedLoader,
+  AudioRecorder,
   BottomSheet,
   BottomSheetList,
   BottomSheetScreenHeader,
@@ -98,6 +99,15 @@ const CreateEntityScreen = () => {
   });
 
   const isJournalEntry = currentEntity === ENTITY_NAME.JOURNAL_ENTRIES;
+
+  // Обработчик результата распознавания речи
+  const handleSpeechRecognized = (text: string) => {
+    if (text && isJournalEntry) {
+      const currentContent = values.content || "";
+      const newContent = currentContent ? `${currentContent} ${text}` : text;
+      handleChange("content", newContent);
+    }
+  };
 
   const { currentFlow, currentScreen, resetFlow } = useBottomSheetStore();
 
@@ -209,25 +219,40 @@ const CreateEntityScreen = () => {
           colors={colors}
         />
 
-        {/* Секция изображений (только для записей дневника) */}
+        {/* Секция аудио и изображений (только для записей дневника) */}
         {isJournalEntry && (
-          <View style={{ paddingHorizontal: 25, paddingBottom: 20 }}>
-            {/* Заголовок */}
-            <Text
-              size="medium"
-              color={colors.contrast}
-              style={{ marginBottom: 10 }}
-            >
-              {t("addEntry.images.title")}
-            </Text>
+          <View style={{ paddingHorizontal: 25, paddingBottom: 20, gap: 14 }}>
+            <View style={{}}>
+              {/* Заголовок */}
+              <Text
+                size="medium"
+                color={colors.contrast}
+                style={{ marginBottom: 10 }}
+              >
+                {t("addEntry.audio.title")}
+              </Text>
 
-            {/* Кнопка добавления или превью изображений */}
-            <ImagePreview
-              images={selectedImages}
-              onRemove={removeImage}
-              showRemoveButton
-              onMorePress={handleImagePicker}
-            />
+              {/* Компонент записи аудио */}
+              <AudioRecorder onSpeechRecognized={handleSpeechRecognized} />
+            </View>
+            <View style={{}}>
+              {/* Заголовок */}
+              <Text
+                size="medium"
+                color={colors.contrast}
+                style={{ marginBottom: 10 }}
+              >
+                {t("addEntry.images.title")}
+              </Text>
+
+              {/* Кнопка добавления или превью изображений */}
+              <ImagePreview
+                images={selectedImages}
+                onRemove={removeImage}
+                showRemoveButton
+                onMorePress={handleImagePicker}
+              />
+            </View>
           </View>
         )}
       </ScrollView>
