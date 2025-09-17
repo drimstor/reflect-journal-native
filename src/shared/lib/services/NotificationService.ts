@@ -49,6 +49,8 @@ export class NotificationService {
         shouldShowAlert: true,
         shouldPlaySound: true,
         shouldSetBadge: false,
+        shouldShowBanner: true,
+        shouldShowList: true,
       }),
     });
   }
@@ -148,9 +150,10 @@ export class NotificationService {
           data: { type: "daily-reminder" },
         },
         trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.DAILY,
           hour: config.hour,
           minute: config.minute,
-          repeats: true,
+          // repeats: true,
         },
         identifier: DAILY_REMINDER_ID,
       });
