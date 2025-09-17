@@ -7,7 +7,9 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "diagnose": "node scripts/diagnose-dependencies.js",
+    "build:diagnose": "npm run diagnose && eas build --platform android --profile production --verbose"
   },
   "jest": {
     "preset": "jest-expo"
@@ -97,6 +99,13 @@
         ]
       }
     }
+  },
+  "resolutions": {
+    "com.google.android.material:material": "1.11.0",
+    "**/material": "1.11.0"
+  },
+  "overrides": {
+    "com.google.android.material:material": "1.11.0"
   },
   "private": true
 }

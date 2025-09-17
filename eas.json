@@ -13,6 +13,11 @@
     "production": {
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "DIAGNOSTICS_ENABLED": "true",
+        "BUILD_DEBUG": "true",
+        "MATERIAL_CONFLICT_DEBUG": "true"
       }
     }
   },
