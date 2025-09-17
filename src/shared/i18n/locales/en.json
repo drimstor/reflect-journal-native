@@ -32,7 +32,8 @@
     "editProfile": "Edit profile",
     "appearance": "Appearance",
     "emoji": "Emoji",
-    "emojiTooltip": "Display emoji in AI responses"
+    "emojiTooltip": "Display emoji in AI responses",
+    "importExport": "Import and export"
   },
   "home": {
     "title": "Dashboard",
@@ -442,7 +443,8 @@
       "readingTime": "Reading time",
       "progress": "Progress",
       "of": "of",
-      "type": "Type"
+      "type": "Type",
+      "soon": "Soon"
     },
     "validation": {
       "required": "Required field",

@@ -15,7 +15,6 @@
   "dependencies": {
     "@expo/config-plugins": "^10.1.1",
     "@expo/metro-runtime": "~5.0.4",
-    "@gorhom/bottom-sheet": "^5.0.6",
     "@gorhom/bottom-sheet": "^5.2.6",
     "@react-native-async-storage/async-storage": "2.1.2",
     "@react-native-clipboard/clipboard": "^1.16.2",

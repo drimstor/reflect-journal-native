@@ -5,10 +5,12 @@ import {
   useThemeStore,
 } from "@/src/shared/store";
 import {
+  ArchiveBoxIcon,
   ArrowLeftIcon,
   BellIcon,
   BrushIcon,
   CardIcon,
+  Chip,
   EmojiIcon,
   GlobalIcon,
   Info,
@@ -46,6 +48,12 @@ const SettingsScreen: FC<SettingsScreenProps> = () => {
       text: t("settings.notifications"),
       IconComponent: BellIcon,
       onPress: toggleLanguage,
+    },
+    {
+      text: t("settings.importExport"),
+      IconComponent: ArchiveBoxIcon,
+      onPress: toggleLanguage,
+      element: <Chip title={t("shared.info.soon")} color={colors.accent} />,
     },
   ];
 
@@ -125,19 +133,19 @@ const SettingsScreen: FC<SettingsScreenProps> = () => {
   return (
     <Layout>
       <ScrollView>
-        <PaddingLayout style={{ marginTop: 30 }}>
+        <PaddingLayout style={{ paddingTop: 30, paddingBottom: 250 }}>
           <ProfileMenu />
           <MenuList
             title={t("settings.account")}
             listItemVariant="reverse"
             style={{ marginBottom: 20, marginTop: 40 }}
-            items={accountSettings.map(({ text, IconComponent }) => ({
+            items={accountSettings.map(({ text, IconComponent, element }) => ({
               text,
               onPress: () => {},
               IconComponent: (props) => (
                 <IconComponent {...props} color={props.color} size={22} />
               ),
-              element: (
+              element: element || (
                 <View
                   style={{
                     transform: [{ rotate: "180deg" }, { translateX: -5 }],

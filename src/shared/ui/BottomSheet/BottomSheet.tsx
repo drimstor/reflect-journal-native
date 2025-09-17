@@ -211,4 +211,6 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
   }
 );
 
+BottomSheet.displayName = "BottomSheet";
+
 export default BottomSheet;

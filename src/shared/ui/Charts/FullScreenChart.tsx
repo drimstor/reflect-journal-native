@@ -1,17 +1,11 @@
-import React, {
-  FC,
-  useState,
-  forwardRef,
-  useImperativeHandle,
-  Ref,
-} from "react";
-import { PieChart } from "react-native-gifted-charts";
-import { View } from "react-native";
-import { useDeviceStore, useThemeStore } from "@/src/shared/store";
-import { stringToColor } from "@/src/shared/lib/helpers/stringToColor";
-import { getGradientColor } from "@/src/shared/lib/helpers/getGradientColor";
-import { Text } from "@/src/shared/ui";
 import { PortraitNode } from "@/src/entities";
+import { getGradientColor } from "@/src/shared/lib/helpers/getGradientColor";
+import { stringToColor } from "@/src/shared/lib/helpers/stringToColor";
+import { useDeviceStore, useThemeStore } from "@/src/shared/store";
+import { Text } from "@/src/shared/ui";
+import React, { forwardRef, useImperativeHandle, useState } from "react";
+import { View } from "react-native";
+import { PieChart } from "react-native-gifted-charts";
 
 // Пропсы компонента
 interface FullScreenChartProps {
@@ -107,5 +101,7 @@ const FullScreenChart = forwardRef<FullScreenChartHandle, FullScreenChartProps>(
     );
   }
 );
+
+FullScreenChart.displayName = "FullScreenChart";
 
 export default FullScreenChart;
