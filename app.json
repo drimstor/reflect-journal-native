@@ -65,12 +65,6 @@
             "gradleProperties": {
               "org.gradle.jvmargs": "-Xmx4096m -XX:MaxMetaspaceSize=1024m",
               "android.enableResourceOptimizations": "false"
-            },
-            "packagingOptions": {
-              "pickFirst": [
-                "**/libc++_shared.so",
-                "**/libjsc.so"
-              ]
             }
           }
         }
