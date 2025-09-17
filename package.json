@@ -100,12 +100,5 @@
       }
     }
   },
-  "resolutions": {
-    "com.google.android.material:material": "1.11.0",
-    "**/material": "1.11.0"
-  },
-  "overrides": {
-    "com.google.android.material:material": "1.11.0"
-  },
   "private": true
 }
