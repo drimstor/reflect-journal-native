@@ -62,9 +62,15 @@
           "android": {
             "useAndroidX": true,
             "enableJetifier": true,
+            "packagingOptions": {
+              "pickFirst": ["**/values.xml"],
+              "exclude": ["META-INF/DEPENDENCIES"]
+            },
             "gradleProperties": {
               "org.gradle.jvmargs": "-Xmx4096m -XX:MaxMetaspaceSize=1024m",
-              "android.enableResourceOptimizations": "false"
+              "android.enableResourceOptimizations": "false",
+              "android.enableJetifier": "true",
+              "android.useAndroidX": "true"
             }
           }
         }
