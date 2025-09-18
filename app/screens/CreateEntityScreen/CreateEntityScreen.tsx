@@ -12,7 +12,7 @@ import {
 } from "@/src/shared/store";
 import {
   AnimatedLoader,
-  AudioRecorder,
+  AudioRecorderContainer,
   BottomSheet,
   BottomSheetList,
   BottomSheetScreenHeader,
@@ -233,7 +233,9 @@ const CreateEntityScreen = () => {
               </Text>
 
               {/* Компонент записи аудио */}
-              <AudioRecorder onSpeechRecognized={handleSpeechRecognized} />
+              <AudioRecorderContainer
+                onSpeechRecognized={handleSpeechRecognized}
+              />
             </View>
             <View style={{}}>
               {/* Заголовок */}

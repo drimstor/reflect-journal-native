@@ -35,7 +35,7 @@ import Tooltip from "./Tooltip/Tooltip";
 import VirtualizedList from "./VirtualizedList/VirtualizedList";
 
 export * from "./assets";
-export { AudioRecorder } from "./AudioRecorder/AudioRecorder";
+export { default as AudioRecorderContainer } from "./AudioRecorder/AudioRecorder";
 export type { BottomSheetRef } from "./BottomSheet/BottomSheet";
 export * from "./BottomSheetContent";
 export { BottomSheetScreenHeader } from "./BottomSheetScreenHeader/BottomSheetScreenHeader";
