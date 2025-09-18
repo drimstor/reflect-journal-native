@@ -82,6 +82,7 @@ function LibraryList({ variant, onPress }: LibraryListProps) {
       renderItem={TypedPreviewBlock({ variant, onPress })}
       isFetching={isFetching}
       sortField={variant === ENTITY_NAME.TESTS ? "created_at" : "updated_at"}
+      entityName={variant}
     />
   );
 }

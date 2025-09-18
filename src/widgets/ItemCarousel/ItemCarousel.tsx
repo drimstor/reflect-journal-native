@@ -1,8 +1,8 @@
-import React from "react";
-import { View } from "react-native";
-import { Carousel, PaddingLayout, TitleText, DotsIcon } from "@/src/shared/ui";
 import { TypedPreviewBlock } from "@/src/features";
 import { ThemeColors } from "@/src/shared/model/types";
+import { Carousel, DotsIcon, PaddingLayout, TitleText } from "@/src/shared/ui";
+import React from "react";
+import { View } from "react-native";
 import { itemCarouselStyles } from "./ItemCarousel.styles";
 
 // Тип элемента для карусели
@@ -13,7 +13,7 @@ type CarouselItemType = {
 
 interface ItemCarouselProps {
   title: string; // Заголовок карусели
-  data: Array<CarouselItemType> | undefined; // Данные для карусели
+  data: CarouselItemType[] | undefined; // Данные для карусели
   onSelectItem?: (index: number) => void; // Обработчик выбора элемента
   modeConfig: {
     parallaxScrollingScale: number;
@@ -23,6 +23,7 @@ interface ItemCarouselProps {
   colors: ThemeColors; // Цвета темы
   style?: any; // Опциональный стиль для контейнера
   willCreate?: boolean; // Флаг для отображения иконки создания
+  activeIndex?: number; // Активный индекс для программного управления
   onPress?: (item: CarouselItemType) => void; // Обработчик нажатия на элемент
 }
 
@@ -34,6 +35,7 @@ export const ItemCarousel = ({
   colors,
   style,
   willCreate = false,
+  activeIndex,
   onPress,
 }: ItemCarouselProps) => {
   const styles = itemCarouselStyles(colors);
@@ -57,6 +59,7 @@ export const ItemCarousel = ({
         mode="parallax"
         data={data}
         handler={onSelectItem}
+        activeIndex={activeIndex}
         modeConfig={modeConfig}
         renderItem={TypedPreviewBlock({
           onPress,

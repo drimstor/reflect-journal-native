@@ -4,6 +4,7 @@ import {
   isAnyFilterActive,
   useDeviceStore,
   useFiltersStore,
+  useScreenInfoStore,
   useThemeStore,
 } from "@/src/shared/store";
 import {
@@ -47,11 +48,13 @@ function VirtualizedList<ItemT extends WithDateAndId>({
   data,
   isFetching,
   sortField = "updated_at",
+  entityName,
 }: VirtualizedListProps<ItemT>) {
   const { window } = useDeviceStore();
   const { colors } = useThemeStore();
   const { locale } = useLang();
   const filters = useFiltersStore();
+  const { setNavigationScreenInfo } = useScreenInfoStore();
   const isFilterActive = isAnyFilterActive(filters);
   const navigation = useNavigation<NavigationProps>();
   const loadMore = () => {
@@ -100,6 +103,7 @@ function VirtualizedList<ItemT extends WithDateAndId>({
               if (isFilterActive) {
                 filters.resetFilters();
               } else {
+                setNavigationScreenInfo({ name: entityName });
                 navigation.navigate(PATHS.ADD_ENTRY);
               }
             }}

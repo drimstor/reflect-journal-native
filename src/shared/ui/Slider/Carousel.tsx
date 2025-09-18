@@ -1,7 +1,7 @@
 import { PreviewCardProps } from "@/src/features/home/PreviewCard/PreviewCard";
 import { useDeviceStore, useThemeStore } from "@/src/shared/store";
 import * as Haptics from "expo-haptics";
-import { ReactElement, useRef } from "react";
+import { ReactElement, useEffect, useRef } from "react";
 import { StyleProp, View, ViewStyle } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 import {
@@ -25,6 +25,7 @@ interface CarouselProps {
   };
   handler?: (index: number) => void;
   defaultIndex?: number;
+  activeIndex?: number;
   dotColors?: {
     dot: string;
     activeDot: string;
@@ -41,6 +42,7 @@ const Carousel = ({
   handler,
   mode = "parallax",
   defaultIndex = 0,
+  activeIndex,
   dotColors,
 }: CarouselProps) => {
   const ref = useRef<ICarouselInstance>(null);
@@ -48,6 +50,14 @@ const Carousel = ({
   const { colors, theme } = useThemeStore();
   const { window } = useDeviceStore();
   const styles = createDotsStyles(colors, theme);
+
+  useEffect(() => {
+    if (!activeIndex) return;
+    const currentIndex = ref.current?.getCurrentIndex();
+    if (currentIndex !== activeIndex) {
+      ref.current?.scrollTo({ index: activeIndex, animated: true });
+    }
+  }, [activeIndex]);
 
   const onScrollStart = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);

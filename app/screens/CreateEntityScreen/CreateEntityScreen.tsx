@@ -53,6 +53,7 @@ const CreateEntityScreen = () => {
     currentEntity,
     setCurrentEntity,
     mockData,
+    currentEntityIndex,
     journalsDataTransformed,
     setSelectedJournalId,
     entityCarouselConfig,
@@ -159,6 +160,7 @@ const CreateEntityScreen = () => {
             setCurrentEntity(mockData[index].entity_type);
             handleScreenLoading();
           }}
+          activeIndex={currentEntityIndex}
           modeConfig={entityCarouselConfig}
           colors={colors}
           willCreate={true}

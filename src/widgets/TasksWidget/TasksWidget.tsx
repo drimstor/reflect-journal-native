@@ -1,21 +1,21 @@
-import React, { useState, useMemo, useRef } from "react";
-import { View, ScrollView, TouchableOpacity } from "react-native";
-import { PaddingLayout, TitleText, NoData } from "@/src/shared/ui";
-import { useThemeStore } from "@/src/shared/store";
+import { GoalResponse } from "@/src/entities/goals/model/types";
+import { PATHS } from "@/src/shared/const";
 import { useGetPadding, useT } from "@/src/shared/lib/hooks";
+import { useScreenInfoStore, useThemeStore } from "@/src/shared/store";
+import { NoData, PaddingLayout, TitleText } from "@/src/shared/ui";
 import Chip from "@/src/shared/ui/Chip/Chip";
 import { ArrowLeftIcon } from "@/src/shared/ui/icons";
 import { createStyles } from "@/src/widgets/TasksWidget/TasksWidget.styles";
+import GoalItem from "@/src/widgets/TasksWidget/lib/components/GoalItem";
 import {
   filterGoalsByStatus,
   getGoalStatusCounts,
   type Goal,
 } from "@/src/widgets/TasksWidget/lib/helpers/goalFilters";
-import { GoalResponse } from "@/src/entities/goals/model/types";
-import GoalItem from "@/src/widgets/TasksWidget/lib/components/GoalItem";
-import { useNavigation } from "@react-navigation/native";
-import { NavigationProp } from "@react-navigation/native";
-import { PATHS } from "@/src/shared/const";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import React, { useMemo, useRef, useState } from "react";
+import { ScrollView, TouchableOpacity, View } from "react-native";
+import { ENTITY_NAME } from "../../shared/const/ENTITIES";
 
 interface TasksWidgetProps {
   /** Внешние данные целей (опционально) */
@@ -28,27 +28,30 @@ const TasksWidget = ({ data: externalData }: TasksWidgetProps) => {
   const { colors } = useThemeStore();
   const { paddingHorizontal } = useGetPadding();
   const styles = createStyles();
-
+  const { setNavigationScreenInfo } = useScreenInfoStore();
   const [goalStatusIndex, setGoalStatusIndex] = useState<number>(0);
 
   // Рефы для скролла
   const scrollViewRef = useRef<ScrollView>(null);
   const chipPositions = useRef<number[]>([]);
 
-  const baseStatuses = [
-    {
-      title: t("goals.status.toDo"),
-      value: "toDo" as const,
-    },
-    {
-      title: t("goals.status.inProgress"),
-      value: "inProgress" as const,
-    },
-    {
-      title: t("goals.status.complete"),
-      value: "complete" as const,
-    },
-  ];
+  const baseStatuses = useMemo(
+    () => [
+      {
+        title: t("goals.status.toDo"),
+        value: "toDo" as const,
+      },
+      {
+        title: t("goals.status.inProgress"),
+        value: "inProgress" as const,
+      },
+      {
+        title: t("goals.status.complete"),
+        value: "complete" as const,
+      },
+    ],
+    [t]
+  );
 
   // Подсчет количества целей по статусам для отображения в чипах
   const statusCounts = useMemo(() => {
@@ -109,8 +112,10 @@ const TasksWidget = ({ data: externalData }: TasksWidgetProps) => {
           element={
             <TouchableOpacity
               style={styles.arrowLeftIconBox}
-              onPress={() => navigation.navigate(PATHS.LIBRARY)}
-              // TODO: переключить на цели
+              onPress={() => {
+                setNavigationScreenInfo({ name: ENTITY_NAME.GOALS });
+                navigation.navigate(PATHS.LIBRARY);
+              }}
             >
               <ArrowLeftIcon color={colors.contrast} size={26} />
             </TouchableOpacity>
@@ -156,7 +161,10 @@ const TasksWidget = ({ data: externalData }: TasksWidgetProps) => {
         ) : (
           <NoData
             type="noGoals"
-            onPress={() => navigation.navigate(PATHS.ADD_ENTRY)}
+            onPress={() => {
+              setNavigationScreenInfo({ name: ENTITY_NAME.GOALS });
+              navigation.navigate(PATHS.ADD_ENTRY);
+            }}
           />
         )}
       </PaddingLayout>

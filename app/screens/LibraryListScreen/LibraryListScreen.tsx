@@ -145,6 +145,7 @@ const LibraryListScreen = () => {
             renderItem={renderItem}
             isFetching={isFetching}
             sortField="created_at"
+            entityName={entityName}
           />
         </AnimatedAppearance>
 

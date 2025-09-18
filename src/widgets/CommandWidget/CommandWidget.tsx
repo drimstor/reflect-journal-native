@@ -8,7 +8,11 @@ import { PATHS } from "@/src/shared/const";
 import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import { useT } from "@/src/shared/lib/hooks";
 import { EntityType, NavigationProps } from "@/src/shared/model/types";
-import { useBottomSheetStore, useThemeStore } from "@/src/shared/store";
+import {
+  useBottomSheetStore,
+  useScreenInfoStore,
+  useThemeStore,
+} from "@/src/shared/store";
 import { Button } from "@/src/shared/ui";
 import { useNavigation } from "@react-navigation/native";
 import React, { FC } from "react";
@@ -32,7 +36,7 @@ export const CommandWidget: FC<CommandWidgetProps> = ({
   const [createChat, { isLoading: isCreatingChat }] = useCreateChatMutation();
   const [relateEntities, { isLoading: isRelatingEntities }] =
     useRelateEntitiesMutation();
-
+  const { setNavigationScreenInfo } = useScreenInfoStore();
   const { navigateToFlow, setBottomSheetVisible, setFlowData } =
     useBottomSheetStore();
 
@@ -105,6 +109,7 @@ export const CommandWidget: FC<CommandWidgetProps> = ({
   };
 
   const createJournalCommand = () => {
+    setNavigationScreenInfo({ name: ENTITY_NAME.JOURNALS });
     navigation.navigate(PATHS.ADD_ENTRY, {
       variant: ENTITY_NAME.JOURNALS,
     });

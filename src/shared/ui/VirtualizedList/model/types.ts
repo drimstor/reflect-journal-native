@@ -1,4 +1,8 @@
-import { PaginationResponse, SortField } from "@/src/shared/model/types";
+import {
+  EntityType,
+  PaginationResponse,
+  SortField,
+} from "@/src/shared/model/types";
 import { SectionListRenderItem } from "react-native";
 
 export interface WithDateAndId {
@@ -12,4 +16,5 @@ export interface VirtualizedListProps<ItemT extends WithDateAndId> {
   data: PaginationResponse<ItemT> | undefined;
   isFetching: boolean;
   sortField?: Exclude<SortField, "name" | "count">;
+  entityName: EntityType;
 }

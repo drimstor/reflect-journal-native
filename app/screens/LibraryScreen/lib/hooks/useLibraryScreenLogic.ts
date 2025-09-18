@@ -1,9 +1,9 @@
 import { Chat, Journal } from "@/src/entities";
 import { PATHS } from "@/src/shared/const";
 import { EntityType, NavigationProps } from "@/src/shared/model/types";
-import { useFiltersStore } from "@/src/shared/store";
+import { useFiltersStore, useScreenInfoStore } from "@/src/shared/store";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LIBRARY_ITEMS } from "../../const/static";
 
 export const useLibraryScreenLogic = ({
@@ -16,6 +16,21 @@ export const useLibraryScreenLogic = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigation = useNavigation<NavigationProps>();
   const { resetFilters } = useFiltersStore();
+
+  const { navigationScreenInfo, setNavigationScreenInfo } =
+    useScreenInfoStore();
+
+  useEffect(() => {
+    if (navigationScreenInfo.name) {
+      const index = LIBRARY_ITEMS.findIndex(
+        (item) => item.id === navigationScreenInfo.name
+      );
+      if (index !== -1 && index !== currentIndex) {
+        setCurrentIndex(index);
+        setNavigationScreenInfo({ name: "" });
+      }
+    }
+  }, [navigationScreenInfo.name]);
 
   // Обработка выбора элемента в списке
   const onOpenListItem = (item: Journal | Chat) => {

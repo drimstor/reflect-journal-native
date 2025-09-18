@@ -9,10 +9,10 @@ import {
   useToggle,
 } from "@/src/shared/lib/hooks";
 import { EntityType, NavigationProps } from "@/src/shared/model/types";
-import { useFiltersStore } from "@/src/shared/store";
+import { useFiltersStore, useScreenInfoStore } from "@/src/shared/store";
 import { useCarouselConfig } from "@/src/shared/ui";
 import { useNavigation } from "@react-navigation/native";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ScrollView } from "react-native";
 import { useCreateForm } from "./useCreateForm";
 import { useCreateFormConfig } from "./useCreateFormConfig";
@@ -44,6 +44,9 @@ export const useCreateScreenState = (getSelectedImages?: () => any[]) => {
   );
   const { bottomSheetRef, snapToIndex, closeBottomSheet } =
     useBottomSheetIndexState();
+
+  const { navigationScreenInfo, setNavigationScreenInfo } =
+    useScreenInfoStore();
 
   // Обработчики для даты
   const handleDateClickForJournalEntries = () => {
@@ -148,33 +151,47 @@ export const useCreateScreenState = (getSelectedImages?: () => any[]) => {
   }, [date, t, locale]);
 
   // Мокдата для карусели выбора типа сущности
-  const mockData = [
-    {
-      created_at: date,
-      entity_type: ENTITY_NAME.JOURNAL_ENTRIES,
-      name: t("entities.journalentriesfull.singular"),
-    },
-    {
-      created_at: date,
-      entity_type: ENTITY_NAME.JOURNALS,
-      name: t("entities.journals.singular"),
-    },
-    {
-      created_at: date,
-      entity_type: ENTITY_NAME.CHATS,
-      name: t("entities.chats.singular"),
-    },
-    {
-      created_at: date,
-      entity_type: ENTITY_NAME.GOALS,
-      name: t("entities.goals.singular"),
-    },
-    {
-      created_at: date,
-      entity_type: ENTITY_NAME.SUMMARIES,
-      name: t("entities.summaries.singular"),
-    },
-  ];
+  const mockData = useMemo(
+    () => [
+      {
+        created_at: date,
+        entity_type: ENTITY_NAME.JOURNAL_ENTRIES,
+        name: t("entities.journalentriesfull.singular"),
+      },
+      {
+        created_at: date,
+        entity_type: ENTITY_NAME.JOURNALS,
+        name: t("entities.journals.singular"),
+      },
+      {
+        created_at: date,
+        entity_type: ENTITY_NAME.CHATS,
+        name: t("entities.chats.singular"),
+      },
+      {
+        created_at: date,
+        entity_type: ENTITY_NAME.GOALS,
+        name: t("entities.goals.singular"),
+      },
+      {
+        created_at: date,
+        entity_type: ENTITY_NAME.SUMMARIES,
+        name: t("entities.summaries.singular"),
+      },
+    ],
+    [date, t]
+  );
+
+  // Отслеживаем изменения navigationScreenInfo для переключения сущности
+  useEffect(() => {
+    if (
+      navigationScreenInfo.name &&
+      navigationScreenInfo.name !== currentEntity
+    ) {
+      setCurrentEntity(navigationScreenInfo.name);
+      setNavigationScreenInfo({ name: "" });
+    }
+  }, [navigationScreenInfo.name]);
 
   const handleDateSelected = (field: string) => (date: string | null) => {
     if (date) {
@@ -185,12 +202,18 @@ export const useCreateScreenState = (getSelectedImages?: () => any[]) => {
     closeBottomSheet();
   };
 
+  // Вычисляем текущий индекс карусели на основе выбранной сущности
+  const currentEntityIndex = useMemo(() => {
+    return mockData.findIndex((item) => item.entity_type === currentEntity);
+  }, [currentEntity, mockData]);
+
   return {
     isBookmarked,
     setIsBookmarked,
     currentEntity,
     setCurrentEntity,
     mockData,
+    currentEntityIndex,
     journalsDataTransformed,
     selectedJournalId,
     setSelectedJournalId,

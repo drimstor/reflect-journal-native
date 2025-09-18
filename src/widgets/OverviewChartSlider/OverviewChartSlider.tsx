@@ -1,22 +1,22 @@
 import {
-  transformPortraitData,
   ChartDataset,
+  transformPortraitData,
   useGetPortraitStatsQuery,
 } from "@/src/entities";
+import { PATHS } from "@/src/shared/const/PATHS";
+import { useLang, useT } from "@/src/shared/lib/hooks";
+import { NavigationProps } from "@/src/shared/model/types";
+import { useDeviceStore } from "@/src/shared/store";
 import {
+  AnimatedAppearance,
   DiagramChart,
   Loader,
-  TinderCarousel,
-  AnimatedAppearance,
   NoData,
+  TinderCarousel,
 } from "@/src/shared/ui";
-import { View } from "react-native";
-import { useMemo } from "react";
-import { useLang, useT } from "@/src/shared/lib/hooks";
-import { useDeviceStore } from "@/src/shared/store";
 import { useNavigation } from "@react-navigation/native";
-import { NavigationProps } from "@/src/shared/model/types";
-import { PATHS } from "@/src/shared/const/PATHS";
+import { useMemo } from "react";
+import { View } from "react-native";
 // import { styles } from './OverviewChartSlider.styles';
 
 /**

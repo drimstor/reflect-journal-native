@@ -58,6 +58,8 @@ const LibraryScreen = () => {
         mode="parallax"
         handler={setCurrentIndex}
         modeConfig={useCarouselConfig(50, 140)}
+        defaultIndex={currentIndex}
+        activeIndex={currentIndex}
         renderItem={({ item }) => (
           <PreviewCard
             backgroundColor={item.backgroundColor}
