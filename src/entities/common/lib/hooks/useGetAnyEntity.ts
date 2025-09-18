@@ -41,27 +41,53 @@ export function useGetAnyEntity<T extends EntityType>({
   id,
   skip,
 }: UseGetAnyEntityProps<T>) {
-  if (type === ENTITY_NAME.JOURNALS) {
-    return useGetJournalQuery({ id }, { skip });
-  }
-  if (type === ENTITY_NAME.JOURNAL_ENTRIES) {
-    return useGetJournalEntryQuery({ id }, { skip });
-  }
-  if (type === ENTITY_NAME.GOALS) {
-    return useGetGoalQuery({ id }, { skip });
-  }
-  if (type === ENTITY_NAME.SUMMARIES) {
-    return useGetSummaryQuery({ id }, { skip });
-  }
-  if (type === ENTITY_NAME.TEST_RESULTS) {
-    return useGetTestResultQuery({ id }, { skip });
-  }
-  if (type === ENTITY_NAME.TESTS) {
-    return useGetTestQuery({ id }, { skip });
-  }
-  // if (type === ENTITY_NAME.DOCUMENTS) {
-  //   return useGetDocumentByIdQuery({ id }, { skip });
-  // }
+  // Настройки для принудительного перезапроса данных
+  const baseOptions = {
+    refetchOnMountOrArgChange: true, // Перезапрашивать при каждом монтировании
+    refetchOnFocus: true, // Перезапрашивать при фокусе на окно
+  };
 
-  return { data: null, isLoading: false, isError: false };
+  // Вызываем все хуки безусловно
+  const journalQuery = useGetJournalQuery(
+    { id },
+    { ...baseOptions, skip: skip || type !== ENTITY_NAME.JOURNALS }
+  );
+  const journalEntryQuery = useGetJournalEntryQuery(
+    { id },
+    { ...baseOptions, skip: skip || type !== ENTITY_NAME.JOURNAL_ENTRIES }
+  );
+  const goalQuery = useGetGoalQuery(
+    { id },
+    { ...baseOptions, skip: skip || type !== ENTITY_NAME.GOALS }
+  );
+  const summaryQuery = useGetSummaryQuery(
+    { id },
+    { ...baseOptions, skip: skip || type !== ENTITY_NAME.SUMMARIES }
+  );
+  const testResultQuery = useGetTestResultQuery(
+    { id },
+    { ...baseOptions, skip: skip || type !== ENTITY_NAME.TEST_RESULTS }
+  );
+  const testQuery = useGetTestQuery(
+    { id },
+    { ...baseOptions, skip: skip || type !== ENTITY_NAME.TESTS }
+  );
+
+  // Возвращаем результат нужного хука
+  switch (type) {
+    case ENTITY_NAME.JOURNALS:
+      return journalQuery;
+    case ENTITY_NAME.JOURNAL_ENTRIES:
+      return journalEntryQuery;
+    case ENTITY_NAME.GOALS:
+      return goalQuery;
+    case ENTITY_NAME.SUMMARIES:
+      return summaryQuery;
+    case ENTITY_NAME.TEST_RESULTS:
+      return testResultQuery;
+    case ENTITY_NAME.TESTS:
+      return testQuery;
+    default:
+      return { data: null, isLoading: false, isError: false };
+  }
 }

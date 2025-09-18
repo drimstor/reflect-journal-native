@@ -67,21 +67,24 @@ const LibraryItemScreen = () => {
   const route = useRoute();
   const { variant, item } = (route.params as any) || {};
   const safeVariant = variant || "";
-  const safeItem = item || { id: "" };
 
-  const { handlePress } = useBottomSheetActions(safeVariant, safeItem);
+  const { handlePress } = useBottomSheetActions(safeVariant, item);
   const navigation = useNavigation<StackNavigationProps>();
   const [currentItem, setCurrentItem] = useState<any>(null);
   const mood = useGetMood(currentItem?.mood || "");
-  const { data } = useGetAnyEntity({ type: safeVariant, id: safeItem.id });
+  const { data } = useGetAnyEntity({ type: safeVariant, id: item.id });
 
   const isJournalEntry = safeVariant === ENTITY_NAME.JOURNAL_ENTRIES;
   const isTest = safeVariant === ENTITY_NAME.TESTS;
   const isTestResult = safeVariant === ENTITY_NAME.TEST_RESULTS;
 
   useEffect(() => {
-    setCurrentItem(data || safeItem);
-  }, [safeItem, data]);
+    setCurrentItem(data || item);
+  }, [item, data]);
+
+  console.log("item.related_entities", item.related_entities);
+  console.log("data.related_entities", data?.related_entities);
+  console.log("currentItem.related_entities", currentItem?.related_entities);
 
   useEffect(() => {
     setNavigation(false, PATHS.LIBRARY);
@@ -90,7 +93,7 @@ const LibraryItemScreen = () => {
   // ------------------------------------------------------------ //
 
   // Получение родительской сущности
-  const { parentJournal, parentTest } = useParentEntity(safeVariant, safeItem);
+  const { parentJournal, parentTest } = useParentEntity(safeVariant, item);
 
   useEffect(() => {
     if (isJournalEntry && data) {
@@ -136,7 +139,7 @@ const LibraryItemScreen = () => {
       <Header
         title={t(
           `entities.${
-            isDocument ? safeItem.type : safeVariant.toLowerCase()
+            isDocument ? item.type : safeVariant.toLowerCase()
           }.singular`
         )}
         subtitle={subtitle}

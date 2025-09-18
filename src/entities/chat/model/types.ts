@@ -1,9 +1,10 @@
 import { PaginationResponse } from "@/src/shared/model/types";
 
 export interface Entity {
-  // TODO: определить структуру Entity когда будет известна
   id: string;
-  [key: string]: any;
+  created_at: string;
+  name: string;
+  entity_type: string;
 }
 
 export interface Chat {

@@ -1,9 +1,10 @@
 import { PaginationResponse } from "@/src/shared/model/types";
 
 export interface Entity {
-  // TODO: Определить структуру Entity, когда будет доступна
   id: string;
-  [key: string]: any;
+  created_at: string;
+  name: string;
+  entity_type: string;
 }
 
 export interface Journal {
