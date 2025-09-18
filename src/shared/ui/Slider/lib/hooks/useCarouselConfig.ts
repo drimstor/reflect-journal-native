@@ -25,5 +25,3 @@ export const useCarouselConfig = (
     parallaxScrollingOffset: offset,
   };
 };
-
-export default useCarouselConfig;

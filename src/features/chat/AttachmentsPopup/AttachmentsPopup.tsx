@@ -1,4 +1,4 @@
-import { FC, lazy, Suspense } from "react";
+import { FC, lazy } from "react";
 import { Platform } from "react-native";
 
 interface AttachmentsPopupProps {
@@ -15,14 +15,13 @@ const AttachmentsPopupAndroid = lazy(
 const AttachmentsPopupIOS = lazy(() => import("./AttachmentsPopup.ios"));
 
 const AttachmentsPopup: FC<AttachmentsPopupProps> = (props) => {
-  const Component =
-    Platform.OS === "android" ? AttachmentsPopupAndroid : AttachmentsPopupIOS;
-
-  return (
-    <Suspense fallback={null}>
-      <Component {...props} />
-    </Suspense>
-  );
+  if (Platform.OS === "android") {
+    return <AttachmentsPopupAndroid {...props} />;
+  }
+  if (Platform.OS === "ios") {
+    return <AttachmentsPopupIOS {...props} />;
+  }
+  return null;
 };
 
 export default AttachmentsPopup;

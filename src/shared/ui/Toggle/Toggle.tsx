@@ -87,5 +87,3 @@ export const Toggle: React.FC<ToggleProps> = ({
     </View>
   );
 };
-
-export default Toggle;

@@ -1,5 +1,4 @@
 import AnimatedAppearance from "./AnimatedAppearance/AnimatedAppearance";
-import { AudioRecorder } from "./AudioRecorder/AudioRecorder";
 import BottomSheet from "./BottomSheet/BottomSheet";
 import Button from "./Button/Button";
 import DiagramChart from "./Charts/DiagramChart";
@@ -28,16 +27,15 @@ import ProgressBar from "./ProgressBar/ProgressBar";
 import RadioButton from "./RadioButtons/RadioButton";
 import RadioButtons from "./RadioButtons/RadioButtons";
 import Carousel from "./Slider/Carousel";
-import useCarouselConfig from "./Slider/lib/hooks/useCarouselConfig";
 import TinderCarousel from "./Slider/TinderCarousel";
 import AnimatedText from "./Text/AnimatedText";
 import TitleText from "./Text/TitleText";
 import TextField from "./TextField/TextField";
-import Toggle from "./Toggle/Toggle";
 import Tooltip from "./Tooltip/Tooltip";
 import VirtualizedList from "./VirtualizedList/VirtualizedList";
 
 export * from "./assets";
+export { AudioRecorder } from "./AudioRecorder/AudioRecorder";
 export type { BottomSheetRef } from "./BottomSheet/BottomSheet";
 export * from "./BottomSheetContent";
 export { BottomSheetScreenHeader } from "./BottomSheetScreenHeader/BottomSheetScreenHeader";
@@ -54,13 +52,14 @@ export { SiriLoader } from "./Loader/SiriLoader";
 export { SuccessAnimation } from "./Loader/SuccessAnimation";
 export { default as MarkdownEmojiText } from "./MarkdownEmojiText/MarkdownEmojiText";
 export { MoodSelector } from "./MoodSelector/MoodSelector";
+export { useCarouselConfig } from "./Slider/lib/hooks/useCarouselConfig";
 export { default as Text } from "./Text/Text";
 export type { TextProps } from "./Text/Text";
+export { Toggle } from "./Toggle/Toggle";
 
 export {
   AnimatedAppearance,
   AnimatedText,
-  AudioRecorder,
   BackgroundLayout,
   BottomSheet,
   Button,
@@ -91,9 +90,7 @@ export {
   TextField,
   TinderCarousel,
   TitleText,
-  Toggle,
   Tooltip,
   UILayout,
-  useCarouselConfig,
   VirtualizedList,
 };
