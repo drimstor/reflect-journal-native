@@ -44,7 +44,6 @@ export function useGetAnyEntity<T extends EntityType>({
   // Настройки для принудительного перезапроса данных
   const baseOptions = {
     refetchOnMountOrArgChange: true, // Перезапрашивать при каждом монтировании
-    refetchOnFocus: true, // Перезапрашивать при фокусе на окно
   };
 
   // Вызываем все хуки безусловно

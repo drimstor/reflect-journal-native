@@ -14,6 +14,9 @@ export const useLibraryListData = ({
   entityName,
   params,
 }: UseLibraryListDataProps) => {
+  const baseOptions = {
+    refetchOnMountOrArgChange: true,
+  };
   // Для записей в дневниках
   const {
     data: journalEntriesData,
@@ -21,7 +24,10 @@ export const useLibraryListData = ({
     isLoading: isJournalEntriesLoading,
   } = useGetJournalEntriesQuery(
     { params },
-    { skip: entityName !== ENTITY_NAME.JOURNAL_ENTRIES }
+    {
+      skip: entityName !== ENTITY_NAME.JOURNAL_ENTRIES,
+      ...baseOptions,
+    }
   );
 
   // Для результатов тестов
@@ -31,7 +37,10 @@ export const useLibraryListData = ({
     isLoading: isTestResultsLoading,
   } = useGetTestResultsQuery(
     { params },
-    { skip: entityName !== ENTITY_NAME.TEST_RESULTS }
+    {
+      skip: entityName !== ENTITY_NAME.TEST_RESULTS,
+      ...baseOptions,
+    }
   );
 
   // Конфигурация для данных и состояния загрузки
