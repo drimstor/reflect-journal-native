@@ -82,10 +82,6 @@ const LibraryItemScreen = () => {
     setCurrentItem(data || item);
   }, [item, data]);
 
-  console.log("item.related_entities", item.related_entities);
-  console.log("data.related_entities", data?.related_entities);
-  console.log("currentItem.related_entities", currentItem?.related_entities);
-
   useEffect(() => {
     setNavigation(false, PATHS.LIBRARY);
   }, [safeVariant]);
