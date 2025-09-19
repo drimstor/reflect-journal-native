@@ -1,5 +1,6 @@
 import { Chat, Journal } from "@/src/entities";
 import { PATHS } from "@/src/shared/const";
+import { usePrefetch } from "@/src/shared/lib/hooks/usePrefetch";
 import { EntityType, NavigationProps } from "@/src/shared/model/types";
 import { useFiltersStore, useScreenInfoStore } from "@/src/shared/store";
 import { useNavigation } from "@react-navigation/native";
@@ -16,6 +17,7 @@ export const useLibraryScreenLogic = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigation = useNavigation<NavigationProps>();
   const { resetFilters } = useFiltersStore();
+  const { prefetchEntityList, prefetchEntity } = usePrefetch();
 
   const { navigationScreenInfo, setNavigationScreenInfo } =
     useScreenInfoStore();
@@ -30,7 +32,7 @@ export const useLibraryScreenLogic = ({
         setNavigationScreenInfo({ name: "" });
       }
     }
-  }, [navigationScreenInfo.name]);
+  }, [navigationScreenInfo.name, currentIndex, setNavigationScreenInfo]);
 
   // Обработка выбора элемента в списке
   const onOpenListItem = (item: Journal | Chat) => {
@@ -56,6 +58,12 @@ export const useLibraryScreenLogic = ({
       }
 
       snapToIndex(1);
+
+      // Запускаем префетч параллельно с анимацией для списков
+      if (currentIndex === 0 || currentIndex === 4) {
+        prefetchEntityList(variant, item.id);
+      }
+
       setTimeout(() => {
         // Для дневников (0) и тестов (4) переходим на список
         if (currentIndex === 0 || currentIndex === 4) {
@@ -63,7 +71,7 @@ export const useLibraryScreenLogic = ({
         } else {
           navigation.navigate(PATHS.LIBRARY_ITEM, params);
         }
-      }, 350);
+      }, 500);
     };
 
     return navigateToNextScreen();
