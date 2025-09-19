@@ -2,7 +2,7 @@ import { MessageGiftedChat } from "@/src/entities/chat/model/types";
 import { DateChip, Message, MessageInput } from "@/src/features";
 import { useLang } from "@/src/shared/lib/hooks";
 import { useDeviceStore, useThemeStore } from "@/src/shared/store";
-import { Loader, NoData } from "@/src/shared/ui";
+import { Loader, NoData, ScrollToBottomButton } from "@/src/shared/ui";
 import React, { FC } from "react";
 import { Animated, View } from "react-native";
 import { GiftedChat, IMessage } from "react-native-gifted-chat";
@@ -25,6 +25,8 @@ const ChatView: FC<{
   handleScroll: (event: any) => void;
   userId: string;
   isCanBeEmpty: boolean;
+  scrollToBottom: () => void;
+  messageContainerRef: any;
 }> = ({
   messages,
   setMessages,
@@ -41,6 +43,8 @@ const ChatView: FC<{
   handleScroll,
   userId,
   isCanBeEmpty,
+  scrollToBottom,
+  messageContainerRef,
 }) => {
   const { colors } = useThemeStore();
   const { window } = useDeviceStore();
@@ -48,10 +52,17 @@ const ChatView: FC<{
   const { containerStyle, getEmptyViewStyle, getLoaderStyle } =
     useChatAnimation();
 
+  // scrollToBottom и messageContainerRef приходят как пропсы
+
   return (
     <View style={containerStyle}>
       <DateChip date={currentDate} animation={chipAnimation} />
+      <ScrollToBottomButton
+        onPress={scrollToBottom}
+        animation={chipAnimation}
+      />
       <GiftedChat
+        messageContainerRef={messageContainerRef}
         messages={messages as unknown as IMessage[]}
         onSend={handleSend}
         user={{ _id: userId || "" }}
@@ -110,7 +121,7 @@ const ChatView: FC<{
         )}
         isLoadingEarlier={isLoadingEarlier}
         onLoadEarlier={handleLoadEarlier}
-        infiniteScroll={true}
+        infiniteScroll
         listViewProps={{
           onScroll: handleScroll,
           scrollEventThrottle: 16,

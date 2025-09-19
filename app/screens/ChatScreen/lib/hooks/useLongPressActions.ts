@@ -1,19 +1,19 @@
-import { useCallback } from "react";
-import * as Haptics from "expo-haptics";
-import * as Clipboard from "expo-clipboard";
 import { useT } from "@/src/shared/lib/hooks";
 import {
+  addSnackbar,
   useAppDispatch,
-  useThemeStore,
   useBottomSheetStore,
+  useThemeStore,
 } from "@/src/shared/store";
-import { addSnackbar } from "@/src/shared/store";
 import {
   ClipboardCheckIcon,
   ClipboardTextIcon,
   EditPencilIcon,
   TrashIcon,
 } from "@/src/shared/ui/icons";
+import * as Clipboard from "expo-clipboard";
+import * as Haptics from "expo-haptics";
+import { useCallback } from "react";
 
 export const useLongPressActions = (chatId: string) => {
   const t = useT();
@@ -52,7 +52,24 @@ export const useLongPressActions = (chatId: string) => {
       const customActionsForAssistant = {
         text: t("goals.create"),
         IconComponent: ClipboardCheckIcon,
-        onPress: () => {},
+        onPress: () => {
+          navigateToFlow("goal", "create");
+          setBottomSheetVisible(false);
+
+          setTimeout(() => {
+            setBottomSheetVisible(true);
+
+            const params = {
+              source_type: flowData.variant,
+              source_id: flowData.id,
+            };
+
+            setFlowData({
+              requestAssistantMessage: params,
+              requestAssistantMessageStore: params,
+            });
+          }, 150);
+        },
       };
 
       const customActionsForUser = {

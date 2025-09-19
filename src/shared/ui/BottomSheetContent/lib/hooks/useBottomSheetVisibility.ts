@@ -5,7 +5,8 @@ import { Keyboard } from "react-native";
 
 export const useBottomSheetVisibility = () => {
   const isInitialRender = useRef(true);
-  const { setBottomSheetVisible, isBottomSheetVisible } = useBottomSheetStore();
+  const { setBottomSheetVisible, isBottomSheetVisible, resetFlow } =
+    useBottomSheetStore();
   const { bottomSheetRef, snapToIndex, closeBottomSheet } =
     useBottomSheetIndexState();
 
@@ -27,6 +28,7 @@ export const useBottomSheetVisibility = () => {
       snapToIndex(0);
     } else {
       closeBottomSheet();
+      setTimeout(resetFlow, 500);
     }
   }, [isBottomSheetVisible]);
 

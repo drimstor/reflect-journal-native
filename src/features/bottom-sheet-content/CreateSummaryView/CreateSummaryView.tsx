@@ -5,7 +5,11 @@ import {
 } from "@/src/entities";
 import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import { PATHS } from "@/src/shared/const/PATHS";
-import { useBackgroundSummary, useT } from "@/src/shared/lib/hooks";
+import {
+  useBackgroundSummary,
+  useKeyboard,
+  useT,
+} from "@/src/shared/lib/hooks";
 import { EntityType } from "@/src/shared/model/types";
 import {
   useBottomSheetStore,
@@ -73,7 +77,7 @@ const CreateSummaryView = ({
   } = useBottomSheetStore();
   const { colors, theme } = useThemeStore();
   const { window } = useDeviceStore();
-
+  const { keyboardHeight, isKeyboardVisible } = useKeyboard();
   const [currentItemIndex, setCurrentItemIndex] = useState<number>(
     entityType ? CAROUSEL_ITEMS_WITH_CATEGORIES.indexOf(entityType) : 0
   );

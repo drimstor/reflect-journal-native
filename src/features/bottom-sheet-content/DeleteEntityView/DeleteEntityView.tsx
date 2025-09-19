@@ -1,28 +1,33 @@
+import { useDeleteAnyEntities } from "@/src/entities/common/lib/hooks/useDeleteAnyEntities";
+import { useT } from "@/src/shared/lib/hooks";
 import {
-  Text,
-  Button,
-  BottomSheetHeader,
-  BottomSheetFooter,
-  PaddingLayout,
-  BottomSheetBox,
-} from "@/src/shared/ui";
-import {
-  useThemeStore,
   useBottomSheetStore,
   useFiltersStore,
+  useThemeStore,
 } from "@/src/shared/store";
-import { useT } from "@/src/shared/lib/hooks";
-import { useDeleteAnyEntities } from "@/src/entities/common/lib/hooks/useDeleteAnyEntities";
+import {
+  BottomSheetBox,
+  BottomSheetFooter,
+  BottomSheetHeader,
+  Button,
+  PaddingLayout,
+  Text,
+} from "@/src/shared/ui";
 import { useEffect } from "react";
 
 const DeleteEntityView = () => {
   const t = useT();
   const { colors } = useThemeStore();
-  const { navigateToFlow, flowData } = useBottomSheetStore();
+  const { navigateToFlow, flowData, setBottomSheetVisible } =
+    useBottomSheetStore();
   const { resetFilters } = useFiltersStore();
 
   const handleBack = () => {
     navigateToFlow("common", "list");
+  };
+
+  const handleClose = () => {
+    setBottomSheetVisible(false);
   };
 
   const { deleteEntity, isLoading, isSuccess } = useDeleteAnyEntities(
@@ -41,7 +46,7 @@ const DeleteEntityView = () => {
     <BottomSheetBox>
       <BottomSheetHeader
         title={t("shared.confirmation.title")}
-        onClose={handleBack}
+        onClose={handleClose}
         onBack={handleBack}
       />
       <PaddingLayout>

@@ -1,31 +1,31 @@
-import {
-  Text,
-  Button,
-  BottomSheetHeader,
-  BottomSheetFooter,
-  PaddingLayout,
-  BottomSheetBox,
-  TextField,
-  BottomSheetScrollView,
-} from "@/src/shared/ui";
-import {
-  useThemeStore,
-  useBottomSheetStore,
-  useAppSelector,
-  useAppDispatch,
-} from "@/src/shared/store";
-import { useT } from "@/src/shared/lib/hooks";
-import { useEffect, useState } from "react";
+import { getMessagesEndpointParams } from "@/src/entities";
 import {
   messagesApi,
   useUpdateMessageMutation,
 } from "@/src/entities/chat/api/messagesApi";
-import { getMessagesEndpointParams } from "@/src/entities";
+import { useT } from "@/src/shared/lib/hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useBottomSheetStore,
+  useThemeStore,
+} from "@/src/shared/store";
+import {
+  BottomSheetBox,
+  BottomSheetFooter,
+  BottomSheetHeader,
+  BottomSheetScrollView,
+  Button,
+  PaddingLayout,
+  TextField,
+} from "@/src/shared/ui";
+import { useEffect, useState } from "react";
 
 const EditMessageView = () => {
   const t = useT();
   const dispatch = useAppDispatch();
-  const { navigateToFlow, flowData, setNavigation } = useBottomSheetStore();
+  const { navigateToFlow, flowData, setNavigation, setBottomSheetVisible } =
+    useBottomSheetStore();
   const endpointParams = useAppSelector(
     getMessagesEndpointParams(flowData.chatId)
   );
@@ -91,11 +91,15 @@ const EditMessageView = () => {
     navigateToFlow("common", "list");
   };
 
+  const handleClose = () => {
+    setBottomSheetVisible(false);
+  };
+
   return (
     <BottomSheetBox>
       <BottomSheetHeader
         title={t("shared.actions.editing")}
-        onClose={handleBack}
+        onClose={handleClose}
         onBack={handleBack}
       />
       <BottomSheetScrollView>

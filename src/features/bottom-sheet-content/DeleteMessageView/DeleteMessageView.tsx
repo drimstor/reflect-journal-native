@@ -1,32 +1,31 @@
-import {
-  Text,
-  Button,
-  BottomSheetHeader,
-  BottomSheetFooter,
-  PaddingLayout,
-  BottomSheetBox,
-  Divider,
-} from "@/src/shared/ui";
-import {
-  useThemeStore,
-  useBottomSheetStore,
-  useAppSelector,
-  RootState,
-  useAppDispatch,
-} from "@/src/shared/store";
-import { useT } from "@/src/shared/lib/hooks";
-import { useEffect, useState } from "react";
+import { getMessagesEndpointParams } from "@/src/entities";
 import {
   messagesApi,
   useDeleteMessageMutation,
 } from "@/src/entities/chat/api/messagesApi";
-import { getMessagesEndpointParams } from "@/src/entities";
+import { useT } from "@/src/shared/lib/hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useBottomSheetStore,
+  useThemeStore,
+} from "@/src/shared/store";
+import {
+  BottomSheetBox,
+  BottomSheetHeader,
+  Button,
+  Divider,
+  PaddingLayout,
+  Text,
+} from "@/src/shared/ui";
+import { useEffect } from "react";
 
 const DeleteMessageView = () => {
   const t = useT();
   const dispatch = useAppDispatch();
   const { colors } = useThemeStore();
-  const { navigateToFlow, flowData, setNavigation } = useBottomSheetStore();
+  const { navigateToFlow, flowData, setNavigation, setBottomSheetVisible } =
+    useBottomSheetStore();
   const [deleteMessage, { isLoading, isSuccess }] = useDeleteMessageMutation();
   const endpointParams = useAppSelector(
     getMessagesEndpointParams(flowData.chatId)
@@ -69,11 +68,15 @@ const DeleteMessageView = () => {
     }
   }, [isSuccess]);
 
+  const handleClose = () => {
+    setBottomSheetVisible(false);
+  };
+
   return (
     <BottomSheetBox>
       <BottomSheetHeader
         title={t("shared.confirmation.title")}
-        onClose={handleBack}
+        onClose={handleClose}
         onBack={handleBack}
       />
       <PaddingLayout>

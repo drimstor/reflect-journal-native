@@ -1,4 +1,4 @@
-import { useEffect, useState, RefObject } from "react";
+import { RefObject, useEffect, useState } from "react";
 import { ScrollView } from "react-native";
 import { useKeyboard } from "./useKeyboard";
 
@@ -29,13 +29,9 @@ export const useKeyboardAnimateAction = ({
   // Прокрутка при появлении клавиатуры
   useEffect(() => {
     if (isKeyboardVisible && scrollViewRef.current) {
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         scrollViewRef.current?.scrollToEnd({ animated: true });
-      }, 100);
-    } else {
-      setTimeout(() => {
-        scrollViewRef.current?.scrollTo({ y: 0, animated: true });
-      }, 100);
+      });
     }
   }, [isKeyboardVisible, scrollViewRef]);
 

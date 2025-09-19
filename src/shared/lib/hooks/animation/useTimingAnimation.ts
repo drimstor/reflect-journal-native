@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Animated, Easing } from "react-native";
+import { Animated } from "react-native";
 
 interface UseTimingAnimationProps {
   useNativeDriver?: boolean;
@@ -28,9 +28,8 @@ export const useTimingAnimation = (
     }).start();
   };
 
-  if (isVisible === undefined) return { animation, animate };
-
   useEffect(() => {
+    if (isVisible === undefined) return;
     animate(isVisible ? 1 : 0);
   }, [isVisible]);
 

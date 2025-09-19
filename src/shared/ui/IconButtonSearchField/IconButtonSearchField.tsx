@@ -1,5 +1,5 @@
 import { useThemeStore } from "@/src/shared/store";
-import { FC, useMemo } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import {
   Animated,
   Pressable,
@@ -7,7 +7,7 @@ import {
   TextInput,
   ViewStyle,
 } from "react-native";
-import { useT } from "../../lib/hooks";
+import { useDebounce, useT } from "../../lib/hooks";
 import { PlusIcon, SearchIcon } from "../icons";
 import { createStyles } from "./IconButtonSearchField.styles";
 import { useAnimation } from "./lib/hooks/useAnimation";
@@ -28,10 +28,30 @@ const IconButtonSearchField: FC<IconButtonSearchFieldProps> = ({
   const t = useT();
   const { colors, theme } = useThemeStore();
   const styles = useMemo(() => createStyles(colors, theme), [theme]);
+  const [localValue, setLocalValue] = useState(value);
+  const debouncedValue = useDebounce(localValue, 1000);
 
   // Используем хук для управления состоянием поля поиска
   const { inputRef, isExpanded, isFocused, isEmpty, handleToggle } =
-    useSearchFieldState({ value, onChangeText });
+    useSearchFieldState({
+      value: localValue,
+      onChangeText: (text) => {
+        setLocalValue(text);
+        onChangeText(text);
+      },
+    });
+
+  useEffect(() => {
+    if (debouncedValue !== value) {
+      onChangeText(debouncedValue);
+    }
+  }, [debouncedValue]);
+
+  useEffect(() => {
+    if (!value) {
+      setLocalValue("");
+    }
+  }, [value]);
 
   // Используем хук для анимации
   const { animatedStyle } = useAnimation(isExpanded);
@@ -53,11 +73,11 @@ const IconButtonSearchField: FC<IconButtonSearchFieldProps> = ({
             { color: colors.contrast },
             { width: inputWidth },
           ]}
-          value={value}
+          value={localValue}
           maxLength={50}
           placeholder={t("shared.actions.search") + "..."}
           placeholderTextColor={`${colors.contrast}80`}
-          onChangeText={onChangeText}
+          onChangeText={setLocalValue}
           keyboardType={"default"}
         />
       )}

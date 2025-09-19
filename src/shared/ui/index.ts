@@ -27,6 +27,7 @@ import NoData from "./NoData/NoData";
 import ProgressBar from "./ProgressBar/ProgressBar";
 import RadioButton from "./RadioButtons/RadioButton";
 import RadioButtons from "./RadioButtons/RadioButtons";
+import ScrollToBottomButton from "./ScrollToBottomButton/ScrollToBottomButton";
 import Carousel from "./Slider/Carousel";
 import TinderCarousel from "./Slider/TinderCarousel";
 import AnimatedText from "./Text/AnimatedText";
@@ -88,6 +89,7 @@ export {
   ProgressBar,
   RadioButton,
   RadioButtons,
+  ScrollToBottomButton,
   TextField,
   TinderCarousel,
   TitleText,

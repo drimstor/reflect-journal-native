@@ -1,7 +1,7 @@
 import { useAnimate } from "./animation/useAnimate";
 import { useSpringAnimation } from "./animation/useSpringAnimation";
 import { useTimingAnimation } from "./animation/useTimingAnimation";
-import useAnimatedShow from "./useAnimated";
+import useAnimatedShow from "./useAnimatedShow";
 import { useAppInit } from "./useAppInit";
 import { useBackgroundSummary } from "./useBackgroundSummary";
 import { useBackgroundTask } from "./useBackgroundTask";
@@ -17,6 +17,7 @@ import { useNotifications } from "./useNotifications";
 import usePopup from "./usePopup";
 import { usePrefetch } from "./usePrefetch";
 import { usePullToAction } from "./usePullToAction";
+import { useScrollToBottomButton } from "./useScrollToBottomButton";
 import { useToggle } from "./useToggle";
 import useValidation from "./useValidation";
 
@@ -38,6 +39,7 @@ export {
   usePopup,
   usePrefetch,
   usePullToAction,
+  useScrollToBottomButton,
   useSpringAnimation,
   useT,
   useTimingAnimation,

@@ -22,7 +22,8 @@ import { useEditFormConfig } from "./lib/hooks/useEditFormConfig";
 const EditEntityView = () => {
   const t = useT();
   const { window } = useDeviceStore();
-  const { navigateToFlow, flowData } = useBottomSheetStore();
+  const { navigateToFlow, flowData, setBottomSheetVisible } =
+    useBottomSheetStore();
   const { colors, theme } = useThemeStore();
   const { resetFilters } = useFiltersStore();
 
@@ -66,11 +67,15 @@ const EditEntityView = () => {
     navigateToFlow("common", "list");
   };
 
+  const handleClose = () => {
+    setBottomSheetVisible(false);
+  };
+
   return (
     <BottomSheetBox>
       <BottomSheetHeader
         title={formConfig.title}
-        onClose={handleBack}
+        onClose={handleClose}
         onBack={handleBack}
         isBorderGap={false}
       />

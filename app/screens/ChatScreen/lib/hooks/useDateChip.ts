@@ -1,6 +1,6 @@
-import { useCallback, useState } from "react";
-import { useAnimate } from "@/src/shared/lib/hooks";
 import { MessageGiftedChat } from "@/src/entities/chat/model/types";
+import { useAnimate } from "@/src/shared/lib/hooks";
+import { useCallback, useState } from "react";
 
 interface UseDateChipReturn {
   currentDate: Date;

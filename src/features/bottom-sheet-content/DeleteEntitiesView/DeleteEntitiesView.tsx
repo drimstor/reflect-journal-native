@@ -20,7 +20,8 @@ import { useCallback, useEffect, useState } from "react";
 const DeleteEntitiesView = () => {
   const t = useT();
   const { colors } = useThemeStore();
-  const { navigateToFlow, setNavigation } = useBottomSheetStore();
+  const { navigateToFlow, setNavigation, setBottomSheetVisible } =
+    useBottomSheetStore();
   const { multi_select_ids, setMultiSelectIds, setMultiSelect, resetFilters } =
     useFiltersStore();
 
@@ -42,6 +43,9 @@ const DeleteEntitiesView = () => {
     navigateToFlow("common", "list");
   };
 
+  const handleClose = () => {
+    setBottomSheetVisible(false);
+  };
   // Эффект для последовательного удаления элементов
   useEffect(() => {
     const deleteNext = async () => {
@@ -106,7 +110,7 @@ const DeleteEntitiesView = () => {
     <BottomSheetBox>
       <BottomSheetHeader
         title={t("shared.confirmation.title")}
-        onClose={handleBack}
+        onClose={handleClose}
         onBack={handleBack}
       />
       <PaddingLayout>

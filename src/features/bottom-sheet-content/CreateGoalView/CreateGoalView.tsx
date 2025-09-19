@@ -124,7 +124,7 @@ const CreateGoalView = ({
           })
             .unwrap()
             .then(() => {
-              handleBack();
+              handleClose();
               resetFlowData();
               setTimeout(() => {
                 const params = { item: result, variant: ENTITY_NAME.GOALS };
@@ -158,7 +158,7 @@ const CreateGoalView = ({
   }, [formConfig, resetForm]);
 
   // Обработчик возврата
-  const handleBack = () => {
+  const handleClose = () => {
     if (!isStandalone) {
       resetFlowData();
       setTimeout(() => {
@@ -221,7 +221,7 @@ const CreateGoalView = ({
     <BottomSheetBox>
       <BottomSheetHeader
         title={t("goals.create")}
-        onClose={handleBack}
+        onClose={handleClose}
         isBorderGap={false}
       />
       {isPredicting ? (

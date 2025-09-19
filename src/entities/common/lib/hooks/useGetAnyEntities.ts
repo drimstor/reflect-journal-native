@@ -72,7 +72,10 @@ export const useGetAnyEntities = <T extends EntityType>(
     isFetching: isTestsFetching,
   } = useGetTestsQuery(
     { params },
-    { skip: variant !== ENTITY_NAME.TESTS || skip }
+    {
+      skip: variant !== ENTITY_NAME.TESTS || skip,
+      refetchOnMountOrArgChange: true,
+    }
   );
 
   const dataConfig = {

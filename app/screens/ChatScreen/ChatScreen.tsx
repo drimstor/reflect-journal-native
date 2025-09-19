@@ -1,25 +1,26 @@
-import React, { FC, useState, useEffect } from "react";
+import { getMessagesCache } from "@/src/entities";
+import { MessageGiftedChat } from "@/src/entities/chat/model/types";
+import { ChatBackground } from "@/src/features";
+import { PATHS } from "@/src/shared/const/PATHS";
+import { useScrollToBottomButton } from "@/src/shared/lib/hooks";
+import {
+  useAppSelector,
+  useBottomSheetStore,
+  useThemeStore,
+} from "@/src/shared/store";
+import { Layout, useBottomSheetActions } from "@/src/shared/ui";
+import { DotsIcon } from "@/src/shared/ui/icons";
+import { ChatView, Header } from "@/src/widgets";
+import { useRoute } from "@react-navigation/native";
+import React, { FC, useEffect, useState } from "react";
 import { View } from "react-native";
 import { createStyles } from "./ChatScreen.styles";
-import { Layout, useBottomSheetActions } from "@/src/shared/ui";
-import { ChatView, Header } from "@/src/widgets";
-import {
-  useThemeStore,
-  useBottomSheetStore,
-  useAppSelector,
-} from "@/src/shared/store";
-import { ChatBackground } from "@/src/features";
-import { useRoute } from "@react-navigation/native";
-import { PATHS } from "@/src/shared/const/PATHS";
 import {
   useDateChip,
-  useMessagesLoader,
-  useMessageSender,
   useLongPressActions,
+  useMessageSender,
+  useMessagesLoader,
 } from "./lib/hooks";
-import { DotsIcon } from "@/src/shared/ui/icons";
-import { MessageGiftedChat } from "@/src/entities/chat/model/types";
-import { getMessagesCache } from "@/src/entities";
 import { useAssistantMessage } from "./lib/hooks/useAssistantMessage";
 
 const ChatScreen: FC = () => {
@@ -49,6 +50,7 @@ const ChatScreen: FC = () => {
   });
   const { handleLongPress } = useLongPressActions(item.id);
   const { currentDate, chipAnimation, handleScroll } = useDateChip(messages);
+  const { messageContainerRef, scrollToBottom } = useScrollToBottomButton();
   const { handlePress: handlePressDots } = useBottomSheetActions("Chats", item);
 
   // Кеш сообщений
@@ -106,6 +108,8 @@ const ChatScreen: FC = () => {
           handleScroll={handleScroll}
           userId={userId}
           isCanBeEmpty={!requestAssistantMessage?.source_id}
+          scrollToBottom={scrollToBottom}
+          messageContainerRef={messageContainerRef}
         />
       </View>
     </Layout>

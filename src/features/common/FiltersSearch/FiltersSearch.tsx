@@ -1,7 +1,7 @@
+import { useFiltersStore } from "@/src/shared/store";
+import { IconButtonSearchField } from "@/src/shared/ui";
 import { View } from "react-native";
 import { styles } from "./FiltersSearch.styles";
-import { IconButtonSearchField } from "@/src/shared/ui";
-import { useFiltersStore } from "@/src/shared/store";
 
 const FiltersSearch = () => {
   const { setSearch, search } = useFiltersStore();

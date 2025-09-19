@@ -20,7 +20,8 @@ import { useCallback, useEffect, useState } from "react";
 const BookmarkedEntitiesView = () => {
   const t = useT();
   const { colors, theme } = useThemeStore();
-  const { navigateToFlow, setNavigation } = useBottomSheetStore();
+  const { navigateToFlow, setNavigation, setBottomSheetVisible } =
+    useBottomSheetStore();
   const { multi_select_ids, setMultiSelectIds, setMultiSelect } =
     useFiltersStore();
 
@@ -118,11 +119,15 @@ const BookmarkedEntitiesView = () => {
     setCurrentId(undefined);
   }, [multi_select_ids]);
 
+  const handleClose = () => {
+    setBottomSheetVisible(false);
+  };
+
   return (
     <BottomSheetBox>
       <BottomSheetHeader
         title={t("shared.actions.add")}
-        onClose={handleBack}
+        onClose={handleClose}
         onBack={handleBack}
       />
       <PaddingLayout>

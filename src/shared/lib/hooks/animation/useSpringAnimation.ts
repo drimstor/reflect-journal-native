@@ -28,9 +28,8 @@ export const useSpringAnimation = (
     }).start();
   };
 
-  if (isVisible === undefined) return { animation, animate };
-
   useEffect(() => {
+    if (isVisible === undefined) return;
     animate(isVisible ? 1 : 0);
   }, [isVisible]);
 
