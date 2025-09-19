@@ -1,9 +1,9 @@
-import { FC } from "react";
-import { View } from "react-native";
-import { styles } from "./Chip.styles";
 import { getContrastColor } from "@/src/shared/lib/helpers/getContrastColor";
 import { Text } from "@/src/shared/ui";
+import { FC } from "react";
+import { View } from "react-native";
 import { capitalizeText } from "../../lib/helpers";
+import { styles } from "./Chip.styles";
 
 interface ChipProps {
   color: string;

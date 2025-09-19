@@ -15,8 +15,10 @@ const Message: FC<ExtendedBubbleProps> = (props) => {
 
   const handleSwipeComplete = () => {
     setTimeout(() => {
-      props.onQuickReply?.(flowData as any);
-    }, 350);
+      requestAnimationFrame(() => {
+        props.onQuickReply?.(flowData as any);
+      });
+    }, 200);
   };
 
   const { panGesture, translateX } = useSwipeGesture({

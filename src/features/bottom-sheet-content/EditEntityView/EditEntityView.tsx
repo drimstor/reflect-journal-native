@@ -33,8 +33,6 @@ const EditEntityView = () => {
     flowData.id
   );
 
-  const { setNavigation } = useBottomSheetStore();
-
   // Получаем конфигурацию формы в зависимости от типа сущности
   const formConfig = useEditFormConfig(flowData.variant, flowData);
 
@@ -52,10 +50,6 @@ const EditEntityView = () => {
       navigateToFlow("common", "success");
     }
   }, [isSuccess]);
-
-  useEffect(() => {
-    setNavigation(false, "");
-  }, []);
 
   // Эффект для сброса формы при изменении конфигурации
   useEffect(() => {

@@ -2,7 +2,11 @@ import { useMultiSelection } from "@/src/entities";
 import { Chat } from "@/src/entities/chat/model/types";
 import { Journal } from "@/src/entities/journals/model/types";
 import { PreviewBlock } from "@/src/features";
-import { formatDate, stringToColor } from "@/src/shared/lib/helpers";
+import {
+  formatDate,
+  stringToColor,
+  truncateText,
+} from "@/src/shared/lib/helpers";
 import { useLang, useT } from "@/src/shared/lib/hooks";
 import { EntityType } from "@/src/shared/model/types";
 import { useThemeStore } from "@/src/shared/store";
@@ -109,7 +113,7 @@ export const TypedPreviewBlock = ({
         ) : item?.related_topics?.[0] ? (
           <Chip
             color={stringToColor(item?.related_topics[0])}
-            title={item?.related_topics[0]}
+            title={truncateText(item?.related_topics[0])}
           />
         ) : item?.entity_type ? (
           <Chip

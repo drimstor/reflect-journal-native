@@ -65,12 +65,6 @@ const OverviewScreen = () => {
 
   const navigation = useNavigation<NavigationProps>();
 
-  // navigation.addListener("focus", () => {
-  //   setTimeout(() => {
-  //     snapToIndex(0);
-  //   }, 260);
-  // });
-
   // --------------------- //
 
   const onOpenListItem = (path: string) => {

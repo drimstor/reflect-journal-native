@@ -1,8 +1,8 @@
 import {
+  TextProps as RNTextProps,
   StyleProp,
   View,
   ViewStyle,
-  TextProps as RNTextProps,
 } from "react-native";
 import Text from "./Text";
 import { textStyles } from "./Text.styles";
