@@ -7,7 +7,7 @@ import { useLang, useT } from "@/src/shared/lib/hooks";
 import { EntityType, NavigationProps } from "@/src/shared/model/types";
 import { useThemeStore } from "@/src/shared/store";
 import { CheckBox } from "@/src/shared/ui";
-import { CalendarIcon, CheckIcon } from "@/src/shared/ui/icons";
+import { CalendarIcon, CheckIcon, GalleryIcon } from "@/src/shared/ui/icons";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View } from "react-native";
@@ -71,6 +71,15 @@ export const useLibraryListRenderer = ({
             value: formatDate(journal.created_at, locale),
             icon: <CalendarIcon color={colors.contrast} />,
           },
+          ...(journal.images && journal.images.length > 0
+            ? [
+                {
+                  label: t("libraryItem.images"),
+                  value: String(journal.images.length),
+                  icon: <GalleryIcon color={colors.contrast} />,
+                },
+              ]
+            : []),
         ]}
       />
     );

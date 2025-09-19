@@ -34,12 +34,6 @@ function LibraryList({ variant, onPress }: LibraryListProps) {
     !isFocused
   );
 
-  // useEffect(() => {
-  //   if (isFocused) {
-  //     filters.setPage(1);
-  //   }
-  // }, [isFocused]);
-
   // const educationJournal: Journal = {
   //   name: "English Journal",
   //   description: "",
@@ -64,17 +58,6 @@ function LibraryList({ variant, onPress }: LibraryListProps) {
   //   ai_response: true,
   //   related_entities: [],
   // };
-
-  // const newData =
-  //   variant === "Journals"
-  //     ? {
-  //         ...data,
-  //         data: [educationJournal, gymJournal, ...(data?.data || [])],
-  //         currentPage: data?.currentPage || 1,
-  //         totalPages: data?.totalPages || 1,
-  //         totalItems: data?.totalItems || 0,
-  //       }
-  //     : data;
 
   return (
     <VirtualizedList

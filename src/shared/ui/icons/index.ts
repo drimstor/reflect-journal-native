@@ -41,6 +41,7 @@ export { default as EditPencilIcon } from "./EditPencilIcon";
 export { default as EmojiIcon } from "./EmojiIcon";
 export { EyeIcon, EyeSlashIcon } from "./EyeIcon";
 export { default as FilterIcon } from "./FilterIcon";
+export { default as GalleryIcon } from "./GalleryIcon";
 export { default as GlobalIcon } from "./GlobalIcon";
 export { default as GlobalSolidIcon } from "./GlobalSolidIcon";
 export { default as GraphSolidIcon } from "./GraphSolidIcon";
