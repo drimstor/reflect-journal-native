@@ -9,7 +9,7 @@ interface UseKeyboardAnimateActionProps {
 export const useKeyboardAnimateAction = ({
   scrollViewRef,
 }: UseKeyboardAnimateActionProps) => {
-  const { isKeyboardVisible } = useKeyboard();
+  const { isKeyboardVisible, keyboardHeight } = useKeyboard();
 
   const [isKeyboardVisibleDelayed, setIsKeyboardVisibleDelayed] =
     useState(isKeyboardVisible);
@@ -18,11 +18,9 @@ export const useKeyboardAnimateAction = ({
     if (isKeyboardVisible) {
       setIsKeyboardVisibleDelayed(true);
     } else {
-      const timer = setTimeout(() => {
+      requestAnimationFrame(() => {
         setIsKeyboardVisibleDelayed(false);
-      }, 250);
-
-      return () => clearTimeout(timer);
+      });
     }
   }, [isKeyboardVisible]);
 
@@ -37,5 +35,6 @@ export const useKeyboardAnimateAction = ({
 
   return {
     isKeyboardVisibleDelayed,
+    keyboardHeight,
   };
 };

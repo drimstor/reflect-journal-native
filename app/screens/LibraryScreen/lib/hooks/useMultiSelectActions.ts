@@ -37,9 +37,9 @@ export const useMultiSelectActions = () => {
     setActions(actions);
     navigateToFlow("common", "list");
 
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       setBottomSheetVisible(true);
-    }, 150);
+    });
   };
 
   return {

@@ -1,8 +1,8 @@
-import React, { FC } from "react";
 import { useT } from "@/src/shared/lib/hooks";
-import { Button } from "@/src/shared/ui";
-import { useThemeStore, useBottomSheetStore } from "@/src/shared/store";
 import { EntityType } from "@/src/shared/model/types";
+import { useBottomSheetStore, useThemeStore } from "@/src/shared/store";
+import { Button } from "@/src/shared/ui";
+import React, { FC } from "react";
 
 interface CommandWidgetChatProps {
   currentItem: any;
@@ -25,19 +25,19 @@ export const CommandWidgetChat: FC<CommandWidgetChatProps> = ({
       onPress: () => {
         navigateToFlow("goal", "create");
 
-        setTimeout(() => {
+        const params = {
+          source_type: sourceType,
+          source_id: currentItem.id,
+        };
+
+        setFlowData({
+          requestAssistantMessage: params,
+          requestAssistantMessageStore: params,
+        });
+
+        requestAnimationFrame(() => {
           setBottomSheetVisible(true);
-
-          const params = {
-            source_type: sourceType,
-            source_id: currentItem.id,
-          };
-
-          setFlowData({
-            requestAssistantMessage: params,
-            requestAssistantMessageStore: params,
-          });
-        }, 150);
+        });
       },
     },
   };

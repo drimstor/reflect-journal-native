@@ -1,14 +1,12 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
   runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
 } from "react-native-reanimated";
 
 export interface UseAnimatedLoadingOptions {
-  /** Длительность отображения загрузки в мс */
-  displayDuration?: number;
   /** Длительность анимации скрытия в мс */
   hideDuration?: number;
   /** Внешний флаг загрузки, блокирует скрытие пока true */
@@ -16,11 +14,7 @@ export interface UseAnimatedLoadingOptions {
 }
 
 export const useAnimatedLoading = (options: UseAnimatedLoadingOptions = {}) => {
-  const {
-    displayDuration = 200,
-    hideDuration = 300,
-    externalIsLoading = false,
-  } = options;
+  const { hideDuration = 300, externalIsLoading = false } = options;
 
   const [isLoading, setIsLoading] = useState(false);
   const [internalTimerFinished, setInternalTimerFinished] = useState(false);
@@ -28,13 +22,8 @@ export const useAnimatedLoading = (options: UseAnimatedLoadingOptions = {}) => {
 
   const startLoading = () => {
     setIsLoading(true);
-    setInternalTimerFinished(false);
-    // Появляется резко
     opacity.value = 1;
-
-    setTimeout(() => {
-      setInternalTimerFinished(true);
-    }, displayDuration);
+    setInternalTimerFinished(true);
   };
 
   // Эффект для скрытия когда и таймер закончился, и внешний isLoading стал false

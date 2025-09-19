@@ -95,9 +95,11 @@ const CreateEntityScreen = () => {
     },
   });
 
-  const { isKeyboardVisibleDelayed } = useKeyboardAnimateAction({
-    scrollViewRef,
-  });
+  const { isKeyboardVisibleDelayed, keyboardHeight } = useKeyboardAnimateAction(
+    {
+      scrollViewRef,
+    }
+  );
 
   const isJournalEntry = currentEntity === ENTITY_NAME.JOURNAL_ENTRIES;
 
@@ -149,7 +151,7 @@ const CreateEntityScreen = () => {
         ref={scrollViewRef}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingBottom: isKeyboardVisibleDelayed ? 370 : 50,
+          paddingBottom: isKeyboardVisibleDelayed ? keyboardHeight : 50,
         }}
       >
         {/* Карусель выбора типа сущности */}

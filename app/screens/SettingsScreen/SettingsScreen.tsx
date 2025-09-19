@@ -122,9 +122,9 @@ const SettingsScreen: FC<SettingsScreenProps> = () => {
       onPress: () => {
         navigateToFlow("logout", "areYouSure");
 
-        setTimeout(() => {
+        requestAnimationFrame(() => {
           setBottomSheetVisible(true);
-        }, 150);
+        });
       },
       color: colors.error,
     },

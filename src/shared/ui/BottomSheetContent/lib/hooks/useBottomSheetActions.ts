@@ -88,9 +88,9 @@ export const useBottomSheetActions = <T extends { id: string }>(
     if (flowData) setFlowData({ variant, ...flowData });
 
     // Отображение BottomSheet с небольшой задержкой
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       setBottomSheetVisible(true);
-    }, 150);
+    });
   };
 
   return {

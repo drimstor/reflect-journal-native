@@ -1,20 +1,14 @@
+import type { PortraitNode } from "@/src/entities";
+import { PATHS } from "@/src/shared/const";
+import { stringToColor } from "@/src/shared/lib/helpers";
+import { useGetPadding, useT } from "@/src/shared/lib/hooks";
+import { StackNavigationProps } from "@/src/shared/model/types";
+import { useBottomSheetStore, useThemeStore } from "@/src/shared/store";
+import { Chip, PaddingLayout, TitleText } from "@/src/shared/ui";
+import { ArrowLeftIcon, ChartBoxIcon, DirectIcon } from "@/src/shared/ui/icons";
+import { useNavigation } from "@react-navigation/native";
 import React, { FC } from "react";
 import { ScrollView, TouchableOpacity, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { PaddingLayout, TitleText, Chip } from "@/src/shared/ui";
-import {
-  ArrowLeftIcon,
-  ChartBoxIcon,
-  ChartIcon,
-  ChartSolidIcon,
-  DirectIcon,
-} from "@/src/shared/ui/icons";
-import { useThemeStore, useBottomSheetStore } from "@/src/shared/store";
-import { useGetPadding, useT } from "@/src/shared/lib/hooks";
-import { stringToColor } from "@/src/shared/lib/helpers";
-import { PATHS } from "@/src/shared/const";
-import { StackNavigationProps } from "@/src/shared/model/types";
-import type { PortraitNode } from "@/src/entities";
 import { styles } from "./CategoriesWidget.styles";
 
 interface CategoriesWidgetProps {
@@ -55,9 +49,9 @@ const CategoriesWidget: FC<CategoriesWidgetProps> = ({ data }) => {
     setActions(listActions);
     navigateToFlow("common", "list");
 
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       setBottomSheetVisible(true);
-    }, 150);
+    });
   };
 
   if (!data || data.length === 0) {

@@ -99,10 +99,10 @@ const CreateGoalView = ({
         if (isStandalone) {
           navigationBack?.();
 
-          setTimeout(() => {
+          requestAnimationFrame(() => {
             const params = { item: result, variant: ENTITY_NAME.GOALS };
             setNavigation(true, PATHS.LIBRARY_ITEM, params);
-          }, 200);
+          });
         } else if (flowData.requestAssistantMessageStore) {
           relateEntities({
             source_type: ENTITY_WITH_PARENT.includes(
@@ -126,10 +126,10 @@ const CreateGoalView = ({
             .then(() => {
               handleClose();
               resetFlowData();
-              setTimeout(() => {
+              requestAnimationFrame(() => {
                 const params = { item: result, variant: ENTITY_NAME.GOALS };
                 setNavigation(true, PATHS.LIBRARY_ITEM, params);
-              }, 200);
+              });
             });
         }
       } catch (error) {
@@ -161,9 +161,9 @@ const CreateGoalView = ({
   const handleClose = () => {
     if (!isStandalone) {
       resetFlowData();
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         setBottomSheetVisible(false);
-      }, 100);
+      });
     }
   };
 

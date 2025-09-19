@@ -1,21 +1,20 @@
-import { StyleProp, View, ViewStyle } from "react-native";
-import { styles } from "./FiltersPanel.styles";
-import { IconButton } from "@/src/shared/ui";
-import {
-  CalendarIcon,
-  CheckListIcon,
-  FilterIcon,
-  SortIcon,
-} from "@/src/shared/ui/icons";
+import { FiltersSearch } from "@/src/features";
 import {
   useBottomSheetStore,
   useDeviceStore,
   useFiltersStore,
   useThemeStore,
 } from "@/src/shared/store";
+import { IconButton, Text } from "@/src/shared/ui";
+import {
+  CalendarIcon,
+  CheckListIcon,
+  FilterIcon,
+  SortIcon,
+} from "@/src/shared/ui/icons";
 import { useEffect, useMemo } from "react";
-import { FiltersSearch } from "@/src/features";
-import { Text } from "@/src/shared/ui";
+import { StyleProp, View, ViewStyle } from "react-native";
+import { styles } from "./FiltersPanel.styles";
 
 interface FiltersPanelProps {
   style?: StyleProp<ViewStyle>;
@@ -53,9 +52,9 @@ const ChartsFiltersPanel = ({ style }: FiltersPanelProps) => {
           isWithoutHeaderControls: true,
         });
 
-        setTimeout(() => {
+        requestAnimationFrame(() => {
           setBottomSheetVisible(true);
-        }, 150);
+        });
       },
     },
     {
@@ -64,9 +63,9 @@ const ChartsFiltersPanel = ({ style }: FiltersPanelProps) => {
       onPress: () => {
         navigateToFlow("sort", "list");
 
-        setTimeout(() => {
+        requestAnimationFrame(() => {
           setBottomSheetVisible(true);
-        }, 150);
+        });
       },
     },
     {
@@ -75,9 +74,9 @@ const ChartsFiltersPanel = ({ style }: FiltersPanelProps) => {
       onPress: () => {
         navigateToFlow("filter", "list");
 
-        setTimeout(() => {
+        requestAnimationFrame(() => {
           setBottomSheetVisible(true);
-        }, 150);
+        });
       },
     },
     {

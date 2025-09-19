@@ -45,20 +45,20 @@ export const CommandWidget: FC<CommandWidgetProps> = ({
   const createGoalCommand = (goalName?: string) => () => {
     navigateToFlow("goal", "create");
 
-    setTimeout(() => {
+    const params = {
+      source_type: sourceType,
+      source_id: currentItem.id,
+      ...(goalName && { goal_name: goalName }),
+    };
+
+    setFlowData({
+      requestAssistantMessage: params,
+      requestAssistantMessageStore: params,
+    });
+
+    requestAnimationFrame(() => {
       setBottomSheetVisible(true);
-
-      const params = {
-        source_type: sourceType,
-        source_id: currentItem.id,
-        ...(goalName && { goal_name: goalName }),
-      };
-
-      setFlowData({
-        requestAssistantMessage: params,
-        requestAssistantMessageStore: params,
-      });
-    }, 150);
+    });
   };
 
   const createChatCommand = () => {

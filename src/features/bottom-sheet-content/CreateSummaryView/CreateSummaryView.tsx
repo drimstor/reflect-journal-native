@@ -225,10 +225,10 @@ const CreateSummaryView = ({
         await createSummaryInBackground(summaryRequest, {
           onSuccess: (result) => {
             // При успешном создании переходим к просмотру
-            setTimeout(() => {
+            requestAnimationFrame(() => {
               const params = { item: result, variant: ENTITY_NAME.SUMMARIES };
               setNavigation(true, PATHS.LIBRARY_ITEM, params);
-            }, 300);
+            });
           },
           onError: (error) => {
             console.error("Ошибка при создании саммари:", error);
@@ -262,9 +262,9 @@ const CreateSummaryView = ({
   const handleClose = () => {
     if (!isStandalone) {
       resetFlowData();
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         setBottomSheetVisible(false);
-      }, 100);
+      });
     }
   };
 

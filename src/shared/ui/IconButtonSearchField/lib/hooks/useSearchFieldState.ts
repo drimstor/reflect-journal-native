@@ -1,7 +1,6 @@
-import { useRef, useEffect } from "react";
+import { useKeyboard, useToggle } from "@/src/shared/lib/hooks";
+import { useEffect, useRef } from "react";
 import { TextInput } from "react-native";
-import { useToggle } from "@/src/shared/lib/hooks";
-import { useKeyboard } from "@/src/shared/lib/hooks";
 
 interface UseSearchFieldStateProps {
   value: string;
@@ -39,10 +38,10 @@ export const useSearchFieldState = ({
     }
 
     if (isExpanded) {
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         inputRef.current?.focus();
         toggleIsFocused(true);
-      }, 300);
+      });
     } else {
       toggleIsFocused(false);
     }

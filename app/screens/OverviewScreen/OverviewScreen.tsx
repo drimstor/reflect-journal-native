@@ -84,7 +84,7 @@ const OverviewScreen = () => {
 
     setTimeout(() => {
       navigation.navigate(path);
-    }, 330);
+    }, 400);
   };
 
   return (

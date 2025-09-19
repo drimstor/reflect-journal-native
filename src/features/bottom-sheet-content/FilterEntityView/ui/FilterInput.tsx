@@ -29,11 +29,9 @@ const FilterInput = React.memo(
 
     // Управление фокусом при изменении состояния расширения
     useEffect(() => {
-      const timer = setTimeout(() => {
+      requestAnimationFrame(() => {
         inputRef.current?.focus();
-      }, 100);
-
-      return () => clearTimeout(timer);
+      });
     }, []);
 
     // Мемоизируем обработчик очистки

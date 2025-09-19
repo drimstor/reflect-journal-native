@@ -29,7 +29,7 @@ const IconButtonSearchField: FC<IconButtonSearchFieldProps> = ({
   const { colors, theme } = useThemeStore();
   const styles = useMemo(() => createStyles(colors, theme), [theme]);
   const [localValue, setLocalValue] = useState(value);
-  const debouncedValue = useDebounce(localValue, 1000);
+  const debouncedValue = useDebounce(localValue);
 
   // Используем хук для управления состоянием поля поиска
   const { inputRef, isExpanded, isFocused, isEmpty, handleToggle } =

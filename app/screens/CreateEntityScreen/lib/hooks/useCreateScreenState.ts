@@ -125,10 +125,9 @@ export const useCreateScreenState = (getSelectedImages?: () => any[]) => {
           [ENTITY_NAME.SUMMARIES]: PATHS.LIBRARY_ITEM,
         };
 
-        setTimeout(() => {
+        requestAnimationFrame(() => {
           navigation.navigate(pathConfig[currentEntity], params);
-          // navigation.getParent()?.navigate(pathConfig[currentEntity], params);
-        }, 300);
+        });
       } catch (error) {
         console.error("Ошибка при создании:", error);
       }

@@ -48,9 +48,9 @@ const TopicsWidget: FC<TopicsWidgetProps> = ({ data }) => {
     setActions(listActions);
     navigateToFlow("common", "list");
 
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       setBottomSheetVisible(true);
-    }, 150);
+    });
   };
 
   if (!data || data.length === 0) {

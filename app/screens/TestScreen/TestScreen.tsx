@@ -94,9 +94,9 @@ const TestScreen = () => {
         },
       });
       navigateToFlow("test", "skip");
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         setBottomSheetVisible(true);
-      }, 150);
+      });
     } else {
       // Если ответ есть, переходим к следующему вопросу или завершаем тест
       if (isLastQuestion) {
@@ -128,9 +128,9 @@ const TestScreen = () => {
       },
     });
     navigateToFlow("test", "exit");
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       setBottomSheetVisible(true);
-    }, 150);
+    });
   };
 
   // const mockAnswers = {

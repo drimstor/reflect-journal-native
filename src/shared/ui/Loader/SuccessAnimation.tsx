@@ -22,9 +22,9 @@ export const SuccessAnimation: FC<SuccessAnimationProps> = ({
   const playAnimation = () => {
     lottieRef.current?.reset();
 
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       lottieRef.current?.play(startFrame, endFrame);
-    }, 50);
+    });
   };
 
   useEffect(() => {

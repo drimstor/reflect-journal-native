@@ -18,7 +18,7 @@ export const useImagePickerWithActions = (
   config: UseImagePickerWithActionsConfig
 ) => {
   const t = useT();
-  const { navigateToFlow, setActions, resetFlow, setBottomSheetVisible } =
+  const { navigateToFlow, setActions, setBottomSheetVisible } =
     useBottomSheetStore();
 
   // Используем базовый хук для работы с изображениями
@@ -27,9 +27,9 @@ export const useImagePickerWithActions = (
 
   // Дефолтные функции для работы с BottomSheet
   const defaultOpenBottomSheet = () => {
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       setBottomSheetVisible(true);
-    }, 150);
+    });
   };
 
   const defaultCloseBottomSheet = () => {
@@ -44,10 +44,6 @@ export const useImagePickerWithActions = (
   const handleActionWithBottomSheetClose = (func: () => void) => {
     func();
     closeBottomSheet();
-    // Если используются кастомные функции, добавляем resetFlow с задержкой
-    if (config.onCloseBottomSheet) {
-      setTimeout(resetFlow, 500);
-    }
   };
 
   // Основной обработчик выбора изображений

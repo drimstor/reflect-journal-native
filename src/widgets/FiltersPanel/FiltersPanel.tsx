@@ -58,14 +58,14 @@ const FiltersPanel = ({ style }: FiltersPanelProps) => {
             isWithoutHeaderControls: true,
           });
 
-          setTimeout(() => {
+          requestAnimationFrame(() => {
             setBottomSheetVisible(true);
-          }, 150);
+          });
         } else {
           navigateToFlow("date", "list");
-          setTimeout(() => {
+          requestAnimationFrame(() => {
             setBottomSheetVisible(true);
-          }, 150);
+          });
         }
       },
     },
@@ -75,9 +75,9 @@ const FiltersPanel = ({ style }: FiltersPanelProps) => {
       onPress: () => {
         navigateToFlow("sort", "list");
         setFlowData({ sortVariant: "Entities" });
-        setTimeout(() => {
+        requestAnimationFrame(() => {
           setBottomSheetVisible(true);
-        }, 150);
+        });
       },
     },
     {
@@ -85,9 +85,9 @@ const FiltersPanel = ({ style }: FiltersPanelProps) => {
       isActive: ai_response || is_completed || related_topics,
       onPress: () => {
         navigateToFlow("filter", "list");
-        setTimeout(() => {
+        requestAnimationFrame(() => {
           setBottomSheetVisible(true);
-        }, 150);
+        });
       },
     },
     {
