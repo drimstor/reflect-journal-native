@@ -1,26 +1,26 @@
+import { useDeleteAnyEntities } from "@/src/entities/common/lib/hooks/useDeleteAnyEntities";
+import { useT } from "@/src/shared/lib/hooks";
+import { EntityType } from "@/src/shared/model/types";
 import {
-  Text,
-  Button,
-  BottomSheetHeader,
-  BottomSheetFooter,
-  PaddingLayout,
-  BottomSheetBox,
-} from "@/src/shared/ui";
-import {
-  useThemeStore,
   useBottomSheetStore,
   useFiltersStore,
   useScreenInfoStore,
+  useThemeStore,
 } from "@/src/shared/store";
-import { useT } from "@/src/shared/lib/hooks";
-import { useDeleteAnyEntities } from "@/src/entities/common/lib/hooks/useDeleteAnyEntities";
-import { useEffect, useState, useCallback } from "react";
-import { EntityType } from "@/src/shared/model/types";
+import {
+  BottomSheetBox,
+  BottomSheetFooter,
+  BottomSheetHeader,
+  Button,
+  PaddingLayout,
+  Text,
+} from "@/src/shared/ui";
+import { useCallback, useEffect, useState } from "react";
 
 const DeleteEntitiesView = () => {
   const t = useT();
   const { colors } = useThemeStore();
-  const { navigateToFlow } = useBottomSheetStore();
+  const { navigateToFlow, setNavigation } = useBottomSheetStore();
   const { multi_select_ids, setMultiSelectIds, setMultiSelect, resetFilters } =
     useFiltersStore();
 
@@ -49,7 +49,14 @@ const DeleteEntitiesView = () => {
 
       // Если все элементы удалены или произошла ошибка
       if (deletedCount >= totalToDelete || hasError) {
-        setIsDeleting(false);
+        setMultiSelectIds([]);
+        setMultiSelect(false);
+        resetFilters();
+        setNavigation(false, "");
+
+        if (!hasError) {
+          navigateToFlow("common", "success");
+        }
         return;
       }
 
@@ -94,20 +101,6 @@ const DeleteEntitiesView = () => {
     setHasError(false);
     setCurrentId(undefined);
   }, [multi_select_ids]);
-
-  // Переход к экрану успеха после завершения удаления
-  useEffect(() => {
-    if (isDeleting === false && deletedCount > 0) {
-      // Очищаем выбранные элементы после удаления
-      setMultiSelectIds([]);
-      setMultiSelect(false);
-      resetFilters();
-
-      if (!hasError) {
-        navigateToFlow("common", "success");
-      }
-    }
-  }, [isDeleting, deletedCount, hasError, navigateToFlow, setMultiSelectIds]);
 
   return (
     <BottomSheetBox>

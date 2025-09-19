@@ -66,17 +66,16 @@ const LibraryItemScreen = () => {
   const { setNavigation } = useBottomSheetStore();
   const route = useRoute();
   const { variant, item } = (route.params as any) || {};
-  const safeVariant = variant || "";
 
-  const { handlePress } = useBottomSheetActions(safeVariant, item);
+  const { handlePress } = useBottomSheetActions(variant, item);
   const navigation = useNavigation<StackNavigationProps>();
   const [currentItem, setCurrentItem] = useState<any>(null);
   const mood = useGetMood(currentItem?.mood || "");
-  const { data } = useGetAnyEntity({ type: safeVariant, id: item.id });
+  const { data } = useGetAnyEntity({ type: variant, id: item.id });
 
-  const isJournalEntry = safeVariant === ENTITY_NAME.JOURNAL_ENTRIES;
-  const isTest = safeVariant === ENTITY_NAME.TESTS;
-  const isTestResult = safeVariant === ENTITY_NAME.TEST_RESULTS;
+  const isJournalEntry = variant === ENTITY_NAME.JOURNAL_ENTRIES;
+  const isTest = variant === ENTITY_NAME.TESTS;
+  const isTestResult = variant === ENTITY_NAME.TEST_RESULTS;
 
   useEffect(() => {
     setCurrentItem(data || item);
@@ -84,12 +83,12 @@ const LibraryItemScreen = () => {
 
   useEffect(() => {
     setNavigation(false, PATHS.LIBRARY);
-  }, [safeVariant]);
+  }, [variant]);
 
   // ------------------------------------------------------------ //
 
   // Получение родительской сущности
-  const { parentJournal, parentTest } = useParentEntity(safeVariant, item);
+  const { parentJournal, parentTest } = useParentEntity(variant, item);
 
   useEffect(() => {
     if (isJournalEntry && data) {
@@ -110,13 +109,9 @@ const LibraryItemScreen = () => {
   // const journal = useAppSelector(getJournalCache(currentItem?.journal_id));
 
   const { checkboxes, isUpdatingChecklistItem, handleCheckboxToggle } =
-    useChecklistActions(
-      safeVariant,
-      currentItem?.id,
-      currentItem?.checklist || []
-    );
+    useChecklistActions(variant, currentItem?.id, currentItem?.checklist || []);
 
-  const isDocument = safeVariant === ENTITY_NAME.DOCUMENTS;
+  const isDocument = variant === ENTITY_NAME.DOCUMENTS;
 
   // Hook для отслеживания прогресса просмотра документа (всегда вызываем хук)
   const { progress, handleScroll, isLoading } = useSetDocumentProgress({
@@ -134,9 +129,7 @@ const LibraryItemScreen = () => {
     <Layout>
       <Header
         title={t(
-          `entities.${
-            isDocument ? item.type : safeVariant.toLowerCase()
-          }.singular`
+          `entities.${isDocument ? item.type : variant.toLowerCase()}.singular`
         )}
         subtitle={subtitle}
         backButton
@@ -173,7 +166,7 @@ const LibraryItemScreen = () => {
                   <Text size="extraLarge" font="bold" color={colors.contrast}>
                     {currentItem?.name || currentItem?.title}
                   </Text>
-                  {safeVariant !== "JournalEntries" &&
+                  {variant !== "JournalEntries" &&
                     currentItem?.related_topics?.[0] && (
                       <Chip
                         color={stringToColor(currentItem?.related_topics?.[0])}
@@ -311,7 +304,7 @@ const LibraryItemScreen = () => {
                       ENTITY_NAME.SUMMARIES,
                       ENTITY_NAME.DOCUMENTS,
                       ENTITY_NAME.TEST_RESULTS,
-                    ].includes(safeVariant) && (
+                    ].includes(variant) && (
                       <View style={{ marginTop: 18 }}>
                         <CommandWidget
                           currentItem={currentItem}

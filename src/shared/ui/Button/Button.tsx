@@ -3,7 +3,7 @@ import { PaletteColor } from "@/src/shared/model/types";
 import { useThemeStore } from "@/src/shared/store";
 import { Text } from "@/src/shared/ui";
 import { ReactNode } from "react";
-import { StyleProp, TouchableOpacity, ViewStyle } from "react-native";
+import { StyleProp, TouchableOpacity, View, ViewStyle } from "react-native";
 import { SmallLoader } from "../Loader/SmallLoader";
 import { createStyles, sizeStyles } from "./Button.styles";
 interface ButtonProps {
@@ -50,7 +50,9 @@ const Button = ({
       ]}
     >
       {isLoading ? (
-        <SmallLoader color={textColor} />
+        <View style={styles.loaderBox}>
+          <SmallLoader color={textColor} />
+        </View>
       ) : (
         <Text
           font="bold"

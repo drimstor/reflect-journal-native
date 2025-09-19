@@ -21,6 +21,10 @@ export const createStyles = (colors: ThemeColors) =>
       marginTop: -2,
       textAlign: "center",
     },
+    loaderBox: {
+      marginTop: -10,
+      maxHeight: 40,
+    },
   });
 
 export const sizeStyles = StyleSheet.create({

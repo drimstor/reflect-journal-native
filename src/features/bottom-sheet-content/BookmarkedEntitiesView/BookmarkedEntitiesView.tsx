@@ -1,26 +1,26 @@
+import { useEditAnyEntities } from "@/src/entities/common/lib/hooks/useEditAnyEntities";
+import { useT } from "@/src/shared/lib/hooks";
+import { EntityType } from "@/src/shared/model/types";
 import {
-  Text,
-  Button,
-  BottomSheetHeader,
-  BottomSheetFooter,
-  PaddingLayout,
-  BottomSheetBox,
-} from "@/src/shared/ui";
-import {
-  useThemeStore,
   useBottomSheetStore,
   useFiltersStore,
   useScreenInfoStore,
+  useThemeStore,
 } from "@/src/shared/store";
-import { useT } from "@/src/shared/lib/hooks";
-import { useEditAnyEntities } from "@/src/entities/common/lib/hooks/useEditAnyEntities";
-import { useEffect, useState, useCallback } from "react";
-import { EntityType } from "@/src/shared/model/types";
+import {
+  BottomSheetBox,
+  BottomSheetFooter,
+  BottomSheetHeader,
+  Button,
+  PaddingLayout,
+  Text,
+} from "@/src/shared/ui";
+import { useCallback, useEffect, useState } from "react";
 
 const BookmarkedEntitiesView = () => {
   const t = useT();
   const { colors, theme } = useThemeStore();
-  const { navigateToFlow } = useBottomSheetStore();
+  const { navigateToFlow, setNavigation } = useBottomSheetStore();
   const { multi_select_ids, setMultiSelectIds, setMultiSelect } =
     useFiltersStore();
 
@@ -49,7 +49,16 @@ const BookmarkedEntitiesView = () => {
 
       // Если все элементы обработаны или произошла ошибка
       if (processedCount >= totalToProcess || hasError) {
-        setIsProcessing(false);
+        // Очищаем выбранные элементы
+        setMultiSelectIds([]);
+        setMultiSelect(false);
+        setNavigation(false, "");
+
+        // Сразу переходим на следующий экран при успехе
+        if (!hasError) {
+          navigateToFlow("common", "success");
+        }
+
         return;
       }
 
@@ -67,6 +76,10 @@ const BookmarkedEntitiesView = () => {
     totalToProcess,
     hasError,
     multi_select_ids,
+    navigateToFlow,
+    setMultiSelectIds,
+    setMultiSelect,
+    setNavigation,
   ]);
 
   // Эффект для обработки результата добавления в избранное текущего элемента
@@ -104,26 +117,6 @@ const BookmarkedEntitiesView = () => {
     setHasError(false);
     setCurrentId(undefined);
   }, [multi_select_ids]);
-
-  // Переход к экрану успеха после завершения обработки
-  useEffect(() => {
-    if (isProcessing === false && processedCount > 0) {
-      // Очищаем выбранные элементы после обработки
-      setMultiSelectIds([]);
-      setMultiSelect(false);
-
-      if (!hasError) {
-        navigateToFlow("common", "success");
-      }
-    }
-  }, [
-    isProcessing,
-    processedCount,
-    hasError,
-    navigateToFlow,
-    setMultiSelectIds,
-    setMultiSelect,
-  ]);
 
   return (
     <BottomSheetBox>

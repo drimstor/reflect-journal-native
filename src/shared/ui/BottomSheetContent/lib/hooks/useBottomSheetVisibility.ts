@@ -4,12 +4,18 @@ import { useEffect, useRef } from "react";
 import { Keyboard } from "react-native";
 
 export const useBottomSheetVisibility = () => {
+  const isInitialRender = useRef(true);
+  const { setBottomSheetVisible, isBottomSheetVisible } = useBottomSheetStore();
   const { bottomSheetRef, snapToIndex, closeBottomSheet } =
     useBottomSheetIndexState();
 
-  const isInitialRender = useRef(true);
-  const { setBottomSheetVisible, isBottomSheetVisible, resetFlow } =
-    useBottomSheetStore();
+  useEffect(() => {
+    if (isInitialRender.current) {
+      snapToIndex(0);
+      requestAnimationFrame(closeBottomSheet);
+      isInitialRender.current = false;
+    }
+  }, []);
 
   useEffect(() => {
     if (isInitialRender.current) {

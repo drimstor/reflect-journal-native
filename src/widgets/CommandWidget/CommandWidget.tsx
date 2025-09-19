@@ -18,6 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 import React, { FC } from "react";
 import { View } from "react-native";
 import { styles } from "./CommandWidget.styles";
+import { createChatConfig } from "./const/static";
 
 interface CommandWidgetProps {
   currentItem: any;
@@ -61,7 +62,15 @@ export const CommandWidget: FC<CommandWidgetProps> = ({
   };
 
   const createChatCommand = () => {
-    const foundRelatedChat = parentJournal?.related_entities?.find(
+    let findingEntity = null;
+
+    if (sourceType === ENTITY_NAME.JOURNAL_ENTRIES) {
+      findingEntity = parentJournal;
+    } else {
+      findingEntity = currentItem;
+    }
+
+    const foundRelatedChat = findingEntity?.related_entities?.find(
       (entity) => entity.entity_type === ENTITY_NAME.CHATS
     );
 
@@ -77,10 +86,15 @@ export const CommandWidget: FC<CommandWidgetProps> = ({
       return navigation.navigate(PATHS.CHAT, params);
     }
 
+    const config = createChatConfig[sourceType] || createChatConfig.default;
+
     createChat({
-      name: `${t("chat.autoName")} "${parentJournal?.name}"`,
-      description: t("chat.autoDescription"),
-      related_topics: currentItem?.related_topics,
+      name: `${t(config.nameKey)} "${findingEntity?.name}"`,
+      description: t(config.descriptionKey),
+      related_topics:
+        sourceType === ENTITY_NAME.JOURNAL_ENTRIES
+          ? currentItem?.related_topics
+          : currentItem?.related_topics,
     })
       .unwrap()
       .then((chat) => {
@@ -89,7 +103,10 @@ export const CommandWidget: FC<CommandWidgetProps> = ({
             sourceType === ENTITY_NAME.JOURNAL_ENTRIES
               ? ENTITY_NAME.JOURNALS
               : sourceType,
-          source_id: getEntitiesIds(currentItem.id)[0],
+          source_id:
+            sourceType === ENTITY_NAME.JOURNAL_ENTRIES
+              ? getEntitiesIds(currentItem.id)[0]
+              : currentItem.id,
           target_type: ENTITY_NAME.CHATS,
           target_id: chat.id,
         })
@@ -110,9 +127,7 @@ export const CommandWidget: FC<CommandWidgetProps> = ({
 
   const createJournalCommand = () => {
     setNavigationScreenInfo({ name: ENTITY_NAME.JOURNALS });
-    navigation.navigate(PATHS.ADD_ENTRY, {
-      variant: ENTITY_NAME.JOURNALS,
-    });
+    navigation.navigate(PATHS.ADD_ENTRY, { variant: ENTITY_NAME.JOURNALS });
   };
 
   const findTalentCommand = () => {

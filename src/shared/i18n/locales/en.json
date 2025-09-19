@@ -84,8 +84,10 @@
   },
   "chat": {
     "placeholder": "Enter message...",
-    "autoName": "Chat of the Journal",
-    "autoDescription": "An automatically created chat linked to your journal."
+    "journalAutoName": "Chat of the Journal",
+    "journalAutoDescription": "An automatically created chat linked to your journal",
+    "summaryAutoName": "Chat of the Summary",
+    "summaryAutoDescription": "An automatically created chat linked to your summary"
   },
   "goals": {
     "create": "Create goal",

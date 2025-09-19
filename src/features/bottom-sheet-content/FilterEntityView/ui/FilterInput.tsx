@@ -1,8 +1,7 @@
 import { FONTS } from "@/src/shared/const";
-import { useT } from "@/src/shared/lib/hooks";
 import { useThemeStore } from "@/src/shared/store";
 import { PlusIcon } from "@/src/shared/ui/icons";
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { Pressable, TextInput, TextInputProps, View } from "react-native";
 import { styles } from "./FilterInput.styles";
 
@@ -25,42 +24,62 @@ const FilterInput = React.memo(
     placeholder,
     ...props
   }: FilterInputProps) => {
-    const t = useT();
     const { colors } = useThemeStore();
     const inputRef = useRef<TextInput>(null);
 
     // Управление фокусом при изменении состояния расширения
     useEffect(() => {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         inputRef.current?.focus();
       }, 100);
+
+      return () => clearTimeout(timer);
     }, []);
 
-    const handleClear = () => {
+    // Мемоизируем обработчик очистки
+    const handleClear = useCallback(() => {
       onChangeText("");
       onClear?.();
-    };
+    }, [onChangeText, onClear]);
+
+    // Мемоизируем стили инпута для предотвращения пересчета
+    const inputStyles = useMemo(
+      () => [
+        styles.input,
+        { color: colors.contrast },
+        {
+          maxWidth: "92%",
+          fontSize: 16,
+          fontFamily: FONTS.regular,
+        },
+        inputStyle,
+      ],
+      [colors.contrast, inputStyle]
+    );
+
+    // Мемоизируем цвет плейсхолдера
+    const placeholderTextColor = useMemo(
+      () => `${colors.contrast}80`,
+      [colors.contrast]
+    );
+
+    // Мемоизируем стили контейнера
+    const containerStyles = useMemo(
+      () => [styles.container, containerStyle],
+      [containerStyle]
+    );
 
     return (
-      <View style={[styles.container, containerStyle]}>
+      <View style={containerStyles}>
         <TextInput
           ref={inputRef}
-          style={[
-            styles.input,
-            { color: colors.contrast },
-            {
-              maxWidth: "92%",
-              fontSize: 16,
-              fontFamily: FONTS.regular,
-            },
-            inputStyle,
-          ]}
+          style={inputStyles}
           value={value}
           maxLength={40}
           placeholder={placeholder}
-          placeholderTextColor={`${colors.contrast}80`}
+          placeholderTextColor={placeholderTextColor}
           onChangeText={onChangeText}
-          keyboardType={"default"}
+          keyboardType="default"
           {...props}
         />
         {value && (
@@ -72,5 +91,7 @@ const FilterInput = React.memo(
     );
   }
 );
+
+FilterInput.displayName = "FilterInput";
 
 export default FilterInput;
