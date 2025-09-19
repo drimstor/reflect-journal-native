@@ -1,5 +1,5 @@
-import { PALLETE_COLORS } from "@/src/shared/const";
 import { StyleSheet } from "react-native";
+import { ThemeColors } from "../../model/types";
 
 export const styles = StyleSheet.create({
   bottomSheetBox: {
@@ -25,3 +25,18 @@ export const styles = StyleSheet.create({
     elevation: 2,
   },
 });
+
+export const createStaticBackdropStyles = (colors: ThemeColors) =>
+  StyleSheet.create({
+    bottomSheetStaticBackdrop: {
+      position: "absolute",
+      top: 85,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: colors.secondary,
+      borderColor: colors.alternate,
+      borderWidth: 1,
+      borderRadius: 24,
+    },
+  });

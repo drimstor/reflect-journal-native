@@ -5,6 +5,7 @@ import { useDeviceStore, useFiltersStore } from "@/src/shared/store";
 import {
   AnimatedAppearance,
   BottomSheet,
+  BottomSheetStaticBackdrop,
   Divider,
   DotsIcon,
   FullScreenChartLegend,
@@ -69,6 +70,7 @@ const ChartsScreen = () => {
             )(multi_select ? multi_select_ids : []),
         }}
       />
+      <BottomSheetStaticBackdrop />
       <BottomSheet
         snapPoints={snapPoints}
         backgroundColor={colors.secondary}

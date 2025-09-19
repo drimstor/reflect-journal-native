@@ -18,6 +18,7 @@ import {
 } from "@/src/shared/store";
 import {
   BottomSheet,
+  BottomSheetStaticBackdrop,
   Button,
   CheckBox,
   CheckboxList,
@@ -141,6 +142,7 @@ const LibraryItemScreen = () => {
               }
         }
       />
+      <BottomSheetStaticBackdrop />
       <BottomSheet
         snapPoints={[window.height - 85]}
         backgroundColor={colors.secondary}

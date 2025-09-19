@@ -17,6 +17,7 @@ import {
 import {
   AnimatedAppearance,
   BottomSheet,
+  BottomSheetStaticBackdrop,
   Button,
   Divider,
   Layout,
@@ -117,6 +118,7 @@ const LibraryListScreen = () => {
               }
         }
       />
+      <BottomSheetStaticBackdrop />
       <BottomSheet
         snapPoints={[window.height - 85]}
         backgroundColor={colors.secondary}

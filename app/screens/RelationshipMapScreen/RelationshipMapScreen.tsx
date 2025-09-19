@@ -8,6 +8,7 @@ import { useDeviceStore, useThemeStore } from "@/src/shared/store";
 import {
   AnimatedAppearance,
   BottomSheet,
+  BottomSheetStaticBackdrop,
   Chip,
   Divider,
   Layout,
@@ -205,7 +206,7 @@ const RelationshipMapScreen = () => {
         //   onPress: () => {},
         // }}
       />
-
+      <BottomSheetStaticBackdrop />
       <BottomSheet
         snapPoints={snapPoints}
         backgroundColor={colors.secondary}

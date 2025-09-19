@@ -1,5 +1,6 @@
 import AnimatedAppearance from "./AnimatedAppearance/AnimatedAppearance";
 import BottomSheet from "./BottomSheet/BottomSheet";
+import BottomSheetStaticBackdrop from "./BottomSheet/BottomSheetStaticBackdrop";
 import Button from "./Button/Button";
 import DiagramChart from "./Charts/DiagramChart";
 import FullScreenChart from "./Charts/FullScreenChart";
@@ -33,7 +34,6 @@ import TitleText from "./Text/TitleText";
 import TextField from "./TextField/TextField";
 import Tooltip from "./Tooltip/Tooltip";
 import VirtualizedList from "./VirtualizedList/VirtualizedList";
-
 export * from "./assets";
 export { default as AudioRecorderContainer } from "./AudioRecorder/AudioRecorder";
 export type { BottomSheetRef } from "./BottomSheet/BottomSheet";
@@ -62,6 +62,7 @@ export {
   AnimatedText,
   BackgroundLayout,
   BottomSheet,
+  BottomSheetStaticBackdrop,
   Button,
   Carousel,
   CheckBox,
