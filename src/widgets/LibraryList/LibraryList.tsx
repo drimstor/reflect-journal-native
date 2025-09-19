@@ -1,7 +1,7 @@
 import { Chat } from "@/src/entities/chat/model/types";
 import { useGetAnyEntities } from "@/src/entities/common/lib/hooks/useGetAnyEntities";
 import { Journal } from "@/src/entities/journals/model/types";
-import { TypedPreviewBlock } from "@/src/features";
+import { createTypedPreviewBlockRenderer } from "@/src/features";
 import { getFiltersParams } from "@/src/shared/lib/helpers";
 import { EntityType } from "@/src/shared/model/types";
 import { useFiltersStore, useScreenInfoStore } from "@/src/shared/store";
@@ -62,7 +62,7 @@ function LibraryList({ variant, onPress }: LibraryListProps) {
   return (
     <VirtualizedList
       data={data}
-      renderItem={TypedPreviewBlock({ variant, onPress })}
+      renderItem={createTypedPreviewBlockRenderer({ variant, onPress })}
       isFetching={isFetching}
       sortField={variant === ENTITY_NAME.TESTS ? "created_at" : "updated_at"}
       entityName={variant}

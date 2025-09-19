@@ -1,33 +1,36 @@
-import PreviewBlock from "./home/PreviewBlock/PreviewBlock";
-import ShortPreviewBlock from "./home/ShortPreviewBlock/ShortPreviewBlock";
-import GradientPreviewBlock from "./home/GradientPreviewBlock/GradientPreviewBlock";
-import GradientAffirmation from "./home/GradientAffirmation/GradientAffirmation";
-import PreviewCard from "./home/PreviewCard/PreviewCard";
-import ListItemPreview from "./home/ListItemPreview/ListItemPreview";
 import AttachmentsPopup from "./chat/AttachmentsPopup/AttachmentsPopup";
+import ChatBackground from "./chat/ChatBackground/ChatBackground";
 import DateChip from "./chat/DateChip/DateChip";
 import Message from "./chat/Message/Message";
 import MessageInput from "./chat/MessageInput/MessageInput";
-import ChatBackground from "./chat/ChatBackground/ChatBackground";
-import TypedPreviewBlock from "./common/TypedPreviewBlock/TypedPreviewBlock";
 import FiltersSearch from "./common/FiltersSearch/FiltersSearch";
-import ProfileMenu from "./settings/ProfileMenu/ProfileMenu";
+import {
+  TypedPreviewBlock,
+  createTypedPreviewBlockRenderer,
+} from "./common/TypedPreviewBlock/TypedPreviewBlock";
 import { CheckListEditor } from "./goal/CheckListEditor/CheckListEditor";
-
+import GradientAffirmation from "./home/GradientAffirmation/GradientAffirmation";
+import GradientPreviewBlock from "./home/GradientPreviewBlock/GradientPreviewBlock";
+import ListItemPreview from "./home/ListItemPreview/ListItemPreview";
+import PreviewBlock from "./home/PreviewBlock/PreviewBlock";
+import PreviewCard from "./home/PreviewCard/PreviewCard";
+import ShortPreviewBlock from "./home/ShortPreviewBlock/ShortPreviewBlock";
+import ProfileMenu from "./settings/ProfileMenu/ProfileMenu";
 export {
-  PreviewBlock,
-  ShortPreviewBlock,
-  GradientPreviewBlock,
-  GradientAffirmation,
-  PreviewCard,
-  ListItemPreview,
   AttachmentsPopup,
+  ChatBackground,
+  CheckListEditor,
   DateChip,
+  FiltersSearch,
+  GradientAffirmation,
+  GradientPreviewBlock,
+  ListItemPreview,
   Message,
   MessageInput,
-  ChatBackground,
-  TypedPreviewBlock,
-  FiltersSearch,
+  PreviewBlock,
+  PreviewCard,
   ProfileMenu,
-  CheckListEditor,
+  ShortPreviewBlock,
+  TypedPreviewBlock,
+  createTypedPreviewBlockRenderer,
 };

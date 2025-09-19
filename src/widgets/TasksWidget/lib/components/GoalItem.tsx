@@ -1,10 +1,10 @@
-import React from "react";
-import { TypedPreviewBlock } from "@/src/features";
-import { Goal } from "../helpers/goalFilters";
+import { createTypedPreviewBlockRenderer } from "@/src/features";
 import { PATHS } from "@/src/shared/const/PATHS";
-import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProps } from "@/src/shared/model/types";
 import { useThemeStore } from "@/src/shared/store";
+import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { Goal } from "../helpers/goalFilters";
 
 interface GoalItemProps {
   goal: Goal;
@@ -18,7 +18,7 @@ const GoalItem: React.FC<GoalItemProps> = ({ goal }) => {
     navigation.push(PATHS.LIBRARY_ITEM, { variant: "Goals", item: goal });
   };
 
-  const renderItem = TypedPreviewBlock({
+  const renderItem = createTypedPreviewBlockRenderer({
     variant: "Goals",
     onPress,
     backgroundColor: theme === "light" ? colors.white : colors.secondary,

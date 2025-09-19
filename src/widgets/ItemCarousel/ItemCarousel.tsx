@@ -1,4 +1,4 @@
-import { TypedPreviewBlock } from "@/src/features";
+import { createTypedPreviewBlockRenderer } from "@/src/features";
 import { ThemeColors } from "@/src/shared/model/types";
 import { Carousel, DotsIcon, PaddingLayout, TitleText } from "@/src/shared/ui";
 import React from "react";
@@ -61,7 +61,7 @@ export const ItemCarousel = ({
         handler={onSelectItem}
         activeIndex={activeIndex}
         modeConfig={modeConfig}
-        renderItem={TypedPreviewBlock({
+        renderItem={createTypedPreviewBlockRenderer({
           onPress,
           disableAnimate: true,
           previewMode: true,
