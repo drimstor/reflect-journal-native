@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { Dimensions, Platform, StyleSheet } from "react-native";
 
 // Получаем размеры экрана
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
@@ -61,8 +61,8 @@ export const styles = StyleSheet.create({
   // Кнопка закрытия
   closeButton: {
     position: "absolute",
-    top: 10,
-    right: 22,
+    top: Platform.OS === "android" ? -14 : 10,
+    right: Platform.OS === "android" ? 25 : 22,
     transform: [{ rotate: "45deg" }],
     width: 55,
     height: 55,

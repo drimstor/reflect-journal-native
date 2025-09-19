@@ -127,11 +127,7 @@ export const FullScreenPreview: React.FC<FullScreenPreviewProps> = ({
           {/* Основной контент */}
           <View style={styles.contentContainer}>
             {/* Карусель с изображениями */}
-            <TouchableOpacity
-              activeOpacity={1}
-              onPress={(e) => e.stopPropagation()}
-              style={styles.carouselWrapper}
-            >
+            <View style={styles.carouselWrapper}>
               <Carousel
                 height={window.height - 140}
                 data={carouselData}
@@ -150,7 +146,7 @@ export const FullScreenPreview: React.FC<FullScreenPreviewProps> = ({
                     theme === "dark" ? colors.contrast : colors.alternate,
                 }}
               />
-            </TouchableOpacity>
+            </View>
 
             {/* Кнопка закрытия */}
             <TouchableOpacity style={styles.closeButton} onPress={closeModal}>

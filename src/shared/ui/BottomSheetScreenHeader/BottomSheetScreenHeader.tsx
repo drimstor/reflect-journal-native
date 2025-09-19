@@ -1,13 +1,15 @@
+import { ThemeColors } from "@/src/shared/model/types";
+import { ArrowLeftIcon, BookmarkCheckIcon, Text } from "@/src/shared/ui";
+import { SmallLoader } from "@/src/shared/ui/Loader/SmallLoader";
 import React from "react";
 import { Pressable, View } from "react-native";
-import { ArrowLeftIcon, BookmarkCheckIcon, Text } from "@/src/shared/ui";
+import { useT } from "../../lib/hooks";
 import { headerStyles } from "./BottomSheetScreenHeader.styles";
-import { ThemeColors } from "@/src/shared/model/types";
-import { SmallLoader } from "@/src/shared/ui/Loader/SmallLoader";
 
 interface HeaderProps {
   date: string;
   isBookmarked: boolean;
+  isBackButton: boolean;
   toggleBookmark: () => void;
   onSave: () => void;
   isLoading: boolean;
@@ -16,11 +18,13 @@ interface HeaderProps {
   showDatePicker?: boolean;
   onDateClick?: () => void;
   showDoneButton?: boolean;
+  onBack?: () => void;
 }
 
 export const BottomSheetScreenHeader = ({
   date,
   isBookmarked,
+  isBackButton,
   toggleBookmark,
   onSave,
   isLoading,
@@ -29,8 +33,10 @@ export const BottomSheetScreenHeader = ({
   showDatePicker,
   onDateClick,
   showDoneButton,
+  onBack,
 }: HeaderProps) => {
   const styles = headerStyles(colors);
+  const t = useT();
 
   // Обработчик нажатия на дату
   const handleDateClick = () => {
@@ -43,6 +49,13 @@ export const BottomSheetScreenHeader = ({
 
   return (
     <View style={styles.headerBox}>
+      {isBackButton && (
+        <Pressable style={styles.backButton} onPress={onBack}>
+          <Text font="bold" size="normal" color={colors.contrast}>
+            {t("shared.actions.back")}
+          </Text>
+        </Pressable>
+      )}
       <Pressable style={styles.pressableLeftBox} onPress={toggleBookmark}>
         <BookmarkCheckIcon
           size={22}

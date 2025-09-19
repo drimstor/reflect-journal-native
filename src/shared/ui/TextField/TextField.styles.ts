@@ -36,7 +36,15 @@ export const createStyles = (themeColors: ThemeColors) => {
       fontFamily: "ZonaPro-Regular",
       ...Platform.select({
         android: {
-          paddingVertical: 0,
+          paddingVertical: 16,
+          textAlignVertical: "top",
+        },
+      }),
+    },
+    textFieldMultiline: {
+      ...Platform.select({
+        android: {
+          paddingVertical: 14,
           textAlignVertical: "top",
         },
       }),

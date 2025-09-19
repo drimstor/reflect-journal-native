@@ -1,9 +1,9 @@
+import { useThemeStore } from "@/src/shared/store";
+import { Divider } from "@/src/shared/ui";
 import { FC, ReactNode } from "react";
 import { LayoutChangeEvent, StyleProp, View, ViewStyle } from "react-native";
-import ListItem from "./ListItem";
 import { styles } from "./List.styles";
-import { Divider } from "@/src/shared/ui";
-import { useThemeStore } from "@/src/shared/store";
+import ListItem from "./ListItem";
 import ListItemReverse from "./ListItemReverse";
 
 interface ListProps {
@@ -35,7 +35,7 @@ const List: FC<ListProps> = ({
 
   return (
     <View style={[styles.listBox, style]} onLayout={onLayout}>
-      {items.map((item, index) => (
+      {items?.map((item, index) => (
         <View key={index}>
           <ListItemComponent
             text={item.text}

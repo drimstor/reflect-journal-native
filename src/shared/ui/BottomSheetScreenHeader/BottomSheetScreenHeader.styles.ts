@@ -1,5 +1,5 @@
 import { ThemeColors } from "@/src/shared/model/types";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 export const headerStyles = (colors: ThemeColors) => {
   return StyleSheet.create({
@@ -11,7 +11,10 @@ export const headerStyles = (colors: ThemeColors) => {
       paddingBottom: 24,
     },
     pressableLeftBox: {
-      minWidth: 58,
+      minWidth: Platform.OS === "android" ? 0 : 58,
+    },
+    backButton: {
+      marginRight: Platform.OS === "android" ? -10 : 0,
     },
     pressableRightBox: {
       minWidth: 58,

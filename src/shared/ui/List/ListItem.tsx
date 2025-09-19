@@ -1,8 +1,8 @@
 import { FC, ReactNode } from "react";
 import { TouchableOpacity } from "react-native";
-import { styles } from "./List.styles";
-import Text from "../Text/Text";
 import { useThemeStore } from "../../store";
+import Text from "../Text/Text";
+import { styles } from "./List.styles";
 
 interface ListItemProps {
   onPress: () => void;
@@ -18,7 +18,7 @@ const ListItem: FC<ListItemProps> = ({ onPress, text, IconComponent }) => {
       onPress={onPress}
       style={[styles.listItemBox, styles.listItemDefault]}
     >
-      <Text font="bold" color={colors.contrast} style={{ fontSize: 16 }}>
+      <Text font="bold" color={colors.contrast}>
         {text}
       </Text>
       {IconComponent({

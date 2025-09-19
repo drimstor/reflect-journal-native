@@ -1,15 +1,15 @@
-import {
-  Button,
-  BottomSheetHeader,
-  BottomSheetFooter,
-  PaddingLayout,
-  BottomSheetBox,
-  List,
-  CheckIcon,
-  BottomSheetScrollView,
-} from "@/src/shared/ui";
-import { useThemeStore } from "@/src/shared/store";
 import { useT } from "@/src/shared/lib/hooks";
+import { useThemeStore } from "@/src/shared/store";
+import {
+  BottomSheetBox,
+  BottomSheetFooter,
+  BottomSheetHeader,
+  BottomSheetScrollView,
+  Button,
+  CheckIcon,
+  List,
+  PaddingLayout,
+} from "@/src/shared/ui";
 import { useFilterLogic } from "./lib/hooks/useFilterLogic";
 import FilterInput from "./ui/FilterInput";
 
@@ -36,7 +36,7 @@ const FilterEntityView = () => {
           <List
             listItemVariant="reverse"
             style={{ marginVertical: -10 }}
-            items={actions.map(
+            items={actions?.map(
               ({ text, IconComponent, iconSize, key, type, placeholder }) => ({
                 text,
                 element:

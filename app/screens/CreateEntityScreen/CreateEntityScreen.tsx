@@ -21,7 +21,7 @@ import {
   useAnimatedLoading,
 } from "@/src/shared/ui";
 import { ImagePreview } from "@/src/shared/ui/ImagePreview/ImagePreview";
-import { ScrollView, View } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 import { createStyles } from "./CreateEntityScreen.styles";
 
 // Импорт хуков
@@ -125,6 +125,8 @@ const CreateEntityScreen = () => {
     <View style={styles.globalBox}>
       {/* Заголовок с кнопками */}
       <BottomSheetScreenHeader
+        isBackButton={Platform.OS === "android"}
+        onBack={navigation.goBack}
         date={formattedDate}
         isBookmarked={isBookmarked}
         toggleBookmark={() => setIsBookmarked(!isBookmarked)}
