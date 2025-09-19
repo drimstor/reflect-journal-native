@@ -6,7 +6,6 @@ import {
   useThemeStore,
 } from "@/src/shared/store";
 import {
-  ClipboardCheckIcon,
   ClipboardTextIcon,
   EditPencilIcon,
   TrashIcon,
@@ -49,28 +48,31 @@ export const useLongPressActions = (chatId: string) => {
         },
       };
 
-      const customActionsForAssistant = {
-        text: t("goals.create"),
-        IconComponent: ClipboardCheckIcon,
-        onPress: () => {
-          navigateToFlow("goal", "create");
-          setBottomSheetVisible(false);
+      // const customActionsForAssistant = {
+      //   text: t("goals.create"),
+      //   IconComponent: ClipboardCheckIcon,
+      //   onPress: () => {
+      //     setBottomSheetVisible(false);
 
-          setTimeout(() => {
-            setBottomSheetVisible(true);
+      //     requestAnimationFrame(() => {
+      //       navigateToFlow("goal", "create");
 
-            const params = {
-              source_type: flowData.variant,
-              source_id: flowData.id,
-            };
+      //       const params = {
+      //         source_type: flowData.variant,
+      //         source_id: flowData.id,
+      //       };
 
-            setFlowData({
-              requestAssistantMessage: params,
-              requestAssistantMessageStore: params,
-            });
-          }, 150);
-        },
-      };
+      //       setFlowData({
+      //         requestAssistantMessage: params,
+      //         requestAssistantMessageStore: params,
+      //       });
+
+      //       requestAnimationFrame(() => {
+      //         setBottomSheetVisible(true);
+      //       });
+      //     });
+      //   },
+      // };
 
       const customActionsForUser = {
         text: t("shared.actions.edit"),
@@ -78,13 +80,10 @@ export const useLongPressActions = (chatId: string) => {
         onPress: () => {
           setBottomSheetVisible(false);
 
-          setTimeout(() => {
+          requestAnimationFrame(() => {
             navigateToFlow("chat", "edit");
-          }, 150);
-
-          setTimeout(() => {
             setBottomSheetVisible(true);
-          }, 300);
+          });
         },
       };
 
@@ -102,7 +101,7 @@ export const useLongPressActions = (chatId: string) => {
         flowData.user_id === "assistant"
           ? [
               customActionsCommon,
-              customActionsForAssistant,
+              // customActionsForAssistant,
               customActionsLastPart,
             ]
           : [customActionsCommon, customActionsForUser, customActionsLastPart];
@@ -111,9 +110,9 @@ export const useLongPressActions = (chatId: string) => {
       setFlowData({ ...flowData, chatId });
       navigateToFlow("common", "list");
 
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         setBottomSheetVisible(true);
-      }, 150);
+      });
     },
     [
       t,

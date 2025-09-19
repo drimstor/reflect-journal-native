@@ -102,7 +102,7 @@ const ChatScreen: FC = () => {
           text={text}
           setText={setText}
           handleSend={handleSend}
-          handleLongPress={handleLongPress}
+          onQuickReply={handleLongPress}
           currentDate={currentDate}
           chipAnimation={chipAnimation}
           handleScroll={handleScroll}

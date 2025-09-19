@@ -19,7 +19,7 @@ const ChatView: FC<{
   text: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
   handleSend: () => void;
-  handleLongPress: (flowData: any) => void;
+  onQuickReply: (flowData: any) => void;
   currentDate: Date;
   chipAnimation: Animated.Value;
   handleScroll: (event: any) => void;
@@ -37,7 +37,7 @@ const ChatView: FC<{
   text,
   setText,
   handleSend,
-  handleLongPress,
+  onQuickReply,
   currentDate,
   chipAnimation,
   handleScroll,
@@ -51,8 +51,6 @@ const ChatView: FC<{
   const { locale } = useLang();
   const { containerStyle, getEmptyViewStyle, getLoaderStyle } =
     useChatAnimation();
-
-  // scrollToBottom и messageContainerRef приходят как пропсы
 
   return (
     <View style={containerStyle}>
@@ -70,7 +68,7 @@ const ChatView: FC<{
         timeFormat="HH:mm"
         dateFormat="DD.MM.YY"
         locale={locale}
-        onLongPress={handleLongPress}
+        onQuickReply={onQuickReply}
         // renderCustomView={(props) => {
         //   if (
         //     typeof props.currentMessage?._id === "string" &&

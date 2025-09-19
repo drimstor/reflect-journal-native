@@ -1,13 +1,12 @@
-import { useCallback, useMemo } from "react";
+import { useT } from "@/src/shared/lib/hooks";
 import {
-  useDeviceStore,
   useBottomSheetStore,
+  useDeviceStore,
   useThemeStore,
 } from "@/src/shared/store";
-import { CHARTS } from "../../const/static";
-import { useT } from "@/src/shared/lib/hooks";
 import { CheckIcon, DirectIcon } from "@/src/shared/ui";
 import { BottomSheetAction } from "@/src/shared/ui/BottomSheetContent";
+import { useCallback, useMemo } from "react";
 
 export const useChartBottomSheet = () => {
   const t = useT();
@@ -66,9 +65,9 @@ export const useChartBottomSheet = () => {
       setActions(variant === "title" ? titleActions : listActions);
       navigateToFlow("common", "list");
 
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         setBottomSheetVisible(true);
-      }, CHARTS.SHEET_OPEN_DELAY);
+      });
     },
     [
       t,
