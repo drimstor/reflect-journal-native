@@ -1,6 +1,12 @@
 import { FONTS } from "@/src/shared/const";
 import { useLang, useT } from "@/src/shared/lib/hooks";
 import {
+  dateStringToTimestamp,
+  formatDateRange,
+  normalizeDate,
+  timestampToDateString,
+} from "@/src/shared/lib/utils/dateFormatters";
+import {
   useBottomSheetStore,
   useFiltersStore,
   useThemeStore,
@@ -33,8 +39,8 @@ interface DatePickerEntityViewProps {
     startDate: string | null;
     endDate: string | null;
   }) => void;
-  initialStartDate?: string;
-  initialEndDate?: string;
+  initialStartDate?: string | number;
+  initialEndDate?: string | number;
   dateVariant?: "created_at" | "updated_at";
   isWithoutHeaderControls?: boolean;
 }
@@ -80,20 +86,22 @@ const DatePickerEntityView: React.FC<DatePickerEntityViewProps> = ({
     setUpdatedAtRange,
   } = useFiltersStore();
 
-  // Определяем начальные значения
-  const defaultStartDate =
+  // Определяем начальные значения и нормализуем к timestamp
+  const defaultStartDate = normalizeDate(
     initialStartDate ||
-    (dateVariant === "created_at" ? created_at_from : updated_at_from);
+      (dateVariant === "created_at" ? created_at_from : updated_at_from)
+  );
 
-  const defaultEndDate =
+  const defaultEndDate = normalizeDate(
     initialEndDate ||
-    (dateVariant === "created_at" ? created_at_to : updated_at_to);
+      (dateVariant === "created_at" ? created_at_to : updated_at_to)
+  );
 
   const [selectedDate, setSelectedDate] = React.useState<string | null>(
     mode === "single"
       ? defaultStartDate
-        ? defaultStartDate.split("T")[0]
-        : new Date().toISOString().split("T")[0]
+        ? timestampToDateString(defaultStartDate)
+        : timestampToDateString(Date.now())
       : null
   );
 
@@ -105,8 +113,8 @@ const DatePickerEntityView: React.FC<DatePickerEntityViewProps> = ({
     handleDayPress: handlePeriodDayPress,
     handleReset,
   } = useDateSelection(
-    defaultStartDate ? defaultStartDate.split("T")[0] : null,
-    defaultEndDate ? defaultEndDate.split("T")[0] : null,
+    defaultStartDate ? timestampToDateString(defaultStartDate) : null,
+    defaultEndDate ? timestampToDateString(defaultEndDate) : null,
     colors.primary,
     colors.white,
     colors.contrast
@@ -132,18 +140,35 @@ const DatePickerEntityView: React.FC<DatePickerEntityViewProps> = ({
     if (mode === "single") {
       if (onDateSelected) {
         onDateSelected({ startDate: selectedDate, endDate: null });
+      } else {
+        // Конвертируем строку даты в timestamp для стора
+        const timestamp = selectedDate
+          ? dateStringToTimestamp(selectedDate)
+          : undefined;
+        if (dateVariant === "created_at") {
+          setCreatedAtRange(timestamp, timestamp);
+        } else {
+          setUpdatedAtRange(timestamp, timestamp);
+        }
+        setBottomSheetVisible(false);
       }
     } else {
-      // Форматируем даты в ISO формат для режима period
-      const startISODate = startDate ? `${startDate}T00:00:00Z` : undefined;
-      const endISODate = endDate ? `${endDate}T23:59:59Z` : undefined;
+      // Форматируем даты правильно
+      const { startDate: formattedStartDate, endDate: formattedEndDate } =
+        formatDateRange(startDate, endDate);
 
       // Обновляем значения в сторе в зависимости от типа даты (если используем внутренний стор)
       if (!onDateSelected) {
         if (dateVariant === "created_at") {
-          setCreatedAtRange(startISODate, endISODate);
+          setCreatedAtRange(
+            formattedStartDate as number | undefined,
+            formattedEndDate as number | undefined
+          );
         } else {
-          setUpdatedAtRange(startISODate, endISODate);
+          setUpdatedAtRange(
+            formattedStartDate as number | undefined,
+            formattedEndDate as number | undefined
+          );
         }
 
         setBottomSheetVisible(false);

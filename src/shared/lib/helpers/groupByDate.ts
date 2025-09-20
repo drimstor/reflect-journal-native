@@ -1,8 +1,8 @@
 import { SortField } from "@/src/entities/chat/model/types";
 
 interface WithDate {
-  updated_at: string;
-  created_at: string;
+  updated_at: number;
+  created_at: number;
 }
 
 export const groupByDate = <T extends WithDate>(

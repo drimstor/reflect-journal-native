@@ -25,16 +25,16 @@ export const getFiltersParams = (
 
   // Добавляем временные диапазоны если они установлены
   if (filters.created_at_from) {
-    params.append("created_at_from", filters.created_at_from);
+    params.append("created_at_from", filters.created_at_from.toString());
   }
   if (filters.created_at_to) {
-    params.append("created_at_to", filters.created_at_to);
+    params.append("created_at_to", filters.created_at_to.toString());
   }
   if (filters.updated_at_from) {
-    params.append("updated_at_from", filters.updated_at_from);
+    params.append("updated_at_from", filters.updated_at_from.toString());
   }
   if (filters.updated_at_to) {
-    params.append("updated_at_to", filters.updated_at_to);
+    params.append("updated_at_to", filters.updated_at_to.toString());
   }
 
   // Добавляем дополнительные фильтры

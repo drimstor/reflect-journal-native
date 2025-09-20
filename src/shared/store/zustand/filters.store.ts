@@ -15,10 +15,10 @@ export interface FiltersState {
   search?: string;
   sort_field?: string;
   sort_order?: "asc" | "desc";
-  created_at_from?: string;
-  created_at_to?: string;
-  updated_at_from?: string;
-  updated_at_to?: string;
+  created_at_from?: number;
+  created_at_to?: number;
+  updated_at_from?: number;
+  updated_at_to?: number;
 
   multi_select?: boolean;
   multi_select_ids?: string[];
@@ -35,8 +35,8 @@ interface FiltersActions {
   setSearch: (search: string) => void;
   setSortField: (field: SortField | undefined) => void;
   setSortOrder: (order: SortOrder | undefined) => void;
-  setCreatedAtRange: (from?: string, to?: string) => void;
-  setUpdatedAtRange: (from?: string, to?: string) => void;
+  setCreatedAtRange: (from?: number, to?: number) => void;
+  setUpdatedAtRange: (from?: number, to?: number) => void;
 
   setMultiSelect: (multi_select: boolean | undefined) => void;
   setMultiSelectIds: (ids: string[]) => void;
@@ -81,10 +81,10 @@ export const useFiltersStore = create<FiltersState & FiltersActions>((set) => ({
 
   setSortOrder: (sort_order) => set({ page: 1, sort_order }),
 
-  setCreatedAtRange: (created_at_from, created_at_to) =>
+  setCreatedAtRange: (created_at_from: number | undefined, created_at_to: number | undefined) =>
     set({ page: 1, created_at_from, created_at_to }),
 
-  setUpdatedAtRange: (updated_at_from, updated_at_to) =>
+  setUpdatedAtRange: (updated_at_from: number | undefined, updated_at_to: number | undefined) =>
     set({ page: 1, updated_at_from, updated_at_to }),
 
   setMultiSelect: (multi_select) =>

@@ -1,3 +1,4 @@
+import { normalizeDate } from "@/src/shared/lib/utils/dateFormatters";
 import { EntityType } from "@/src/shared/model/types";
 import { useCallback } from "react";
 
@@ -52,7 +53,9 @@ const useDynamicCreateHook = (variant: EntityType): CreateHookResult => {
           formData.append("bookmarked", String(data.bookmarked || false));
 
           if (data.created_at) {
-            formData.append("created_at", data.created_at);
+            // Нормализуем дату к стандартному формату
+            const normalizedDate = normalizeDate(data.created_at);
+            formData.append("created_at", normalizedDate || data.created_at);
           }
           if (data.title) {
             formData.append("title", data.title);

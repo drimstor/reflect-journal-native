@@ -10,6 +10,7 @@ import {
   useKeyboard,
   useT,
 } from "@/src/shared/lib/hooks";
+import { formatDateRange } from "@/src/shared/lib/utils/dateFormatters";
 import { EntityType } from "@/src/shared/model/types";
 import {
   useBottomSheetStore,
@@ -206,6 +207,12 @@ const CreateSummaryView = ({
       try {
         setIsCreatingSummary(true);
 
+        const [startDate, endDate] = dateValue || [];
+
+        // Форматируем даты правильно
+        const { startDate: formattedStartDate, endDate: formattedEndDate } =
+          formatDateRange(startDate, endDate);
+
         // Создаем запрос для саммари
         const summaryRequest = {
           ...formData,
@@ -213,8 +220,12 @@ const CreateSummaryView = ({
           ...(currentCarouselItem && {
             entity_id: entityId || selectedEntityId || "",
           }),
-          ...(dateValue?.[0] && { created_at_from: dateValue[0] }),
-          ...(dateValue?.[1] && { created_at_to: dateValue[1] }),
+          ...(formattedStartDate && {
+            created_at_from: formattedStartDate.toString(),
+          }),
+          ...(formattedEndDate && {
+            created_at_to: formattedEndDate.toString(),
+          }),
           ...(multi_select_ids?.length && {
             ...(isCategories && { categories: multi_select_ids }),
             ...(isTopics && { topics: multi_select_ids }),
