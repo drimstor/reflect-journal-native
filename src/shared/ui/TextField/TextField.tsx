@@ -67,8 +67,10 @@ const TextField: FC<TextFieldProps> = ({
           multiline={multiline || superMultiline}
           keyboardType={phone ? "numeric" : "default"}
           textContentType={
-            phone ? "telephoneNumber" : secureTextEntry ? "password" : undefined
+            phone ? "telephoneNumber" : secureTextEntry ? "none" : undefined
           }
+          autoComplete={secureTextEntry ? "off" : undefined}
+          passwordRules={secureTextEntry ? "" : undefined}
           autoFocus={autoFocus}
         />
         {secureTextEntry && (
