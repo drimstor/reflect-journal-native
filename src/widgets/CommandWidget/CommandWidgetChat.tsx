@@ -16,6 +16,8 @@ export const CommandWidgetChat: FC<CommandWidgetChatProps> = ({
   const t = useT();
   const { colors, theme } = useThemeStore();
 
+  console.log(currentItem?.command);
+
   const { navigateToFlow, setBottomSheetVisible, setFlowData } =
     useBottomSheetStore();
 

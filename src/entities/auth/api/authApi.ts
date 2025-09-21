@@ -4,6 +4,7 @@ import {
   LoginRequest,
   RegisterRequest,
   TokenResponse,
+  UpdateProfileRequest,
   UserResponse,
 } from "../model/types";
 
@@ -21,7 +22,7 @@ export const authApi = baseApi.injectEndpoints({
           const { data } = await queryFulfilled;
           await tokenService.setTokens(data.access_token, data.refresh_token);
           await tokenService.debugTokens();
-        } catch (error: any) {
+        } catch {
           // handleError(dispatch)(error.error);
         }
       },
@@ -61,6 +62,14 @@ export const authApi = baseApi.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
+    updateProfile: builder.mutation<UserResponse, UpdateProfileRequest>({
+      query: (data) => ({
+        url: "/auth/me",
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["User"],
+    }),
     logout: builder.mutation<{ detail: string }, string>({
       query: (refresh_token) => ({
         url: "/auth/logout",
@@ -82,5 +91,6 @@ export const {
   useRegisterMutation,
   useRefreshMutation,
   useGetCurrentUserQuery,
+  useUpdateProfileMutation,
   useLogoutMutation,
 } = authApi;

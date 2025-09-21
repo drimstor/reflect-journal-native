@@ -20,5 +20,22 @@ export interface UserResponse {
   email: string;
   name: string;
   avatar_url?: string;
-  created_at: string;
+  birth_date?: number;
+  gender?: string;
+  country?: string;
+  city?: string;
+  occupation?: string;
+  workplace_or_study?: string;
+  created_at: number;
+}
+
+export interface UpdateProfileRequest {
+  name?: string;
+  avatar_url?: string;
+  birth_date?: number;
+  gender?: string;
+  country?: string;
+  city?: string;
+  occupation?: string;
+  workplace_or_study?: string;
 }
