@@ -1,7 +1,7 @@
+import { useThemeStore } from "@/src/shared/store";
+import { MessageLoader } from "@/src/shared/ui";
 import { View } from "react-native";
 import { createStyles } from "./MessageLoaderBox.styles";
-import { MessageLoader } from "@/src/shared/ui";
-import { useThemeStore } from "@/src/shared/store";
 
 const MessageLoaderBox = ({}) => {
   const { colors, theme } = useThemeStore();

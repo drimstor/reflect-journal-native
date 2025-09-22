@@ -1,16 +1,15 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-  container: {
-    marginVertical: 2,
-  },
+  container: {},
   labelContainer: {
     marginBottom: 8,
   },
   chipsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 8,
+    rowGap: 8,
+    columnGap: 6,
   },
   helperContainer: {
     marginTop: 4,

@@ -1,5 +1,9 @@
 import { useProfile } from "@/src/entities/auth/hooks/useProfile";
-import { useImagePickerWithActions, useT } from "@/src/shared/lib/hooks";
+import {
+  useImagePickerWithActions,
+  useLang,
+  useT,
+} from "@/src/shared/lib/hooks";
 import {
   addSnackbar,
   useAppDispatch,
@@ -24,6 +28,7 @@ export const useAvatarManager = ({
   allowsEditing = true,
 }: UseAvatarManagerProps) => {
   const t = useT();
+  const { locale } = useLang();
   const dispatch = useAppDispatch();
   const { colors } = useThemeStore();
   const { navigateToFlow } = useBottomSheetStore();
@@ -59,7 +64,7 @@ export const useAvatarManager = ({
         iconColor: colors.error,
       },
     ];
-  }, [avatarUrl, t, handleNavigateToDeleteAvatar, colors.error]);
+  }, [avatarUrl, t, handleNavigateToDeleteAvatar, locale]);
 
   // Хук для работы с изображениями и обработкой выбора
   const {

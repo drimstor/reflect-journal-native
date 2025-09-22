@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingBottom: 180,
   },
   contentContainer: {
     paddingTop: 0,
@@ -12,7 +13,7 @@ export const styles = StyleSheet.create({
   },
   formContainer: {
     marginTop: 30,
-    gap: 16,
+    gap: 18,
   },
   errorText: {
     textAlign: "center",

@@ -1,8 +1,14 @@
 import { useT } from "@/src/shared/lib/hooks";
-import { addSnackbar, useAppDispatch, useThemeStore } from "@/src/shared/store";
+import {
+  addSnackbar,
+  useAppDispatch,
+  useDeviceStore,
+  useThemeStore,
+} from "@/src/shared/store";
 import {
   Button,
   Layout,
+  Loader,
   PaddingLayout,
   Select,
   Separator,
@@ -22,6 +28,7 @@ const SettingsAssistantScreen = () => {
   const t = useT();
   const { colors, theme } = useThemeStore();
   const dispatch = useAppDispatch();
+  const { window } = useDeviceStore();
 
   // Мемоизируем создание шаблонов и полей формы
   const assistantTemplates = useMemo(() => createAssistantTemplates(t), [t]);
@@ -93,7 +100,7 @@ const SettingsAssistantScreen = () => {
           subtitle={t("settings.title")}
         />
         <View style={styles.loadingContainer}>
-          <Text>{t("settings.assistantForm.loading")}</Text>
+          <Loader size={window.width - 100} />
         </View>
       </Layout>
     );

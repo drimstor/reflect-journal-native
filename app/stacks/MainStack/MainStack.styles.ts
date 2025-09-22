@@ -33,7 +33,7 @@ export const createStyles = (
       opacity: animation,
     },
     tabBarItemStyle: {
-      top: isTablet ? (isAndroid ? 30 : 0) : isAndroid ? 10 : 15,
+      top: isTablet ? (isAndroid ? 30 : 0) : isAndroid ? 0 : 15,
     },
     plusIconBox: {
       backgroundColor: colors.white,

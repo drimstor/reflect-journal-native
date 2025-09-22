@@ -34,18 +34,16 @@ import { NavigationProps } from "../../../src/shared/model/types";
 
 const SettingsScreen = () => {
   const t = useT();
+  const navigation = useNavigation<NavigationProps>();
   const { colors, toggleTheme, theme } = useThemeStore();
   const { toggleLanguage, locale } = useLang();
   const { navigateToFlow, setBottomSheetVisible } = useBottomSheetStore();
+  const [isVisible, setIsVisible] = useState(true);
+  const { setTabBar } = useAnimationStore();
   const {
     appearance: { isEmoji },
     updateSettings,
   } = useSettingsStore();
-  const navigation = useNavigation<NavigationProps>();
-
-  const [isVisible, setIsVisible] = useState(true);
-
-  const { setTabBar } = useAnimationStore();
 
   useFocusEffect(
     useCallback(() => {
