@@ -1,5 +1,5 @@
 import { useT } from "@/src/shared/lib/hooks";
-import { useThemeStore } from "@/src/shared/store";
+import { useBottomSheetStore, useThemeStore } from "@/src/shared/store";
 import { Button, Text, UserIcon } from "@/src/shared/ui";
 import { Image } from "expo-image";
 import React from "react";
@@ -12,6 +12,7 @@ const ProfileMenu = () => {
   const { colors } = useThemeStore();
   const styles = createStyles(colors);
   const t = useT();
+  const { navigateToFlow, setBottomSheetVisible } = useBottomSheetStore();
 
   const {
     avatarUrl,
@@ -24,6 +25,14 @@ const ProfileMenu = () => {
     quality: 0.8,
     allowsEditing: true,
   });
+
+  // Обработчик открытия экрана редактирования профиля
+  const handleEditProfile = () => {
+    navigateToFlow("profile", "edit");
+    requestAnimationFrame(() => {
+      setBottomSheetVisible(true);
+    });
+  };
 
   return (
     <View style={styles.globalBox}>
@@ -62,7 +71,7 @@ const ProfileMenu = () => {
         style={styles.editButton}
         backgroundColor={colors.contrast}
         size="small"
-        onPress={() => {}}
+        onPress={handleEditProfile}
       >
         {t("settings.editProfile")}
       </Button>

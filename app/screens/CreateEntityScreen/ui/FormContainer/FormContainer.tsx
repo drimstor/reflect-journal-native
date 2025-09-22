@@ -1,11 +1,11 @@
-import React from "react";
-import { PaddingLayout } from "@/src/shared/ui";
-import { FormField } from "@/src/widgets";
 import { ThemeColors } from "@/src/shared/model/types";
+import { PaddingLayout } from "@/src/shared/ui";
+import { FormField, FormFieldConfig } from "@/src/widgets";
+import React from "react";
 import { formContainerStyles } from "./FormContainer.styles";
 
 interface FormContainerProps {
-  fields: FormField[];
+  fields: FormFieldConfig[];
   values: Record<string, any>;
   errors: Record<string, string>;
   onChange: (key: string, value: any) => void;

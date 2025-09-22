@@ -135,7 +135,7 @@ const SettingsScreen = () => {
           <MenuList
             title={t("settings.account")}
             listItemVariant="reverse"
-            style={{ marginBottom: 20, marginTop: 40 }}
+            style={{ marginBottom: 20, marginTop: 30 }}
             items={accountSettings.map(({ text, IconComponent, element }) => ({
               text,
               onPress: () => {},

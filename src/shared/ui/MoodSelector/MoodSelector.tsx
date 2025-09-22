@@ -1,8 +1,7 @@
-import { TouchableOpacity } from "react-native";
-import { View } from "react-native";
+import { useGetMood } from "@/src/entities/journals/lib/hooks/useGetMood";
+import { TouchableOpacity, View } from "react-native";
 import { Text } from "../";
 import { createStyles } from "./MoodSelector.styles";
-import { useGetMood } from "@/src/entities/journals/lib/hooks/useGetMood";
 
 // Компонент выбора настроения с эмодзи
 export const MoodSelector: React.FC<{

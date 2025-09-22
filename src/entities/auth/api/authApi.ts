@@ -4,7 +4,6 @@ import {
   LoginRequest,
   RegisterRequest,
   TokenResponse,
-  UpdateProfileRequest,
   UserResponse,
 } from "../model/types";
 
@@ -62,15 +61,12 @@ export const authApi = baseApi.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
-    updateProfile: builder.mutation<
-      UserResponse,
-      UpdateProfileRequest | FormData
-    >({
-      query: (data) => ({
+    updateProfile: builder.mutation<UserResponse, FormData>({
+      query: (formData) => ({
         url: "/auth/me",
         method: "PUT",
-        body: data,
-        formData: data instanceof FormData,
+        body: formData,
+        formData: true,
       }),
       invalidatesTags: ["User"],
     }),

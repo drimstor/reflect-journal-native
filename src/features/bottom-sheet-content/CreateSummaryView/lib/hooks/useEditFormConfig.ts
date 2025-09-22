@@ -1,7 +1,6 @@
-import { EntityType } from "@/src/shared/model/types";
-import { useState, useEffect } from "react";
 import { useT } from "@/src/shared/lib/hooks/useLang";
-import { FormField } from "@/src/widgets";
+import { FormFieldConfig } from "@/src/widgets";
+import { useEffect, useState } from "react";
 
 /**
  * Конфигурация формы редактирования
@@ -10,7 +9,7 @@ export interface EditFormConfig {
   /** Заголовок формы */
   title: string;
   /** Поля формы */
-  fields: FormField[];
+  fields: FormFieldConfig[];
   /** Начальные значения полей */
   initialValues: Record<string, any>;
 }
@@ -32,7 +31,7 @@ export const useEditFormConfig = (entityType?: string): EditFormConfig => {
     // Конфигурация полей в зависимости от типа сущности
 
     const title = t("edit.goals.title");
-    const fields: FormField[] =
+    const fields: FormFieldConfig[] =
       entityType === "customRequest"
         ? [
             {
@@ -60,8 +59,8 @@ export const useEditFormConfig = (entityType?: string): EditFormConfig => {
     if (entityType) {
       fields.forEach((field) => {
         if (
-          entityType &&
           typeof entityType === "object" &&
+          !!entityType &&
           field.key in entityType
         ) {
           initialValues[field.key] = (entityType as any)[field.key];

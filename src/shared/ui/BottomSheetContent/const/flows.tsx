@@ -159,4 +159,20 @@ export const FLOWS: Record<string, FlowConfig> = {
       ),
     },
   },
+  profile: {
+    screens: {
+      edit: lazy(
+        () =>
+          import(
+            "@/src/features/bottom-sheet-content/EditProfileView/EditProfileView"
+          )
+      ),
+      deleteAvatar: lazy(
+        () =>
+          import(
+            "@/src/features/bottom-sheet-content/DeleteAvatarView/DeleteAvatarView"
+          )
+      ),
+    },
+  },
 };

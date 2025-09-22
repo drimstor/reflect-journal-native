@@ -12,9 +12,9 @@ import {
 } from "@/src/shared/store";
 import {
   BottomSheetBox,
+  BottomSheetFooter,
   BottomSheetHeader,
   Button,
-  Divider,
   PaddingLayout,
   Text,
 } from "@/src/shared/ui";
@@ -80,13 +80,15 @@ const DeleteMessageView = () => {
         onBack={handleBack}
       />
       <PaddingLayout>
-        <Text style={{ fontSize: 16, marginTop: -10 }} color={colors.contrast}>
+        <Text style={{ fontSize: 16 }} color={colors.contrast}>
           {t("shared.confirmation.deleteThisMessage")}
         </Text>
       </PaddingLayout>
 
-      <Divider style={{ marginVertical: 8 }} color={colors.light} />
-      <PaddingLayout>
+      <BottomSheetFooter>
+        <Button backgroundColor={colors.alternate} onPress={handleBack}>
+          {t("shared.actions.cancel")}
+        </Button>
         <Button
           backgroundColor={colors.error}
           textColor={colors.white}
@@ -95,7 +97,7 @@ const DeleteMessageView = () => {
         >
           {t("shared.actions.delete")}
         </Button>
-      </PaddingLayout>
+      </BottomSheetFooter>
     </BottomSheetBox>
   );
 };

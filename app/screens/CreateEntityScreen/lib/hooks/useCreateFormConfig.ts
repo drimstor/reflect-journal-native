@@ -1,6 +1,6 @@
 import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import { useT } from "@/src/shared/lib/hooks/useLang";
-import { FormField } from "@/src/widgets";
+import { FormFieldConfig } from "@/src/widgets";
 import { useEffect, useState } from "react";
 
 /**
@@ -10,7 +10,7 @@ export interface CreateFormConfig {
   /** Заголовок формы */
   title: string;
   /** Поля формы */
-  fields: FormField[];
+  fields: FormFieldConfig[];
   /** Начальные значения полей */
   initialValues: Record<string, any>;
 }
@@ -30,7 +30,7 @@ export const useCreateFormConfig = (entityType: string) => {
 
   useEffect(() => {
     let title = "";
-    let fields: FormField[] = [];
+    let fields: FormFieldConfig[] = [];
 
     // Конфигурация полей в зависимости от типа сущности
     switch (entityType) {

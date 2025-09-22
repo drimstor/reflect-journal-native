@@ -8,7 +8,7 @@ import { CommandWidgetChat } from "./CommandWidget/CommandWidgetChat";
 import DocumentsWidget from "./DocumentsWidget/DocumentsWidget";
 import ChartsFiltersPanel from "./FiltersPanel/ChartsFiltersPanel";
 import FiltersPanel from "./FiltersPanel/FiltersPanel";
-import { FormField } from "./FormField/FormField";
+import { FormField, FormFieldConfig } from "./FormField/FormField";
 import Header from "./Header/Header";
 import { useHeaderStore } from "./Header/store/header.store";
 import { ItemCarousel } from "./ItemCarousel/ItemCarousel";
@@ -29,6 +29,7 @@ export {
   DocumentsWidget,
   FiltersPanel,
   FormField,
+  FormFieldConfig,
   Header,
   ItemCarousel,
   LibraryList,

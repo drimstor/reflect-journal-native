@@ -159,7 +159,26 @@
     "untilToday": "until today",
     "picker": {
       "title": "Select date",
-      "placeholder": "Select date"
+      "placeholder": "Select date",
+      "placeholders": {
+        "day": "Day",
+        "month": "Month",
+        "year": "Year"
+      },
+      "months": {
+        "1": "January",
+        "2": "February",
+        "3": "March",
+        "4": "April",
+        "5": "May",
+        "6": "June",
+        "7": "July",
+        "8": "August",
+        "9": "September",
+        "10": "October",
+        "11": "November",
+        "12": "December"
+      }
     },
     "period": {
       "title": "Select period",
@@ -494,7 +513,8 @@
       "exitTest": "Are you sure you want to exit the test? \nAll progress will be reset",
       "addToBookmarkMessage": "Add selected item to favorites?",
       "addToBookmarkMultipleMessage": "Add selected items to favorites?",
-      "logoutMessage": "Are you sure you want to logout?"
+      "logoutMessage": "Are you sure you want to logout?",
+      "deleteAvatarMessage": "Are you sure you want to delete the avatar?"
     },
     "noData": {
       "title": "No data",
@@ -538,6 +558,48 @@
       }
     }
   },
+  "profile": {
+    "edit": {
+      "title": "Edit Profile",
+      "name": {
+        "label": "Name",
+        "placeholder": "Enter your name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter email"
+      },
+      "birthDate": {
+        "label": "Birth Date",
+        "placeholder": "Select birth date"
+      },
+      "gender": {
+        "label": "Gender",
+        "placeholder": "Select gender"
+      },
+      "country": {
+        "label": "Country",
+        "placeholder": "Enter country"
+      },
+      "city": {
+        "label": "City",
+        "placeholder": "Enter city"
+      },
+      "occupation": {
+        "label": "Occupation",
+        "placeholder": "Enter occupation"
+      },
+      "workplaceOrStudy": {
+        "label": "Workplace/Study",
+        "placeholder": "Enter workplace or study"
+      }
+    },
+    "gender": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    }
+  },
   "notifications": {
     "dailyReminder": {
       "title": "Time for your journal",
@@ -575,9 +637,6 @@
         "title": "Summary creation error",
         "body": "Failed to create analysis. Please try again"
       }
-    },
-    "backgroundTasks": {
-      "single": "Creating summary..."
-    }
   }
+}
 } 

@@ -1,6 +1,11 @@
 import { useProfile } from "@/src/entities/auth/hooks/useProfile";
 import { useImagePickerWithActions, useT } from "@/src/shared/lib/hooks";
-import { addSnackbar, useAppDispatch, useThemeStore } from "@/src/shared/store";
+import {
+  addSnackbar,
+  useAppDispatch,
+  useBottomSheetStore,
+  useThemeStore,
+} from "@/src/shared/store";
 import { TrashIcon } from "@/src/shared/ui/icons";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -21,15 +26,11 @@ export const useAvatarManager = ({
   const t = useT();
   const dispatch = useAppDispatch();
   const { colors } = useThemeStore();
+  const { navigateToFlow } = useBottomSheetStore();
 
   // Хук для работы с профилем пользователя
-  const {
-    userData,
-    isUserLoading,
-    handleUpdateProfile,
-    handleDeleteAvatar,
-    isUpdateLoading,
-  } = useProfile();
+  const { userData, isUserLoading, handleUpdateAvatar, isUpdateLoading } =
+    useProfile();
 
   // Локальное состояние для аватара и загрузки
   const [avatarUrl, setAvatarUrl] = useState(userData?.avatar_url);
@@ -41,30 +42,10 @@ export const useAvatarManager = ({
     setAvatarUrl(userData?.avatar_url);
   }, [userData?.avatar_url]);
 
-  // Обработчик удаления аватара
-  const handleAvatarDelete = useCallback(async () => {
-    try {
-      const response = await handleDeleteAvatar();
-      if (response) {
-        setAvatarUrl(null);
-      }
-
-      dispatch(
-        addSnackbar({
-          type: "success",
-          text: t("settings.avatarDeleted"),
-        })
-      );
-    } catch (error) {
-      console.error("Ошибка удаления аватара:", error);
-      dispatch(
-        addSnackbar({
-          type: "error",
-          text: t("settings.avatarDeleteError"),
-        })
-      );
-    }
-  }, [handleDeleteAvatar, dispatch, t]);
+  // Обработчик навигации к экрану подтверждения удаления аватара
+  const handleNavigateToDeleteAvatar = useCallback(() => {
+    navigateToFlow("profile", "deleteAvatar");
+  }, [navigateToFlow]);
 
   // Дополнительные действия для меню выбора изображения
   const additionalActions = useMemo(() => {
@@ -74,11 +55,11 @@ export const useAvatarManager = ({
       {
         text: t("settings.deleteAvatar"),
         IconComponent: TrashIcon,
-        onPress: handleAvatarDelete,
+        onPress: handleNavigateToDeleteAvatar,
         iconColor: colors.error,
       },
     ];
-  }, [avatarUrl, t, handleAvatarDelete, colors.error]);
+  }, [avatarUrl, t, handleNavigateToDeleteAvatar, colors.error]);
 
   // Хук для работы с изображениями и обработкой выбора
   const {
@@ -108,7 +89,7 @@ export const useAvatarManager = ({
 
       try {
         const avatarUri = selectedImages[0].uri;
-        const response = await handleUpdateProfile({}, avatarUri);
+        const response = await handleUpdateAvatar(avatarUri);
 
         if (response.avatar_url) {
           setAvatarUrl(response.avatar_url);
@@ -140,7 +121,7 @@ export const useAvatarManager = ({
     if (selectedImages.length > 0) {
       handleAvatarUpload();
     }
-  }, [selectedImages, handleUpdateProfile, clearImages, dispatch, t]);
+  }, [selectedImages, handleUpdateAvatar, clearImages, dispatch, t]);
 
   return {
     // Данные

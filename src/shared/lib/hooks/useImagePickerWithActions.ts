@@ -73,13 +73,7 @@ export const useImagePickerWithActions = (
 
     // Добавляем дополнительные действия если они переданы
     const allActions = config.additionalActions
-      ? [
-          ...defaultActions,
-          ...config.additionalActions.map((action) => ({
-            ...action,
-            onPress: () => handleActionWithBottomSheetClose(action.onPress),
-          })),
-        ]
+      ? [...defaultActions, ...config.additionalActions]
       : defaultActions;
 
     setActions(allActions);

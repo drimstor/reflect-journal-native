@@ -4,29 +4,19 @@ import {
   useGetCurrentUserQuery,
   useUpdateProfileMutation,
 } from "../api/authApi";
-import { UpdateProfileRequest } from "../model/types";
-
-interface UseProfileProps {
-  // Опциональные параметры для настройки поведения
-  refetchOnMount?: boolean;
-}
 
 /**
  * Хук для работы с профилем пользователя
  * Предоставляет методы для получения и обновления данных профиля
  */
-export const useProfile = (props: UseProfileProps = {}) => {
-  const { refetchOnMount = true } = props;
-
+export const useProfile = () => {
   // Получение данных текущего пользователя
   const {
     data: userData,
     isLoading: isUserLoading,
     error: userError,
     refetch: refetchUser,
-  } = useGetCurrentUserQuery(undefined, {
-    refetchOnMountOrArgChange: refetchOnMount,
-  });
+  } = useGetCurrentUserQuery();
 
   // Мутации для обновления профиля
   const [updateProfile, { isLoading: isUpdateLoading }] =
@@ -34,58 +24,38 @@ export const useProfile = (props: UseProfileProps = {}) => {
   const [deleteAvatar, { isLoading: isDeleteAvatarLoading }] =
     useDeleteAvatarMutation();
 
-  // Универсальный метод обновления профиля (с аватаром или без)
+  // Метод обновления профиля с FormData (для формы)
   const handleUpdateProfile = useCallback(
-    async (profileData: UpdateProfileRequest, avatarUri?: string) => {
+    async (profileData: FormData) => {
       try {
-        // Если есть аватар, используем FormData
-        if (avatarUri) {
-          const formData = new FormData();
+        const result = await updateProfile(profileData).unwrap();
+        return result;
+      } catch (error) {
+        throw error;
+      }
+    },
+    [updateProfile]
+  );
 
-          // Добавляем обычные поля профиля
-          if (profileData.name !== undefined) {
-            formData.append("name", profileData.name);
-          }
-          if (profileData.birth_date !== undefined) {
-            formData.append("birth_date", profileData.birth_date.toString());
-          }
-          if (profileData.gender !== undefined) {
-            formData.append("gender", profileData.gender);
-          }
-          if (profileData.country !== undefined) {
-            formData.append("country", profileData.country);
-          }
-          if (profileData.city !== undefined) {
-            formData.append("city", profileData.city);
-          }
-          if (profileData.occupation !== undefined) {
-            formData.append("occupation", profileData.occupation);
-          }
-          if (profileData.workplace_or_study !== undefined) {
-            formData.append(
-              "workplace_or_study",
-              profileData.workplace_or_study
-            );
-          }
+  // Метод обновления только аватара
+  const handleUpdateAvatar = useCallback(
+    async (avatarUri: string) => {
+      try {
+        const formData = new FormData();
 
-          // Добавляем аватар
-          const filename = avatarUri.split("/").pop() || "avatar.jpg";
-          const match = /\.(\w+)$/.exec(filename);
-          const type = match ? `image/${match[1]}` : "image/jpeg";
+        // Добавляем только аватар
+        const filename = avatarUri.split("/").pop() || "avatar.jpg";
+        const match = /\.(\w+)$/.exec(filename);
+        const type = match ? `image/${match[1]}` : "image/jpeg";
 
-          formData.append("avatar", {
-            uri: avatarUri,
-            type,
-            name: filename,
-          } as any);
+        formData.append("avatar", {
+          uri: avatarUri,
+          type,
+          name: filename,
+        } as any);
 
-          const result = await updateProfile(formData).unwrap();
-          return result;
-        } else {
-          // Если аватара нет, отправляем обычный JSON
-          const result = await updateProfile(profileData).unwrap();
-          return result;
-        }
+        const result = await updateProfile(formData).unwrap();
+        return result;
       } catch (error) {
         throw error;
       }
@@ -112,6 +82,7 @@ export const useProfile = (props: UseProfileProps = {}) => {
 
     // Методы обновления
     handleUpdateProfile,
+    handleUpdateAvatar,
     handleDeleteAvatar,
     isUpdateLoading: isUpdateLoading || isDeleteAvatarLoading,
   };

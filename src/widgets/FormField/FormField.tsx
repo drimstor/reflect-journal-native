@@ -1,12 +1,21 @@
 import { CheckListEditor } from "@/src/features";
 import { useT } from "@/src/shared/lib/hooks";
 import { useThemeStore } from "@/src/shared/store";
-import { Info, MoodSelector, Text, TextField, Toggle } from "@/src/shared/ui";
+import type { MonthYearValue } from "@/src/shared/ui";
+import {
+  Info,
+  MonthYearPicker,
+  MoodSelector,
+  Select,
+  Text,
+  TextField,
+  Toggle,
+} from "@/src/shared/ui";
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import { styles } from "./FormField.styles";
 
-export interface FormField {
+export interface FormFieldConfig {
   key: string; // Ключ поля в объекте данных
   type:
     | "text"
@@ -15,16 +24,30 @@ export interface FormField {
     | "tags"
     | "entities"
     | "mood"
-    | "check-list";
+    | "check-list"
+    | "select"
+    | "month-year-picker";
   label: string; // Заголовок поля
   placeholder?: string; // Подсказка для поля
   required?: boolean; // Является ли поле обязательным
   superMultiline?: boolean; // Является ли поле многострочным
   tooltipText?: string; // Подсказка для поля
+  options?: { label: string; value: string }[]; // Опции для select
+  // Настройки для month-year-picker
+  showDay?: boolean; // Показывать селектор дня
+  showMonth?: boolean; // Показывать селектор месяца
+  showYear?: boolean; // Показывать селектор года
+  minYear?: number; // Минимальный год
+  maxYear?: number; // Максимальный год
+  monthYearPlaceholders?: {
+    day?: string;
+    month?: string;
+    year?: string;
+  }; // Плейсхолдеры для month-year-picker
 }
 
 interface FormFieldProps {
-  field: FormField;
+  field: FormFieldConfig;
   value: any;
   error?: string;
   onChange: (key: string, value: any) => void;
@@ -53,7 +76,7 @@ export const FormField: React.FC<FormFieldProps> = ({
     if (field.type === "tags" && Array.isArray(value)) {
       setTagsInput(formattedValue);
     }
-  }, [field.type, value]);
+  }, [field.type, value, formattedValue]);
 
   // Обработчик изменения текстового поля
   const handleTextChange = (text: string) => {
@@ -88,6 +111,11 @@ export const FormField: React.FC<FormFieldProps> = ({
   // Обработчик изменения настроения
   const handleMoodChange = (moodValue: string) => {
     onChange(field.key, moodValue);
+  };
+
+  // Обработчик изменения даты в MonthYearPicker
+  const handleMonthYearChange = (dateValue: MonthYearValue) => {
+    onChange(field.key, dateValue);
   };
 
   switch (field.type) {
@@ -171,6 +199,40 @@ export const FormField: React.FC<FormFieldProps> = ({
           value={value}
           error={error}
           onChange={(updatedItems) => onChange(field.key, updatedItems)}
+        />
+      );
+
+    case "select":
+      return (
+        <Select
+          label={field.label}
+          placeholder={field.placeholder}
+          value={value || ""}
+          onValueChange={(selectedValue) => onChange(field.key, selectedValue)}
+          backgroundColor={colors.secondary}
+          helperText={error}
+          helperTextColor={error ? colors.error : undefined}
+          required={field.required}
+          options={field.options || []}
+        />
+      );
+
+    case "month-year-picker":
+      return (
+        <MonthYearPicker
+          label={field.label}
+          value={value || {}}
+          onValueChange={handleMonthYearChange}
+          backgroundColor={colors.secondary}
+          helperText={error}
+          helperTextColor={error ? colors.error : undefined}
+          required={field.required}
+          showDay={field.showDay}
+          showMonth={field.showMonth}
+          showYear={field.showYear}
+          minYear={field.minYear}
+          maxYear={field.maxYear}
+          placeholders={field.monthYearPlaceholders}
         />
       );
 

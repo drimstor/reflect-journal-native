@@ -256,6 +256,7 @@ const DatePickerEntityView: React.FC<DatePickerEntityViewProps> = ({
             markingType={markingType}
             markedDates={currentMarkedDates}
             monthFormat="MMMM yyyy"
+            enableSwipeMonths
             theme={{
               calendarBackground: "transparent",
               todayTextColor: colors.accent,
