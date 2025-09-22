@@ -1,8 +1,9 @@
 import { CheckListEditor } from "@/src/features";
 import { useT } from "@/src/shared/lib/hooks";
 import { useThemeStore } from "@/src/shared/store";
-import type { MonthYearValue } from "@/src/shared/ui";
+import type { ChipSelectorOption, MonthYearValue } from "@/src/shared/ui";
 import {
+  ChipSelector,
   Info,
   MonthYearPicker,
   MoodSelector,
@@ -26,7 +27,8 @@ export interface FormFieldConfig {
     | "mood"
     | "check-list"
     | "select"
-    | "month-year-picker";
+    | "month-year-picker"
+    | "chip-selector";
   label: string; // Заголовок поля
   placeholder?: string; // Подсказка для поля
   required?: boolean; // Является ли поле обязательным
@@ -44,6 +46,10 @@ export interface FormFieldConfig {
     month?: string;
     year?: string;
   }; // Плейсхолдеры для month-year-picker
+  // Настройки для chip-selector
+  chipOptions?: ChipSelectorOption[]; // Опции для chip-selector
+  multiple?: boolean; // Множественный выбор для chip-selector
+  allowEmpty?: boolean; // Разрешить пустой выбор для single-select chip-selector
 }
 
 interface FormFieldProps {
@@ -116,6 +122,11 @@ export const FormField: React.FC<FormFieldProps> = ({
   // Обработчик изменения даты в MonthYearPicker
   const handleMonthYearChange = (dateValue: MonthYearValue) => {
     onChange(field.key, dateValue);
+  };
+
+  // Обработчик изменения chip-selector
+  const handleChipSelectorChange = (chipValue: string | string[]) => {
+    onChange(field.key, chipValue);
   };
 
   switch (field.type) {
@@ -233,6 +244,21 @@ export const FormField: React.FC<FormFieldProps> = ({
           minYear={field.minYear}
           maxYear={field.maxYear}
           placeholders={field.monthYearPlaceholders}
+        />
+      );
+
+    case "chip-selector":
+      return (
+        <ChipSelector
+          label={field.label}
+          options={field.chipOptions || []}
+          value={value || (field.multiple ? [] : "")}
+          onValueChange={handleChipSelectorChange}
+          multiple={field.multiple}
+          required={field.required}
+          helperText={error}
+          helperTextColor={error ? colors.error : undefined}
+          allowEmpty={field.allowEmpty}
         />
       );
 

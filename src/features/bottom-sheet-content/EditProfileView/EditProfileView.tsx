@@ -21,7 +21,8 @@ import { useProfileFormConfig } from "./lib/hooks/useProfileFormConfig";
 const EditProfileView = () => {
   const t = useT();
   const { window } = useDeviceStore();
-  const { setBottomSheetVisible, navigateToFlow } = useBottomSheetStore();
+  const { setBottomSheetVisible, navigateToFlow, setNavigation } =
+    useBottomSheetStore();
   const { colors, theme } = useThemeStore();
 
   // Хук для работы с профилем пользователя
@@ -53,6 +54,10 @@ const EditProfileView = () => {
     setBottomSheetVisible(false);
     resetForm();
   };
+
+  useEffect(() => {
+    setNavigation(false, "");
+  }, []);
 
   return (
     <BottomSheetBox>

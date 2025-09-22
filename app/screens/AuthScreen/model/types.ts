@@ -1,6 +1,3 @@
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { PATHS } from "@/src/shared/const";
-
 export interface ValidationErrors {
   email?: string;
   password?: string;

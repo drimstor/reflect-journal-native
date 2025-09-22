@@ -14,4 +14,5 @@ export enum PATHS {
   RELATIONSHIP_MAP = "relationship-map",
   CHARTS = "charts",
   TEST = "test",
+  SETTINGS_ASSISTANT = "settings-assistant",
 }

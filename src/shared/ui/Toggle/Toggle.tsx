@@ -14,7 +14,7 @@ export interface ToggleProps {
     false?: string;
     true?: string;
   }; // Цвета трека
-  thumbColor?: string; // Цвет ползунка
+  thumbColor?: string; // Цвет ползунка (кружка). По умолчанию: белый когда включен, контрастный когда выключен
   style?: Record<string, StyleProp<ViewStyle>>;
 }
 
@@ -37,11 +37,11 @@ export const Toggle: React.FC<ToggleProps> = ({
   const getSizeStyle = () => {
     switch (size) {
       case "small":
-        return { transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] };
+        return { transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] as const };
       case "large":
-        return { transform: [{ scaleX: 1.1 }, { scaleY: 1.1 }] };
+        return { transform: [{ scaleX: 1.1 }, { scaleY: 1.1 }] as const };
       default:
-        return { transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }] };
+        return { transform: [{ scaleX: 0.9 }, { scaleY: 0.9 }] as const };
     }
   };
 
@@ -52,13 +52,17 @@ export const Toggle: React.FC<ToggleProps> = ({
     ...trackColor,
   };
 
+  // Определяем цвет ползунка
+  const defaultThumbColor =
+    thumbColor || (value ? colors.white : colors.contrast);
+
   const toggleElement = (
     <Switch
       value={value}
       onValueChange={onValueChange}
       disabled={disabled}
       trackColor={defaultTrackColor}
-      thumbColor={thumbColor}
+      thumbColor={defaultThumbColor}
       style={[
         styles.toggle,
         getSizeStyle(),

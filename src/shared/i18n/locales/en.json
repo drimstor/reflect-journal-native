@@ -42,7 +42,75 @@
     "deleteAvatar": "Delete avatar",
     "noName": "No name",
     "assistant": "AI Assistant",
-    "assistantSettings": "Assistant Personality"
+    "assistantSettings": "Assistant Personality",
+    "assistantTemplate": {
+      "title": "You can choose one of the ready-made templates",
+      "placeholder": "Choose a template"
+    },
+    "assistantForm": {
+      "role": {
+        "label": "Assistant Role"
+      },
+      "tone": {
+        "label": "Communication Tone"
+      },
+      "communicationStyle": {
+        "label": "Communication Style"
+      },
+      "additionalInfo": {
+        "label": "Additional Instructions",
+        "placeholder": "Describe additional requirements for the assistant..."
+      },
+      "saveSuccess": "Assistant settings saved",
+      "saveError": "Failed to save settings",
+      "loading": "Loading..."
+    },
+    "assistantOptions": {
+      "roles": {
+        "mentor": "Mentor",
+        "coach": "Coach",
+        "friend": "Friend",
+        "therapist": "Therapist",
+        "reflection_source": "Reflection Source"
+      },
+      "tones": {
+        "friendly": "Friendly",
+        "professional": "Professional",
+        "strict": "Strict",
+        "supportive": "Supportive",
+        "humorous": "Humorous",
+        "wise": "Wise",
+        "caring": "Caring"
+      },
+      "styles": {
+        "brief": "Brief",
+        "detailed": "Detailed",
+        "empathetic": "Empathetic",
+        "direct": "Direct",
+        "analytical": "Analytical",
+        "creative": "Creative",
+        "motivating": "Motivating",
+        "insightful": "Insightful"
+      }
+    },
+    "assistantTemplates": {
+      "lifeCoach": {
+        "name": "Life Coach",
+        "info": "Supportive approach focused on personal growth"
+      },
+      "humorist": {
+        "name": "Humorist",
+        "info": "Light approach with humor to lift spirits"
+      },
+      "majorPayne": {
+        "name": "Major Payne",
+        "info": "Strict approach for maximum motivation and discipline"
+      },
+      "philosopher": {
+        "name": "Philosopher",
+        "info": "Deep approach for reflection and self-discovery"
+      }
+    }
   },
   "home": {
     "title": "Dashboard",

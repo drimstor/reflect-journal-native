@@ -12,11 +12,6 @@ export const createStyles = (colors: ThemeColors, size: number) =>
       borderWidth: 1,
       justifyContent: "center",
       alignItems: "center",
-      elevation: 2,
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.2,
-      shadowRadius: 2,
     },
     iconWrapper: {
       backgroundColor: "rgba(0, 0, 0, 0.4)",

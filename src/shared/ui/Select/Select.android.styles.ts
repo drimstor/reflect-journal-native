@@ -1,4 +1,3 @@
-
 import { ThemeColors } from "@/src/shared/model/types";
 import { Platform, StyleSheet } from "react-native";
 

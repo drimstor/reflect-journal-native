@@ -18,7 +18,6 @@ export const createStyles = (colors: ThemeColors) =>
     // Стили для Pressable внутри
     pressableContainer: {
       width: "100%",
-      marginBottom: -20,
     },
     // Стили для превью части
     previewSection: {
@@ -44,23 +43,13 @@ export const createStyles = (colors: ThemeColors) =>
     arrowIcon: {
       marginLeft: 8,
     },
-
-    picker: {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-    },
-    divider: {
-      position: "absolute",
-      top: 18,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      zIndex: 1,
+    pickerWrapper: {
+      marginTop: -2,
       borderTopWidth: 1,
       borderColor: colors.alternate,
+    },
+    picker: {
+      height: 175,
     },
     helperText: {
       marginTop: 4,

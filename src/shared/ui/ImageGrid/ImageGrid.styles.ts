@@ -37,7 +37,7 @@ export const createStyles = (colors: ThemeColors) =>
     },
 
     moreText: {
-      color: "#FFFFFF",
+      color: colors.white,
       fontSize: 16,
       fontWeight: "bold",
     },

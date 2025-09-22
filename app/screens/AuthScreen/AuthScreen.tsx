@@ -1,6 +1,13 @@
 import { useGetPadding, useT, useToggle } from "@/src/shared/lib/hooks";
 import { useThemeStore } from "@/src/shared/store";
-import { Button, CheckBox, Layout, Text, TextField } from "@/src/shared/ui";
+import {
+  Button,
+  CheckBox,
+  Layout,
+  Separator,
+  Text,
+  TextField,
+} from "@/src/shared/ui";
 import { ConvertShapeIcon, MessageIcon } from "@/src/shared/ui/icons";
 import { Header } from "@/src/widgets";
 import { useState } from "react";
@@ -127,13 +134,7 @@ const AuthScreen = () => {
           {t(`auth.${variant}.submit`)}
         </Button>
 
-        <View style={styles.separator}>
-          <View style={styles.line} />
-          <Text color={colors.contrast} style={styles.orText}>
-            {t("auth.or")}
-          </Text>
-          <View style={styles.line} />
-        </View>
+        <Separator marginVertical={12} />
 
         <Button backgroundColor={colors.contrast} onPress={promptAsync}>
           {t(`auth.signIn.withGoogle`)}

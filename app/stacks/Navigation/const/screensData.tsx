@@ -11,6 +11,7 @@ import {
   TestScreen,
 } from "@/app/screens";
 import { PATHS } from "@/src/shared/const";
+import SettingsAssistantScreen from "../../../screens/SettingsAssistantScreen/SettingsAssistantScreen";
 
 export const screensData = [
   { name: PATHS.HOME, component: HomeScreen, options: { animation: "none" } },
@@ -58,5 +59,10 @@ export const screensData = [
     name: PATHS.TEST,
     component: TestScreen,
     options: { animation: "default" },
+  },
+  {
+    name: PATHS.SETTINGS_ASSISTANT,
+    component: SettingsAssistantScreen,
+    options: { animation: "simple_push" },
   },
 ];

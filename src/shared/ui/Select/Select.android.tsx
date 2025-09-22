@@ -4,9 +4,9 @@ import { FC, memo } from "react";
 import { View } from "react-native";
 import Text from "../Text/Text";
 import { SelectProps } from "./model/types";
-import { createStyles } from "./Select.styles";
+import { createStyles } from "./Select.android.styles";
 
-const Select: FC<SelectProps> = ({
+const SelectAndroid: FC<SelectProps> = ({
   value,
   label,
   placeholder,
@@ -79,4 +79,4 @@ const Select: FC<SelectProps> = ({
   );
 };
 
-export default memo(Select);
+export default memo(SelectAndroid);

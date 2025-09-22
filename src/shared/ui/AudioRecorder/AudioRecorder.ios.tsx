@@ -26,7 +26,7 @@ const AudioRecorder: FC<AudioRecorderProps> = ({ size = 60 }) => {
         style={[styles.iconWrapper, isListening && styles.iconWrapperActive]}
       >
         <MicrophoneIcon
-          color={isListening ? colors.error : colors.contrast}
+          color={isListening ? colors.error : colors.white}
           size={20}
         />
       </View>

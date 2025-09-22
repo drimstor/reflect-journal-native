@@ -8,6 +8,7 @@ import FullScreenChartLegend from "./Charts/FullScreenChartLegend";
 import CheckBox from "./CheckBox/CheckBox";
 import CheckboxList from "./CheckBox/CheckboxList";
 import Chip from "./Chip/Chip";
+import ChipSelector from "./ChipSelector/ChipSelector";
 import Divider from "./Divider/Divider";
 import DynamicIsland from "./DynamicIsland/DynamicIsland";
 import IconButton from "./IconButton/IconButton";
@@ -30,6 +31,7 @@ import RadioButton from "./RadioButtons/RadioButton";
 import RadioButtons from "./RadioButtons/RadioButtons";
 import ScrollToBottomButton from "./ScrollToBottomButton/ScrollToBottomButton";
 import Select from "./Select/Select";
+import Separator from "./Separator/Separator";
 import Carousel from "./Slider/Carousel";
 import TinderCarousel from "./Slider/TinderCarousel";
 import AnimatedText from "./Text/AnimatedText";
@@ -42,6 +44,10 @@ export { default as AudioRecorderContainer } from "./AudioRecorder/AudioRecorder
 export type { BottomSheetRef } from "./BottomSheet/BottomSheet";
 export * from "./BottomSheetContent";
 export { BottomSheetScreenHeader } from "./BottomSheetScreenHeader/BottomSheetScreenHeader";
+export type {
+  ChipSelectorOption,
+  ChipSelectorProps,
+} from "./ChipSelector/ChipSelector";
 export { FullScreenPreview } from "./FullScreenPreview/FullScreenPreview";
 export * from "./icons";
 export { ImageGrid } from "./ImageGrid/ImageGrid";
@@ -68,6 +74,7 @@ export type {
   MonthYearValue,
 } from "./MonthYearPicker/model/types";
 export { MoodSelector } from "./MoodSelector/MoodSelector";
+export type { SeparatorProps } from "./Separator/Separator";
 export { useCarouselConfig } from "./Slider/lib/hooks/useCarouselConfig";
 export { default as Text } from "./Text/Text";
 export type { TextProps } from "./Text/Text";
@@ -84,6 +91,7 @@ export {
   CheckBox,
   CheckboxList,
   Chip,
+  ChipSelector,
   DiagramChart,
   Divider,
   DynamicIsland,
@@ -107,6 +115,7 @@ export {
   RadioButtons,
   ScrollToBottomButton,
   Select,
+  Separator,
   TextField,
   TinderCarousel,
   TitleText,

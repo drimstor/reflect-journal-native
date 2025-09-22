@@ -42,7 +42,75 @@
     "deleteAvatar": "Удалить аватар",
     "noName": "Имя не указано",
     "assistant": "ИИ-ассистент",
-    "assistantSettings": "Личность ассистента"
+    "assistantSettings": "Личность ассистента",
+    "assistantTemplate": {
+      "title": "Можете выбрать один из готовых шаблонов",
+      "placeholder": "Выберите шаблон"
+    },
+    "assistantForm": {
+      "role": {
+        "label": "Роль ассистента"
+      },
+      "tone": {
+        "label": "Тон общения"
+      },
+      "communicationStyle": {
+        "label": "Стиль коммуникации"
+      },
+      "additionalInfo": {
+        "label": "Дополнительные инструкции",
+        "placeholder": "Опишите дополнительные требования к ассистенту..."
+      },
+      "saveSuccess": "Настройки ассистента сохранены",
+      "saveError": "Не удалось сохранить настройки",
+      "loading": "Загрузка..."
+    },
+    "assistantOptions": {
+      "roles": {
+        "mentor": "Наставник",
+        "coach": "Тренер",
+        "friend": "Друг",
+        "therapist": "Терапевт",
+        "reflection_source": "Источник рефлексии"
+      },
+      "tones": {
+        "friendly": "Дружелюбный",
+        "professional": "Профессиональный",
+        "strict": "Строгий",
+        "supportive": "Поддерживающий",
+        "humorous": "Юмористический",
+        "wise": "Мудрый",
+        "caring": "Чуткий"
+      },
+      "styles": {
+        "brief": "Краткий",
+        "detailed": "Развернутый",
+        "empathetic": "Эмпатичный",
+        "direct": "Прямолинейный",
+        "analytical": "Аналитический",
+        "creative": "Творческий",
+        "motivating": "Мотивирующий",
+        "insightful": "Проницательный"
+      }
+    },
+    "assistantTemplates": {
+      "lifeCoach": {
+        "name": "Лайф-коуч",
+        "info": "Поддерживающий подход с фокусом на личностный рост"
+      },
+      "humorist": {
+        "name": "Юморист",
+        "info": "Легкий подход с юмором для поднятия настроения"
+      },
+      "majorPayne": {
+        "name": "Майор Пейн",
+        "info": "Строгий подход для максимальной мотивации и дисциплины"
+      },
+      "philosopher": {
+        "name": "Философ",
+        "info": "Глубокий подход для размышлений и самопознания"
+      }
+    }
   },
   "home": {
     "title": "Дашборд",

@@ -26,6 +26,8 @@ export interface MonthYearPickerProps {
   onValueChange?: (value: MonthYearValue) => void;
   /** Включен ли компонент */
   enabled?: boolean;
+  /** Размер компонента */
+  size?: "small" | "medium";
   /** Показывать ли селектор дня */
   showDay?: boolean;
   /** Показывать ли селектор месяца */

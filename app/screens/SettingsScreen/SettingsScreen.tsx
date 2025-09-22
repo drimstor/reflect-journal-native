@@ -1,10 +1,12 @@
 import { useLang, useT } from "@/src/shared/lib/hooks";
 import {
+  useAnimationStore,
   useBottomSheetStore,
   useSettingsStore,
   useThemeStore,
 } from "@/src/shared/store";
 import {
+  AnimatedAppearance,
   ArchiveBoxIcon,
   ArrowLeftIcon,
   BellIcon,
@@ -24,7 +26,11 @@ import {
 } from "@/src/shared/ui";
 
 import { ProfileMenu } from "@/src/features";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useCallback, useState } from "react";
 import { ScrollView, View } from "react-native";
+import { PATHS } from "../../../src/shared/const";
+import { NavigationProps } from "../../../src/shared/model/types";
 
 const SettingsScreen = () => {
   const t = useT();
@@ -35,6 +41,18 @@ const SettingsScreen = () => {
     appearance: { isEmoji },
     updateSettings,
   } = useSettingsStore();
+  const navigation = useNavigation<NavigationProps>();
+
+  const [isVisible, setIsVisible] = useState(true);
+
+  const { setTabBar } = useAnimationStore();
+
+  useFocusEffect(
+    useCallback(() => {
+      setIsVisible(true);
+      setTabBar(1);
+    }, [])
+  );
 
   const accountSettings = [
     {
@@ -75,7 +93,11 @@ const SettingsScreen = () => {
     {
       text: t("settings.assistantSettings"),
       IconComponent: CpuIcon,
-      onPress: toggleTheme,
+      onPress: () => {
+        setTabBar(0);
+        setIsVisible(false);
+        navigation.navigate(PATHS.SETTINGS_ASSISTANT);
+      },
     },
     {
       text: (
@@ -138,88 +160,92 @@ const SettingsScreen = () => {
 
   return (
     <Layout>
-      <ScrollView>
-        <PaddingLayout style={{ paddingTop: 20, paddingBottom: 250 }}>
-          <ProfileMenu />
-          <MenuList
-            title={t("settings.account")}
-            listItemVariant="reverse"
-            style={{ marginBottom: 20, marginTop: 30 }}
-            items={accountSettings.map(({ text, IconComponent, element }) => ({
-              text,
-              onPress: () => {},
-              IconComponent: (props) => (
-                <IconComponent {...props} color={props.color} size={22} />
-              ),
-              element: element || (
-                <View
-                  style={{
-                    transform: [{ rotate: "180deg" }, { translateX: -5 }],
-                  }}
-                >
-                  <ArrowLeftIcon size={20} color={colors.contrast + 70} />
-                </View>
-              ),
-            }))}
-          />
-          <MenuList
-            title={t("settings.appearance")}
-            listItemVariant="reverse"
-            style={{ marginBottom: 20 }}
-            items={appearanceSettings.map(
-              ({ text, IconComponent, onPress, element }) => ({
-                text,
-                onPress,
-                element,
-                IconComponent: (props) => (
-                  <IconComponent {...props} color={props.color} size={22} />
-                ),
-              })
-            )}
-          />
-          <MenuList
-            title={t("settings.assistant")}
-            listItemVariant="reverse"
-            style={{ marginBottom: 20 }}
-            items={assistantSettings.map(
-              ({ text, IconComponent, onPress, element }) => ({
-                text,
-                onPress,
-                element: element || (
-                  <View
-                    style={{
-                      transform: [{ rotate: "180deg" }, { translateX: -5 }],
-                    }}
-                  >
-                    <ArrowLeftIcon size={20} color={colors.contrast + 70} />
-                  </View>
-                ),
-                IconComponent: (props) => (
-                  <IconComponent {...props} color={props.color} size={22} />
-                ),
-              })
-            )}
-          />
-          <MenuList
-            title={t("settings.other")}
-            listItemVariant="reverse"
-            items={otherSettings.map(
-              ({ text, IconComponent, onPress, color, element }) => ({
-                text,
-                onPress,
-                element,
-                IconComponent: (props) => (
-                  <IconComponent
-                    {...props}
-                    color={color || props.color}
-                    size={22}
-                  />
-                ),
-              })
-            )}
-          />
-        </PaddingLayout>
-      </ScrollView>
+      <AnimatedAppearance isVisible={isVisible}>
+        <ScrollView>
+          <PaddingLayout style={{ paddingTop: 20, paddingBottom: 250 }}>
+            <ProfileMenu />
+            <MenuList
+              title={t("settings.account")}
+              listItemVariant="reverse"
+              style={{ marginBottom: 20, marginTop: 30 }}
+              items={accountSettings.map(
+                ({ text, IconComponent, element }) => ({
+                  text,
+                  onPress: () => {},
+                  IconComponent: (props) => (
+                    <IconComponent {...props} color={props.color} size={22} />
+                  ),
+                  element: element || (
+                    <View
+                      style={{
+                        transform: [{ rotate: "180deg" }, { translateX: -5 }],
+                      }}
+                    >
+                      <ArrowLeftIcon size={20} color={colors.contrast + 70} />
+                    </View>
+                  ),
+                })
+              )}
+            />
+            <MenuList
+              title={t("settings.appearance")}
+              listItemVariant="reverse"
+              style={{ marginBottom: 20 }}
+              items={appearanceSettings.map(
+                ({ text, IconComponent, onPress, element }) => ({
+                  text,
+                  onPress,
+                  element,
+                  IconComponent: (props) => (
+                    <IconComponent {...props} color={props.color} size={22} />
+                  ),
+                })
+              )}
+            />
+            <MenuList
+              title={t("settings.assistant")}
+              listItemVariant="reverse"
+              style={{ marginBottom: 20 }}
+              items={assistantSettings.map(
+                ({ text, IconComponent, onPress, element }) => ({
+                  text,
+                  onPress,
+                  element: element || (
+                    <View
+                      style={{
+                        transform: [{ rotate: "180deg" }, { translateX: -5 }],
+                      }}
+                    >
+                      <ArrowLeftIcon size={20} color={colors.contrast + 70} />
+                    </View>
+                  ),
+                  IconComponent: (props) => (
+                    <IconComponent {...props} color={props.color} size={22} />
+                  ),
+                })
+              )}
+            />
+            <MenuList
+              title={t("settings.other")}
+              listItemVariant="reverse"
+              items={otherSettings.map(
+                ({ text, IconComponent, onPress, color, element }) => ({
+                  text,
+                  onPress,
+                  element,
+                  IconComponent: (props) => (
+                    <IconComponent
+                      {...props}
+                      color={color || props.color}
+                      size={22}
+                    />
+                  ),
+                })
+              )}
+            />
+          </PaddingLayout>
+        </ScrollView>
+      </AnimatedAppearance>
     </Layout>
   );
 };
