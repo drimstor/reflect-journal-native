@@ -33,7 +33,14 @@
     "appearance": "Внешний вид",
     "emoji": "Эмодзи",
     "emojiTooltip": "Отображение эмодзи в ответах ИИ",
-    "importExport": "Импорт и экспорт"
+    "importExport": "Импорт и экспорт",
+    "success": "Успешно",
+    "avatarUpdated": "Аватар обновлен",
+    "avatarUploadError": "Ошибка загрузки аватара",
+    "avatarDeleted": "Аватар удален",
+    "avatarDeleteError": "Ошибка удаления аватара",
+    "deleteAvatar": "Удалить аватар",
+    "noName": "Имя не указано"
   },
   "home": {
     "title": "Дашборд",

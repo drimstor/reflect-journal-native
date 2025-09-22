@@ -62,11 +62,22 @@ export const authApi = baseApi.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
-    updateProfile: builder.mutation<UserResponse, UpdateProfileRequest>({
+    updateProfile: builder.mutation<
+      UserResponse,
+      UpdateProfileRequest | FormData
+    >({
       query: (data) => ({
         url: "/auth/me",
         method: "PUT",
         body: data,
+        formData: data instanceof FormData,
+      }),
+      invalidatesTags: ["User"],
+    }),
+    deleteAvatar: builder.mutation<UserResponse, void>({
+      query: () => ({
+        url: "/auth/me/avatar",
+        method: "DELETE",
       }),
       invalidatesTags: ["User"],
     }),
@@ -92,5 +103,6 @@ export const {
   useRefreshMutation,
   useGetCurrentUserQuery,
   useUpdateProfileMutation,
+  useDeleteAvatarMutation,
   useLogoutMutation,
 } = authApi;

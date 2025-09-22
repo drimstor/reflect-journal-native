@@ -21,14 +21,11 @@ import {
   Text,
   Toggle,
 } from "@/src/shared/ui";
-import { FC } from "react";
 
 import { ProfileMenu } from "@/src/features";
 import { ScrollView, View } from "react-native";
 
-interface SettingsScreenProps {}
-
-const SettingsScreen: FC<SettingsScreenProps> = () => {
+const SettingsScreen = () => {
   const t = useT();
   const { colors, toggleTheme, theme } = useThemeStore();
   const { toggleLanguage, locale } = useLang();
@@ -133,7 +130,7 @@ const SettingsScreen: FC<SettingsScreenProps> = () => {
   return (
     <Layout>
       <ScrollView>
-        <PaddingLayout style={{ paddingTop: 30, paddingBottom: 250 }}>
+        <PaddingLayout style={{ paddingTop: 20, paddingBottom: 250 }}>
           <ProfileMenu />
           <MenuList
             title={t("settings.account")}

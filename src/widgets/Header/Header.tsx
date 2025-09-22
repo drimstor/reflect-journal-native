@@ -14,6 +14,7 @@ const Header = ({
   leftIcon,
   rightIcon,
   backButton,
+  style,
 }: HeaderProps) => {
   const { colors } = useThemeStore();
   const { paddingHorizontal } = useGetPadding();
@@ -32,6 +33,7 @@ const Header = ({
       style={[
         styles.headerWrapper,
         { paddingHorizontal, paddingTop: isTablet && isIOS ? 30 : 10 },
+        style,
       ]}
     >
       <View style={styles.headerIconBox}>

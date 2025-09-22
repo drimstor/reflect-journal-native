@@ -2,12 +2,22 @@ import { useT } from "@/src/shared/lib/hooks";
 import { useBottomSheetStore } from "@/src/shared/store";
 import { CameraIcon, ImageIcon } from "@/src/shared/ui/icons";
 import { ImagePickerOptions } from "expo-image-picker";
+import { FC } from "react";
+import { IconProps } from "../../model/types";
 import { useImagePicker } from "./useImagePicker";
+
+interface ActionItem {
+  text: string;
+  IconComponent?: FC<IconProps>;
+  onPress: () => void;
+}
 
 interface UseImagePickerWithActionsConfig extends ImagePickerOptions {
   // Кастомные функции открытия/закрытия BottomSheet (опциональные)
   onOpenBottomSheet?: () => void;
   onCloseBottomSheet?: () => void;
+  // Дополнительные действия для добавления в меню
+  additionalActions?: ActionItem[];
 }
 
 /**
@@ -48,7 +58,7 @@ export const useImagePickerWithActions = (
 
   // Основной обработчик выбора изображений
   const handleImagePicker = () => {
-    const actions = [
+    const defaultActions = [
       {
         text: t("shared.media.pickFromGallery"),
         IconComponent: ImageIcon,
@@ -61,7 +71,18 @@ export const useImagePickerWithActions = (
       },
     ];
 
-    setActions(actions);
+    // Добавляем дополнительные действия если они переданы
+    const allActions = config.additionalActions
+      ? [
+          ...defaultActions,
+          ...config.additionalActions.map((action) => ({
+            ...action,
+            onPress: () => handleActionWithBottomSheetClose(action.onPress),
+          })),
+        ]
+      : defaultActions;
+
+    setActions(allActions);
     navigateToFlow("common", "list");
     openBottomSheet();
   };

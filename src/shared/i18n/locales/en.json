@@ -33,7 +33,14 @@
     "appearance": "Appearance",
     "emoji": "Emoji",
     "emojiTooltip": "Display emoji in AI responses",
-    "importExport": "Import and export"
+    "importExport": "Import and export",
+    "success": "Success",
+    "avatarUpdated": "Avatar updated",
+    "avatarUploadError": "Avatar upload error",
+    "avatarDeleted": "Avatar deleted",
+    "avatarDeleteError": "Avatar delete error",
+    "deleteAvatar": "Delete avatar",
+    "noName": "No name"
   },
   "home": {
     "title": "Dashboard",

@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { StyleProp, ViewStyle } from "react-native";
 
 export interface HeaderProps {
   title?: string;
@@ -12,4 +13,5 @@ export interface HeaderProps {
     onPress: () => void;
   };
   backButton?: boolean;
+  style?: StyleProp<ViewStyle>;
 }
