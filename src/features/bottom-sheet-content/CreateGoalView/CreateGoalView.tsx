@@ -104,21 +104,16 @@ const CreateGoalView = ({
             setNavigation(true, PATHS.LIBRARY_ITEM, params);
           });
         } else if (flowData.requestAssistantMessageStore) {
+          const { source_type, source_id } =
+            flowData.requestAssistantMessageStore;
+
           relateEntities({
-            source_type: ENTITY_WITH_PARENT.includes(
-              flowData.requestAssistantMessageStore.source_type
-            )
-              ? ENTITY_WITH_PARENT_CONFIG[
-                  flowData.requestAssistantMessageStore.source_type
-                ]
-              : flowData.requestAssistantMessageStore.source_type,
-            source_id: ENTITY_WITH_PARENT.includes(
-              flowData.requestAssistantMessageStore.source_type
-            )
-              ? getEntitiesIds(
-                  flowData.requestAssistantMessageStore.source_id
-                )[0]
-              : flowData.requestAssistantMessageStore.source_id,
+            source_type: ENTITY_WITH_PARENT.includes(source_type)
+              ? ENTITY_WITH_PARENT_CONFIG[source_type]
+              : source_type,
+            source_id: ENTITY_WITH_PARENT.includes(source_type)
+              ? getEntitiesIds(source_id)[0]
+              : source_id,
             target_type: ENTITY_NAME.GOALS,
             target_id: result.id,
           })
