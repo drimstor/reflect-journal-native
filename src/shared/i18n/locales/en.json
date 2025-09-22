@@ -23,7 +23,7 @@
   },
   "settings": {
     "title": "Settings",
-    "account": "Account Settings",
+    "account": "Account",
     "other": "Other Settings",
     "subscription": "Subscription",
     "notifications": "Notifications",
@@ -40,7 +40,9 @@
     "avatarDeleted": "Avatar deleted",
     "avatarDeleteError": "Avatar delete error",
     "deleteAvatar": "Delete avatar",
-    "noName": "No name"
+    "noName": "No name",
+    "assistant": "AI Assistant",
+    "assistantSettings": "Assistant Personality"
   },
   "home": {
     "title": "Dashboard",

@@ -101,9 +101,10 @@ const EditMessageView = () => {
         title={t("shared.actions.editing")}
         onClose={handleClose}
         onBack={handleBack}
+        isBorderGap={false}
       />
       <BottomSheetScrollView>
-        <PaddingLayout style={{ gap: 12 }}>
+        <PaddingLayout style={{ gap: 12, paddingTop: 18 }}>
           <TextField
             label={t("libraryItem.content")}
             value={content}

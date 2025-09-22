@@ -56,12 +56,16 @@ const EditProfileView = () => {
 
   return (
     <BottomSheetBox>
-      <BottomSheetHeader title={formConfig.title} onClose={handleClose} />
+      <BottomSheetHeader
+        isBorderGap={false}
+        title={formConfig.title}
+        onClose={handleClose}
+      />
       <BottomSheetScrollView
         customMaxHeight={window.height - 270}
         additionalHeight={225}
       >
-        <PaddingLayout style={{ gap: 12, paddingVertical: 16 }}>
+        <PaddingLayout style={{ gap: 12, paddingVertical: 24 }}>
           {formConfig.fields.map((field) => (
             <FormField
               key={field.key}

@@ -11,6 +11,7 @@ import {
   BrushIcon,
   CardIcon,
   Chip,
+  CpuIcon,
   EmojiIcon,
   GlobalIcon,
   Info,
@@ -67,6 +68,14 @@ const SettingsScreen = () => {
           {theme}
         </Text>
       ),
+    },
+  ];
+
+  const assistantSettings = [
+    {
+      text: t("settings.assistantSettings"),
+      IconComponent: CpuIcon,
+      onPress: toggleTheme,
     },
     {
       text: (
@@ -162,6 +171,29 @@ const SettingsScreen = () => {
                 text,
                 onPress,
                 element,
+                IconComponent: (props) => (
+                  <IconComponent {...props} color={props.color} size={22} />
+                ),
+              })
+            )}
+          />
+          <MenuList
+            title={t("settings.assistant")}
+            listItemVariant="reverse"
+            style={{ marginBottom: 20 }}
+            items={assistantSettings.map(
+              ({ text, IconComponent, onPress, element }) => ({
+                text,
+                onPress,
+                element: element || (
+                  <View
+                    style={{
+                      transform: [{ rotate: "180deg" }, { translateX: -5 }],
+                    }}
+                  >
+                    <ArrowLeftIcon size={20} color={colors.contrast + 70} />
+                  </View>
+                ),
                 IconComponent: (props) => (
                   <IconComponent {...props} color={props.color} size={22} />
                 ),

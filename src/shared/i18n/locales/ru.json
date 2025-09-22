@@ -23,7 +23,7 @@
   },
   "settings": {
     "title": "Настройки",
-    "account": "Настройки аккаунта",
+    "account": "Аккаунт",
     "other": "Другие настройки",
     "subscription": "Подписка",
     "notifications": "Уведомления",
@@ -40,7 +40,9 @@
     "avatarDeleted": "Аватар удален",
     "avatarDeleteError": "Ошибка удаления аватара",
     "deleteAvatar": "Удалить аватар",
-    "noName": "Имя не указано"
+    "noName": "Имя не указано",
+    "assistant": "ИИ-ассистент",
+    "assistantSettings": "Личность ассистента"
   },
   "home": {
     "title": "Дашборд",
