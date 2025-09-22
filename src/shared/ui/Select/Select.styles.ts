@@ -1,34 +1,66 @@
 import { ThemeColors } from "@/src/shared/model/types";
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 
 export const createStyles = (colors: ThemeColors) =>
   StyleSheet.create({
     selectWrapper: {
-      // marginBottom: 8,
+      gap: 8,
+      flexShrink: 1,
+      width: "100%",
     },
-    selectContainer: {
-      paddingLeft: Platform.OS === "android" ? 8 : 0,
-      borderRadius: 12,
+    // Стили для анимированного контейнера (общий)
+    animatedContainer: {
       borderWidth: 1,
       borderColor: colors.alternate,
-      marginTop: 8,
+      width: "100%",
       overflow: "hidden",
-      minHeight: 50,
-      justifyContent: "center",
     },
-    picker: {
-      ...Platform.select({
-        ios: {
-          marginTop: -50,
-          height: 170,
-        },
-        android: {
-          height: 50,
-          marginTop: 0,
-        },
-      }),
-      fontSize: 16,
+    // Стили для Pressable внутри
+    pressableContainer: {
+      width: "100%",
+      marginBottom: -20,
+    },
+    // Стили для превью части
+    previewSection: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingHorizontal: 16,
+    },
+    previewText: {
+      fontSize: 15,
+      lineHeight: 17,
       color: colors.contrast,
+      flex: 1,
+      fontFamily: "ZonaPro-Regular",
+    },
+    previewPlaceholder: {
+      fontSize: 15,
+      lineHeight: 17,
+      color: colors.contrast + "80",
+      flex: 1,
+      fontFamily: "ZonaPro-Regular",
+    },
+    arrowIcon: {
+      marginLeft: 8,
+    },
+
+    picker: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+    },
+    divider: {
+      position: "absolute",
+      top: 18,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      zIndex: 1,
+      borderTopWidth: 1,
+      borderColor: colors.alternate,
     },
     helperText: {
       marginTop: 4,
@@ -36,3 +68,15 @@ export const createStyles = (colors: ThemeColors) =>
       opacity: 0.7,
     },
   });
+
+// Размеры для превью поля
+export const sizeStyles = StyleSheet.create({
+  small: {
+    height: 32,
+    borderRadius: 10,
+  },
+  medium: {
+    height: 52,
+    borderRadius: 12,
+  },
+});

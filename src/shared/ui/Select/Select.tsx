@@ -1,10 +1,11 @@
 import { useThemeStore } from "@/src/shared/store";
 import { Picker } from "@react-native-picker/picker";
-import { FC, memo } from "react";
-import { View } from "react-native";
+import { FC, memo, useRef, useState } from "react";
+import { Animated, Pressable, View } from "react-native";
+import { ArrowLeftIcon } from "../icons";
 import Text from "../Text/Text";
 import { SelectProps } from "./model/types";
-import { createStyles } from "./Select.styles";
+import { createStyles, sizeStyles } from "./Select.styles";
 
 const Select: FC<SelectProps> = ({
   value,
@@ -18,10 +19,64 @@ const Select: FC<SelectProps> = ({
   options = [],
   onValueChange,
   enabled = true,
-  style,
+  size = "medium",
 }) => {
   const { colors } = useThemeStore();
   const styles = createStyles(colors);
+
+  // Состояние раскрытия
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  // Анимация для высоты и поворота стрелки
+  const previewHeight = sizeStyles[size].height;
+  const heightAnim = useRef(new Animated.Value(previewHeight)).current;
+  const rotateAnim = useRef(new Animated.Value(0)).current;
+
+  // Получаем текст выбранной опции
+  const selectedOption = options.find((option) => option.value === value);
+  const displayText = selectedOption?.label || placeholder;
+  const isPlaceholder = !selectedOption && placeholder;
+
+  // Обработчик переключения состояния
+  const toggleExpanded = () => {
+    if (!enabled) return;
+
+    const toValue = isExpanded ? 0 : 1;
+    const duration = 300;
+
+    // Высота превью секции + высота picker'а
+    const previewHeight = sizeStyles[size].height;
+    const pickerHeight = 178;
+    const collapsedHeight = previewHeight;
+    const expandedHeight = previewHeight + pickerHeight;
+
+    Animated.parallel([
+      Animated.timing(heightAnim, {
+        toValue: isExpanded ? collapsedHeight : expandedHeight,
+        duration,
+        useNativeDriver: false,
+      }),
+      Animated.timing(rotateAnim, {
+        toValue,
+        duration,
+        useNativeDriver: true,
+      }),
+    ]).start();
+
+    setIsExpanded(!isExpanded);
+  };
+
+  // Обработчик выбора значения
+  const handleValueChange = (selectedValue: string) => {
+    onValueChange?.(selectedValue);
+    // Не сворачиваем автоматически - пользователь сам решает когда закрыть
+  };
+
+  // Стили для поворота стрелки
+  const arrowRotation = rotateAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "180deg"],
+  });
 
   return (
     <View style={styles.selectWrapper}>
@@ -31,43 +86,88 @@ const Select: FC<SelectProps> = ({
           {required && <Text color={colors.error}> *</Text>}
         </Text>
       )}
-      <View
+
+      {/* Анимированный контейнер */}
+      <Animated.View
         style={[
-          styles.selectContainer,
-          { backgroundColor: backgroundColor ?? colors.secondary },
-          style && style.selectContainer,
+          styles.animatedContainer,
+          sizeStyles[size],
+          {
+            height: heightAnim,
+            backgroundColor: backgroundColor ?? colors.secondary,
+          },
         ]}
       >
-        <Picker
-          selectedValue={value}
-          onValueChange={onValueChange}
-          enabled={enabled}
-          style={[
-            styles.picker,
-            { backgroundColor: backgroundColor ?? colors.secondary },
-          ]}
-          dropdownIconColor={colors.contrast}
-          mode={"dropdown"}
+        <Pressable
+          style={styles.pressableContainer}
+          onPress={toggleExpanded}
+          disabled={!enabled}
         >
-          {placeholder && (
-            <Picker.Item
-              label={placeholder}
-              value=""
-              color={colors.contrast + "80"}
-              style={{ backgroundColor: colors.secondary }}
-            />
-          )}
-          {options.map((option) => (
-            <Picker.Item
-              key={option.value}
-              label={option.label}
-              value={option.value}
-              color={colors.contrast}
-              style={{ backgroundColor: colors.secondary }}
-            />
-          ))}
-        </Picker>
-      </View>
+          {/* Секция превью */}
+          <View style={[styles.previewSection, sizeStyles[size]]}>
+            <Text
+              style={[
+                isPlaceholder ? styles.previewPlaceholder : styles.previewText,
+              ]}
+            >
+              {displayText}
+            </Text>
+
+            <Animated.View
+              style={[
+                styles.arrowIcon,
+                {
+                  transform: [
+                    { rotate: "-90deg" }, // Базовый поворот для стрелки вниз
+                    { rotate: arrowRotation },
+                  ],
+                },
+              ]}
+            >
+              <ArrowLeftIcon
+                size={20}
+                color={colors.contrast + (enabled ? "" : "50")}
+              />
+            </Animated.View>
+          </View>
+        </Pressable>
+        {/* Секция с Picker (показывается только при раскрытии) */}
+        {
+          <View>
+            <View style={styles.divider} />
+            <Picker
+              selectedValue={value}
+              onValueChange={handleValueChange}
+              enabled={enabled}
+              style={[
+                styles.picker,
+                { backgroundColor: backgroundColor ?? colors.secondary },
+              ]}
+              dropdownIconColor="transparent" // Скрываем стандартную стрелку
+              mode="dropdown"
+            >
+              {placeholder && (
+                <Picker.Item
+                  label={placeholder}
+                  value=""
+                  color={colors.contrast + "80"}
+                  style={{ backgroundColor: colors.secondary }}
+                />
+              )}
+              {options.map((option) => (
+                <Picker.Item
+                  key={option.value}
+                  label={option.label}
+                  value={option.value}
+                  color={colors.contrast}
+                  style={{ backgroundColor: colors.secondary }}
+                />
+              ))}
+            </Picker>
+          </View>
+        }
+      </Animated.View>
+
       {helperText && (
         <Text
           size="small"

@@ -1,5 +1,3 @@
-import { StyleProp, ViewStyle } from "react-native";
-
 export interface SelectOption {
   label: string;
   value: string;
@@ -28,8 +26,7 @@ export interface SelectProps {
   onValueChange?: (value: string) => void;
   /** Включен ли компонент */
   enabled?: boolean;
+  /** Размер компонента */
+  size?: "small" | "medium";
   /** Стили */
-  style?: {
-    selectContainer?: StyleProp<ViewStyle>;
-  };
 }
