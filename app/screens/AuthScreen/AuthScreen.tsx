@@ -14,6 +14,7 @@ import { useState } from "react";
 import { ScrollView, View } from "react-native";
 import { createStyles } from "./AuthScreen.styles";
 import { initialValues } from "./const/static";
+import { useAppleAuth } from "./lib/hooks/useAppleAuth";
 import { useGoogleAuth } from "./lib/hooks/useGoogleAuth";
 import { useSubmit } from "./lib/hooks/useSubmit";
 import { TextFields, ValidationErrors, Variant } from "./model/types";
@@ -26,6 +27,7 @@ const AuthScreen = () => {
   const { value: isRememberMe, toggle: toggleRememberMe } = useToggle(true);
   const [variant, setVariant] = useState<Variant>("signIn");
   const { promptAsync } = useGoogleAuth();
+  const { signInWithApple, isAvailable: isAppleAvailable } = useAppleAuth();
 
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [textFields, setTextFields] = useState<TextFields>(initialValues);
@@ -126,7 +128,7 @@ const AuthScreen = () => {
         )}
 
         <Button
-          backgroundColor={colors.contrast}
+          backgroundColor={theme === "dark" ? colors.contrast : colors.contrast}
           style={styles.submitButton}
           onPress={handleSubmit}
           isLoading={isAuthLoading}
@@ -136,9 +138,24 @@ const AuthScreen = () => {
 
         <Separator marginVertical={12} />
 
-        <Button backgroundColor={colors.contrast} onPress={promptAsync}>
+        <Button
+          backgroundColor={theme === "dark" ? colors.contrast : colors.contrast}
+          onPress={promptAsync}
+        >
           {t(`auth.signIn.withGoogle`)}
         </Button>
+
+        {isAppleAvailable && (
+          <Button
+            backgroundColor={
+              theme === "dark" ? colors.contrast : colors.contrast
+            }
+            style={{ marginTop: 12 }}
+            onPress={signInWithApple}
+          >
+            {t(`auth.signIn.withApple`)}
+          </Button>
+        )}
       </ScrollView>
     </Layout>
   );

@@ -394,12 +394,12 @@
     "signIn": {
       "title": "Sign In",
       "submit": "Sign In",
-      "withGoogle": "Sign In with Google"
+      "withGoogle": "Sign In with Google",
+      "withApple": "Sign In with Apple"
     },
     "signUp": {
       "title": "Sign Up",
-      "submit": "Sign Up",
-      "withGoogle": "Sign Up with Google"
+      "submit": "Sign Up"
     },
     "email": {
       "label": "Email",

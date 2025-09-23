@@ -1,4 +1,4 @@
-import { useLoginMutation, useRegisterMutation } from "@/src/entities";
+import { useSocialAuthMutation } from "@/src/entities";
 import { PATHS } from "@/src/shared/const";
 import { NavigationProps } from "@/src/shared/model/types";
 import { useNavigation } from "@react-navigation/native";
@@ -21,8 +21,7 @@ type User = {
 
 export const useGoogleAuth = () => {
   const navigation = useNavigation<NavigationProps>();
-  const [loginMutation] = useLoginMutation();
-  const [registerMutation] = useRegisterMutation();
+  const [socialAuthMutation] = useSocialAuthMutation();
 
   const [request, response, promptAsync] =
     Google.useAuthRequest(GOOGLE_CLIENT_ID);
@@ -54,30 +53,21 @@ export const useGoogleAuth = () => {
 
       const user: User = await response.json();
 
-      registerMutation({
-        email: `google.${user?.email}`,
-        name: user?.given_name || user?.name,
-        avatar_url: user?.picture,
-        password: user?.id,
+      // Используем новый API endpoint для социальной авторизации
+      socialAuthMutation({
+        email: user.email,
+        auth_type: "google",
+        user_id: user.id,
+        name: user.given_name || user.name,
+        avatar_url: user.picture,
       })
         .unwrap()
         .then(() => {
           navigation.navigate(PATHS.MAIN_STACK);
         })
         .catch((error) => {
-          if (error.status === 409) {
-            loginMutation({
-              email: `google.${user?.email}`,
-              password: user?.id,
-            })
-              .unwrap()
-              .then(() => {
-                navigation.navigate(PATHS.MAIN_STACK);
-              })
-              .catch((error) => {
-                console.log({ error });
-              });
-          }
+          console.error("Google auth error:", error);
+          // TODO: Обработать специфичные ошибки (например, "используйте другой способ")
         });
     } catch (error) {
       console.error("Error fetching user info:", error);

@@ -15,6 +15,21 @@ export interface TokenResponse {
   refresh_token: string;
 }
 
+export interface AuthResponse {
+  access_token: string;
+  refresh_token: string;
+  message?: string;
+  detailed?: Record<string, any>;
+}
+
+export interface SocialAuthRequest {
+  email: string;
+  auth_type: "google" | "apple";
+  user_id: string;
+  name?: string;
+  avatar_url?: string;
+}
+
 export interface UserResponse {
   id: string;
   email: string;

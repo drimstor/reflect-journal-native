@@ -393,12 +393,12 @@
     "signIn": {
       "title": "Вход",
       "submit": "Войти",
-      "withGoogle": "Войти через Google"
+      "withGoogle": "Войти через Google",
+      "withApple": "Войти через Apple"
     },
     "signUp": {
       "title": "Регистрация",
-      "submit": "Зарегистрироваться",
-      "withGoogle": "Зарегистрироваться через Google"
+      "submit": "Зарегистрироваться"
     },
     "email": {
       "label": "Электронная почта",

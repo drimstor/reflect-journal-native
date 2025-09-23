@@ -1,8 +1,10 @@
 import { baseApi } from "@/src/shared/api/baseApi";
 import { tokenService } from "@/src/shared/store";
 import {
+  AuthResponse,
   LoginRequest,
   RegisterRequest,
+  SocialAuthRequest,
   TokenResponse,
   UserResponse,
 } from "../model/types";
@@ -77,6 +79,23 @@ export const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+    socialAuth: builder.mutation<AuthResponse, SocialAuthRequest>({
+      query: (data) => ({
+        url: "/auth/social-auth",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["User"],
+      async onQueryStarted(_, { queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await tokenService.setTokens(data.access_token, data.refresh_token);
+          await tokenService.debugTokens();
+        } catch {
+          // handleError(dispatch)(error.error);
+        }
+      },
+    }),
     logout: builder.mutation<{ detail: string }, string>({
       query: (refresh_token) => ({
         url: "/auth/logout",
@@ -100,5 +119,6 @@ export const {
   useGetCurrentUserQuery,
   useUpdateProfileMutation,
   useDeleteAvatarMutation,
+  useSocialAuthMutation,
   useLogoutMutation,
 } = authApi;
