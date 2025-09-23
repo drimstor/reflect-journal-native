@@ -1,9 +1,9 @@
-import * as WebBrowser from "expo-web-browser";
-import * as Google from "expo-auth-session/providers/google";
 import { useLoginMutation, useRegisterMutation } from "@/src/entities";
-import { useNavigation } from "@react-navigation/native";
-import { NavigationProps } from "@/src/shared/model/types";
 import { PATHS } from "@/src/shared/const";
+import { NavigationProps } from "@/src/shared/model/types";
+import { useNavigation } from "@react-navigation/native";
+import * as Google from "expo-auth-session/providers/google";
+import * as WebBrowser from "expo-web-browser";
 import { useEffect } from "react";
 import { GOOGLE_CLIENT_ID } from "../../const/static";
 
@@ -56,7 +56,7 @@ export const useGoogleAuth = () => {
 
       registerMutation({
         email: `google.${user?.email}`,
-        name: user?.name || user?.given_name + " " + user?.family_name,
+        name: user?.given_name || user?.name,
         avatar_url: user?.picture,
         password: user?.id,
       })

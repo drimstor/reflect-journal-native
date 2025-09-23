@@ -68,7 +68,7 @@ export const useSubmit = ({
 
     if (variant === "signIn") {
       loginMutation({
-        email: textFields.email,
+        email: textFields.email.toLowerCase(),
         password: textFields.password,
       })
         .unwrap()
@@ -79,7 +79,7 @@ export const useSubmit = ({
 
     if (variant === "signUp") {
       registerMutation({
-        email: textFields.email,
+        email: textFields.email.toLowerCase(),
         password: textFields.password,
         name: textFields.name,
       })

@@ -1,12 +1,17 @@
-import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { PATHS } from "@/src/shared/const";
+import {
+  baseQueryConfig,
+  handleError,
+  tokenService,
+  useBottomSheetStore,
+} from "@/src/shared/store";
 import type {
   BaseQueryFn,
   FetchArgs,
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query";
+import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Mutex } from "async-mutex";
-import { handleError, tokenService } from "@/src/shared/store";
-import { baseQueryConfig } from "@/src/shared/store";
 
 const mutex = new Mutex();
 
@@ -22,12 +27,15 @@ export const baseQueryWithReauth: BaseQueryFn<
   let result = await baseQuery(args, api, extraOptions);
 
   if (result.error && result.error.status === 401) {
+    console.log("🚨 Получена ошибка 401, пытаемся обновить токен");
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
       try {
         const refreshToken = await tokenService.getRefreshToken();
         if (!refreshToken) {
           await tokenService.removeTokens();
+          // Редиректим на экран авторизации через глобальную навигацию
+          useBottomSheetStore.getState().setNavigation(true, PATHS.AUTH, {});
           return result;
         }
 
@@ -43,6 +51,7 @@ export const baseQueryWithReauth: BaseQueryFn<
         );
 
         if (refreshResult.data) {
+          console.log("✅ Токен успешно обновлен, повторяем запрос");
           const { access_token, refresh_token } = refreshResult.data as {
             access_token: string;
             refresh_token: string;
@@ -55,6 +64,8 @@ export const baseQueryWithReauth: BaseQueryFn<
           result = await baseQuery(args, api, extraOptions);
         } else {
           await tokenService.removeTokens();
+          // Редиректим на экран авторизации при неудачном обновлении токена
+          useBottomSheetStore.getState().setNavigation(true, PATHS.AUTH, {});
         }
       } finally {
         release();
