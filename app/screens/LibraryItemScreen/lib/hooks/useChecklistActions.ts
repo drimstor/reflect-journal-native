@@ -30,6 +30,10 @@ export const useChecklistActions = (
   // Применяем дебаунс к локальному состоянию чекбоксов
   const debouncedCheckboxes = useDebounce(checkboxes, 1000);
 
+  useEffect(() => {
+    setCheckboxes(initialChecklist);
+  }, [itemId]);
+
   // Обновляем чекбоксы при изменении initialChecklist
   useEffect(() => {
     if ((initialChecklist?.length || 0) > 0) {
