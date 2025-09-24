@@ -93,7 +93,7 @@ export const FullScreenPreview: React.FC<FullScreenPreviewProps> = ({
       <View style={styles.carouselItemContainer}>
         {loadingImages[index] && (
           <View style={styles.loaderContainer}>
-            <Loader size={window.width - 80} />
+            <Loader />
           </View>
         )}
         <Image

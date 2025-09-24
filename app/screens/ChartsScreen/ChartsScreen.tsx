@@ -89,7 +89,7 @@ const ChartsScreen = () => {
         }
       >
         {isLoading ? (
-          <Loader style={{ marginTop: 50 }} size={window.width - 100} />
+          <Loader style={{ marginTop: 50 }} />
         ) : !currentChartData?.length ? (
           <NoData
             style={{ marginTop: 70 }}

@@ -5,17 +5,18 @@ import { useThemeStore } from "../../store";
 import { LoaderProps } from "./model/types";
 
 // Импортируем JSON анимацию
+import { WINDOW_WIDTH } from "@gorhom/bottom-sheet";
 import loadingDarkAnimation from "./animations/slow-spinner-dark.json";
 import loadingLightAnimation from "./animations/slow-spinner-light.json";
 
 export const Loader: FC<LoaderProps> = ({
-  size = 50,
+  size = WINDOW_WIDTH - 100,
   style,
   isVisible = true,
 }) => {
-  if (!isVisible) return null;
-
   const { theme } = useThemeStore();
+
+  if (!isVisible) return null;
 
   return (
     <View

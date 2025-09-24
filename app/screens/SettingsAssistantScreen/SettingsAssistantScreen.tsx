@@ -100,7 +100,7 @@ const SettingsAssistantScreen = () => {
           subtitle={t("settings.title")}
         />
         <View style={styles.loadingContainer}>
-          <Loader size={window.width - 100} />
+          <Loader />
         </View>
       </Layout>
     );

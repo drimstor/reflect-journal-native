@@ -229,8 +229,6 @@ const RelationshipMapScreen = () => {
             overflow: "hidden",
           }}
         >
-          {/* {isLoading ? (
-          <Loader style={{ marginTop: 50 }} size={window.width - 100} /> */}
           {!isLoading && !graphData?.nodes?.length ? (
             <NoData
               style={{ marginTop: 70 }}

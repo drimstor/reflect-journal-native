@@ -1,6 +1,5 @@
+import { useKeyboard, useTimingAnimation } from "@/src/shared/lib/hooks";
 import { useDeviceStore } from "@/src/shared/store";
-import { useKeyboard } from "@/src/shared/lib/hooks";
-import { useTimingAnimation } from "@/src/shared/lib/hooks";
 import { ViewStyle } from "react-native";
 
 export const useChatAnimation = () => {
@@ -30,7 +29,7 @@ export const useChatAnimation = () => {
     position: "absolute" as ViewStyle["position"],
     left: window.width / 2,
     right: window.width / 2,
-    width: window.width - 90,
+    width: window.width - 100,
     borderRadius: 25,
     borderWidth: 1,
     paddingBottom: 10,

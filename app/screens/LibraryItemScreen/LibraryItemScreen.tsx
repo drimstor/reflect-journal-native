@@ -163,7 +163,7 @@ const LibraryItemScreen = () => {
       >
         {isEntityLoading &&
         !(currentItem?.content || currentItem?.checklist?.length) ? (
-          <Loader style={{ marginTop: 50 }} size={window.width - 100} />
+          <Loader style={{ marginTop: 50 }} />
         ) : (
           <ScrollView
             contentContainerStyle={styles.globalViewHorizontal}

@@ -236,10 +236,7 @@ const TestScreen = () => {
         />
       )}
       {isLoadingTestResult || isLoading ? (
-        <Loader
-          style={{ marginTop: window.height / 5 }}
-          size={window.width - 80}
-        />
+        <Loader style={{ marginTop: window.height / 5 }} />
       ) : (
         <>
           <PaddingLayout style={{ marginHorizontal: 65, marginTop: -2 }}>

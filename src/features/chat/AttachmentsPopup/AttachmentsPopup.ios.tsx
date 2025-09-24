@@ -59,12 +59,12 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
   const buttonsConfig = [
     // { icon: <DocumentTextIcon color={iconColor} size={22} /> },
     {
-      icon: <MicrophoneIcon color={iconColor} size={24} />,
-      onPress: undefined,
-    },
-    {
       icon: <ImageIcon color={iconColor} size={22} />,
       onPress: handleImagePress,
+    },
+    {
+      icon: <MicrophoneIcon color={iconColor} size={24} />,
+      onPress: undefined,
     },
   ];
 

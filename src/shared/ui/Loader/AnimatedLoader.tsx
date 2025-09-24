@@ -1,3 +1,4 @@
+import { WINDOW_WIDTH } from "@gorhom/bottom-sheet";
 import React from "react";
 import { ViewStyle } from "react-native";
 import Animated from "react-native-reanimated";
@@ -21,7 +22,7 @@ export interface AnimatedLoaderProps {
 export const AnimatedLoader: React.FC<AnimatedLoaderProps> = ({
   isVisible,
   animatedStyle,
-  size = 100,
+  size = WINDOW_WIDTH - 100,
   backgroundColor,
   containerStyle,
   positionStyle = {

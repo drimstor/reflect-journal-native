@@ -74,6 +74,10 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
   const buttonsConfig = [
     // { icon: <DocumentTextIcon color={iconColor} size={22} /> },
     {
+      icon: <ImageIcon color={iconColor} size={22} />,
+      onPress: handleImagePress,
+    },
+    {
       icon: (
         <MicrophoneIcon
           color={isListening ? colors.error : iconColor}
@@ -81,10 +85,6 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
         />
       ),
       onPress: handleMicrophonePress,
-    },
-    {
-      icon: <ImageIcon color={iconColor} size={22} />,
-      onPress: handleImagePress,
     },
   ];
 

@@ -1,11 +1,7 @@
 import { SortField } from "@/src/entities/chat/model/types";
+import { WithDateAndId } from "../../ui/VirtualizedList/model/types";
 
-interface WithDate {
-  updated_at: number;
-  created_at: number;
-}
-
-export const groupByDate = <T extends WithDate>(
+export const groupByDate = <T extends WithDateAndId>(
   items: T[],
   locale: string,
   sortField: Exclude<SortField, "name" | "count"> = "updated_at"

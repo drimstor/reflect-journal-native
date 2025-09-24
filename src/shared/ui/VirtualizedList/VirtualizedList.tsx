@@ -112,11 +112,7 @@ function VirtualizedList<ItemT extends WithDateAndId>({
       }
       ListFooterComponent={() => (
         <AnimatedAppearance isVisible>
-          <Loader
-            style={{ marginTop: 25 }}
-            size={window.width - 100}
-            isVisible={isFetching}
-          />
+          <Loader style={{ marginTop: 25 }} isVisible={isFetching} />
         </AnimatedAppearance>
       )}
     />

@@ -51,7 +51,6 @@ const HomeScreen: FC<HomeScreenProps> = () => {
         <AnimatedLoader
           isVisible={isScreenLoading}
           animatedStyle={animatedStyle}
-          size={window.width - 100}
           containerStyle={{ minHeight: 1000, paddingTop: 200 }}
         />
       ) : (

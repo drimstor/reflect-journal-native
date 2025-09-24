@@ -89,7 +89,6 @@ const ChatView: FC<{
         renderChatFooter={() => (
           <Loader
             style={getLoaderStyle() as any}
-            size={window.width - 100}
             isVisible={isLoadingMessages}
           />
         )}

@@ -375,7 +375,6 @@ const CreateSummaryView = ({
         <AnimatedLoader
           isVisible={isScreenLoading}
           animatedStyle={animatedStyle}
-          size={window.width - 100}
           backgroundColor={colors.secondary}
           containerStyle={{
             minHeight: 1000,

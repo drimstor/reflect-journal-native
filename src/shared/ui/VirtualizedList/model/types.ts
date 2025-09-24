@@ -7,8 +7,8 @@ import { SectionListRenderItem } from "react-native";
 
 export interface WithDateAndId {
   id: string;
-  created_at: string;
-  updated_at: string;
+  created_at: number;
+  updated_at: number;
 }
 
 export interface VirtualizedListProps<ItemT extends WithDateAndId> {

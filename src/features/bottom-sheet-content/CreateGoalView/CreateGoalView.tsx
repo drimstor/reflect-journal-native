@@ -220,10 +220,7 @@ const CreateGoalView = ({
         isBorderGap={false}
       />
       {isPredicting ? (
-        <Loader
-          style={{ marginTop: 100, marginBottom: 303 }}
-          size={window.width - 100}
-        />
+        <Loader style={{ marginTop: 100, marginBottom: 303 }} />
       ) : (
         <>
           <BottomSheetScrollView
