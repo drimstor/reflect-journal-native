@@ -10,17 +10,10 @@ export const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
   },
-  innerBox: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 32,
-  },
   textBox: {
-    overflow: "hidden",
-    maxWidth: "78%",
     position: "absolute",
     top: 13,
-    left: 70,
+    left: 75,
     right: 0,
     bottom: 0,
     height: "100%",

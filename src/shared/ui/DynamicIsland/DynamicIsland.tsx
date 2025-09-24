@@ -133,7 +133,7 @@ const DynamicIsland = () => {
             ],
           }}
         >
-          <View style={styles.innerBox}>
+          <View>
             <SiriLoader
               style={{
                 width: animationExpanded.interpolate({

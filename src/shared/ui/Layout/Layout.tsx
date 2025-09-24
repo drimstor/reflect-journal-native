@@ -1,7 +1,6 @@
+import { useDeviceStore } from "@/src/shared/store";
 import { FC, ReactNode } from "react";
 import { StyleProp, View, ViewStyle } from "react-native";
-// import { createStyles } from "./Layout.styles";
-import { useDeviceStore, useThemeStore } from "@/src/shared/store";
 
 interface LayoutProps {
   children: ReactNode;
@@ -9,7 +8,6 @@ interface LayoutProps {
 }
 
 const Layout: FC<LayoutProps> = ({ children, style }) => {
-  const { colors, theme } = useThemeStore();
   const { window } = useDeviceStore();
 
   return <View style={[{ height: window.height }, style]}>{children}</View>;

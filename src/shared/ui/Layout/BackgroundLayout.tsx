@@ -1,6 +1,5 @@
+import { useDeviceStore, useThemeStore } from "@/src/shared/store";
 import { ImageBackground, View } from "react-native";
-import { useThemeStore } from "@/src/shared/store";
-import { useDeviceStore } from "@/src/shared/store";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import StatusBarManager from "../StatusBar/StatusBarManager";
 
@@ -10,7 +9,7 @@ interface BackgroundLayoutProps {
 }
 
 const BackgroundLayout = ({ children }: BackgroundLayoutProps) => {
-  const { colors, theme } = useThemeStore();
+  const { colors, theme, isBackgroundImage } = useThemeStore();
   const { statusBarHeight, window } = useDeviceStore();
   const insets = useSafeAreaInsets();
 
@@ -23,7 +22,7 @@ const BackgroundLayout = ({ children }: BackgroundLayoutProps) => {
     >
       <ImageBackground
         source={
-          true
+          isBackgroundImage
             ? theme === "light"
               ? require("@/assets/images/TopographicLight.png")
               : require("@/assets/images/TopographicDark.png")
