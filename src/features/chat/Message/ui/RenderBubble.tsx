@@ -23,8 +23,8 @@ const RenderBubble = (
   // Кастомный рендер для текста сообщения с поддержкой эмодзи
   const renderCustomView = () => {
     // Показываем лоадер, если сообщение пустое (временное/загружаемое)
-    if (props.currentMessage?.images?.length === 0 && isNoMessage) {
-      return <MessageLoaderBox />;
+    if (props.currentMessage._id.toString().startsWith("temp-")) {
+      return <MessageLoaderBox style={{ marginBottom: -16 }} />;
     }
 
     // Показываем текст сообщения с поддержкой эмодзи

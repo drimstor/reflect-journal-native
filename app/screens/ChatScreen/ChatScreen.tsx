@@ -12,7 +12,7 @@ import { Layout, useBottomSheetActions } from "@/src/shared/ui";
 import { DotsIcon } from "@/src/shared/ui/icons";
 import { ChatView, Header } from "@/src/widgets";
 import { useRoute } from "@react-navigation/native";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import { View } from "react-native";
 import { createStyles } from "./ChatScreen.styles";
 import {
@@ -52,6 +52,11 @@ const ChatScreen: FC = () => {
   const { currentDate, chipAnimation, handleScroll } = useDateChip(messages);
   const { messageContainerRef, scrollToBottom } = useScrollToBottomButton();
   const { handlePress: handlePressDots } = useBottomSheetActions("Chats", item);
+
+  const handleSendMiddleware = useCallback(() => {
+    handleSend();
+    scrollToBottom();
+  }, [handleSend, scrollToBottom]);
 
   // Кеш сообщений
   const messagesCacheData = useAppSelector(getMessagesCache(item.id));
@@ -101,7 +106,7 @@ const ChatScreen: FC = () => {
           handleLoadEarlier={handleLoadEarlier}
           text={text}
           setText={setText}
-          handleSend={handleSend}
+          handleSend={handleSendMiddleware}
           onQuickReply={handleLongPress}
           currentDate={currentDate}
           chipAnimation={chipAnimation}

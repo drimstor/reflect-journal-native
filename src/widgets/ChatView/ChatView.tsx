@@ -69,15 +69,6 @@ const ChatView: FC<{
         dateFormat="DD.MM.YY"
         locale={locale}
         onQuickReply={onQuickReply}
-        // renderCustomView={(props) => {
-        //   if (
-        //     typeof props.currentMessage?._id === "string" &&
-        //     props.currentMessage._id.startsWith("temp-")
-        //   ) {
-        //     return <MessageLoaderBox />;
-        //   }
-        //   return null;
-        // }}
         renderChatEmpty={() =>
           !isLoadingMessages &&
           !messagesData?.data?.length &&

@@ -1,20 +1,20 @@
-import React, { FC, useEffect } from "react";
-import { createStyles } from "./Snackbar.styles";
-import { SiriLoader } from "../Loader/SiriLoader";
+import { LinearGradient } from "expo-linear-gradient";
+import React, { FC } from "react";
+import { Animated } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { capitalizeText } from "../../lib/helpers";
 import {
   removeSnackbar,
   useAppDispatch,
   useDeviceStore,
   useThemeStore,
 } from "../../store";
-import { LinearGradient } from "expo-linear-gradient";
+import { SiriLoader } from "../Loader/SiriLoader";
 import Text from "../Text/Text";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Animated } from "react-native";
+import { MAX_LENGTH_FOR_LARGE } from "./const/static";
 import { useSnackbarAnimation } from "./lib/hooks/useSnackbarAnimation";
 import { useSnackbarTimers } from "./lib/hooks/useSnackbarTimers";
-import { capitalizeText } from "../../lib/helpers";
-import { MAX_LENGTH_FOR_LARGE } from "./const/static";
+import { createStyles } from "./Snackbar.styles";
 
 export type SnackbarType = "success" | "error";
 

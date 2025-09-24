@@ -1,11 +1,5 @@
-import { Animated, View } from "react-native";
-// import { styles } from "./DynamicIsland.styles";
 import { useEffect } from "react";
-import {
-  LongPressGestureHandler,
-  State,
-  TapGestureHandler,
-} from "react-native-gesture-handler";
+import { Animated, TouchableWithoutFeedback, View } from "react-native";
 import { capitalizeText } from "../../lib/helpers";
 import { useSpringAnimation, useToggle } from "../../lib/hooks";
 import {
@@ -18,6 +12,7 @@ import {
 } from "../../store";
 import { SiriLoader } from "../Loader/SiriLoader";
 import Text from "../Text/Text";
+import { styles } from "./DynamicIsland.styles";
 
 const DynamicIsland = () => {
   const { window } = useDeviceStore();
@@ -53,7 +48,7 @@ const DynamicIsland = () => {
     }, 5000);
 
     return () => clearTimeout(timeout);
-  }, [snackbars.length]);
+  }, [snackbars.length, setIsExpanded, setIsVisible, dispatch]);
 
   // Сворачивание и закрытие айленда
   useEffect(() => {
@@ -65,25 +60,21 @@ const DynamicIsland = () => {
 
       return () => clearTimeout(timeout);
     }
-  }, [isVisible]);
+  }, [isVisible, setIsExpanded, setIsVisible]);
 
-  // Обработчик долгого нажатия
-  const handleStateChange = ({ nativeEvent }: { nativeEvent: any }) => {
-    if (nativeEvent.state === State.BEGAN) {
-      animatePressed(1);
-    } else if (nativeEvent.state === State.ACTIVE) {
-      toggleIsExpanded();
-      animatePressed(0);
-    } else {
-      animatePressed(0);
-    }
+  // Обработчик нажатия
+  const handlePress = () => {
+    toggleIsExpanded();
   };
 
-  // Обработчик обычного нажатия
-  const handleTap = ({ nativeEvent }: { nativeEvent: any }) => {
-    if (nativeEvent.state === State.ACTIVE) {
-      toggleIsExpanded();
-    }
+  // Обработчик начала нажатия
+  const handlePressIn = () => {
+    animatePressed(1);
+  };
+
+  // Обработчик окончания нажатия
+  const handlePressOut = () => {
+    animatePressed(0);
   };
 
   const visibleNotifyWidth = 210;
@@ -92,117 +83,99 @@ const DynamicIsland = () => {
   const expandedNotifyHeight = 83;
 
   return (
-    <View
-      style={{
-        position: "absolute",
-        top: 11,
-        left: 0,
-        right: 0,
-        zIndex: 1000,
-        width: "100%",
-        alignItems: "center",
-      }}
-    >
-      <TapGestureHandler onHandlerStateChange={handleTap}>
-        <LongPressGestureHandler
-          onHandlerStateChange={handleStateChange}
-          minDurationMs={300}
-        >
-          <Animated.View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              borderRadius: Animated.add(
-                animationVisible.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [
-                    visibleNotifyHeight / 2,
-                    expandedNotifyHeight / 2,
-                  ],
-                }),
-                animationExpanded.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [20, 20], // Увеличиваем радиус при открытии
-                })
-              ),
-              width: Animated.add(
-                animationVisible.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [125, visibleNotifyWidth],
-                }),
-                animationExpanded.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, expandedNotifyWidth], // Дополнительные 90 пикселей, чтобы в сумме получилось 300
-                })
-              ),
-              height: animationExpanded.interpolate({
+    <View style={styles.globalBox}>
+      <TouchableWithoutFeedback
+        onPress={handlePress}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+      >
+        <Animated.View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            borderRadius: Animated.add(
+              animationVisible.interpolate({
                 inputRange: [0, 1],
-                outputRange: [visibleNotifyHeight, expandedNotifyHeight], // Увеличиваем высоту при открытии
+                outputRange: [
+                  visibleNotifyHeight / 2,
+                  expandedNotifyHeight / 2,
+                ],
               }),
-              backgroundColor: "black",
-              paddingHorizontal: 6,
-              // Добавляем эффект нажатия
-              transform: [
-                {
-                  scale: animationPressed.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [1, 1.15],
-                  }),
-                },
-              ],
-            }}
-          >
-            <View
+              animationExpanded.interpolate({
+                inputRange: [0, 1],
+                outputRange: [20, 20], // Увеличиваем радиус при открытии
+              })
+            ),
+            width: Animated.add(
+              animationVisible.interpolate({
+                inputRange: [0, 1],
+                outputRange: [125, visibleNotifyWidth],
+              }),
+              animationExpanded.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, expandedNotifyWidth], // Дополнительные 90 пикселей, чтобы в сумме получилось 300
+              })
+            ),
+            height: animationExpanded.interpolate({
+              inputRange: [0, 1],
+              outputRange: [visibleNotifyHeight, expandedNotifyHeight], // Увеличиваем высоту при открытии
+            }),
+            backgroundColor: "black",
+            paddingHorizontal: 6,
+            // Добавляем эффект нажатия
+            transform: [
+              {
+                scale: animationPressed.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [1, 1.15],
+                }),
+              },
+            ],
+          }}
+        >
+          <View style={styles.innerBox}>
+            <SiriLoader
               style={{
-                flexDirection: "row",
-                alignItems: "center",
-                gap: 32,
-              }}
-            >
-              <SiriLoader
-                style={{
-                  width: animationExpanded.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [28, 45],
-                  }),
-                  height: animationExpanded.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [28, 45],
-                  }),
-                  opacity: animationVisible.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [-3, 1],
-                  }),
-                  transform: [
-                    {
-                      translateX: animationExpanded.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [0, 15],
-                      }),
-                    },
-                  ],
-                }}
-              />
-              {isExpanded && (
-                <Animated.View
-                  style={{
-                    opacity: animationExpanded.interpolate({
+                width: animationExpanded.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [28, 45],
+                }),
+                height: animationExpanded.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [28, 45],
+                }),
+                opacity: animationVisible.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [-3, 1],
+                }),
+                transform: [
+                  {
+                    translateX: animationExpanded.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [-8, 1],
+                      outputRange: [0, 15],
                     }),
-                    overflow: "hidden",
-                    maxWidth: "78%",
-                  }}
-                >
-                  <Text font="bold" color="white" numberOfLines={1}>
-                    {capitalizeText(snackbars[snackbars.length - 1]?.text)}
-                  </Text>
-                </Animated.View>
-              )}
-            </View>
-          </Animated.View>
-        </LongPressGestureHandler>
-      </TapGestureHandler>
+                  },
+                ],
+              }}
+            />
+            {isExpanded && (
+              <Animated.View
+                style={{
+                  opacity: animationExpanded.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [-8, 1],
+                  }),
+                  ...styles.textBox,
+                }}
+              >
+                <Text font="bold" color="white" numberOfLines={2}>
+                  {capitalizeText(snackbars[snackbars.length - 1]?.text)}
+                </Text>
+              </Animated.View>
+            )}
+          </View>
+        </Animated.View>
+      </TouchableWithoutFeedback>
     </View>
   );
 };
