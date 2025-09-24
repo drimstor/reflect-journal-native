@@ -7,6 +7,7 @@ import { StyleProp, TouchableOpacity, View, ViewStyle } from "react-native";
 import { SmallLoader } from "../Loader/SmallLoader";
 import { createStyles, sizeStyles } from "./Button.styles";
 interface ButtonProps {
+  icon?: ReactNode;
   children: ReactNode | string;
   onPress: () => void;
   size?: "medium" | "small";
@@ -21,6 +22,7 @@ interface ButtonProps {
 const { primary } = useThemeStore.getState().colors;
 
 const Button = ({
+  icon,
   children,
   onPress,
   size = "medium",
@@ -54,16 +56,19 @@ const Button = ({
           <SmallLoader color={textColor} />
         </View>
       ) : (
-        <Text
-          font="bold"
-          style={[
-            styles.text,
-            disabled && styles.disabled,
-            { color: textColor ?? contrastTextColor },
-          ]}
-        >
-          {children}
-        </Text>
+        <>
+          {icon && icon}
+          <Text
+            font="bold"
+            style={[
+              styles.text,
+              disabled && styles.disabled,
+              { color: textColor ?? contrastTextColor },
+            ]}
+          >
+            {children}
+          </Text>
+        </>
       )}
     </TouchableOpacity>
   );

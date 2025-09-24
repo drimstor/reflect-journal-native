@@ -5,8 +5,8 @@ export interface LoginRequest {
 
 export interface RegisterRequest {
   email: string;
-  name: string;
   password: string;
+  name?: string;
   avatar_url?: string;
 }
 

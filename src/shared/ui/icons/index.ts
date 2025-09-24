@@ -1,3 +1,4 @@
+export { default as AppleIcon } from "./AppleIcon";
 export { default as ArchiveBoxIcon } from "./ArchiveBoxIcon";
 export { default as ArchiveIcon } from "./ArchiveIcon";
 export { default as ArchiveSolidIcon } from "./ArchiveSolidIcon";
@@ -44,6 +45,7 @@ export { default as FilterIcon } from "./FilterIcon";
 export { default as GalleryIcon } from "./GalleryIcon";
 export { default as GlobalIcon } from "./GlobalIcon";
 export { default as GlobalSolidIcon } from "./GlobalSolidIcon";
+export { default as GoogleIcon } from "./GoogleIcon";
 export { default as GraphSolidIcon } from "./GraphSolidIcon";
 export { default as GridSolidIcon } from "./GridSolidIcon";
 export { default as HeartIcon } from "./HeartIcon";

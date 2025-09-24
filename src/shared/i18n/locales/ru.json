@@ -380,7 +380,6 @@
     }
   },
   "auth": {
-    "title": "Вход",
     "validation": {
       "emailRequired": "Email обязателен",
       "emailInvalid": "Некорректный email",
@@ -390,15 +389,21 @@
       "confirmPasswordRequired": "Подтвердите пароль",
       "passwordsDoNotMatch": "Пароли не совпадают"
     },
+    "splash": {
+      "title": "Авторизация",
+      "submit": "Войти через Email"
+    },
     "signIn": {
       "title": "Вход",
       "submit": "Войти",
-      "withGoogle": "Войти через Google",
-      "withApple": "Войти через Apple"
+      "haveAccount": "Еще нет аккаунта?",
+      "lets": "Регистрация"
     },
     "signUp": {
       "title": "Регистрация",
-      "submit": "Зарегистрироваться"
+      "submit": "Зарегистрироваться",
+      "haveAccount": "Уже есть аккаунт?",
+      "lets": "Войти"
     },
     "email": {
       "label": "Электронная почта",

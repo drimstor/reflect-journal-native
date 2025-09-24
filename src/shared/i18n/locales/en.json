@@ -381,7 +381,6 @@
     }
   },
   "auth": {
-    "title": "Sign In",
     "validation": {
       "emailRequired": "Email is required",
       "emailInvalid": "Invalid email",
@@ -391,15 +390,21 @@
       "confirmPasswordRequired": "Please confirm password",
       "passwordsDoNotMatch": "Passwords do not match"
     },
+    "splash": {
+      "title": "Authorization",
+      "submit": "Sign In with Email"
+    },
     "signIn": {
       "title": "Sign In",
       "submit": "Sign In",
-      "withGoogle": "Sign In with Google",
-      "withApple": "Sign In with Apple"
+      "haveAccount": "Don't have an account?",
+      "lets": "Sign Up"
     },
     "signUp": {
       "title": "Sign Up",
-      "submit": "Sign Up"
+      "submit": "Sign Up",
+      "haveAccount": "Already have an account?",
+      "lets": "Sign In"
     },
     "email": {
       "label": "Email",

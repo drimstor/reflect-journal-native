@@ -1,5 +1,5 @@
-import { useRef, useState, useCallback, useEffect } from "react";
 import { BottomSheetRef } from "@/src/shared/ui/BottomSheet/BottomSheet";
+import { useCallback, useRef, useState } from "react";
 
 /**
  * Хук для управления состоянием индекса BottomSheet компонента

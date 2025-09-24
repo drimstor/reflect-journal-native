@@ -1,14 +1,8 @@
+import { useThemeStore } from "@/src/shared/store";
+import { ArrowRightLongIcon, Divider, PlusIcon, Text } from "@/src/shared/ui";
+import { ReactNode } from "react";
 import { Pressable, View } from "react-native";
 import { styles } from "./BottomSheetComponents.styles";
-import {
-  ArrowRightLongIcon,
-  Text,
-  PlusIcon,
-  Divider,
-  Button,
-} from "@/src/shared/ui";
-import { useThemeStore } from "@/src/shared/store";
-import { ReactNode } from "react";
 
 interface BottomSheetHeaderProps {
   title: string;

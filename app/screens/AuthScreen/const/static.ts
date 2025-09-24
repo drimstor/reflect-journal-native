@@ -2,7 +2,6 @@ export const initialValues = {
   email: "",
   password: "",
   confirmPassword: "",
-  name: "",
 };
 
 export const GOOGLE_CLIENT_ID = {

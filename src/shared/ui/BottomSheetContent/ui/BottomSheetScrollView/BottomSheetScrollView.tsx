@@ -1,16 +1,18 @@
 import { useKeyboard } from "@/src/shared/lib/hooks";
 import { useDeviceStore } from "@/src/shared/store";
 import { useEffect, useMemo, useRef } from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, StyleProp, ViewStyle } from "react-native";
 
 export const BottomSheetScrollView = ({
   children,
   additionalHeight = 135,
   customMaxHeight,
+  style,
 }: {
   children: React.ReactNode;
   customMaxHeight?: number;
   additionalHeight?: number;
+  style?: StyleProp<ViewStyle>;
 }) => {
   const { window } = useDeviceStore();
   const { keyboardHeight, isKeyboardVisible } = useKeyboard();
@@ -45,7 +47,10 @@ export const BottomSheetScrollView = ({
   }, [isKeyboardVisible]);
 
   return (
-    <ScrollView ref={scrollViewRef} style={{ maxHeight, paddingBottom }}>
+    <ScrollView
+      ref={scrollViewRef}
+      style={[{ maxHeight, paddingBottom }, style]}
+    >
       {children}
     </ScrollView>
   );

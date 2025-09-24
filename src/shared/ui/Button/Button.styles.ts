@@ -12,6 +12,7 @@ export const createStyles = (colors: ThemeColors) =>
       paddingHorizontal: 16,
       paddingVertical: 6,
       backgroundColor: colors.primary,
+      gap: 8,
     },
     disabled: {
       opacity: 0.5,

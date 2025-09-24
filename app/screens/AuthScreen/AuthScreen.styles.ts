@@ -3,12 +3,9 @@ import { StyleSheet } from "react-native";
 
 export const createStyles = (colors: ThemeColors) =>
   StyleSheet.create({
-    container: {
-      width: "100%",
-      gap: 12,
-      alignSelf: "center",
-      marginVertical: "auto",
-      transform: [{ translateY: -80 }],
+    formBox: {
+      gap: 16,
+      paddingBottom: 70,
     },
     rememberMeContainer: {
       width: "100%",
@@ -16,6 +13,16 @@ export const createStyles = (colors: ThemeColors) =>
       alignItems: "center",
       justifyContent: "space-between",
       marginBottom: 10,
+    },
+    haveAccountContainer: {
+      alignItems: "center",
+      flexDirection: "row",
+      gap: 4,
+      marginTop: 8,
+      marginHorizontal: "auto",
+    },
+    separator: {
+      opacity: 0.55,
     },
     rememberMeText: {
       fontSize: 13,
@@ -29,23 +36,16 @@ export const createStyles = (colors: ThemeColors) =>
       fontSize: 13,
     },
     submitButton: {
-      marginTop: 18,
+      marginTop: 10,
     },
-    separator: {
+    socialsContainer: {
       flexDirection: "row",
       alignItems: "center",
-      justifyContent: "center",
+      justifyContent: "space-between",
       width: "100%",
-      marginVertical: 12,
+      gap: 24,
     },
-    line: {
-      height: 1,
-      width: "40%",
-      backgroundColor: colors.contrast,
-    },
-    orText: {
-      marginHorizontal: 16,
-      minWidth: 30,
-      textAlign: "center",
+    bottomSheet: {
+      paddingTop: 16,
     },
   });

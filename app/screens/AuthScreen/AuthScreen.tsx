@@ -1,17 +1,31 @@
-import { useGetPadding, useT, useToggle } from "@/src/shared/lib/hooks";
-import { useThemeStore } from "@/src/shared/store";
 import {
+  useBottomSheetIndexState,
+  useKeyboard,
+  useT,
+  useToggle,
+} from "@/src/shared/lib/hooks";
+import { useBottomSheetStore, useThemeStore } from "@/src/shared/store";
+import {
+  BottomSheet,
+  BottomSheetBox,
+  BottomSheetHeader,
   Button,
   CheckBox,
   Layout,
+  PaddingLayout,
   Separator,
   Text,
   TextField,
 } from "@/src/shared/ui";
-import { ConvertShapeIcon, MessageIcon } from "@/src/shared/ui/icons";
+import {
+  AppleIcon,
+  ConvertShapeIcon,
+  GoogleIcon,
+  MessageIcon,
+} from "@/src/shared/ui/icons";
 import { Header } from "@/src/widgets";
-import { useState } from "react";
-import { ScrollView, View } from "react-native";
+import { useCallback, useEffect, useState } from "react";
+import { Pressable, View } from "react-native";
 import { createStyles } from "./AuthScreen.styles";
 import { initialValues } from "./const/static";
 import { useAppleAuth } from "./lib/hooks/useAppleAuth";
@@ -21,13 +35,14 @@ import { TextFields, ValidationErrors, Variant } from "./model/types";
 
 const AuthScreen = () => {
   const t = useT();
-  const { colors, theme } = useThemeStore();
-  const { paddingHorizontal } = useGetPadding();
+  const { colors, theme, toggleTheme } = useThemeStore();
   const styles = createStyles(colors);
   const { value: isRememberMe, toggle: toggleRememberMe } = useToggle(true);
-  const [variant, setVariant] = useState<Variant>("signIn");
+  const [variant, setVariant] = useState<Variant>("splash");
   const { promptAsync } = useGoogleAuth();
   const { signInWithApple, isAvailable: isAppleAvailable } = useAppleAuth();
+
+  const isAuthVariant = ["signIn", "signUp"].includes(variant);
 
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [textFields, setTextFields] = useState<TextFields>(initialValues);
@@ -45,13 +60,28 @@ const AuthScreen = () => {
       }
     };
 
+  const { bottomSheetRef, snapToIndex, closeBottomSheet } =
+    useBottomSheetIndexState();
+  const { keyboardHeight, isKeyboardVisible } = useKeyboard();
+  const { bottomSheetHeight } = useBottomSheetStore();
+
+  const getSnapPoints = useCallback(() => {
+    const baseHeight = bottomSheetHeight ? bottomSheetHeight : 0.01;
+    return [baseHeight + (isKeyboardVisible ? keyboardHeight - 45 : 0)];
+  }, [keyboardHeight, isKeyboardVisible, bottomSheetHeight]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      snapToIndex(0);
+    }, 1000);
+  }, [snapToIndex]);
+
   return (
     <Layout>
       <Header
-        title={t(`auth.${variant}.title`)}
         leftIcon={{
           icon: <MessageIcon color={colors.contrast} />,
-          onPress: () => {},
+          onPress: toggleTheme,
         }}
         rightIcon={{
           icon: <ConvertShapeIcon color={colors.contrast} />,
@@ -61,102 +91,133 @@ const AuthScreen = () => {
           },
         }}
       />
-      <ScrollView
-        contentContainerStyle={[styles.container, { paddingHorizontal }]}
+      <BottomSheet
+        ref={bottomSheetRef}
+        snapPoints={getSnapPoints()}
+        backgroundColor={colors.secondary}
+        borderColor={colors.alternate}
+        paddingHorizontal={1}
+        initialIndex={-1}
+        onClose={closeBottomSheet}
+        staticMode
+        style={styles.bottomSheet}
       >
-        {variant === "signUp" && (
-          <TextField
-            placeholder={t("auth.name.placeholder")}
-            label={t("auth.name.label")}
-            value={textFields.name}
-            onChangeText={handleFieldChange("name")}
-            backgroundColor={colors.secondary}
-            helperText={errors.name}
-            helperTextColor={errors.name ? colors.error : undefined}
-          />
-        )}
-        <TextField
-          placeholder={t("auth.email.placeholder")}
-          label={t("auth.email.label")}
-          value={textFields.email}
-          onChangeText={handleFieldChange("email")}
-          backgroundColor={colors.secondary}
-          helperText={errors.email}
-          helperTextColor={errors.email ? colors.error : undefined}
-        />
-        <TextField
-          placeholder={t("auth.password.placeholder")}
-          secureTextEntry
-          label={t("auth.password.label")}
-          value={textFields.password}
-          onChangeText={handleFieldChange("password")}
-          backgroundColor={colors.secondary}
-          helperText={errors.password}
-          helperTextColor={errors.password ? colors.error : undefined}
-        />
-        {variant === "signUp" && (
-          <TextField
-            placeholder={t("auth.confirmPassword.placeholder")}
-            label={t("auth.confirmPassword.label")}
-            secureTextEntry
-            value={textFields.confirmPassword}
-            onChangeText={handleFieldChange("confirmPassword")}
-            backgroundColor={colors.secondary}
-            helperText={errors.confirmPassword}
-            helperTextColor={errors.confirmPassword ? colors.error : undefined}
-          />
-        )}
-
-        {variant === "signIn" && (
-          <View style={styles.rememberMeContainer}>
-            <View style={styles.checkboxBox}>
-              <CheckBox
-                checked={isRememberMe}
-                onPress={toggleRememberMe}
-                text={t("auth.rememberMe")}
-                textStyle={styles.rememberMeText}
-              />
-            </View>
-            <Text
-              withOpacity={theme === "dark" ? 90 : undefined}
-              color={colors.error}
-              style={styles.forgotPassword}
-            >
-              {t("auth.forgotPassword")}
-            </Text>
-          </View>
-        )}
-
-        <Button
-          backgroundColor={theme === "dark" ? colors.contrast : colors.contrast}
-          style={styles.submitButton}
-          onPress={handleSubmit}
-          isLoading={isAuthLoading}
-        >
-          {t(`auth.${variant}.submit`)}
-        </Button>
-
-        <Separator marginVertical={12} />
-
-        <Button
-          backgroundColor={theme === "dark" ? colors.contrast : colors.contrast}
-          onPress={promptAsync}
-        >
-          {t(`auth.signIn.withGoogle`)}
-        </Button>
-
-        {isAppleAvailable && (
-          <Button
-            backgroundColor={
-              theme === "dark" ? colors.contrast : colors.contrast
+        <BottomSheetBox>
+          <BottomSheetHeader
+            onBack={
+              !!isAuthVariant &&
+              (() => {
+                setVariant("splash");
+                setErrors({});
+              })
             }
-            style={{ marginTop: 12 }}
-            onPress={signInWithApple}
-          >
-            {t(`auth.signIn.withApple`)}
-          </Button>
-        )}
-      </ScrollView>
+            title={t(`auth.${variant}.title`)}
+          />
+          <PaddingLayout style={styles.formBox}>
+            {isAuthVariant && (
+              <>
+                <TextField
+                  placeholder={t("auth.email.placeholder")}
+                  label={t("auth.email.label")}
+                  value={textFields.email}
+                  onChangeText={handleFieldChange("email")}
+                  backgroundColor={colors.secondary}
+                  helperText={errors.email}
+                  helperTextColor={errors.email ? colors.error : undefined}
+                />
+                <TextField
+                  placeholder={t("auth.password.placeholder")}
+                  secureTextEntry
+                  label={t("auth.password.label")}
+                  value={textFields.password}
+                  onChangeText={handleFieldChange("password")}
+                  backgroundColor={colors.secondary}
+                  helperText={errors.password}
+                  helperTextColor={errors.password ? colors.error : undefined}
+                />
+                {variant === "signUp" && (
+                  <TextField
+                    placeholder={t("auth.confirmPassword.placeholder")}
+                    label={t("auth.confirmPassword.label")}
+                    secureTextEntry
+                    value={textFields.confirmPassword}
+                    onChangeText={handleFieldChange("confirmPassword")}
+                    backgroundColor={colors.secondary}
+                    helperText={errors.confirmPassword}
+                    helperTextColor={
+                      errors.confirmPassword ? colors.error : undefined
+                    }
+                  />
+                )}
+                {variant === "signIn" && (
+                  <View style={styles.rememberMeContainer}>
+                    <View style={styles.checkboxBox}>
+                      <CheckBox
+                        checked={isRememberMe}
+                        onPress={toggleRememberMe}
+                        text={t("auth.rememberMe")}
+                        textStyle={styles.rememberMeText}
+                      />
+                    </View>
+                    <Text
+                      withOpacity={theme === "dark" ? 90 : undefined}
+                      color={colors.error}
+                      style={styles.forgotPassword}
+                    >
+                      {t("auth.forgotPassword")}
+                    </Text>
+                  </View>
+                )}
+              </>
+            )}
+            <Button
+              backgroundColor={colors.contrast}
+              style={styles.submitButton}
+              isLoading={isAuthLoading}
+              onPress={
+                isAuthVariant ? handleSubmit : () => setVariant("signIn")
+              }
+            >
+              {t(`auth.${variant}.submit`)}
+            </Button>
+            <View style={styles.separator}>
+              <Separator marginVertical={2} />
+            </View>
+            <View style={styles.socialsContainer}>
+              <Button backgroundColor={colors.contrast} onPress={promptAsync}>
+                <GoogleIcon />
+              </Button>
+              {isAppleAvailable && (
+                <Button
+                  backgroundColor={colors.contrast}
+                  onPress={signInWithApple}
+                >
+                  <AppleIcon color={colors.contrastReverse} />
+                </Button>
+              )}
+            </View>
+            {isAuthVariant && (
+              <View style={styles.haveAccountContainer}>
+                <Text color={colors.contrast}>
+                  {t(`auth.${variant}.haveAccount`)}
+                </Text>
+                <Pressable
+                  onPress={() =>
+                    setVariant(variant === "signIn" ? "signUp" : "signIn")
+                  }
+                >
+                  <Text
+                    color={theme === "dark" ? colors.accent : "#3e667a"}
+                    font="bold"
+                  >
+                    {t(`auth.${variant}.lets`)}
+                  </Text>
+                </Pressable>
+              </View>
+            )}
+          </PaddingLayout>
+        </BottomSheetBox>
+      </BottomSheet>
     </Layout>
   );
 };

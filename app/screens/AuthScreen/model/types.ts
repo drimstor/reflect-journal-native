@@ -2,17 +2,15 @@ export interface ValidationErrors {
   email?: string;
   password?: string;
   confirmPassword?: string;
-  name?: string;
 }
 
 export interface TextFields {
   email: string;
   password: string;
   confirmPassword: string;
-  name: string;
 }
 
-export type Variant = "signIn" | "signUp";
+export type Variant = "signIn" | "signUp" | "splash";
 
 export interface UseSubmitProps {
   textFields: TextFields;

@@ -30,12 +30,12 @@ const FilterEntityView = () => {
 
   return (
     <BottomSheetBox>
-      <BottomSheetHeader title={t("filter.filterBy")} />
+      <BottomSheetHeader title={t("filter.filterBy")} isBorderGap={false} />
       <BottomSheetScrollView>
         <PaddingLayout>
           <List
             listItemVariant="reverse"
-            style={{ marginVertical: -10 }}
+            style={{ marginVertical: -10, paddingTop: 13 }}
             items={actions?.map(
               ({ text, IconComponent, iconSize, key, type, placeholder }) => ({
                 text,

@@ -42,12 +42,6 @@ export const useSubmit = ({
 
     // Дополнительные проверки для регистрации
     if (variant === "signUp") {
-      // Валидация имени
-      if (!textFields.name.trim()) {
-        newErrors.name = t("auth.validation.nameRequired");
-      }
-
-      // Валидация подтверждения пароля
       if (!textFields.confirmPassword.trim()) {
         newErrors.confirmPassword = t(
           "auth.validation.confirmPasswordRequired"
@@ -81,7 +75,6 @@ export const useSubmit = ({
       registerMutation({
         email: textFields.email.toLowerCase(),
         password: textFields.password,
-        name: textFields.name,
       })
         .unwrap()
         .then(() => {
