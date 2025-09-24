@@ -3,6 +3,7 @@ import { MessageGiftedChat } from "@/src/entities/chat/model/types";
 import { ChatBackground } from "@/src/features";
 import { PATHS } from "@/src/shared/const/PATHS";
 import { useScrollToBottomButton } from "@/src/shared/lib/hooks";
+import { ImagePickerResult } from "@/src/shared/lib/hooks/useImagePicker";
 import {
   useAppSelector,
   useBottomSheetStore,
@@ -53,10 +54,13 @@ const ChatScreen: FC = () => {
   const { messageContainerRef, scrollToBottom } = useScrollToBottomButton();
   const { handlePress: handlePressDots } = useBottomSheetActions("Chats", item);
 
-  const handleSendMiddleware = useCallback(() => {
-    handleSend();
-    scrollToBottom();
-  }, [handleSend, scrollToBottom]);
+  const handleSendMiddleware = useCallback(
+    (images?: ImagePickerResult[]) => {
+      handleSend(images);
+      scrollToBottom();
+    },
+    [handleSend, scrollToBottom]
+  );
 
   // Кеш сообщений
   const messagesCacheData = useAppSelector(getMessagesCache(item.id));

@@ -1,6 +1,7 @@
 import { MessageGiftedChat } from "@/src/entities/chat/model/types";
 import { DateChip, Message, MessageInput } from "@/src/features";
 import { useLang } from "@/src/shared/lib/hooks";
+import { ImagePickerResult } from "@/src/shared/lib/hooks/useImagePicker";
 import { useDeviceStore, useThemeStore } from "@/src/shared/store";
 import { Loader, NoData, ScrollToBottomButton } from "@/src/shared/ui";
 import React, { FC } from "react";
@@ -18,7 +19,7 @@ const ChatView: FC<{
   handleLoadEarlier: () => Promise<void>;
   text: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
-  handleSend: () => void;
+  handleSend: (images?: ImagePickerResult[]) => void;
   onQuickReply: (flowData: any) => void;
   currentDate: Date;
   chipAnimation: Animated.Value;
@@ -62,7 +63,7 @@ const ChatView: FC<{
       <GiftedChat
         messageContainerRef={messageContainerRef}
         messages={messages as unknown as IMessage[]}
-        onSend={handleSend}
+        onSend={() => handleSend()}
         user={{ _id: userId || "" }}
         renderAvatar={null}
         timeFormat="HH:mm"
