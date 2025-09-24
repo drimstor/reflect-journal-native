@@ -47,7 +47,19 @@
       "expo-secure-store",
       "expo-web-browser",
       "expo-image-picker",
-      "expo-splash-screen",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#F1F2F3",
+          "image": "./assets/images/logo.png",
+          "dark": {
+            "image": "./assets/images/logo.png",
+            "backgroundColor": "#181822"
+          },
+          "imageWidth": 200,
+          "resizeMode": "contain"
+        }
+      ],
       [
         "expo-notifications",
         {

@@ -4,6 +4,7 @@ import { summaryApi } from "@/src/entities/summary/api/summaryApi";
 import { testResultsApi } from "@/src/entities/test-results/api/testResultsApi";
 import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import { useAppDispatch } from "@/src/shared/store";
+import { journalsApi } from "../../../entities";
 
 /**
  * Простой хук для префетча данных перед навигацией
@@ -31,6 +32,24 @@ export const usePrefetch = () => {
     } catch (error) {
       // Игнорируем ошибки префетча - это не критично
       console.warn("Prefetch failed for journal entries:", error);
+    }
+  };
+
+  /**
+   * Префетч записей дневника по journal_id
+   * @param journalId - ID дневника для загрузки записей
+   */
+  const prefetchJournals = () => {
+    const params = `page=1&limit=10`;
+
+    try {
+      // Запускаем префетч записей дневника
+      dispatch(
+        journalsApi.util.prefetch("getJournals", { params }, { force: false })
+      );
+    } catch (error) {
+      // Игнорируем ошибки префетча - это не критично
+      console.warn("Prefetch failed for journals:", error);
     }
   };
 
@@ -124,6 +143,7 @@ export const usePrefetch = () => {
     prefetchEntityList,
     prefetchJournalEntries,
     prefetchTestResults,
+    prefetchJournals,
 
     // Префетч отдельных сущностей
     prefetchEntity,

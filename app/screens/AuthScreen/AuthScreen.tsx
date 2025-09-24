@@ -2,10 +2,13 @@ import {
   useBottomSheetIndexState,
   useKeyboard,
   useT,
-  useTimingAnimation,
   useToggle,
 } from "@/src/shared/lib/hooks";
-import { useBottomSheetStore, useThemeStore } from "@/src/shared/store";
+import {
+  useBottomSheetStore,
+  useStatusBarStore,
+  useThemeStore,
+} from "@/src/shared/store";
 import {
   BottomSheet,
   BottomSheetBox,
@@ -26,7 +29,7 @@ import {
 } from "@/src/shared/ui/icons";
 import { Header } from "@/src/widgets";
 import { useCallback, useEffect, useState } from "react";
-import { Animated, Pressable, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { createStyles } from "./AuthScreen.styles";
 import { initialValues } from "./const/static";
 import { useAppleAuth } from "./lib/hooks/useAppleAuth";
@@ -46,11 +49,6 @@ const AuthScreen = () => {
   const styles = createStyles(colors);
   const { value: isRememberMe, toggle: toggleRememberMe } = useToggle(true);
   const [variant, setVariant] = useState<Variant>("splash");
-  const [isOverlayVisible, setIsOverlayVisible] = useState(true);
-  const { animation: overlayAnimation } = useTimingAnimation(isOverlayVisible, {
-    useNativeDriver: false,
-    duration: 300,
-  });
   const { promptAsync } = useGoogleAuth();
   const { signInWithApple, isAvailable: isAppleAvailable } = useAppleAuth();
 
@@ -82,16 +80,14 @@ const AuthScreen = () => {
     return [baseHeight + (isKeyboardVisible ? keyboardHeight - 45 : 0)];
   }, [keyboardHeight, isKeyboardVisible, bottomSheetHeight]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setIsBackgroundImage(true);
-      setIsOverlayVisible(false); // Скрываем overlay через 2 секунды
-    }, 2000);
+  const { isVisible, setIsVisible } = useStatusBarStore();
 
+  useEffect(() => {
+    // setIsVisible(false);
     setTimeout(() => {
       snapToIndex(0);
-    }, 2500);
-  }, [snapToIndex, setIsBackgroundImage]);
+    }, 1500);
+  }, [snapToIndex]);
 
   return (
     <Layout>
@@ -105,19 +101,6 @@ const AuthScreen = () => {
         rightIcon={{
           icon: <ConvertShapeIcon color={colors.contrast} />,
           onPress: toggleTheme,
-        }}
-      />
-      <Animated.View
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          height: "100%",
-          width: "100%",
-          backgroundColor: colors.background,
-          opacity: overlayAnimation,
         }}
       />
       <BottomSheet

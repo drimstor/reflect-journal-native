@@ -16,12 +16,13 @@ import { styles } from "./DynamicIsland.styles";
 
 const DynamicIsland = () => {
   const { window } = useDeviceStore();
-  const { isVisible, setIsVisible } = useStatusBarStore();
+  const { setIsVisible } = useStatusBarStore();
   const dispatch = useAppDispatch();
   const snackbars = useAppSelector(selectSnackbars);
+  const isMessage = !!snackbars.length;
 
   // Анимация появления (начальная анимация)
-  const { animation: animationVisible } = useSpringAnimation(!isVisible);
+  const { animation: animationVisible } = useSpringAnimation(isMessage);
 
   // Анимация нажатия
   const { animation: animationPressed, animate: animatePressed } =
@@ -38,29 +39,20 @@ const DynamicIsland = () => {
 
   // Появление и скрытие снекбара
   useEffect(() => {
-    if (snackbars.length > 0) {
+    if (isMessage) {
       setIsExpanded(true);
       setIsVisible(false);
-    }
 
-    const timeout = setTimeout(() => {
-      dispatch(clearAllSnackbars());
-    }, 5000);
-
-    return () => clearTimeout(timeout);
-  }, [snackbars.length, setIsExpanded, setIsVisible, dispatch]);
-
-  // Сворачивание и закрытие айленда
-  useEffect(() => {
-    if (!isVisible) {
       const timeout = setTimeout(() => {
-        setIsExpanded(false);
-        setIsVisible(true);
+        dispatch(clearAllSnackbars());
       }, 5000);
 
       return () => clearTimeout(timeout);
+    } else {
+      setIsExpanded(false);
+      setIsVisible(true);
     }
-  }, [isVisible, setIsExpanded, setIsVisible]);
+  }, [isMessage, setIsExpanded, setIsVisible, dispatch]);
 
   // Обработчик нажатия
   const handlePress = () => {

@@ -7,13 +7,7 @@ import {
   useScreenInfoStore,
   useThemeStore,
 } from "@/src/shared/store";
-import {
-  AnimatedAppearance,
-  Chip,
-  Divider,
-  Loader,
-  NoData,
-} from "@/src/shared/ui";
+import { Chip, Divider, Loader, NoData } from "@/src/shared/ui";
 import { BottomSheetSectionList } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useMemo } from "react";
@@ -111,9 +105,10 @@ function VirtualizedList<ItemT extends WithDateAndId>({
         )
       }
       ListFooterComponent={() => (
-        <AnimatedAppearance isVisible>
-          <Loader style={{ marginTop: 25 }} isVisible={isFetching} />
-        </AnimatedAppearance>
+        <Loader
+          style={{ marginTop: 25 }}
+          isVisible={isFetching && !data?.data}
+        />
       )}
     />
   );

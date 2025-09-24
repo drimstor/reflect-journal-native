@@ -1,15 +1,15 @@
 import { useAppInit, useFonts, usePrefetch } from "@/src/shared/lib/hooks";
 import { useNotificationInit } from "@/src/shared/lib/hooks/useNotificationInit";
 import { BackgroundLayout, UILayout } from "@/src/shared/ui";
+import { useEffect } from "react";
 import { View } from "react-native";
 import Navigation from "./stacks/Navigation/Navigation";
 
 const AppContent = () => {
-  usePrefetch();
+  const { prefetchJournals } = usePrefetch();
+  useEffect(prefetchJournals, [prefetchJournals]);
   const { onLayoutRootView, initialPath, appIsReady } = useAppInit();
   const fontsLoaded = useFonts();
-
-  // Инициализация уведомлений
   useNotificationInit();
 
   if (!appIsReady || !fontsLoaded) return null;

@@ -31,7 +31,7 @@ export const useThemeStore = create<ThemeState>()(
           theme,
           colors: PALLETE_COLORS[theme],
         }),
-      isBackgroundImage: false,
+      isBackgroundImage: true,
       setIsBackgroundImage: (isBackgroundImage) => set({ isBackgroundImage }),
     }),
     {
