@@ -1,15 +1,14 @@
+import { useThemeStore } from "@/src/shared/store";
 import { FC, useEffect } from "react";
-import { View, StyleProp, TextStyle } from "react-native";
-import { Pressable } from "react-native";
+import { Pressable, StyleProp, TextStyle, View } from "react-native";
 import Animated, {
-  useSharedValue,
   useAnimatedStyle,
+  useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import Text from "../Text/Text";
 import { styles } from "./CheckBox.styles";
 import CheckedIcon from "./CheckedIcon";
-import { useThemeStore } from "@/src/shared/store";
-import Text from "../Text/Text";
 
 interface CheckBoxProps {
   checked: boolean;

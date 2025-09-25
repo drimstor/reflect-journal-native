@@ -15,7 +15,6 @@ import {
   PaddingLayout,
   Separator,
   Text,
-  TextField,
 } from "@/src/shared/ui";
 import {
   AppleIcon,
@@ -23,15 +22,16 @@ import {
   GoogleIcon,
   MessageIcon,
 } from "@/src/shared/ui/icons";
-import { Header } from "@/src/widgets";
+import { FormField, Header } from "@/src/widgets";
+import { WINDOW_HEIGHT } from "@gorhom/bottom-sheet";
 import { useCallback, useEffect, useState } from "react";
 import { Pressable, View } from "react-native";
 import { createStyles } from "./AuthScreen.styles";
-import { initialValues } from "./const/static";
 import { useAppleAuth } from "./lib/hooks/useAppleAuth";
+import { useAuthForm } from "./lib/hooks/useAuthForm";
+import { useAuthFormConfig } from "./lib/hooks/useAuthFormConfig";
 import { useGoogleAuth } from "./lib/hooks/useGoogleAuth";
-import { useSubmit } from "./lib/hooks/useSubmit";
-import { TextFields, ValidationErrors, Variant } from "./model/types";
+import { Variant } from "./model/types";
 
 const AuthScreen = () => {
   const t = useT();
@@ -53,12 +53,35 @@ const AuthScreen = () => {
   // ---------------------- //
 
   const { bottomSheetRef, snapToIndex } = useBottomSheetIndexState();
+
+  // Получаем конфигурацию формы
+  const formConfig = useAuthFormConfig(variant);
+
+  // Инициализируем форму
+  const { values, errors, handleChange, handleSubmit, isLoading } = useAuthForm(
+    formConfig,
+    variant,
+    snapToIndex
+  );
+
+  // Мемоизируем обработчик переключения вариантов
+  const handleVariantToggle = useCallback(() => {
+    setVariant(variant === "signIn" ? "signUp" : "signIn");
+  }, [variant]);
+
+  // Обработчик возврата к splash (не сбрасываем форму)
+  const handleBackToSplash = useCallback(() => {
+    setVariant("splash");
+  }, []);
   const { keyboardHeight, isKeyboardVisible } = useKeyboard();
   const { bottomSheetHeight } = useBottomSheetStore();
 
   const getSnapPoints = useCallback(() => {
     const baseHeight = bottomSheetHeight ? bottomSheetHeight : 0.01;
-    return [baseHeight + (isKeyboardVisible ? keyboardHeight - 45 : 0)];
+    return [
+      baseHeight + (isKeyboardVisible ? keyboardHeight - 45 : 0),
+      WINDOW_HEIGHT - 85,
+    ];
   }, [keyboardHeight, isKeyboardVisible, bottomSheetHeight]);
 
   // const { isVisible, setIsVisible } = useStatusBarStore();
@@ -68,26 +91,9 @@ const AuthScreen = () => {
     setTimeout(() => {
       snapToIndex(0);
     }, 500);
-  }, []);
+  }, [snapToIndex]);
 
   // ---------------------- //
-
-  const [errors, setErrors] = useState<ValidationErrors>({});
-  const [textFields, setTextFields] = useState<TextFields>(initialValues);
-  const { handleSubmit, isAuthLoading } = useSubmit({
-    textFields,
-    variant,
-    setErrors,
-    snapToIndex,
-  });
-
-  const handleFieldChange =
-    (field: keyof typeof textFields) => (text: string) => {
-      setTextFields((prev) => ({ ...prev, [field]: text }));
-      if (errors[field]) {
-        setErrors((prev) => ({ ...prev, [field]: undefined }));
-      }
-    };
 
   // ---------------------- //
 
@@ -117,51 +123,21 @@ const AuthScreen = () => {
       >
         <BottomSheetBox>
           <BottomSheetHeader
-            onBack={
-              !!isAuthVariant &&
-              (() => {
-                setVariant("splash");
-                setErrors({});
-              })
-            }
-            title={t(`auth.${variant}.title`)}
+            onBack={!!isAuthVariant && handleBackToSplash}
+            title={formConfig.title}
           />
           <PaddingLayout style={styles.formBox}>
             {isAuthVariant && (
               <>
-                <TextField
-                  placeholder={t("auth.email.placeholder")}
-                  label={t("auth.email.label")}
-                  value={textFields.email}
-                  onChangeText={handleFieldChange("email")}
-                  backgroundColor={colors.secondary}
-                  helperText={errors.email}
-                  helperTextColor={errors.email ? colors.error : undefined}
-                />
-                <TextField
-                  placeholder={t("auth.password.placeholder")}
-                  secureTextEntry
-                  label={t("auth.password.label")}
-                  value={textFields.password}
-                  onChangeText={handleFieldChange("password")}
-                  backgroundColor={colors.secondary}
-                  helperText={errors.password}
-                  helperTextColor={errors.password ? colors.error : undefined}
-                />
-                {variant === "signUp" && (
-                  <TextField
-                    placeholder={t("auth.confirmPassword.placeholder")}
-                    label={t("auth.confirmPassword.label")}
-                    secureTextEntry
-                    value={textFields.confirmPassword}
-                    onChangeText={handleFieldChange("confirmPassword")}
-                    backgroundColor={colors.secondary}
-                    helperText={errors.confirmPassword}
-                    helperTextColor={
-                      errors.confirmPassword ? colors.error : undefined
-                    }
+                {formConfig.fields.map((field) => (
+                  <FormField
+                    key={field.key}
+                    field={field}
+                    value={values[field.key]}
+                    error={errors[field.key]}
+                    onChange={handleChange}
                   />
-                )}
+                ))}
                 {variant === "signIn" && (
                   <View style={styles.rememberMeContainer}>
                     <View style={styles.checkboxBox}>
@@ -186,12 +162,12 @@ const AuthScreen = () => {
             <Button
               backgroundColor={colors.contrast}
               style={styles.submitButton}
-              isLoading={isAuthLoading}
+              isLoading={isLoading}
               onPress={
                 isAuthVariant ? handleSubmit : () => setVariant("signIn")
               }
             >
-              {t(`auth.${variant}.submit`)}
+              {formConfig.submitText}
             </Button>
             <View style={styles.separator}>
               <Separator marginVertical={2} />
@@ -214,11 +190,7 @@ const AuthScreen = () => {
                 <Text color={colors.contrast}>
                   {t(`auth.${variant}.haveAccount`)}
                 </Text>
-                <Pressable
-                  onPress={() =>
-                    setVariant(variant === "signIn" ? "signUp" : "signIn")
-                  }
-                >
+                <Pressable onPress={handleVariantToggle}>
                   <Text
                     color={theme === "dark" ? colors.accent : "#3e667a"}
                     font="bold"

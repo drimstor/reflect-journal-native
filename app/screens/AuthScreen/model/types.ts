@@ -18,3 +18,10 @@ export interface UseSubmitProps {
   setErrors: (errors: ValidationErrors) => void;
   snapToIndex: (index: number) => void;
 }
+
+// Новые типы для рефакторинга
+export interface AuthFormValues {
+  email: string;
+  password: string;
+  confirmPassword?: string;
+}

@@ -1,9 +1,3 @@
-export const initialValues = {
-  email: "",
-  password: "",
-  confirmPassword: "",
-};
-
 export const GOOGLE_CLIENT_ID = {
   webClientId:
     "308267307050-pghmdpm9d7crv6e0bvksomgbi5h1evni.apps.googleusercontent.com",

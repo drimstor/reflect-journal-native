@@ -34,6 +34,7 @@ export interface FormFieldConfig {
   required?: boolean; // Является ли поле обязательным
   superMultiline?: boolean; // Является ли поле многострочным
   tooltipText?: string; // Подсказка для поля
+  secureTextEntry?: boolean; // Скрыть текст (для паролей)
   options?: { label: string; value: string }[]; // Опции для select
   // Настройки для month-year-picker
   showDay?: boolean; // Показывать селектор дня
@@ -141,6 +142,7 @@ export const FormField: React.FC<FormFieldProps> = ({
           helperText={error}
           helperTextColor={error ? colors.error : undefined}
           required={field.required}
+          secureTextEntry={field.secureTextEntry}
         />
       );
 
