@@ -7,7 +7,7 @@ import {
   useT,
 } from "@/src/shared/lib/hooks";
 import { EntityType, NavigationProps } from "@/src/shared/model/types";
-import { useDeviceStore, useThemeStore } from "@/src/shared/store";
+import { useThemeStore } from "@/src/shared/store";
 import {
   BottomSheet,
   CalendarIcon,
@@ -17,6 +17,7 @@ import {
 } from "@/src/shared/ui";
 import { SectionHeader } from "@/src/shared/ui/VirtualizedList/VirtualizedList";
 import { Header, OverviewChartSlider } from "@/src/widgets";
+import { WINDOW_HEIGHT } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import { useMemo } from "react";
 import { View } from "react-native";
@@ -24,7 +25,6 @@ import { View } from "react-native";
 const OverviewScreen = () => {
   const t = useT();
   const { colors } = useThemeStore();
-  const { window } = useDeviceStore();
   const { locale } = useLang();
 
   // Используем новый хук для управления индексом BottomSheet
@@ -32,8 +32,8 @@ const OverviewScreen = () => {
     useBottomSheetIndexState();
 
   const snapPoints = useMemo(() => {
-    return [window.height - 417, window.height - 85];
-  }, [window.height]);
+    return [WINDOW_HEIGHT - 417, WINDOW_HEIGHT - 85];
+  }, [WINDOW_HEIGHT]);
 
   // Конфиг для блоков аналитики
   const analyticsBlocks = [

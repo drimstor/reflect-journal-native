@@ -20,7 +20,11 @@ const Navigation = ({ initialPath }: { initialPath: string }) => {
         initialRouteName={initialPath}
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name={PATHS.MAIN_STACK} component={MainStack} />
+        <Stack.Screen
+          name={PATHS.MAIN_STACK}
+          component={MainStack}
+          options={{ animation: "none" }}
+        />
         {screensData?.map(({ name, component, options }) => (
           <Stack.Screen
             options={options as NativeStackNavigationOptions}

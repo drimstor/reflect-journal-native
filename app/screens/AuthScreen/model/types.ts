@@ -16,4 +16,5 @@ export interface UseSubmitProps {
   textFields: TextFields;
   variant: Variant;
   setErrors: (errors: ValidationErrors) => void;
+  snapToIndex: (index: number) => void;
 }

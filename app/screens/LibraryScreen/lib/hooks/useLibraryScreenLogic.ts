@@ -17,7 +17,7 @@ export const useLibraryScreenLogic = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigation = useNavigation<NavigationProps>();
   const { resetFilters } = useFiltersStore();
-  const { prefetchEntityList, prefetchEntity } = usePrefetch();
+  const { prefetchEntityList } = usePrefetch();
 
   const { navigationScreenInfo, setNavigationScreenInfo } =
     useScreenInfoStore();

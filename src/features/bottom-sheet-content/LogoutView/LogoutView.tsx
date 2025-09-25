@@ -1,20 +1,20 @@
-import {
-  Text,
-  Button,
-  BottomSheetHeader,
-  BottomSheetFooter,
-  PaddingLayout,
-  BottomSheetBox,
-} from "@/src/shared/ui";
-import {
-  useThemeStore,
-  useBottomSheetStore,
-  useFiltersStore,
-} from "@/src/shared/store";
-import { useT } from "@/src/shared/lib/hooks";
-import { useState } from "react";
 import { useLogOutWithNavigation } from "@/src/entities";
 import { PATHS } from "@/src/shared/const";
+import { useT } from "@/src/shared/lib/hooks";
+import {
+  useBottomSheetStore,
+  useFiltersStore,
+  useThemeStore,
+} from "@/src/shared/store";
+import {
+  BottomSheetBox,
+  BottomSheetFooter,
+  BottomSheetHeader,
+  Button,
+  PaddingLayout,
+  Text,
+} from "@/src/shared/ui";
+import { useState } from "react";
 
 const LogoutView = () => {
   const t = useT();

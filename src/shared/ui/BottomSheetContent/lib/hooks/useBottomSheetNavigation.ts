@@ -1,7 +1,7 @@
-import { useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
 import { useBottomSheetStore } from "@/src/shared/store/zustand/bottomSheet.store";
+import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useEffect } from "react";
 
 /**
  * Хук для обработки навигации после закрытия BottomSheet
@@ -13,18 +13,18 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
  */
 export const useBottomSheetNavigation = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const { setNavigation, navigation: navigationStore } = useBottomSheetStore();
+  const {
+    setNavigation,
+    navigation: { isNavigate, navigateToPath, navigateParams },
+  } = useBottomSheetStore();
 
   useEffect(() => {
     // Обработка прямой навигации на указанный экран
-    if (navigationStore.isNavigate && navigationStore.navigateToPath) {
-      navigation.navigate(
-        navigationStore.navigateToPath,
-        navigationStore.navigateParams || {}
-      );
+    if (isNavigate && navigateToPath) {
+      navigation.navigate(navigateToPath, navigateParams || {});
 
       // Сбрасываем данные навигации
       setNavigation(false);
     }
-  }, [navigationStore.isNavigate]);
+  }, [isNavigate]);
 };

@@ -4,11 +4,7 @@ import {
   useT,
   useToggle,
 } from "@/src/shared/lib/hooks";
-import {
-  useBottomSheetStore,
-  useStatusBarStore,
-  useThemeStore,
-} from "@/src/shared/store";
+import { useBottomSheetStore, useThemeStore } from "@/src/shared/store";
 import {
   BottomSheet,
   BottomSheetBox,
@@ -54,12 +50,35 @@ const AuthScreen = () => {
 
   const isAuthVariant = ["signIn", "signUp"].includes(variant);
 
+  // ---------------------- //
+
+  const { bottomSheetRef, snapToIndex } = useBottomSheetIndexState();
+  const { keyboardHeight, isKeyboardVisible } = useKeyboard();
+  const { bottomSheetHeight } = useBottomSheetStore();
+
+  const getSnapPoints = useCallback(() => {
+    const baseHeight = bottomSheetHeight ? bottomSheetHeight : 0.01;
+    return [baseHeight + (isKeyboardVisible ? keyboardHeight - 45 : 0)];
+  }, [keyboardHeight, isKeyboardVisible, bottomSheetHeight]);
+
+  // const { isVisible, setIsVisible } = useStatusBarStore();
+
+  useEffect(() => {
+    // setIsVisible(false);
+    setTimeout(() => {
+      snapToIndex(0);
+    }, 500);
+  }, []);
+
+  // ---------------------- //
+
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [textFields, setTextFields] = useState<TextFields>(initialValues);
   const { handleSubmit, isAuthLoading } = useSubmit({
     textFields,
     variant,
     setErrors,
+    snapToIndex,
   });
 
   const handleFieldChange =
@@ -70,24 +89,7 @@ const AuthScreen = () => {
       }
     };
 
-  const { bottomSheetRef, snapToIndex, closeBottomSheet } =
-    useBottomSheetIndexState();
-  const { keyboardHeight, isKeyboardVisible } = useKeyboard();
-  const { bottomSheetHeight } = useBottomSheetStore();
-
-  const getSnapPoints = useCallback(() => {
-    const baseHeight = bottomSheetHeight ? bottomSheetHeight : 0.01;
-    return [baseHeight + (isKeyboardVisible ? keyboardHeight - 45 : 0)];
-  }, [keyboardHeight, isKeyboardVisible, bottomSheetHeight]);
-
-  const { isVisible, setIsVisible } = useStatusBarStore();
-
-  useEffect(() => {
-    // setIsVisible(false);
-    setTimeout(() => {
-      snapToIndex(0);
-    }, 1500);
-  }, [snapToIndex]);
+  // ---------------------- //
 
   return (
     <Layout>
@@ -110,7 +112,6 @@ const AuthScreen = () => {
         borderColor={colors.alternate}
         paddingHorizontal={1}
         initialIndex={-1}
-        onClose={closeBottomSheet}
         staticMode
         style={styles.bottomSheet}
       >

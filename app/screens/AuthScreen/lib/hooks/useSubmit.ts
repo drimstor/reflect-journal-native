@@ -16,6 +16,7 @@ export const useSubmit = ({
   textFields,
   variant,
   setErrors,
+  snapToIndex,
 }: UseSubmitProps) => {
   const t = useT();
   const navigation = useNavigation<NavigationProps>();
@@ -68,6 +69,11 @@ export const useSubmit = ({
         .unwrap()
         .then(() => {
           navigation.navigate(PATHS.MAIN_STACK);
+
+          snapToIndex(1);
+          setTimeout(() => {
+            navigation.navigate(PATHS.MAIN_STACK);
+          }, 500);
         });
     }
 
@@ -78,7 +84,10 @@ export const useSubmit = ({
       })
         .unwrap()
         .then(() => {
-          navigation.navigate(PATHS.MAIN_STACK);
+          snapToIndex(1);
+          setTimeout(() => {
+            navigation.navigate(PATHS.MAIN_STACK);
+          }, 500);
         });
     }
   };
