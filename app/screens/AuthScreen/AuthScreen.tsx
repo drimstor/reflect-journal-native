@@ -245,7 +245,6 @@ const AuthScreen = () => {
               )}
             </PaddingLayout>
           )}
-
           {isOnboardingVariant && (
             <Suspense
               fallback={<View style={{ height: WINDOW_HEIGHT - 292 }} />}
