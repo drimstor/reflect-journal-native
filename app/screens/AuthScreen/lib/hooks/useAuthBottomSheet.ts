@@ -14,7 +14,8 @@ interface UseAuthBottomSheetProps {
  * Обрабатывает snap points с учетом клавиатуры и инициализирует экран
  */
 export const useAuthBottomSheet = ({ setVariant }: UseAuthBottomSheetProps) => {
-  const { bottomSheetRef, snapToIndex } = useBottomSheetIndexState();
+  const { bottomSheetRef, snapToIndex, bottomSheetIndex } =
+    useBottomSheetIndexState();
   const { keyboardHeight, isKeyboardVisible } = useKeyboard();
   const { bottomSheetHeight } = useBottomSheetStore();
   const { MEDIUM } = BOTTOM_SHEET_SCREEN_POINTS;
@@ -37,5 +38,6 @@ export const useAuthBottomSheet = ({ setVariant }: UseAuthBottomSheetProps) => {
     bottomSheetRef,
     snapToIndex,
     getSnapPoints,
+    bottomSheetIndex,
   };
 };

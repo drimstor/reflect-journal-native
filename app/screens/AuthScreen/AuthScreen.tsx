@@ -57,9 +57,12 @@ const AuthScreen = () => {
   const [variant, setVariant] = useState<Variant>("splash");
   const isAuthVariant = ["signIn", "signUp"].includes(variant);
 
-  const { bottomSheetRef, snapToIndex, getSnapPoints } = useAuthBottomSheet({
-    setVariant,
-  });
+  const { bottomSheetRef, snapToIndex, getSnapPoints, bottomSheetIndex } =
+    useAuthBottomSheet({
+      setVariant,
+    });
+
+  console.log({ bottomSheetIndex });
 
   // -----------  Onboarding  ----------- //
 
@@ -122,7 +125,9 @@ const AuthScreen = () => {
           />
         </Suspense>
       )}
-      <AnimatedAppearance isVisible={!isOnboardingVariant && !!variant}>
+      <AnimatedAppearance
+        isVisible={!isOnboardingVariant && !!variant && bottomSheetIndex === 0}
+      >
         <View
           style={{
             position: "absolute",
