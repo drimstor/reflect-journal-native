@@ -2,14 +2,20 @@ import { useT } from "@/src/shared/lib/hooks";
 import { addSnackbar, useAppDispatch, useThemeStore } from "@/src/shared/store";
 import { AnimatedAppearance, Button, Loader, Separator } from "@/src/shared/ui";
 import { FormField } from "@/src/widgets";
-import { Fragment, useCallback, useImperativeHandle, useMemo } from "react";
+import {
+  Fragment,
+  RefObject,
+  useCallback,
+  useImperativeHandle,
+  useMemo,
+} from "react";
 import { View } from "react-native";
 import { createGrowthFormFields } from "./const/growthConfig";
 import { useGrowthForm } from "./lib/hooks/useGrowthForm";
 
 interface GrowthPointsViewProps {
   chipColor?: string;
-  onExternalSubmit?: React.MutableRefObject<(() => Promise<boolean>) | null>;
+  onExternalSubmit?: RefObject<(() => Promise<boolean>) | null>;
 }
 
 const GrowthPointsView = ({

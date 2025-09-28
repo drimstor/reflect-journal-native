@@ -9,16 +9,17 @@ import {
 } from "@/src/shared/ui";
 import { AssistantView, GrowthPointsView } from "@/src/widgets";
 import { WINDOW_HEIGHT } from "@gorhom/bottom-sheet";
-import { MutableRefObject, useEffect } from "react";
+import { RefObject, useEffect } from "react";
 import { View } from "react-native";
 import { EditProfileView } from "../../../../../src/features";
+import { createStyles } from "../../AuthScreen.styles";
 import { Variant } from "../../model/types";
 
 interface OnboardingSectionProps {
   variant: Variant;
   isWelcomeVisible: boolean;
   isOnboardingStepsLoading: boolean;
-  currentSubmitRef: MutableRefObject<(() => Promise<boolean>) | null>;
+  currentSubmitRef: RefObject<(() => Promise<boolean>) | null>;
   handleContinue: () => Promise<void>;
 }
 
@@ -34,6 +35,7 @@ export const OnboardingSection = ({
 }: OnboardingSectionProps) => {
   const t = useT();
   const { colors, theme } = useThemeStore();
+  const styles = createStyles(colors);
 
   const { value: isVisible, toggle: toggleVisible } = useToggle(false);
 
@@ -43,14 +45,14 @@ export const OnboardingSection = ({
 
   return (
     <AnimatedAppearance isVisible={isVisible} duration={0}>
-      <View style={{ marginTop: -20, paddingBottom: 50 }}>
+      <View style={styles.onboardingSectionContainer}>
         <BottomSheetScrollView
           additionalHeight={60}
           customMaxHeight={WINDOW_HEIGHT - 390}
           customMinHeight={WINDOW_HEIGHT - 390}
-          style={{ marginBottom: -17 }}
+          style={styles.onboardingScrollView}
         >
-          <PaddingLayout style={{ gap: 16, paddingBottom: 30, paddingTop: 18 }}>
+          <PaddingLayout style={styles.onboardingContent}>
             {variant === "profile" && (
               <EditProfileView
                 isStandalone

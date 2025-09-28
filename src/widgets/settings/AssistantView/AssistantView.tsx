@@ -8,7 +8,7 @@ import {
   Separator,
 } from "@/src/shared/ui";
 import { FormField } from "@/src/widgets";
-import { useCallback, useImperativeHandle, useMemo } from "react";
+import { RefObject, useCallback, useImperativeHandle, useMemo } from "react";
 import { View } from "react-native";
 import {
   createAssistantFormFields,
@@ -18,7 +18,7 @@ import { useAssistantForm } from "./lib/hooks/useAssistantForm";
 
 interface AssistantViewProps {
   chipColor?: string;
-  onExternalSubmit?: React.MutableRefObject<(() => Promise<boolean>) | null>;
+  onExternalSubmit?: RefObject<(() => Promise<boolean>) | null>;
 }
 
 const AssistantView = ({ chipColor, onExternalSubmit }: AssistantViewProps) => {

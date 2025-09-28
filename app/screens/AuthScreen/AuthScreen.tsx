@@ -14,7 +14,7 @@ import {
 } from "@/src/shared/ui";
 import { AppleIcon, GoogleIcon } from "@/src/shared/ui/icons";
 import { FormField } from "@/src/widgets";
-import { WINDOW_HEIGHT, WINDOW_WIDTH } from "@gorhom/bottom-sheet";
+import { WINDOW_HEIGHT } from "@gorhom/bottom-sheet";
 import { Image } from "expo-image";
 import { lazy, Suspense, useState } from "react";
 import { Pressable, View } from "react-native";
@@ -61,8 +61,6 @@ const AuthScreen = () => {
     useAuthBottomSheet({
       setVariant,
     });
-
-  console.log({ bottomSheetIndex });
 
   // -----------  Onboarding  ----------- //
 
@@ -128,26 +126,12 @@ const AuthScreen = () => {
       <AnimatedAppearance
         isVisible={!isOnboardingVariant && !!variant && bottomSheetIndex === 0}
       >
-        <View
-          style={{
-            position: "absolute",
-            top: 45,
-            left: (WINDOW_WIDTH - (WINDOW_WIDTH - 300)) / 2,
-            gap: 10,
-          }}
-        >
+        <View style={styles.logoContainer}>
           <Image
             source={require("@/assets/images/logo.png")}
-            style={{
-              height: WINDOW_WIDTH - 300,
-              width: WINDOW_WIDTH - 300,
-            }}
+            style={styles.logoImage}
           />
-          <Text
-            font="thin"
-            style={{ fontSize: 28, textAlign: "center", lineHeight: 32 }}
-            color={colors.contrast}
-          >
+          <Text font="thin" style={styles.appNameText} color={colors.contrast}>
             {APP_NAME}
           </Text>
         </View>

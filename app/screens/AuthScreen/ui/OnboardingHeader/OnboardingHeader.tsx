@@ -3,6 +3,7 @@ import { useThemeStore } from "@/src/shared/store";
 import { AnimatedAppearance, OnboardingCounter, Text } from "@/src/shared/ui";
 import { Header } from "@/src/widgets";
 import { useEffect } from "react";
+import { createStyles } from "../../AuthScreen.styles";
 import { Variant } from "../../model/types";
 
 interface OnboardingHeaderProps {
@@ -19,6 +20,7 @@ export const OnboardingHeader = ({
 }: OnboardingHeaderProps) => {
   const t = useT();
   const { colors } = useThemeStore();
+  const styles = createStyles(colors);
   const { value: isVisible, toggle: toggleVisible } = useToggle(false);
 
   useEffect(() => {
@@ -37,21 +39,7 @@ export const OnboardingHeader = ({
     <>
       {/* Блок приветствия */}
       <AnimatedAppearance isVisible={isWelcomeVisible} duration={2500}>
-        <Text
-          font="thin"
-          color={colors.contrast}
-          style={{
-            textAlign: "center",
-            paddingTop: 25,
-            fontSize: 28,
-            position: "absolute",
-            top: 40,
-            left: 0,
-            right: 0,
-            zIndex: 1,
-            height: 60,
-          }}
-        >
+        <Text font="thin" color={colors.contrast} style={styles.welcomeText}>
           {t("shared.actions.welcome")}
         </Text>
       </AnimatedAppearance>
@@ -70,11 +58,7 @@ export const OnboardingHeader = ({
           <OnboardingCounter
             steps={onboardingVariantsTranslated}
             currentStep={onboardingVariants.indexOf(variant)}
-            style={{
-              marginTop: 10,
-              maxWidth: 350,
-              alignSelf: "center",
-            }}
+            style={styles.onboardingCounter}
           />
         </>
       </AnimatedAppearance>
