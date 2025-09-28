@@ -31,6 +31,7 @@ export { default as ConfigureIcon } from "./ConfigureIcon";
 export { default as ConvertShapeIcon } from "./ConvertShapeIcon";
 export { default as CpuIcon } from "./CpuIcon";
 export { default as CpuSolidIcon } from "./CpuSolidIcon";
+export { default as CupIcon } from "./CupIcon";
 export { default as DirectboxIcon } from "./DirectboxIcon";
 export { default as DirectIcon } from "./DirectIcon";
 export { default as DirectSolidIcon } from "./DirectSolidIcon";

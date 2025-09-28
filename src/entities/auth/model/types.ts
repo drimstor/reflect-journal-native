@@ -13,11 +13,13 @@ export interface RegisterRequest {
 export interface TokenResponse {
   access_token: string;
   refresh_token: string;
+  is_new_user?: boolean;
 }
 
 export interface AuthResponse {
   access_token: string;
   refresh_token: string;
+  is_new_user?: boolean;
   message?: string;
   detailed?: Record<string, any>;
 }
@@ -38,7 +40,6 @@ export interface UserResponse {
   birth_date?: number;
   gender?: string;
   country?: string;
-  city?: string;
   occupation?: string;
   workplace_or_study?: string;
   created_at: number;
@@ -50,7 +51,6 @@ export interface UpdateProfileRequest {
   birth_date?: number;
   gender?: string;
   country?: string;
-  city?: string;
   occupation?: string;
   workplace_or_study?: string;
 }

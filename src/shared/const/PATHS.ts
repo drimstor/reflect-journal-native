@@ -15,4 +15,5 @@ export enum PATHS {
   CHARTS = "charts",
   TEST = "test",
   SETTINGS_ASSISTANT = "settings-assistant",
+  SETTINGS_DEVELOP = "settings-develop",
 }

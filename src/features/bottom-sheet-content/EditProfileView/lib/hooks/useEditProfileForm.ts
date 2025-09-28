@@ -27,24 +27,22 @@ export const useEditProfileForm = (
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   // Обработчик изменения поля
-  const handleChange = useCallback(
-    (key: string, value: any) => {
-      setValues((prev) => ({
-        ...prev,
-        [key]: value,
-      }));
+  const handleChange = useCallback((key: string, value: any) => {
+    setValues((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
 
-      // Сбрасываем ошибку при изменении поля
-      if (errors[key]) {
-        setErrors((prev) => {
-          const newErrors = { ...prev };
-          delete newErrors[key];
-          return newErrors;
-        });
+    // Сбрасываем ошибку при изменении поля
+    setErrors((prev) => {
+      if (prev[key]) {
+        const newErrors = { ...prev };
+        delete newErrors[key];
+        return newErrors;
       }
-    },
-    [errors]
-  );
+      return prev;
+    });
+  }, []); // Убираем зависимость от errors
 
   // Валидация формы
   const validate = useCallback(() => {
@@ -112,7 +110,6 @@ export const useEditProfileForm = (
       await onSubmit(formData);
     } catch (error) {
       console.error("Ошибка при отправке формы:", error);
-      // Можно добавить обработку ошибок от сервера
     }
   }, [values, config.initialValues, validate, onSubmit]);
 

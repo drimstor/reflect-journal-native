@@ -26,8 +26,14 @@ const MarkdownEmojiText = ({
     appearance: { isEmoji },
   } = useSettingsStore();
 
+  // Хуки должны вызываться всегда, до условных возвратов
+  const isString = typeof children === "string";
+  const { shouldParse, parsedElements } = useMarkdownParser(
+    isString ? children : ""
+  );
+
   // Если не строка, возвращаем обычный Text
-  if (typeof children !== "string") {
+  if (!isString) {
     return (
       <Text
         size={size}
@@ -42,8 +48,6 @@ const MarkdownEmojiText = ({
       </Text>
     );
   }
-
-  const { shouldParse, parsedElements } = useMarkdownParser(children);
 
   // Если парсинг не нужен, возвращаем обычный Text
   if (!shouldParse || !parsedElements) {

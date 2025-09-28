@@ -3,7 +3,9 @@ import { useT } from "@/src/shared/lib/hooks";
 import { EntityType } from "@/src/shared/model/types";
 import { useFiltersStore, useThemeStore } from "@/src/shared/store";
 import {
+  AnimatedAppearance,
   BottomSheet,
+  BottomSheetStaticBackdrop,
   Carousel,
   Chip,
   Divider,
@@ -37,44 +39,47 @@ const LibraryScreen = () => {
 
   return (
     <Layout>
-      <Header
-        title={t("library.title")}
-        leftIcon={{
-          icon: <CpuIcon color={colors.contrast} size={22} />,
-          onPress: toggleStatusBar,
-        }}
-        rightIcon={
-          multi_select_ids?.length
-            ? {
-                icon: <DotsIcon color={colors.contrast} size={22} />,
-                onPress: handleMultiSelectActions,
-              }
-            : undefined
-        }
-      />
-      <Carousel
-        height={100}
-        style={styles.carousel}
-        mode="parallax"
-        handler={setCurrentIndex}
-        modeConfig={useCarouselConfig(50, 140)}
-        defaultIndex={currentIndex}
-        activeIndex={currentIndex}
-        renderItem={({ item }) => (
-          <PreviewCard
-            backgroundColor={item.backgroundColor}
-            title={item.title}
-            subTitle={item.subTitle}
-            icon={item.icon}
-          />
-        )}
-        data={LIBRARY_ITEMS.map((item) => ({
-          title: t(`entities.${item.id.toLowerCase()}.plural`),
-          subTitle: t(`library.${item.id.toLowerCase()}.description`),
-          backgroundColor: colors[item.colorKey as keyof typeof colors],
-          icon: item.getIcon(colors.black, 40),
-        }))}
-      />
+      <AnimatedAppearance isInitialVisible>
+        <Header
+          title={t("library.title")}
+          leftIcon={{
+            icon: <CpuIcon color={colors.contrast} size={22} />,
+            onPress: toggleStatusBar,
+          }}
+          rightIcon={
+            multi_select_ids?.length
+              ? {
+                  icon: <DotsIcon color={colors.contrast} size={22} />,
+                  onPress: handleMultiSelectActions,
+                }
+              : undefined
+          }
+        />
+        <Carousel
+          height={100}
+          style={styles.carousel}
+          mode="parallax"
+          handler={setCurrentIndex}
+          modeConfig={useCarouselConfig(50, 140)}
+          defaultIndex={currentIndex}
+          activeIndex={currentIndex}
+          renderItem={({ item }) => (
+            <PreviewCard
+              backgroundColor={item.backgroundColor}
+              title={item.title}
+              subTitle={item.subTitle}
+              icon={item.icon}
+            />
+          )}
+          data={LIBRARY_ITEMS.map((item) => ({
+            title: t(`entities.${item.id.toLowerCase()}.plural`),
+            subTitle: t(`library.${item.id.toLowerCase()}.description`),
+            backgroundColor: colors[item.colorKey as keyof typeof colors],
+            icon: item.getIcon(colors.black, 40),
+          }))}
+        />
+      </AnimatedAppearance>
+      <BottomSheetStaticBackdrop startPosition={203} />
       <BottomSheet
         ref={bottomSheetRef}
         snapPoints={snapPoints}

@@ -93,11 +93,11 @@ const PreviewBlock = ({
             animation.value,
             [0, 1],
             [
-              backgroundColor || colors.light,
-              backgroundColorForAnimate || colors.alternate,
+              backgroundColor || colors.lightGray,
+              backgroundColorForAnimate || colors.light,
             ]
           )
-        : backgroundColor || colors.light,
+        : backgroundColor || colors.lightGray,
       transform: [{ scale }],
     };
   });

@@ -5,6 +5,7 @@ export const PALLETE_COLORS = {
     secondary: "#ffffff",
     alternate: "#eaedf1",
     light: "#F5F6F7",
+    lightGray: "#fbfbfc",
 
     contrast: "#212529",
     contrastReverse: "#FDFDFD",
@@ -25,6 +26,7 @@ export const PALLETE_COLORS = {
     secondary: "#313334",
     alternate: "#4c4e50",
     light: "#3e4041",
+    lightGray: "#36383a",
 
     contrast: "#FDFDFD",
     contrastReverse: "#181822",

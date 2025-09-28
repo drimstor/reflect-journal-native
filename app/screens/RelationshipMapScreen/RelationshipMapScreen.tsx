@@ -1,10 +1,11 @@
 import { useGetPortraitGraphQuery } from "@/src/entities/portrait/api/portraitApi";
+import { BOTTOM_SHEET_SCREEN_POINTS } from "@/src/shared/const";
 import { PATHS } from "@/src/shared/const/PATHS";
 import { stringToColor } from "@/src/shared/lib/helpers";
 import { getContrastColor } from "@/src/shared/lib/helpers/getContrastColor";
 import { useT } from "@/src/shared/lib/hooks";
 import { NavigationProps } from "@/src/shared/model/types";
-import { useDeviceStore, useThemeStore } from "@/src/shared/store";
+import { useThemeStore } from "@/src/shared/store";
 import {
   AnimatedAppearance,
   BottomSheet,
@@ -15,6 +16,7 @@ import {
   NoData,
 } from "@/src/shared/ui";
 import { ChartsFiltersPanel, Header } from "@/src/widgets";
+import { WINDOW_HEIGHT } from "@gorhom/bottom-sheet";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, View } from "react-native";
@@ -24,10 +26,11 @@ import { styles } from "./RelationshipMapScreen.styles";
 const RelationshipMapScreen = () => {
   const t = useT();
   const { colors, theme } = useThemeStore();
-  const { window } = useDeviceStore();
   const visNetworkRef = useRef<VisNetworkRef>(null);
   const [graphLoading, setGraphLoading] = useState<boolean>(true);
   const navigation = useNavigation<NavigationProps>();
+  const { LARGE } = BOTTOM_SHEET_SCREEN_POINTS;
+  const snapPoints = useMemo(() => [LARGE], [LARGE]);
 
   // Запрос данных графа портрета
   const { data: graphData, isLoading } = useGetPortraitGraphQuery({
@@ -158,8 +161,6 @@ const RelationshipMapScreen = () => {
     },
   };
 
-  const snapPoints = useMemo(() => [window.height - 85], [window.height]);
-
   // Функция для работы с выбранным узлом
   const handleNodeSelection = (nodeId: string | number) => {
     if (!visNetworkRef.current) return;
@@ -225,7 +226,7 @@ const RelationshipMapScreen = () => {
         <View
           style={{
             width: "100%",
-            height: window.height - 230,
+            height: WINDOW_HEIGHT - 230,
             overflow: "hidden",
           }}
         >
@@ -240,7 +241,7 @@ const RelationshipMapScreen = () => {
               isVisible={!graphLoading}
               style={{
                 width: "100%",
-                height: window.height - 230,
+                height: WINDOW_HEIGHT - 230,
                 overflow: "hidden",
               }}
             >

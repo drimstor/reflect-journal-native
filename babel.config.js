@@ -10,6 +10,7 @@ module.exports = function (api) {
       ],
     ],
     plugins: [
+      ["babel-plugin-react-compiler", require("./react-compiler.config.js")], // React Compiler - автоматическая мемоизация
       "react-native-reanimated/plugin",
       [
         "module-resolver",

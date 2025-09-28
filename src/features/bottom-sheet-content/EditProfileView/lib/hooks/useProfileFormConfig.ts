@@ -2,7 +2,7 @@ import { UserResponse } from "@/src/entities/auth/model/types";
 import { useT } from "@/src/shared/lib/hooks/useLang";
 import { timestampToMonthYearValue } from "@/src/shared/ui";
 import { FormFieldConfig } from "@/src/widgets";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 
 /**
  * Тип поля формы редактирования профиля
@@ -30,13 +30,8 @@ export const useProfileFormConfig = (
   profileData?: UserResponse
 ): ProfileFormConfig => {
   const t = useT();
-  const [config, setConfig] = useState<ProfileFormConfig>({
-    title: t("profile.edit.title"),
-    fields: [],
-    initialValues: {},
-  });
 
-  useEffect(() => {
+  const config = useMemo(() => {
     // Опции для выбора пола
     const genderOptions = [
       { label: t("profile.gender.male"), value: "male" },
@@ -66,12 +61,6 @@ export const useProfileFormConfig = (
         type: "text",
         label: t("profile.edit.country.label"),
         placeholder: t("profile.edit.country.placeholder"),
-      },
-      {
-        key: "city",
-        type: "text",
-        label: t("profile.edit.city.label"),
-        placeholder: t("profile.edit.city.placeholder"),
       },
       {
         key: "birth_date",
@@ -135,11 +124,11 @@ export const useProfileFormConfig = (
       });
     }
 
-    setConfig({
+    return {
       title: t("profile.edit.title"),
       fields,
       initialValues,
-    });
+    };
   }, [profileData, t]);
 
   return config;

@@ -9,13 +9,14 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: 10,
+    gap: 8,
   },
   headerTextBox: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     gap: 2,
+    flexShrink: 1,
   },
   headerIconBox: {
     width: 55,

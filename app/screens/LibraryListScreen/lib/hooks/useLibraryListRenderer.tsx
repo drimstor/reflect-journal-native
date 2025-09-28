@@ -46,8 +46,6 @@ const JournalEntryItem = ({
     <PreviewBlock
       key={journal.id}
       value={journal.content}
-      backgroundColor={colors.light}
-      backgroundColorForAnimate={colors.alternate}
       tags={journal.related_topics}
       bookmarked={journal.bookmarked}
       title={journal.title}
@@ -115,8 +113,6 @@ const TestResultItem = ({ item, entityName }: TestResultItemProps) => {
     <View key={result.id}>
       <PreviewBlock
         value={result.content || t("test.noAnalysis")}
-        backgroundColor={colors.light}
-        backgroundColorForAnimate={colors.alternate}
         tags={result.related_topics}
         bookmarked={result.bookmarked}
         title={t("entities.testresults.singular")}

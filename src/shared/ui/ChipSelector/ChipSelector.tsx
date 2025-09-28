@@ -9,6 +9,7 @@ export interface ChipSelectorOption {
   value: string;
   color?: string; // Кастомный цвет чипсины
   activeColor?: string; // Кастомный цвет активных чипсин
+  tooltipText?: string; // Текст подсказки
 }
 
 export interface ChipSelectorProps {
@@ -91,9 +92,7 @@ export const ChipSelector: React.FC<ChipSelectorProps> = ({
           const selected = isSelected(option.value);
           const chipColor = selected
             ? option.activeColor || colors.accent
-            : option.color || theme === "light"
-            ? colors.white
-            : colors.light;
+            : option.color || colors.lightGray;
 
           return (
             <TouchableOpacity
@@ -101,7 +100,13 @@ export const ChipSelector: React.FC<ChipSelectorProps> = ({
               onPress={() => handleChipPress(option.value)}
               activeOpacity={0.7}
             >
-              <Chip color={chipColor} title={option.label} size="base" />
+              <Chip
+                color={chipColor}
+                title={option.label}
+                size="base"
+                tooltipText={option.tooltipText}
+                borderColor={colors.alternate}
+              />
             </TouchableOpacity>
           );
         })}

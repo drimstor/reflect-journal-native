@@ -1,6 +1,15 @@
 import { EntityType } from "@/src/shared/model/types";
 import { useCallback } from "react";
 import { ENTITY_NAME } from "../../../../shared/const/ENTITIES";
+// Статический импорт всех мутаций
+import {
+  useDeleteChatMutation,
+  useDeleteGoalMutation,
+  useDeleteJournalEntryMutation,
+  useDeleteJournalMutation,
+  useDeleteSummaryMutation,
+  useDeleteTestResultMutation,
+} from "@/src/entities";
 
 interface DeleteHookResult {
   deleteEntity: () => Promise<void>;
@@ -12,39 +21,53 @@ const useDynamicDeleteHook = (
   variant: EntityType,
   entityId?: string
 ): DeleteHookResult => {
-  // Ленивый импорт соответствующего хука
-  let deleteHook;
+  // Используем все хуки статически (мутации не поддерживают skip)
+  const [deleteJournal, journalState] = useDeleteJournalMutation();
+  const [deleteJournalEntry, journalEntryState] =
+    useDeleteJournalEntryMutation();
+  const [deleteChat, chatState] = useDeleteChatMutation();
+  const [deleteGoal, goalState] = useDeleteGoalMutation();
+  const [deleteSummary, summaryState] = useDeleteSummaryMutation();
+  const [deleteTestResult, testResultState] = useDeleteTestResultMutation();
+
+  // Выбираем активные функцию и состояние
+  let deleteMutation, isLoading, isSuccess;
   switch (variant) {
     case ENTITY_NAME.JOURNALS:
-      const { useDeleteJournalMutation } = require("@/src/entities");
-      deleteHook = useDeleteJournalMutation;
+      deleteMutation = deleteJournal;
+      isLoading = journalState.isLoading;
+      isSuccess = journalState.isSuccess;
       break;
     case ENTITY_NAME.JOURNAL_ENTRIES:
-      const { useDeleteJournalEntryMutation } = require("@/src/entities");
-      deleteHook = useDeleteJournalEntryMutation;
+      deleteMutation = deleteJournalEntry;
+      isLoading = journalEntryState.isLoading;
+      isSuccess = journalEntryState.isSuccess;
       break;
     case ENTITY_NAME.CHATS:
-      const { useDeleteChatMutation } = require("@/src/entities");
-      deleteHook = useDeleteChatMutation;
+      deleteMutation = deleteChat;
+      isLoading = chatState.isLoading;
+      isSuccess = chatState.isSuccess;
       break;
     case ENTITY_NAME.GOALS:
-      const { useDeleteGoalMutation } = require("@/src/entities");
-      deleteHook = useDeleteGoalMutation;
+      deleteMutation = deleteGoal;
+      isLoading = goalState.isLoading;
+      isSuccess = goalState.isSuccess;
       break;
     case ENTITY_NAME.SUMMARIES:
-      const { useDeleteSummaryMutation } = require("@/src/entities");
-      deleteHook = useDeleteSummaryMutation;
+      deleteMutation = deleteSummary;
+      isLoading = summaryState.isLoading;
+      isSuccess = summaryState.isSuccess;
       break;
     case ENTITY_NAME.TEST_RESULTS:
-      const { useDeleteTestResultMutation } = require("@/src/entities");
-      deleteHook = useDeleteTestResultMutation;
+      deleteMutation = deleteTestResult;
+      isLoading = testResultState.isLoading;
+      isSuccess = testResultState.isSuccess;
       break;
     default:
-      throw new Error(`Неподдерживаемый тип: ${variant}`);
+      deleteMutation = deleteJournalEntry;
+      isLoading = journalEntryState.isLoading;
+      isSuccess = journalEntryState.isSuccess;
   }
-
-  // Используем полученный хук
-  const [deleteMutation, { isLoading, isSuccess }] = deleteHook();
 
   // Метод удаления с проверкой ID
   const handleDelete = useCallback(async () => {

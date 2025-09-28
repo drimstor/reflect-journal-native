@@ -1,6 +1,15 @@
 import { EntityType } from "@/src/shared/model/types";
 import { useCallback } from "react";
 import { ENTITY_NAME } from "../../../../shared/const/ENTITIES";
+// Статический импорт всех мутаций
+import {
+  useUpdateChatMutation,
+  useUpdateGoalMutation,
+  useUpdateJournalEntryMutation,
+  useUpdateJournalMutation,
+  useUpdateSummaryMutation,
+  useUpdateTestResultMutation,
+} from "@/src/entities";
 
 interface EditHookResult {
   editEntity: (data: any) => Promise<void>;
@@ -12,39 +21,53 @@ const useDynamicEditHook = (
   variant: EntityType,
   entityId?: string
 ): EditHookResult => {
-  // Ленивый импорт соответствующего хука
-  let editHook;
+  // Используем все хуки статически (мутации не поддерживают skip)
+  const [updateJournal, journalState] = useUpdateJournalMutation();
+  const [updateJournalEntry, journalEntryState] =
+    useUpdateJournalEntryMutation();
+  const [updateChat, chatState] = useUpdateChatMutation();
+  const [updateGoal, goalState] = useUpdateGoalMutation();
+  const [updateSummary, summaryState] = useUpdateSummaryMutation();
+  const [updateTestResult, testResultState] = useUpdateTestResultMutation();
+
+  // Выбираем активные функцию и состояние
+  let editMutation, isLoading, isSuccess;
   switch (variant) {
     case ENTITY_NAME.JOURNALS:
-      const { useUpdateJournalMutation } = require("@/src/entities");
-      editHook = useUpdateJournalMutation;
+      editMutation = updateJournal;
+      isLoading = journalState.isLoading;
+      isSuccess = journalState.isSuccess;
       break;
     case ENTITY_NAME.JOURNAL_ENTRIES:
-      const { useUpdateJournalEntryMutation } = require("@/src/entities");
-      editHook = useUpdateJournalEntryMutation;
+      editMutation = updateJournalEntry;
+      isLoading = journalEntryState.isLoading;
+      isSuccess = journalEntryState.isSuccess;
       break;
     case ENTITY_NAME.CHATS:
-      const { useUpdateChatMutation } = require("@/src/entities");
-      editHook = useUpdateChatMutation;
+      editMutation = updateChat;
+      isLoading = chatState.isLoading;
+      isSuccess = chatState.isSuccess;
       break;
     case ENTITY_NAME.GOALS:
-      const { useUpdateGoalMutation } = require("@/src/entities");
-      editHook = useUpdateGoalMutation;
+      editMutation = updateGoal;
+      isLoading = goalState.isLoading;
+      isSuccess = goalState.isSuccess;
       break;
     case ENTITY_NAME.SUMMARIES:
-      const { useUpdateSummaryMutation } = require("@/src/entities");
-      editHook = useUpdateSummaryMutation;
+      editMutation = updateSummary;
+      isLoading = summaryState.isLoading;
+      isSuccess = summaryState.isSuccess;
       break;
     case ENTITY_NAME.TEST_RESULTS:
-      const { useUpdateTestResultMutation } = require("@/src/entities");
-      editHook = useUpdateTestResultMutation;
+      editMutation = updateTestResult;
+      isLoading = testResultState.isLoading;
+      isSuccess = testResultState.isSuccess;
       break;
     default:
-      throw new Error(`Неподдерживаемый тип: ${variant}`);
+      editMutation = updateJournalEntry;
+      isLoading = journalEntryState.isLoading;
+      isSuccess = journalEntryState.isSuccess;
   }
-
-  // Используем полученный хук
-  const [editMutation, { isLoading, isSuccess }] = editHook();
 
   // Метод редактирования с проверкой ID
   const handleEdit = useCallback(

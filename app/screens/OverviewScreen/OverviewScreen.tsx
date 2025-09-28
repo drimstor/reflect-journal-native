@@ -1,5 +1,5 @@
 import { PreviewBlock } from "@/src/features";
-import { PATHS } from "@/src/shared/const";
+import { BOTTOM_SHEET_SCREEN_POINTS, PATHS } from "@/src/shared/const";
 import { formatDate, stringToColor } from "@/src/shared/lib/helpers";
 import {
   useBottomSheetIndexState,
@@ -26,14 +26,15 @@ const OverviewScreen = () => {
   const t = useT();
   const { colors } = useThemeStore();
   const { locale } = useLang();
+  const { LARGE } = BOTTOM_SHEET_SCREEN_POINTS;
 
   // Используем новый хук для управления индексом BottomSheet
   const { bottomSheetRef, bottomSheetIndex, snapToIndex } =
     useBottomSheetIndexState();
 
   const snapPoints = useMemo(() => {
-    return [WINDOW_HEIGHT - 417, WINDOW_HEIGHT - 85];
-  }, [WINDOW_HEIGHT]);
+    return [WINDOW_HEIGHT - 417, LARGE];
+  }, [WINDOW_HEIGHT, LARGE]);
 
   // Конфиг для блоков аналитики
   const analyticsBlocks = [

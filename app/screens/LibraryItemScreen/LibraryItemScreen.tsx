@@ -1,7 +1,7 @@
 import { Journal, useGetAnyEntity, useGetMood } from "@/src/entities";
 import { ChecklistItem } from "@/src/entities/goals/model/types";
 import TestQuestionsAnswers from "@/src/features/test/TestQuestionsAnswers/TestQuestionsAnswers";
-import { PATHS } from "@/src/shared/const";
+import { BOTTOM_SHEET_SCREEN_POINTS, PATHS } from "@/src/shared/const";
 import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import {
   formatDate,
@@ -11,11 +11,7 @@ import {
 } from "@/src/shared/lib/helpers";
 import { useLang, useT } from "@/src/shared/lib/hooks";
 import { StackNavigationProps } from "@/src/shared/model/types";
-import {
-  useBottomSheetStore,
-  useDeviceStore,
-  useThemeStore,
-} from "@/src/shared/store";
+import { useBottomSheetStore, useThemeStore } from "@/src/shared/store";
 import {
   BottomSheet,
   BottomSheetStaticBackdrop,
@@ -49,8 +45,9 @@ import {
   ItemCarousel,
   useHeaderStore,
 } from "@/src/widgets";
+import { WINDOW_HEIGHT } from "@gorhom/bottom-sheet";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { useChecklistActions } from "./lib/hooks/useChecklistActions";
 import { useParentEntity } from "./lib/hooks/useParentEntity";
@@ -61,12 +58,13 @@ const LibraryItemScreen = () => {
   const t = useT();
   const { locale } = useLang();
   const { colors, theme } = useThemeStore();
-  const { window } = useDeviceStore();
   const styles = createStyles(colors);
   const { subtitle } = useHeaderStore();
   const { setNavigation } = useBottomSheetStore();
   const route = useRoute();
   const { variant, item } = (route.params as any) || {};
+  const { LARGE } = BOTTOM_SHEET_SCREEN_POINTS;
+  const snapPoints = useMemo(() => [LARGE], [LARGE]);
 
   const { handlePress } = useBottomSheetActions(variant, item);
   const navigation = useNavigation<StackNavigationProps>();
@@ -152,7 +150,7 @@ const LibraryItemScreen = () => {
       />
       <BottomSheetStaticBackdrop />
       <BottomSheet
-        snapPoints={[window.height - 85]}
+        snapPoints={snapPoints}
         backgroundColor={colors.secondary}
         borderColor={colors.alternate}
         animateOnMount={false}
@@ -169,7 +167,7 @@ const LibraryItemScreen = () => {
             contentContainerStyle={styles.globalViewHorizontal}
             showsVerticalScrollIndicator={false}
             scrollEventThrottle={16}
-            style={{ maxHeight: window.height - 160 }}
+            style={{ maxHeight: WINDOW_HEIGHT - 160 }}
             onScroll={handleScroll}
           >
             <PaddingLayout>

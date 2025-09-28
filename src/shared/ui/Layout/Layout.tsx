@@ -1,4 +1,4 @@
-import { useDeviceStore } from "@/src/shared/store";
+import { WINDOW_HEIGHT } from "@gorhom/bottom-sheet";
 import { FC, ReactNode } from "react";
 import { StyleProp, View, ViewStyle } from "react-native";
 
@@ -8,9 +8,7 @@ interface LayoutProps {
 }
 
 const Layout: FC<LayoutProps> = ({ children, style }) => {
-  const { window } = useDeviceStore();
-
-  return <View style={[{ height: window.height }, style]}>{children}</View>;
+  return <View style={[{ height: WINDOW_HEIGHT }, style]}>{children}</View>;
 };
 
 export default Layout;

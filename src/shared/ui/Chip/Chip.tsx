@@ -1,5 +1,5 @@
 import { getContrastColor } from "@/src/shared/lib/helpers/getContrastColor";
-import { Text } from "@/src/shared/ui";
+import { Info, Text } from "@/src/shared/ui";
 import { FC } from "react";
 import { View } from "react-native";
 import { capitalizeText } from "../../lib/helpers";
@@ -11,6 +11,7 @@ interface ChipProps {
   textColor?: string;
   borderColor?: string;
   size?: "small" | "medium" | "base";
+  tooltipText?: string;
 }
 
 const Chip: FC<ChipProps> = ({
@@ -19,6 +20,7 @@ const Chip: FC<ChipProps> = ({
   textColor,
   borderColor,
   size = "medium",
+  tooltipText,
 }) => {
   const contrastTextColor = getContrastColor(color);
   return (
@@ -33,6 +35,14 @@ const Chip: FC<ChipProps> = ({
       <Text size={size} color={textColor || contrastTextColor}>
         {capitalizeText(title)}
       </Text>
+      {tooltipText && (
+        <View style={styles.infoBox}>
+          <Info
+            tooltipText={tooltipText}
+            iconColor={textColor || contrastTextColor}
+          />
+        </View>
+      )}
     </View>
   );
 };

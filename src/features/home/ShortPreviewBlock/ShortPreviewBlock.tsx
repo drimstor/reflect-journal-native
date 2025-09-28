@@ -74,7 +74,7 @@ const ShortPreviewBlock = ({
       <Animated.View
         style={[
           styles.globalBox,
-          isAnimate ? animatedStyle : { backgroundColor: colors.secondary },
+          isAnimate ? animatedStyle : { backgroundColor: colors.lightGray },
         ]}
       >
         <TitleText

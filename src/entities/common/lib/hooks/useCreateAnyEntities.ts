@@ -1,6 +1,14 @@
 import { normalizeDate } from "@/src/shared/lib/utils/dateFormatters";
 import { EntityType } from "@/src/shared/model/types";
 import { useCallback } from "react";
+// Статический импорт всех мутаций
+import {
+  useCreateChatMutation,
+  useCreateGoalMutation,
+  useCreateJournalEntryMutation,
+  useCreateJournalMutation,
+  useCreateSummaryMutation,
+} from "@/src/entities";
 
 interface CreateHookResult {
   createEntity: (data: any) => Promise<void>;
@@ -9,35 +17,47 @@ interface CreateHookResult {
 }
 
 const useDynamicCreateHook = (variant: EntityType): CreateHookResult => {
-  // Ленивый импорт соответствующего хука
-  let createHook;
+  // Используем все хуки статически (мутации не поддерживают skip)
+  const [createJournal, journalState] = useCreateJournalMutation();
+  const [createChat, chatState] = useCreateChatMutation();
+  const [createGoal, goalState] = useCreateGoalMutation();
+  const [createSummary, summaryState] = useCreateSummaryMutation();
+  const [createJournalEntry, journalEntryState] =
+    useCreateJournalEntryMutation();
+
+  // Выбираем активные функцию и состояние
+  let createMutation, isLoading, isSuccess;
   switch (variant) {
     case "Journals":
-      const { useCreateJournalMutation } = require("@/src/entities");
-      createHook = useCreateJournalMutation;
+      createMutation = createJournal;
+      isLoading = journalState.isLoading;
+      isSuccess = journalState.isSuccess;
       break;
     case "JournalEntries":
-      const { useCreateJournalEntryMutation } = require("@/src/entities");
-      createHook = useCreateJournalEntryMutation;
+      createMutation = createJournalEntry;
+      isLoading = journalEntryState.isLoading;
+      isSuccess = journalEntryState.isSuccess;
       break;
     case "Chats":
-      const { useCreateChatMutation } = require("@/src/entities");
-      createHook = useCreateChatMutation;
+      createMutation = createChat;
+      isLoading = chatState.isLoading;
+      isSuccess = chatState.isSuccess;
       break;
     case "Goals":
-      const { useCreateGoalMutation } = require("@/src/entities");
-      createHook = useCreateGoalMutation;
+      createMutation = createGoal;
+      isLoading = goalState.isLoading;
+      isSuccess = goalState.isSuccess;
       break;
     case "Summaries":
-      const { useCreateSummaryMutation } = require("@/src/entities");
-      createHook = useCreateSummaryMutation;
+      createMutation = createSummary;
+      isLoading = summaryState.isLoading;
+      isSuccess = summaryState.isSuccess;
       break;
     default:
-    // throw new Error(`Неподдерживаемый тип: ${variant}`);
+      createMutation = createJournalEntry;
+      isLoading = journalEntryState.isLoading;
+      isSuccess = journalEntryState.isSuccess;
   }
-
-  // Используем полученный хук
-  const [createMutation, { isLoading, isSuccess }] = createHook();
 
   // Метод создания
   const handleCreate = useCallback(

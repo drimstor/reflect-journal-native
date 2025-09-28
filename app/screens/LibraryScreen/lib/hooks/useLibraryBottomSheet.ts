@@ -1,11 +1,11 @@
+import { BOTTOM_SHEET_SCREEN_POINTS } from "@/src/shared/const";
 import { useBottomSheetIndexState } from "@/src/shared/lib/hooks";
-import { useDeviceStore } from "@/src/shared/store";
 import { useBottomSheetNavigation } from "@/src/shared/ui/BottomSheetContent";
 import { useIsFocused } from "@react-navigation/native";
 import { useEffect, useMemo } from "react";
 
 export const useLibraryBottomSheet = () => {
-  const { window } = useDeviceStore();
+  const { FULL, LARGE, MEDIUM } = BOTTOM_SHEET_SCREEN_POINTS;
   const isFocused = useIsFocused();
   const { bottomSheetRef, bottomSheetIndex, snapToIndex } =
     useBottomSheetIndexState();
@@ -13,12 +13,11 @@ export const useLibraryBottomSheet = () => {
   // Инициализируем навигацию для BottomSheet
   useBottomSheetNavigation();
 
-  const windowHeight = window.height;
-
   // Вычисляем точки привязки для BottomSheet
-  const snapPoints = useMemo(() => {
-    return [windowHeight - 203, windowHeight - 85, windowHeight];
-  }, [windowHeight]);
+  const snapPoints = useMemo(
+    () => [MEDIUM, LARGE, FULL],
+    [FULL, LARGE, MEDIUM]
+  );
 
   // Устанавливаем обработчик фокуса для сброса позиции BottomSheet
   useEffect(() => {

@@ -1,5 +1,4 @@
 import { useT } from "@/src/shared/lib/hooks";
-import { useDeviceStore, useThemeStore } from "@/src/shared/store";
 import {
   AnimatedLoader,
   Layout,
@@ -15,18 +14,14 @@ import {
   TasksWidget,
   TopicsWidget,
 } from "@/src/widgets";
-import React, { FC, useEffect } from "react";
+import React, { useEffect } from "react";
 import { ScrollView } from "react-native";
 import { styles } from "./HomeScreen.styles";
 import { useGetDocumentsProgress } from "./lib/hooks/useGetDocumentsProgress";
 import { useHomeScreenData } from "./lib/hooks/useHomeScreenData";
 
-interface HomeScreenProps {}
-
-const HomeScreen: FC<HomeScreenProps> = () => {
+const HomeScreen = () => {
   const t = useT();
-  const { colors } = useThemeStore();
-  const { window } = useDeviceStore();
 
   // Получение всех данных и состояний загрузки
   const { isLoading, data } = useHomeScreenData();

@@ -6,13 +6,12 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     alignSelf: "flex-start",
+    flexDirection: "row",
     minWidth: 40,
     paddingBottom: 2,
-    shadowColor: "#000000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.03,
-    shadowRadius: 8,
-    elevation: 1,
+  },
+  infoBox: {
+    marginLeft: -4,
   },
   small: {
     height: 18,

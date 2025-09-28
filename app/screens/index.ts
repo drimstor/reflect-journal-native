@@ -1,27 +1,14 @@
-import AuthScreen from "./AuthScreen/AuthScreen";
-import ChartsScreen from "./ChartsScreen/ChartsScreen";
-import ChatScreen from "./ChatScreen/ChatScreen";
-import CreateEntityScreen from "./CreateEntityScreen/CreateEntityScreen";
-import HomeScreen from "./HomeScreen/HomeScreen";
-import LibraryItemScreen from "./LibraryItemScreen/LibraryItemScreen";
-import LibraryListScreen from "./LibraryListScreen/LibraryListScreen";
-import LibraryScreen from "./LibraryScreen/LibraryScreen";
-import OverviewScreen from "./OverviewScreen/OverviewScreen";
-import RelationshipMapScreen from "./RelationshipMapScreen/RelationshipMapScreen";
-import SettingsScreen from "./SettingsScreen/SettingsScreen";
-import TestScreen from "./TestScreen/TestScreen";
-
-export {
-  AuthScreen,
-  ChartsScreen,
-  ChatScreen,
-  CreateEntityScreen,
-  HomeScreen,
-  LibraryItemScreen,
-  LibraryListScreen,
-  LibraryScreen,
-  OverviewScreen,
-  RelationshipMapScreen,
-  SettingsScreen,
-  TestScreen,
-};
+export { default as AuthScreen } from "./AuthScreen/AuthScreen";
+export { default as ChartsScreen } from "./ChartsScreen/ChartsScreen";
+export { default as ChatScreen } from "./ChatScreen/ChatScreen";
+export { default as CreateEntityScreen } from "./CreateEntityScreen/CreateEntityScreen";
+export { default as HomeScreen } from "./HomeScreen/HomeScreen";
+export { default as LibraryItemScreen } from "./LibraryItemScreen/LibraryItemScreen";
+export { default as LibraryListScreen } from "./LibraryListScreen/LibraryListScreen";
+export { default as LibraryScreen } from "./LibraryScreen/LibraryScreen";
+export { default as OverviewScreen } from "./OverviewScreen/OverviewScreen";
+export { default as RelationshipMapScreen } from "./RelationshipMapScreen/RelationshipMapScreen";
+export { default as SettingsAssistantScreen } from "./SettingsAssistantScreen/SettingsAssistantScreen";
+export { default as SettingsGrowthScreen } from "./SettingsGrowthScreen/SettingsGrowthScreen";
+export { default as SettingsScreen } from "./SettingsScreen/SettingsScreen";
+export { default as TestScreen } from "./TestScreen/TestScreen";

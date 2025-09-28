@@ -6,6 +6,7 @@ import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import { useEffect } from "react";
 import { GOOGLE_CLIENT_ID } from "../../const/static";
+import { Variant } from "../../model/types";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -19,7 +20,13 @@ type User = {
   picture: string;
 };
 
-export const useGoogleAuth = () => {
+export const useGoogleAuth = ({
+  setVariant,
+  snapToIndex,
+}: {
+  setVariant: (variant: Variant) => void;
+  snapToIndex: (index: number) => void;
+}) => {
   const navigation = useNavigation<NavigationProps>();
   const [socialAuthMutation] = useSocialAuthMutation();
 
@@ -62,8 +69,15 @@ export const useGoogleAuth = () => {
         avatar_url: user.picture,
       })
         .unwrap()
-        .then(() => {
-          navigation.navigate(PATHS.MAIN_STACK);
+        .then(({ is_new_user }) => {
+          if (is_new_user) {
+            setVariant("profile");
+          } else {
+            snapToIndex(1);
+            setTimeout(() => {
+              navigation.navigate(PATHS.MAIN_STACK);
+            }, 400);
+          }
         })
         .catch((error) => {
           console.error("Google auth error:", error);

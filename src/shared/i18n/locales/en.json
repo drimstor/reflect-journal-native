@@ -29,6 +29,7 @@
     "notifications": "Notifications",
     "theme": "Theme",
     "language": "Language",
+    "profile": "Profile Data",
     "editProfile": "Edit profile",
     "appearance": "Appearance",
     "emoji": "Emoji",
@@ -47,6 +48,8 @@
       "title": "You can choose one of the ready-made templates",
       "placeholder": "Choose a template"
     },
+    "saveSuccess": "Settings saved",
+    "saveError": "Failed to save settings",
     "assistantForm": {
       "role": {
         "label": "Assistant Role"
@@ -59,11 +62,42 @@
       },
       "additionalInfo": {
         "label": "Additional Instructions",
-        "placeholder": "Describe additional requirements for the assistant..."
+        "placeholder": "Describe additional requirements for the assistant, for example:\nAddress me as \"My Lord\""
+      }
+    },
+    "growthSettings": "Growth Points",
+    "growthForm": {
+      "growthPoints": {
+        "label": "Describe what is your priority right now?",
+        "placeholder": "For example: \"I want to better understand myself and find my calling\""
       },
-      "saveSuccess": "Assistant settings saved",
-      "saveError": "Failed to save settings",
-      "loading": "Loading..."
+      "growthChipsLabel": "You can choose from the list"
+    },
+    "growthOptions": {
+      "growthPoints": {
+        "personalGrowth": "Personal Growth",
+        "emotionalHealth": "Emotional State",
+        "career": "Career",
+        "relationships": "Relationships", 
+        "financialLiteracy": "Financial Literacy",
+        "health": "Health",
+        "creativity": "Creativity",
+        "education": "Education",
+        "spirituality": "Spirituality",
+        "lifeStyle": "Life Style"
+      },
+      "tooltipTexts": {
+        "personalGrowth": "Self-development, habits, discipline",
+        "emotionalHealth": "Stress, psychology, mindfulness",
+        "relationships": "Friends, family, partner, networking",
+        "career": "Work, skills, coaching",
+        "financialLiteracy": "Money, budget management, investments",
+        "health": "Sport, nutrition, sleep",
+        "creativity": "Creativity, self-expression, art",
+        "education": "Education, courses, languages",
+        "spirituality": "Meaning of life, faith, philosophy, meditation",
+        "lifeStyle": "Time management, rest, travel"
+      }
     },
     "assistantOptions": {
       "roles": {
@@ -91,6 +125,13 @@
         "creative": "Creative",
         "motivating": "Motivating",
         "insightful": "Insightful"
+      },
+      "tooltipTexts": {
+        "mentor": "Persuasive",
+        "coach": "Challenging",
+        "reflection_source": "Research",
+        "friendly": "Informal",
+        "professional": "Formal"
       }
     },
     "assistantTemplates": {
@@ -279,7 +320,7 @@
     },
     "customAdditionalInfo": {
       "label": "What to create a summary about?",
-      "placeholder": "Describe what you are interested in and what information you need to analyze. \n\nFor example: \n\"Create a summary of all entries about trips\" \n\"Analyze my thoughts about work and career\""
+      "placeholder": "Describe what you are interested in and what information you need to analyze.\n\nFor example:\n\"Create a summary of all entries about trips\"\n\"Analyze my thoughts about work and career\""
     }
   },  
   "edit": {
@@ -426,7 +467,14 @@
     },
     "rememberMe": "Remember me",
     "forgotPassword": "Forgot password?",
-    "or": "or"
+    "or": "or",
+    "onboarding": {
+      "title": "First Steps",
+      "subtitle": "Takes a couple of minutes",
+      "profile": "Fill out your profile",
+      "growthPoints": "Define growth points",
+      "assistant": "Set up assistant"
+    }
   },
   "entities": {
     "journals": {
@@ -531,7 +579,8 @@
       "resetSearch": "Reset search",
       "yes": "Yes",
       "no": "No",
-      "exit": "Exit"
+      "exit": "Exit",
+      "welcome": "Welcome!"
     },
     "status": {
       "loading": "Loading",
@@ -584,8 +633,8 @@
       "deleteMessage": "Are you sure you want to delete this item?",
       "deleteMultipleMessage": "Are you sure you want to delete the selected items?",
       "cancelMessage": "Are you sure you want to cancel this action?",
-      "skipQuestion": "Are you sure you want to skip this question? \nEach answer affects the final result",
-      "exitTest": "Are you sure you want to exit the test? \nAll progress will be reset",
+      "skipQuestion": "Are you sure you want to skip this question?\nEach answer affects the final result",
+      "exitTest": "Are you sure you want to exit the test?\nAll progress will be reset",
       "addToBookmarkMessage": "Add selected item to favorites?",
       "addToBookmarkMultipleMessage": "Add selected items to favorites?",
       "logoutMessage": "Are you sure you want to logout?",
@@ -655,10 +704,6 @@
       "country": {
         "label": "Country",
         "placeholder": "Enter country"
-      },
-      "city": {
-        "label": "City",
-        "placeholder": "Enter city"
       },
       "occupation": {
         "label": "Occupation",

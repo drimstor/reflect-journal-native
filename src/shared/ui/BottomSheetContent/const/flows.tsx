@@ -1,6 +1,10 @@
 import { ComponentType, LazyExoticComponent, lazy } from "react";
 
-export type ScreenComponent = LazyExoticComponent<ComponentType<any>>;
+import BottomSheetList from "@/src/shared/ui/BottomSheetContent/ui/BottomSheetList/BottomSheetList";
+
+export type ScreenComponent =
+  | LazyExoticComponent<ComponentType<any>>
+  | ComponentType<any>;
 
 export interface FlowConfig {
   screens: Record<string, ScreenComponent>;
@@ -9,12 +13,7 @@ export interface FlowConfig {
 export const FLOWS: Record<string, FlowConfig> = {
   common: {
     screens: {
-      list: lazy(
-        () =>
-          import(
-            "@/src/shared/ui/BottomSheetContent/ui/BottomSheetList/BottomSheetList"
-          )
-      ),
+      list: BottomSheetList,
       success: lazy(
         () =>
           import("@/src/features/bottom-sheet-content/SuccessView/SuccessView")

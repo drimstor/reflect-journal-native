@@ -63,7 +63,7 @@ function LibraryList({ variant, onPress }: LibraryListProps) {
     <VirtualizedList
       data={data}
       renderItem={createTypedPreviewBlockRenderer({ variant, onPress })}
-      isFetching={isFetching}
+      isFetching={isLoading}
       sortField={variant === ENTITY_NAME.TESTS ? "created_at" : "updated_at"}
       entityName={variant}
     />

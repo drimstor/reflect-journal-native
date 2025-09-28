@@ -9,9 +9,11 @@ export const useTabBarAnimation = () => {
   const { tabBar, setTabBar } = useAnimationStore();
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setTabBar(1);
-    }, 1000);
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {

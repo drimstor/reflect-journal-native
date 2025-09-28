@@ -1,4 +1,4 @@
-import { PATHS } from "@/src/shared/const";
+import { BOTTOM_SHEET_SCREEN_POINTS, PATHS } from "@/src/shared/const";
 import {
   ENTITY_NAME,
   ENTITY_WITH_CHILDREN_CONFIG,
@@ -9,7 +9,6 @@ import {
   getFiltersParams,
   isAnyFilterActive,
   useBottomSheetStore,
-  useDeviceStore,
   useFiltersStore,
   useScreenInfoStore,
   useThemeStore,
@@ -26,8 +25,9 @@ import {
 } from "@/src/shared/ui";
 import { DotsIcon } from "@/src/shared/ui/icons";
 import { FiltersPanel, Header } from "@/src/widgets";
+import { WINDOW_HEIGHT } from "@gorhom/bottom-sheet";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { View } from "react-native";
 import { useLibraryListData } from "./lib/hooks/useLibraryListData";
 import { useLibraryListRenderer } from "./lib/hooks/useLibraryListRenderer";
@@ -38,13 +38,15 @@ const LibraryListScreen = () => {
   const route = useRoute();
   const navigation = useNavigation<StackNavigationProps>();
   const { colors } = useThemeStore();
-  const { window } = useDeviceStore();
   const styles = createStyles(colors);
   const filters = useFiltersStore();
   const { setNavigation } = useBottomSheetStore();
   const { setScreenInfo } = useScreenInfoStore();
   const { variant, item } = route.params as any;
   const { handlePress } = useBottomSheetActions(variant, item);
+
+  const { LARGE } = BOTTOM_SHEET_SCREEN_POINTS;
+  const snapPoints = useMemo(() => [LARGE], [LARGE]);
 
   const title = item?.name;
   const related_entities = item?.related_entities ?? [];
@@ -79,6 +81,8 @@ const LibraryListScreen = () => {
     params,
   });
 
+  console.log("useLibraryListData", data);
+
   // Используем новый универсальный рендерер
   const { renderItem } = useLibraryListRenderer({
     entityName,
@@ -90,7 +94,8 @@ const LibraryListScreen = () => {
   const isTestAndFinishedLoading =
     isTest && !isLoading && data?.data && Array.isArray(data?.data);
 
-  const isTestAndNoResults = isTestAndFinishedLoading && !data?.data?.length;
+  const isTestAndNoResults =
+    isTestAndFinishedLoading && !data?.data?.length && !data?.totalItems;
   const isTestAndHasResults = isTestAndFinishedLoading && !!data?.data?.length;
 
   // Поменять условие // Автоматический редирект для тестов если результатов нет
@@ -120,7 +125,7 @@ const LibraryListScreen = () => {
       />
       <BottomSheetStaticBackdrop />
       <BottomSheet
-        snapPoints={[window.height - 85]}
+        snapPoints={snapPoints}
         backgroundColor={colors.secondary}
         borderColor={colors.alternate}
         animateOnMount={false}
@@ -134,18 +139,18 @@ const LibraryListScreen = () => {
         }
       >
         <AnimatedAppearance
-          isVisible
-          delay={150}
+          isInitialVisible
+          delay={200}
           style={
             isTestAndHasResults
-              ? { maxHeight: window.height - 160, paddingBottom: 100 }
+              ? { maxHeight: WINDOW_HEIGHT - 160, paddingBottom: 100 }
               : {}
           }
         >
           <VirtualizedList
             data={data as any}
             renderItem={renderItem}
-            isFetching={isFetching}
+            isFetching={isLoading}
             sortField="created_at"
             entityName={entityName}
           />

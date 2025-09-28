@@ -5,7 +5,7 @@ export const createStyles = (colors: ThemeColors) =>
   StyleSheet.create({
     formBox: {
       gap: 16,
-      paddingBottom: 70,
+      paddingBottom: 60,
     },
     rememberMeContainer: {
       width: "100%",

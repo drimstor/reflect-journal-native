@@ -1,9 +1,6 @@
+import { BOTTOM_SHEET_SCREEN_POINTS } from "@/src/shared/const";
 import { useT } from "@/src/shared/lib/hooks";
-import {
-  useBottomSheetStore,
-  useDeviceStore,
-  useThemeStore,
-} from "@/src/shared/store";
+import { useBottomSheetStore, useThemeStore } from "@/src/shared/store";
 import { CheckIcon, DirectIcon } from "@/src/shared/ui";
 import { BottomSheetAction } from "@/src/shared/ui/BottomSheetContent";
 import { useCallback, useMemo } from "react";
@@ -11,7 +8,6 @@ import { useCallback, useMemo } from "react";
 export const useChartBottomSheet = () => {
   const t = useT();
   const { colors } = useThemeStore();
-  const { window } = useDeviceStore();
   const {
     navigateToFlow,
     setBottomSheetVisible,
@@ -20,10 +16,8 @@ export const useChartBottomSheet = () => {
     setFlowData,
   } = useBottomSheetStore();
 
-  // Расчет snap points для BottomSheet
-  const snapPoints = useMemo(() => {
-    return [window.height - 85];
-  }, [window.height]);
+  const { LARGE } = BOTTOM_SHEET_SCREEN_POINTS;
+  const snapPoints = useMemo(() => [LARGE], [LARGE]);
 
   const titleActions: BottomSheetAction[] = [
     {

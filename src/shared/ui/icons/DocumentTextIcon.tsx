@@ -1,13 +1,9 @@
+import { PALLETE_COLORS } from "@/src/shared/const";
 import { FC } from "react";
 import Svg, { Path } from "react-native-svg";
-import { PALLETE_COLORS } from "@/src/shared/const";
+import { IconProps } from "../../model/types";
 
-interface DocumentTextIconProps {
-  color?: string;
-  size?: number;
-}
-
-const DocumentTextIcon: FC<DocumentTextIconProps> = ({
+const DocumentTextIcon: FC<IconProps> = ({
   color = PALLETE_COLORS.dark.contrast,
   size = 24,
 }) => {

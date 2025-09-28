@@ -13,5 +13,6 @@ export interface HeaderProps {
     onPress: () => void;
   };
   backButton?: boolean;
+  centerElement?: ReactNode;
   style?: StyleProp<ViewStyle>;
 }

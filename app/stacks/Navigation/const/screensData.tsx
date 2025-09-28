@@ -8,10 +8,11 @@ import {
   LibraryListScreen,
   LibraryScreen,
   RelationshipMapScreen,
+  SettingsAssistantScreen,
+  SettingsGrowthScreen,
   TestScreen,
 } from "@/app/screens";
 import { PATHS } from "@/src/shared/const";
-import SettingsAssistantScreen from "../../../screens/SettingsAssistantScreen/SettingsAssistantScreen";
 
 export const screensData = [
   { name: PATHS.HOME, component: HomeScreen, options: { animation: "none" } },
@@ -63,6 +64,11 @@ export const screensData = [
   {
     name: PATHS.SETTINGS_ASSISTANT,
     component: SettingsAssistantScreen,
+    options: { animation: "simple_push" },
+  },
+  {
+    name: PATHS.SETTINGS_DEVELOP,
+    component: SettingsGrowthScreen,
     options: { animation: "simple_push" },
   },
 ];

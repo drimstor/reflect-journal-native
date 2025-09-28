@@ -14,6 +14,7 @@ import {
   CardIcon,
   Chip,
   CpuIcon,
+  CupIcon,
   EmojiIcon,
   GlobalIcon,
   Info,
@@ -98,6 +99,15 @@ const SettingsScreen = () => {
       },
     },
     {
+      text: t("settings.growthSettings"),
+      IconComponent: CupIcon,
+      onPress: () => {
+        setTabBar(0);
+        setIsVisible(false);
+        navigation.navigate(PATHS.SETTINGS_DEVELOP);
+      },
+    },
+    {
       text: (
         <Info
           textProps={{
@@ -160,7 +170,7 @@ const SettingsScreen = () => {
     <Layout>
       <AnimatedAppearance isVisible={isVisible}>
         <ScrollView>
-          <PaddingLayout style={{ paddingTop: 20, paddingBottom: 250 }}>
+          <PaddingLayout style={{ paddingTop: 20, paddingBottom: 220 }}>
             <ProfileMenu />
             <MenuList
               title={t("settings.account")}

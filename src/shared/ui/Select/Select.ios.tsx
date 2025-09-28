@@ -1,6 +1,6 @@
 import { useThemeStore } from "@/src/shared/store";
 import { Picker } from "@react-native-picker/picker";
-import { FC, memo, useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { Animated, Pressable, View } from "react-native";
 import { ArrowLeftIcon } from "../icons";
 import Text from "../Text/Text";
@@ -94,7 +94,7 @@ const SelectIOS: FC<SelectProps> = ({
           sizeStyles[size],
           {
             height: heightAnim,
-            backgroundColor: backgroundColor ?? colors.secondary,
+            backgroundColor: backgroundColor ?? colors.lightGray,
           },
         ]}
       >
@@ -137,9 +137,12 @@ const SelectIOS: FC<SelectProps> = ({
               enabled={enabled}
               style={[
                 styles.picker,
-                { backgroundColor: backgroundColor ?? colors.secondary },
+                { backgroundColor: backgroundColor ?? colors.lightGray },
               ]}
-              itemStyle={styles.picker}
+              itemStyle={[
+                styles.picker,
+                { backgroundColor: backgroundColor ?? colors.lightGray },
+              ]}
               dropdownIconColor="transparent" // Скрываем стандартную стрелку
               mode="dropdown"
             >
@@ -148,7 +151,9 @@ const SelectIOS: FC<SelectProps> = ({
                   label={placeholder}
                   value=""
                   color={colors.contrast + "80"}
-                  style={{ backgroundColor: colors.secondary }}
+                  style={{
+                    backgroundColor: backgroundColor ?? colors.lightGray,
+                  }}
                 />
               )}
               {options.map((option) => (
@@ -157,7 +162,9 @@ const SelectIOS: FC<SelectProps> = ({
                   label={option.label}
                   value={option.value}
                   color={colors.contrast}
-                  style={{ backgroundColor: colors.secondary }}
+                  style={{
+                    backgroundColor: backgroundColor ?? colors.lightGray,
+                  }}
                 />
               ))}
             </Picker>
@@ -178,4 +185,4 @@ const SelectIOS: FC<SelectProps> = ({
   );
 };
 
-export default memo(SelectIOS);
+export default SelectIOS;

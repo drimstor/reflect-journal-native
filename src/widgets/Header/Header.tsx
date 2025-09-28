@@ -15,6 +15,7 @@ const Header = ({
   rightIcon,
   backButton,
   style,
+  centerElement,
 }: HeaderProps) => {
   const { colors } = useThemeStore();
   const { paddingHorizontal } = useGetPadding();
@@ -60,10 +61,15 @@ const Header = ({
           </Text>
         )}
         {subtitle && (
-          <Text withOpacity={70} color={colors.contrast}>
+          <Text
+            style={styles.headerTitle}
+            withOpacity={70}
+            color={colors.contrast}
+          >
             {subtitle}
           </Text>
         )}
+        {centerElement && centerElement}
       </View>
 
       <View style={styles.headerIconBox}>

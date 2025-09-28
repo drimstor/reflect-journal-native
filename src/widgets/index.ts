@@ -1,40 +1,20 @@
-import AdviceSection from "./AdviceSection/AdviceSection";
-import AdviceWidget from "./AdviceWidget/AdviceWidget";
-import AffirmationWidget from "./AffirmationWidget/AffirmationWidget";
-import CategoriesWidget from "./CategoriesWidget/CategoriesWidget";
-import ChatView from "./ChatView/ChatView";
-import { CommandWidget } from "./CommandWidget/CommandWidget";
-import { CommandWidgetChat } from "./CommandWidget/CommandWidgetChat";
-import DocumentsWidget from "./DocumentsWidget/DocumentsWidget";
-import ChartsFiltersPanel from "./FiltersPanel/ChartsFiltersPanel";
-import FiltersPanel from "./FiltersPanel/FiltersPanel";
-import { FormField, FormFieldConfig } from "./FormField/FormField";
-import Header from "./Header/Header";
-import { useHeaderStore } from "./Header/store/header.store";
-import { ItemCarousel } from "./ItemCarousel/ItemCarousel";
-import LibraryList from "./LibraryList/LibraryList";
-import OverviewChartSlider from "./OverviewChartSlider/OverviewChartSlider";
-import TasksWidget from "./TasksWidget/TasksWidget";
-import TopicsWidget from "./TopicsWidget/TopicsWidget";
-
-export {
-  AdviceSection,
-  AdviceWidget,
-  AffirmationWidget,
-  CategoriesWidget,
-  ChartsFiltersPanel,
-  ChatView,
-  CommandWidget,
-  CommandWidgetChat,
-  DocumentsWidget,
-  FiltersPanel,
-  FormField,
-  FormFieldConfig,
-  Header,
-  ItemCarousel,
-  LibraryList,
-  OverviewChartSlider,
-  TasksWidget,
-  TopicsWidget,
-  useHeaderStore,
-};
+export { default as AdviceSection } from "./AdviceSection/AdviceSection";
+export { default as AdviceWidget } from "./AdviceWidget/AdviceWidget";
+export { default as AffirmationWidget } from "./AffirmationWidget/AffirmationWidget";
+export { default as CategoriesWidget } from "./CategoriesWidget/CategoriesWidget";
+export { default as ChatView } from "./ChatView/ChatView";
+export { CommandWidget } from "./CommandWidget/CommandWidget";
+export { CommandWidgetChat } from "./CommandWidget/CommandWidgetChat";
+export { default as DocumentsWidget } from "./DocumentsWidget/DocumentsWidget";
+export { default as ChartsFiltersPanel } from "./FiltersPanel/ChartsFiltersPanel";
+export { default as FiltersPanel } from "./FiltersPanel/FiltersPanel";
+export { FormField, FormFieldConfig } from "./FormField/FormField";
+export { default as Header } from "./Header/Header";
+export { useHeaderStore } from "./Header/store/header.store";
+export { ItemCarousel } from "./ItemCarousel/ItemCarousel";
+export { default as LibraryList } from "./LibraryList/LibraryList";
+export { default as OverviewChartSlider } from "./OverviewChartSlider/OverviewChartSlider";
+export { default as AssistantView } from "./settings/AssistantView/AssistantView";
+export { default as GrowthPointsView } from "./settings/GrowthPointsView/GrowthPointsView";
+export { default as TasksWidget } from "./TasksWidget/TasksWidget";
+export { default as TopicsWidget } from "./TopicsWidget/TopicsWidget";

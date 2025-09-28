@@ -1,9 +1,9 @@
 import { useLoginMutation, useRegisterMutation } from "@/src/entities";
-import { PATHS } from "@/src/shared/const";
 import { useT } from "@/src/shared/lib/hooks";
 import { NavigationProps } from "@/src/shared/model/types";
 import { useNavigation } from "@react-navigation/native";
 import { useCallback, useEffect, useState } from "react";
+import { PATHS } from "../../../../../src/shared/const";
 import { Variant } from "../../model/types";
 import { AuthFormConfig } from "./useAuthFormConfig";
 
@@ -12,12 +12,15 @@ import { AuthFormConfig } from "./useAuthFormConfig";
  * @param config - Конфигурация формы
  * @param variant - Вариант формы авторизации
  * @param snapToIndex - Функция для управления bottom sheet
+ * @param setVariant - Функция для управления вариантом формы
  * @returns Объект с методами управления формой
  */
 export const useAuthForm = (
   config: AuthFormConfig,
   variant: Variant,
-  snapToIndex: (index: number) => void
+  snapToIndex: (index: number) => void,
+  setVariant: (variant: Variant) => void,
+  onLogin: () => void
 ) => {
   const t = useT();
   const navigation = useNavigation<NavigationProps>();
@@ -105,6 +108,13 @@ export const useAuthForm = (
           email: values.email.toLowerCase(),
           password: values.password,
         }).unwrap();
+        onLogin();
+        return setVariant("profile"); // TODO: temporary
+
+        snapToIndex(1);
+        setTimeout(() => {
+          navigation.navigate(PATHS.MAIN_STACK);
+        }, 300);
       }
 
       if (variant === "signUp") {
@@ -112,12 +122,8 @@ export const useAuthForm = (
           email: values.email.toLowerCase(),
           password: values.password,
         }).unwrap();
+        setVariant("profile");
       }
-
-      snapToIndex(1);
-      setTimeout(() => {
-        navigation.navigate(PATHS.MAIN_STACK);
-      }, 500);
     } catch (error) {
       console.error("Ошибка при авторизации:", error);
       // Ошибки от сервера будут обработаны в RTK Query
@@ -130,6 +136,8 @@ export const useAuthForm = (
     registerMutation,
     navigation,
     snapToIndex,
+    onLogin,
+    setVariant,
   ]);
 
   // Сброс формы

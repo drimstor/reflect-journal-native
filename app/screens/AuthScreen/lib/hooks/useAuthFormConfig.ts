@@ -53,8 +53,8 @@ export const useAuthFormConfig = (variant: Variant): AuthFormConfig => {
             secureTextEntry: true,
           },
         ];
-        initialValues.email = "";
-        initialValues.password = "";
+        initialValues.email = "aa@aa.aa";
+        initialValues.password = "123456";
         break;
 
       case "signUp":
@@ -90,7 +90,18 @@ export const useAuthFormConfig = (variant: Variant): AuthFormConfig => {
         initialValues.confirmPassword = "";
         break;
 
-      case "splash":
+      case "growthPoints":
+        title = t("settings.growthSettings");
+        break;
+
+      case "assistant":
+        title = t("settings.assistantSettings");
+        break;
+
+      case "profile":
+        title = t("settings.profile");
+        break;
+
       default:
         title = t("auth.splash.title");
         submitText = t("auth.splash.submit");

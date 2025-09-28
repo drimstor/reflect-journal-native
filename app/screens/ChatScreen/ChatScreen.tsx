@@ -13,7 +13,7 @@ import { Layout, useBottomSheetActions } from "@/src/shared/ui";
 import { DotsIcon } from "@/src/shared/ui/icons";
 import { ChatView, Header } from "@/src/widgets";
 import { useRoute } from "@react-navigation/native";
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import { createStyles } from "./ChatScreen.styles";
 import {
@@ -28,7 +28,10 @@ const ChatScreen: FC = () => {
   const { colors } = useThemeStore();
   const styles = createStyles(colors);
   const route = useRoute();
-  let { item, requestAssistantMessage } = route.params as any;
+  const { item, requestAssistantMessage: initialRequestAssistantMessage } =
+    route.params as any;
+
+  const requestAssistantMessageRef = useRef(initialRequestAssistantMessage);
   const { setNavigation } = useBottomSheetStore();
 
   // Состояние сообщений
@@ -79,13 +82,15 @@ const ChatScreen: FC = () => {
 
   const { isHandled } = useAssistantMessage({
     item,
-    requestAssistantMessage,
+    requestAssistantMessage: requestAssistantMessageRef.current,
     isLoadingMessages,
     setMessages,
   });
 
   useEffect(() => {
-    if (isHandled) requestAssistantMessage = null;
+    if (isHandled) {
+      requestAssistantMessageRef.current = null;
+    }
   }, [isHandled]);
 
   return (
@@ -116,7 +121,7 @@ const ChatScreen: FC = () => {
           chipAnimation={chipAnimation}
           handleScroll={handleScroll}
           userId={userId}
-          isCanBeEmpty={!requestAssistantMessage?.source_id}
+          isCanBeEmpty={!requestAssistantMessageRef.current?.source_id}
           scrollToBottom={scrollToBottom}
           messageContainerRef={messageContainerRef}
         />

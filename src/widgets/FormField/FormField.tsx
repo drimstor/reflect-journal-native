@@ -47,6 +47,7 @@ export interface FormFieldConfig {
     month?: string;
     year?: string;
   }; // Плейсхолдеры для month-year-picker
+  backgroundColor?: string; // Цвет фона
   // Настройки для chip-selector
   chipOptions?: ChipSelectorOption[]; // Опции для chip-selector
   multiple?: boolean; // Множественный выбор для chip-selector
@@ -61,210 +62,227 @@ interface FormFieldProps {
 }
 
 /**
+ * Функция сравнения для React.memo
+ */
+const arePropsEqual = (
+  prevProps: FormFieldProps,
+  nextProps: FormFieldProps
+) => {
+  return (
+    prevProps.field.key === nextProps.field.key &&
+    prevProps.value === nextProps.value &&
+    prevProps.error === nextProps.error &&
+    JSON.stringify(prevProps.field) === JSON.stringify(nextProps.field)
+  );
+};
+
+/**
  * Компонент для отображения поля формы в зависимости от его типа
  */
-export const FormField: React.FC<FormFieldProps> = ({
-  field,
-  value,
-  error,
-  onChange,
-}) => {
-  const t = useT();
-  const { colors } = useThemeStore();
+export const FormField: React.FC<FormFieldProps> = React.memo(
+  ({ field, value, error, onChange }) => {
+    const t = useT();
+    const { colors } = useThemeStore();
 
-  // Форматируем значение если оно массив
-  const formattedValue = Array.isArray(value) ? value.join(", ") : value;
+    // Форматируем значение если оно массив
+    const formattedValue = Array.isArray(value) ? value.join(", ") : value;
 
-  // Состояние для тегов
-  const [tagsInput, setTagsInput] = useState(formattedValue);
+    // Состояние для тегов
+    const [tagsInput, setTagsInput] = useState(formattedValue);
 
-  // Обновляем локальное состояние при изменении value извне
-  useEffect(() => {
-    if (field.type === "tags" && Array.isArray(value)) {
-      setTagsInput(formattedValue);
-    }
-  }, [field.type, value, formattedValue]);
+    // Обновляем локальное состояние при изменении value извне
+    useEffect(() => {
+      if (field.type === "tags" && Array.isArray(value)) {
+        setTagsInput(formattedValue);
+      }
+    }, [field.type, value, formattedValue]);
 
-  // Обработчик изменения текстового поля
-  const handleTextChange = (text: string) => {
-    onChange(field.key, text);
-  };
+    // Обработчик изменения текстового поля
+    const handleTextChange = (text: string) => {
+      onChange(field.key, text);
+    };
 
-  // Обработчик изменения переключателя
-  const handleToggleChange = (value: boolean) => {
-    onChange(field.key, value);
-  };
+    // Обработчик изменения переключателя
+    const handleToggleChange = (value: boolean) => {
+      onChange(field.key, value);
+    };
 
-  // Обработчик изменения тегов
-  const handleTagsChange = (tags: string[]) => {
-    onChange(field.key, tags);
-  };
+    // Обработчик изменения тегов
+    const handleTagsChange = (tags: string[]) => {
+      onChange(field.key, tags);
+    };
 
-  // Обработчик изменения текста в поле тегов
-  const handleTagsInputChange = (text: string) => {
-    setTagsInput(text);
+    // Обработчик изменения текста в поле тегов
+    const handleTagsInputChange = (text: string) => {
+      setTagsInput(text);
 
-    const lastChar = text[text.length - 1];
+      const lastChar = text[text.length - 1];
 
-    if (lastChar !== "," && lastChar !== " ") {
-      const tags = text
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter(Boolean);
-      handleTagsChange(tags);
-    }
-  };
+      if (lastChar !== "," && lastChar !== " ") {
+        const tags = text
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter(Boolean);
+        handleTagsChange(tags);
+      }
+    };
 
-  // Обработчик изменения настроения
-  const handleMoodChange = (moodValue: string) => {
-    onChange(field.key, moodValue);
-  };
+    // Обработчик изменения настроения
+    const handleMoodChange = (moodValue: string) => {
+      onChange(field.key, moodValue);
+    };
 
-  // Обработчик изменения даты в MonthYearPicker
-  const handleMonthYearChange = (dateValue: MonthYearValue) => {
-    onChange(field.key, dateValue);
-  };
+    // Обработчик изменения даты в MonthYearPicker
+    const handleMonthYearChange = (dateValue: MonthYearValue) => {
+      onChange(field.key, dateValue);
+    };
 
-  // Обработчик изменения chip-selector
-  const handleChipSelectorChange = (chipValue: string | string[]) => {
-    onChange(field.key, chipValue);
-  };
+    // Обработчик изменения chip-selector
+    const handleChipSelectorChange = (chipValue: string | string[]) => {
+      onChange(field.key, chipValue);
+    };
 
-  switch (field.type) {
-    case "text":
-      return (
-        <TextField
-          label={field.label}
-          placeholder={field.placeholder}
-          value={value || ""}
-          onChangeText={handleTextChange}
-          backgroundColor={colors.secondary}
-          helperText={error}
-          helperTextColor={error ? colors.error : undefined}
-          required={field.required}
-          secureTextEntry={field.secureTextEntry}
-        />
-      );
+    const backgroundColor = field.backgroundColor || colors.lightGray;
 
-    case "textarea":
-      return (
-        <TextField
-          label={field.label}
-          placeholder={field.placeholder}
-          value={value || ""}
-          onChangeText={handleTextChange}
-          backgroundColor={colors.secondary}
-          helperText={error}
-          helperTextColor={error ? colors.error : undefined}
-          multiline={!field.superMultiline}
-          required={field.required}
-          superMultiline={field.superMultiline}
-        />
-      );
-
-    case "toggle":
-      return (
-        <Toggle
-          label={
-            field.tooltipText ? (
-              <Info tooltipText={field.tooltipText}>{field.label}</Info>
-            ) : (
-              field.label
-            )
-          }
-          value={value || false}
-          onValueChange={handleToggleChange}
-          style={{ container: { marginVertical: 4 } }}
-        />
-      );
-
-    case "tags":
-      return (
-        <TextField
-          label={field.label}
-          placeholder={field.placeholder}
-          value={tagsInput}
-          onChangeText={handleTagsInputChange}
-          backgroundColor={colors.secondary}
-          helperText={error || t("edit.common.tags.helperText")}
-          helperTextColor={error ? colors.error : undefined}
-        />
-      );
-
-    case "mood":
-      return (
-        <View style={styles.moodContainer}>
-          <Text color={colors.contrast} style={styles.moodLabel}>
-            {field.label}
-          </Text>
-          <MoodSelector
-            value={value || "neutral"}
-            onChange={handleMoodChange}
-            colors={colors}
+    switch (field.type) {
+      case "text":
+        return (
+          <TextField
+            label={field.label}
+            placeholder={field.placeholder}
+            value={value || ""}
+            onChangeText={handleTextChange}
+            backgroundColor={backgroundColor}
+            helperText={error}
+            helperTextColor={error ? colors.error : undefined}
+            required={field.required}
+            secureTextEntry={field.secureTextEntry}
           />
-        </View>
-      );
+        );
 
-    case "check-list":
-      return (
-        <CheckListEditor
-          label={field.label}
-          value={value}
-          error={error}
-          onChange={(updatedItems) => onChange(field.key, updatedItems)}
-        />
-      );
+      case "textarea":
+        return (
+          <TextField
+            label={field.label}
+            placeholder={field.placeholder}
+            value={value || ""}
+            onChangeText={handleTextChange}
+            backgroundColor={backgroundColor}
+            helperText={error}
+            helperTextColor={error ? colors.error : undefined}
+            multiline={!field.superMultiline}
+            required={field.required}
+            superMultiline={field.superMultiline}
+          />
+        );
 
-    case "select":
-      return (
-        <Select
-          label={field.label}
-          placeholder={field.placeholder}
-          value={value || ""}
-          onValueChange={(selectedValue) => onChange(field.key, selectedValue)}
-          backgroundColor={colors.secondary}
-          helperText={error}
-          helperTextColor={error ? colors.error : undefined}
-          required={field.required}
-          options={field.options || []}
-        />
-      );
+      case "toggle":
+        return (
+          <Toggle
+            label={
+              field.tooltipText ? (
+                <Info tooltipText={field.tooltipText}>{field.label}</Info>
+              ) : (
+                field.label
+              )
+            }
+            value={value || false}
+            onValueChange={handleToggleChange}
+            style={{ container: { marginVertical: 4 } }}
+          />
+        );
 
-    case "month-year-picker":
-      return (
-        <MonthYearPicker
-          label={field.label}
-          value={value || {}}
-          onValueChange={handleMonthYearChange}
-          backgroundColor={colors.secondary}
-          helperText={error}
-          helperTextColor={error ? colors.error : undefined}
-          required={field.required}
-          showDay={field.showDay}
-          showMonth={field.showMonth}
-          showYear={field.showYear}
-          minYear={field.minYear}
-          maxYear={field.maxYear}
-          placeholders={field.monthYearPlaceholders}
-        />
-      );
+      case "tags":
+        return (
+          <TextField
+            label={field.label}
+            placeholder={field.placeholder}
+            value={tagsInput}
+            onChangeText={handleTagsInputChange}
+            backgroundColor={backgroundColor}
+            helperText={error || t("edit.common.tags.helperText")}
+            helperTextColor={error ? colors.error : undefined}
+          />
+        );
 
-    case "chip-selector":
-      return (
-        <ChipSelector
-          label={field.label}
-          options={field.chipOptions || []}
-          value={value || (field.multiple ? [] : "")}
-          onValueChange={handleChipSelectorChange}
-          multiple={field.multiple}
-          required={field.required}
-          helperText={error}
-          helperTextColor={error ? colors.error : undefined}
-          allowEmpty={field.allowEmpty}
-        />
-      );
+      case "mood":
+        return (
+          <View style={styles.moodContainer}>
+            <Text color={colors.contrast} style={styles.moodLabel}>
+              {field.label}
+            </Text>
+            <MoodSelector
+              value={value || "neutral"}
+              onChange={handleMoodChange}
+              colors={colors}
+            />
+          </View>
+        );
 
-    default:
-      return null;
-  }
-};
+      case "check-list":
+        return (
+          <CheckListEditor
+            label={field.label}
+            value={value}
+            error={error}
+            onChange={(updatedItems) => onChange(field.key, updatedItems)}
+          />
+        );
+
+      case "select":
+        return (
+          <Select
+            label={field.label}
+            placeholder={field.placeholder}
+            value={value || ""}
+            onValueChange={(selectedValue) =>
+              onChange(field.key, selectedValue)
+            }
+            backgroundColor={backgroundColor}
+            helperText={error}
+            helperTextColor={error ? colors.error : undefined}
+            required={field.required}
+            options={field.options || []}
+          />
+        );
+
+      case "month-year-picker":
+        return (
+          <MonthYearPicker
+            label={field.label}
+            value={value || {}}
+            onValueChange={handleMonthYearChange}
+            backgroundColor={backgroundColor}
+            helperText={error}
+            helperTextColor={error ? colors.error : undefined}
+            required={field.required}
+            showDay={field.showDay}
+            showMonth={field.showMonth}
+            showYear={field.showYear}
+            minYear={field.minYear}
+            maxYear={field.maxYear}
+            placeholders={field.monthYearPlaceholders}
+          />
+        );
+
+      case "chip-selector":
+        return (
+          <ChipSelector
+            label={field.label}
+            options={field.chipOptions || []}
+            value={value || (field.multiple ? [] : "")}
+            onValueChange={handleChipSelectorChange}
+            multiple={field.multiple}
+            required={field.required}
+            helperText={error}
+            helperTextColor={error ? colors.error : undefined}
+            allowEmpty={field.allowEmpty}
+          />
+        );
+
+      default:
+        return null;
+    }
+  },
+  arePropsEqual
+);

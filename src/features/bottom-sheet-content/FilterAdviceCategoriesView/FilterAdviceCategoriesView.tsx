@@ -1,4 +1,3 @@
-import { ADVICE_CATEGORIES } from "@/src/shared/const/adviceCategories";
 import { useT } from "@/src/shared/lib/hooks";
 import { useAdviceCategoriesFilter } from "@/src/shared/lib/hooks/useAdviceCategoriesFilter";
 import { useBottomSheetStore, useThemeStore } from "@/src/shared/store";
@@ -15,14 +14,12 @@ import {
 import React, { useEffect, useMemo, useState } from "react";
 import { View } from "react-native";
 import { styles } from "./FilterAdviceCategoriesView.styles";
+import { ADVICE_CATEGORIES } from "./const/adviceCategories";
 
 const FilterAdviceCategoriesView = () => {
   const t = useT();
   const { colors, theme } = useThemeStore();
   const { setBottomSheetVisible } = useBottomSheetStore();
-
-  // Использование хардкод категорий
-  const backendCategories = ADVICE_CATEGORIES;
 
   // Хук для управления исключенными категориями
   const {
@@ -57,11 +54,11 @@ const FilterAdviceCategoriesView = () => {
 
   // Подготовка данных для списка
   const categoriesData = useMemo(() => {
-    return backendCategories.map((category) => ({
+    return ADVICE_CATEGORIES.map((category) => ({
       id: category,
       name: getCategoryName(category),
     }));
-  }, [backendCategories, t]);
+  }, [ADVICE_CATEGORIES, t]);
 
   // Обработчик сохранения
   const handleSave = async () => {

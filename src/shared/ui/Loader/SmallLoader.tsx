@@ -13,8 +13,10 @@ export const SmallLoader: FC<LoaderProps> = ({
   isVisible = true,
   color,
 }) => {
-  if (!isVisible) return null;
+  // Хук должен вызываться всегда, до условного возврата
   const { colors } = useThemeStore();
+
+  if (!isVisible) return null;
 
   return (
     <View

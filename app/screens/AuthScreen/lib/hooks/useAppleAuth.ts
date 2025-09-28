@@ -4,6 +4,7 @@ import { NavigationProps } from "@/src/shared/model/types";
 import { useNavigation } from "@react-navigation/native";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { Platform } from "react-native";
+import { Variant } from "../../model/types";
 
 type AppleUser = {
   user: string;
@@ -16,7 +17,13 @@ type AppleUser = {
   authorizationCode?: string;
 };
 
-export const useAppleAuth = () => {
+export const useAppleAuth = ({
+  setVariant,
+  snapToIndex,
+}: {
+  setVariant: (variant: Variant) => void;
+  snapToIndex: (index: number) => void;
+}) => {
   const navigation = useNavigation<NavigationProps>();
   const [socialAuthMutation] = useSocialAuthMutation();
 
@@ -68,8 +75,15 @@ export const useAppleAuth = () => {
         name: name,
       })
         .unwrap()
-        .then(() => {
-          navigation.navigate(PATHS.MAIN_STACK);
+        .then(({ is_new_user }) => {
+          if (is_new_user) {
+            setVariant("profile");
+          } else {
+            snapToIndex(1);
+            setTimeout(() => {
+              navigation.navigate(PATHS.MAIN_STACK);
+            }, 400);
+          }
         })
         .catch((error) => {
           console.error("Apple auth error:", error);

@@ -3,3 +3,4 @@ export * from "./FONTS";
 export * from "./GLOBAL";
 export * from "./PALLETE_COLORS";
 export * from "./PATHS";
+export * from "./SCREEN";

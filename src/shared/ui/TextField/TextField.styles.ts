@@ -44,10 +44,11 @@ export const createStyles = (themeColors: ThemeColors) => {
     textFieldMultiline: {
       ...Platform.select({
         android: {
-          paddingVertical: 14,
           textAlignVertical: "top",
         },
       }),
+      paddingVertical: 10,
+      lineHeight: 19,
     },
     passwordToggle: {
       marginRight: 16,

@@ -53,8 +53,7 @@ export const Toggle: React.FC<ToggleProps> = ({
   };
 
   // Определяем цвет ползунка
-  const defaultThumbColor =
-    thumbColor || (value ? colors.white : colors.contrast);
+  const defaultThumbColor = thumbColor || colors.white;
 
   const toggleElement = (
     <Switch

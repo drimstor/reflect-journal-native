@@ -3,7 +3,7 @@ import { journalEntriesApi } from "@/src/entities/journals/api/journalEntriesApi
 import { summaryApi } from "@/src/entities/summary/api/summaryApi";
 import { testResultsApi } from "@/src/entities/test-results/api/testResultsApi";
 import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
-import { useAppDispatch } from "@/src/shared/store";
+import { getFiltersParams, useAppDispatch } from "@/src/shared/store";
 import { journalsApi } from "../../../entities";
 
 /**
@@ -58,7 +58,14 @@ export const usePrefetch = () => {
    * @param testId - ID теста для загрузки результатов
    */
   const prefetchTestResults = (testId: string) => {
-    const params = `test_id=${testId}&page=1&limit=50`;
+    // Используем getFiltersParams для синхронизации с реальным запросом
+    const params = getFiltersParams({
+      test_id: testId,
+      page: 1,
+      limit: 50,
+    });
+
+    console.log("prefetchTestResults", params);
 
     try {
       // Запускаем префетч результатов теста

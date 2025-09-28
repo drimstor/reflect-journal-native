@@ -17,6 +17,8 @@ export const createStyles = (themeColors: ThemeColors) => {
       shadowRadius: 3.84,
       elevation: 5,
       maxWidth: 250,
+      alignSelf: "flex-start",
+      flexShrink: 1,
     },
   });
 };

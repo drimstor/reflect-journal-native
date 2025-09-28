@@ -4,7 +4,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
 
 // Настраиваем анимацию fade для сплэш-скрина
-SplashScreen.setOptions({ fade: true });
+SplashScreen.setOptions({ fade: true, duration: 400 });
 
 // Предотвращаем автоматическое скрытие сплэш-скрина
 SplashScreen.preventAutoHideAsync();

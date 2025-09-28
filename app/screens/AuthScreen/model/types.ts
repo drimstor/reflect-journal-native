@@ -10,7 +10,15 @@ export interface TextFields {
   confirmPassword: string;
 }
 
-export type Variant = "signIn" | "signUp" | "splash";
+export type Variant =
+  | "signIn"
+  | "signUp"
+  | "splash"
+  | "growthPoints"
+  | "assistant"
+  | "profile"
+  | "welcome"
+  | "";
 
 export interface UseSubmitProps {
   textFields: TextFields;
