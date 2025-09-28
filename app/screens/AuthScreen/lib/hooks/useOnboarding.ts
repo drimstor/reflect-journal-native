@@ -1,8 +1,8 @@
-import { PATHS } from "@/src/shared/const";
 import { usePrefetch, useToggle } from "@/src/shared/lib/hooks";
 import { NavigationProps } from "@/src/shared/model/types";
 import { useNavigation } from "@react-navigation/native";
 import { useRef } from "react";
+import { PATHS } from "../../../../../src/shared/const";
 import { Variant } from "../../model/types";
 
 interface UseOnboardingProps {
@@ -29,6 +29,9 @@ export const useOnboarding = ({
     value: isOnboardingStepsLoading,
     toggle: toggleOnboardingStepsLoading,
   } = useToggle(false);
+
+  const { value: isSuccessVisible, toggle: toggleSuccessVisible } =
+    useToggle(false);
 
   // Конфигурация шагов онбординга
   const onboardingVariants = ["profile", "growthPoints", "assistant"];
@@ -63,17 +66,19 @@ export const useOnboarding = ({
         // Если это последний шаг онбординга
         if (variant === "assistant") {
           toggleWelcomeVisible(true);
+          toggleSuccessVisible(true);
           prefetchJournals();
 
           setTimeout(() => {
+            toggleWelcomeVisible(false);
             setVariant("");
             snapToIndex(1);
-            toggleWelcomeVisible(false);
 
             setTimeout(() => {
               navigation.navigate(PATHS.MAIN_STACK);
+              toggleSuccessVisible(false);
             }, 200);
-          }, 2000);
+          }, 2500);
         } else {
           // Переходим к следующему шагу
           handleOnboardingStep("next");
@@ -91,6 +96,7 @@ export const useOnboarding = ({
     isWelcomeVisible,
     isOnboardingStepsLoading,
     isOnboardingVariant,
+    isSuccessVisible,
 
     // Refs
     currentSubmitRef,
@@ -99,5 +105,6 @@ export const useOnboarding = ({
     handleOnboardingStep,
     handleContinue,
     toggleWelcomeVisible,
+    toggleSuccessVisible,
   };
 };

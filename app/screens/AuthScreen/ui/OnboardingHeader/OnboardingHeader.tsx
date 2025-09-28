@@ -36,7 +36,7 @@ export const OnboardingHeader = ({
   return (
     <>
       {/* Блок приветствия */}
-      <AnimatedAppearance isVisible={isWelcomeVisible} duration={2000}>
+      <AnimatedAppearance isVisible={isWelcomeVisible} duration={2500}>
         <Text
           font="thin"
           color={colors.contrast}
@@ -59,8 +59,8 @@ export const OnboardingHeader = ({
       {/* Блок заголовка и счетчика онбординга */}
       <AnimatedAppearance
         delay={0}
-        duration={700}
-        isVisible={isVisible && !isWelcomeVisible}
+        duration={750}
+        isVisible={!!variant && isVisible && !isWelcomeVisible}
       >
         <>
           <Header

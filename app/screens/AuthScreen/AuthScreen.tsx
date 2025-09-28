@@ -14,9 +14,11 @@ import {
 } from "@/src/shared/ui";
 import { AppleIcon, GoogleIcon } from "@/src/shared/ui/icons";
 import { FormField } from "@/src/widgets";
-import { WINDOW_HEIGHT } from "@gorhom/bottom-sheet";
+import { WINDOW_HEIGHT, WINDOW_WIDTH } from "@gorhom/bottom-sheet";
+import { Image } from "expo-image";
 import { lazy, Suspense, useState } from "react";
 import { Pressable, View } from "react-native";
+import { APP_NAME } from "../../../src/shared/const";
 import { createStyles } from "./AuthScreen.styles";
 import { useAppleAuth } from "./lib/hooks/useAppleAuth";
 import { useAuthBottomSheet } from "./lib/hooks/useAuthBottomSheet";
@@ -36,6 +38,12 @@ const OnboardingHeader = lazy(() =>
 const OnboardingSection = lazy(() =>
   import("./ui/OnboardingSection/OnboardingSection").then((module) => ({
     default: module.OnboardingSection,
+  }))
+);
+
+const SuccessOverlay = lazy(() =>
+  import("./ui/SuccessOverlay/SuccessOverlay").then((module) => ({
+    default: module.SuccessOverlay,
   }))
 );
 
@@ -62,6 +70,7 @@ const AuthScreen = () => {
     currentSubmitRef,
     handleOnboardingStep,
     handleContinue,
+    isSuccessVisible,
   } = useOnboarding({ variant, setVariant, snapToIndex });
 
   // -----------  Auth Form  ----------- //
@@ -101,14 +110,43 @@ const AuthScreen = () => {
 
   return (
     <Layout>
-      {(isOnboardingVariant || isWelcomeVisible) && (
+      {(isOnboardingVariant || isWelcomeVisible || isSuccessVisible) && (
         <Suspense fallback={null}>
           <OnboardingHeader
             variant={variant}
             isWelcomeVisible={isWelcomeVisible}
           />
+          <SuccessOverlay
+            isWelcomeVisible={isWelcomeVisible}
+            isSuccessVisible={isSuccessVisible}
+          />
         </Suspense>
       )}
+      <AnimatedAppearance isVisible={!isOnboardingVariant && !!variant}>
+        <View
+          style={{
+            position: "absolute",
+            top: 45,
+            left: (WINDOW_WIDTH - (WINDOW_WIDTH - 300)) / 2,
+            gap: 10,
+          }}
+        >
+          <Image
+            source={require("@/assets/images/logo.png")}
+            style={{
+              height: WINDOW_WIDTH - 300,
+              width: WINDOW_WIDTH - 300,
+            }}
+          />
+          <Text
+            font="thin"
+            style={{ fontSize: 28, textAlign: "center", lineHeight: 32 }}
+            color={colors.contrast}
+          >
+            {APP_NAME}
+          </Text>
+        </View>
+      </AnimatedAppearance>
       <BottomSheet
         ref={bottomSheetRef}
         snapPoints={getSnapPoints()}
@@ -207,6 +245,7 @@ const AuthScreen = () => {
               )}
             </PaddingLayout>
           )}
+
           {isOnboardingVariant && (
             <Suspense
               fallback={<View style={{ height: WINDOW_HEIGHT - 292 }} />}

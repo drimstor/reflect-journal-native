@@ -1,37 +1,23 @@
-import { PaddingLayout, SuccessAnimation } from "@/src/shared/ui";
 import { useBottomSheetStore } from "@/src/shared/store/zustand/bottomSheet.store";
+import { PaddingLayout, SuccessWithHaptic } from "@/src/shared/ui";
 import { BottomSheetBox } from "@/src/shared/ui/BottomSheetContent";
-import { useEffect } from "react";
-import * as Haptics from "expo-haptics";
 
-const SuccessView = ({}) => {
+const SuccessView = () => {
   const { setBottomSheetVisible, setNavigation, navigation } =
     useBottomSheetStore();
 
-  useEffect(() => {
-    const hapticTimeout = setTimeout(() => {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    }, 1700);
+  const handleFinish = () => {
+    setBottomSheetVisible(false);
 
-    const visibleTimeout = setTimeout(() => {
-      setBottomSheetVisible(false);
-    }, 2500);
-
-    const navigateTimeout = setTimeout(() => {
+    setTimeout(() => {
       setNavigation(true, navigation.navigateToPath, navigation.navigateParams);
-    }, 2850);
-
-    return () => {
-      clearTimeout(hapticTimeout);
-      clearTimeout(visibleTimeout);
-      clearTimeout(navigateTimeout);
-    };
-  }, []);
+    }, 350);
+  };
 
   return (
     <BottomSheetBox style={{ paddingBottom: 43 }}>
       <PaddingLayout>
-        <SuccessAnimation />
+        <SuccessWithHaptic onFinish={handleFinish} />
       </PaddingLayout>
     </BottomSheetBox>
   );

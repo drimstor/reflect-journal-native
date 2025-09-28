@@ -42,6 +42,7 @@ export { Loader } from "./Loader/Loader";
 export { MessageLoader } from "./Loader/MessageLoader";
 export { SiriLoader } from "./Loader/SiriLoader";
 export { SuccessAnimation } from "./Loader/SuccessAnimation";
+export { default as SuccessWithHaptic } from "./Loader/SuccessWithHaptic";
 export { default as MarkdownEmojiText } from "./MarkdownEmojiText/MarkdownEmojiText";
 export { default as MenuList } from "./MenuList/MenuList";
 export { default as MenuListItem } from "./MenuList/MenuListItem";

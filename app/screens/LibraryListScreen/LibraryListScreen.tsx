@@ -81,8 +81,6 @@ const LibraryListScreen = () => {
     params,
   });
 
-  console.log("useLibraryListData", data);
-
   // Используем новый универсальный рендерер
   const { renderItem } = useLibraryListRenderer({
     entityName,

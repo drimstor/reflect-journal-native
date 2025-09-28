@@ -94,7 +94,7 @@ export const useEditProfileForm = (
             }
           } else {
             // Если дата пустая, отправляем пустую строку
-            formData.append(key, "");
+            formData.append(key, "0");
           }
         }
         // Для остальных полей добавляем как есть (включая пустые строки)
