@@ -7,7 +7,6 @@ import {
   selectSnackbars,
   useAppSelector,
   useBottomSheetStore,
-  useDeviceStore,
   useThemeStore,
 } from "@/src/shared/store";
 import {
@@ -17,6 +16,7 @@ import {
   BottomSheetList,
   BottomSheetScreenHeader,
   Divider,
+  PaddingLayout,
   Text,
   useAnimatedLoading,
 } from "@/src/shared/ui";
@@ -43,7 +43,6 @@ const CreateEntityScreen = () => {
   const { colors } = useThemeStore();
   const styles = createStyles(colors);
   const navigation = useNavigation();
-  const { window } = useDeviceStore();
   const snackbars = useAppSelector(selectSnackbars);
 
   // Используем хук для управления состоянием экрана
@@ -136,6 +135,7 @@ const CreateEntityScreen = () => {
         doneText={t("shared.actions.done")}
         showDatePicker={isJournalEntry}
         onDateClick={handleDateClickForJournalEntries}
+        isDisabled={isJournalEntry && !journalsDataTransformed.length}
         showDoneButton={
           ![ENTITY_NAME.GOALS, ENTITY_NAME.SUMMARIES].includes(
             currentEntity as EntityType
@@ -182,20 +182,31 @@ const CreateEntityScreen = () => {
         </View>
 
         {/* Карусель выбора журнала (только для записей в журнале) */}
-        {isJournalEntry && (
-          <ItemCarousel
-            title={t("addEntry.choose.journals")}
-            data={journalsDataTransformed}
-            onSelectItem={(index) => {
-              if (journalsDataTransformed && journalsDataTransformed[index]) {
-                setSelectedJournalId(journalsDataTransformed[index].id);
-              }
-            }}
-            modeConfig={journalsCarouselConfig}
-            colors={colors}
-            style={{ marginBottom: 22 }} // Увеличенный отступ для журналов
-          />
-        )}
+        {isJournalEntry &&
+          (journalsDataTransformed.length > 0 ? (
+            <ItemCarousel
+              title={t("addEntry.choose.journals")}
+              data={journalsDataTransformed}
+              onSelectItem={(index) => {
+                if (journalsDataTransformed && journalsDataTransformed[index]) {
+                  setSelectedJournalId(journalsDataTransformed[index].id);
+                }
+              }}
+              modeConfig={journalsCarouselConfig}
+              colors={colors}
+              style={{ marginBottom: 22 }} // Увеличенный отступ для журналов
+            />
+          ) : (
+            <PaddingLayout>
+              <Text
+                size="base"
+                color={colors.contrast}
+                style={{ marginVertical: 20, textAlign: "center" }}
+              >
+                {t("addEntry.noJournals")}
+              </Text>
+            </PaddingLayout>
+          ))}
 
         {currentEntity === ENTITY_NAME.GOALS && (
           <CreateGoalView
@@ -216,17 +227,31 @@ const CreateEntityScreen = () => {
         )}
 
         {/* Форма для создания сущности */}
-        <FormContainer
-          fields={formConfig.fields}
-          values={values}
-          errors={errors}
-          onChange={handleChange}
-          colors={colors}
-        />
+        <View
+          style={{
+            opacity:
+              isJournalEntry && !journalsDataTransformed.length ? 0.3 : 1,
+          }}
+        >
+          <FormContainer
+            fields={formConfig.fields}
+            values={values}
+            errors={errors}
+            onChange={handleChange}
+            colors={colors}
+          />
+        </View>
 
         {/* Секция аудио и изображений (только для записей дневника) */}
         {isJournalEntry && (
-          <View style={{ paddingHorizontal: 25, paddingBottom: 20, gap: 14 }}>
+          <View
+            style={{
+              paddingHorizontal: 25,
+              paddingBottom: 20,
+              gap: 14,
+              opacity: !journalsDataTransformed.length ? 0.3 : 1,
+            }}
+          >
             <View style={{}}>
               {/* Заголовок */}
               <Text

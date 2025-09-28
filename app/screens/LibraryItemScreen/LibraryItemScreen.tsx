@@ -14,7 +14,6 @@ import { StackNavigationProps } from "@/src/shared/model/types";
 import { useBottomSheetStore, useThemeStore } from "@/src/shared/store";
 import {
   BottomSheet,
-  BottomSheetStaticBackdrop,
   Button,
   CheckBox,
   CheckboxList,
@@ -148,7 +147,7 @@ const LibraryItemScreen = () => {
               }
         }
       />
-      <BottomSheetStaticBackdrop />
+      {/* <BottomSheetStaticBackdrop /> */}
       <BottomSheet
         snapPoints={snapPoints}
         backgroundColor={colors.secondary}

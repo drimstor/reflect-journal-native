@@ -192,6 +192,7 @@
       "journals": "Choose journal",
       "chats": "Choose chat"
     },
+    "noJournals": "Create a journal first",
     "startWriting": "Start writing...",
     "images": {
       "title": "Attach images"

@@ -19,6 +19,7 @@ interface HeaderProps {
   onDateClick?: () => void;
   showDoneButton?: boolean;
   onBack?: () => void;
+  isDisabled?: boolean;
 }
 
 export const BottomSheetScreenHeader = ({
@@ -34,6 +35,7 @@ export const BottomSheetScreenHeader = ({
   onDateClick,
   showDoneButton,
   onBack,
+  isDisabled,
 }: HeaderProps) => {
   const styles = headerStyles(colors);
   const t = useT();
@@ -76,7 +78,7 @@ export const BottomSheetScreenHeader = ({
       <Pressable
         style={styles.pressableRightBox}
         onPress={onSave}
-        disabled={isLoading}
+        disabled={isLoading || isDisabled}
       >
         {showDoneButton &&
           (isLoading ? (
@@ -84,7 +86,12 @@ export const BottomSheetScreenHeader = ({
               <SmallLoader color={colors.contrast} />
             </View>
           ) : (
-            <Text font="bold" size="normal" color={colors.contrast}>
+            <Text
+              font="bold"
+              size="normal"
+              color={colors.contrast}
+              withOpacity={isDisabled ? 60 : undefined}
+            >
               {doneText}
             </Text>
           ))}
