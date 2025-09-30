@@ -11,35 +11,35 @@ import { ENTITY_NAME } from "../../../../src/shared/const/ENTITIES";
 export const LIBRARY_ITEMS = [
   {
     id: ENTITY_NAME.JOURNALS,
-    colorKey: "blue",
+    colorKey: "accent",
     getIcon: (color: string, size: number) => (
       <BookIcon color={color} size={size} />
     ),
   },
   {
     id: ENTITY_NAME.CHATS,
-    colorKey: "purple",
+    colorKey: "color2",
     getIcon: (color: string, size: number) => (
       <MailIcon color={color} size={size} />
     ),
   },
   {
     id: ENTITY_NAME.GOALS,
-    colorKey: "green",
+    colorKey: "color4",
     getIcon: (color: string, size: number) => (
       <ClipboardCheckIcon color={color} size={size} />
     ),
   },
   {
     id: ENTITY_NAME.SUMMARIES,
-    colorKey: "orange",
+    colorKey: "color3",
     getIcon: (color: string, size: number) => (
       <DirectIcon color={color} size={size} />
     ),
   },
   {
     id: ENTITY_NAME.TESTS,
-    colorKey: "error",
+    colorKey: "color1",
     getIcon: (color: string, size: number) => (
       <ClipboardTextIcon color={color} size={size} />
     ),

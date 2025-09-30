@@ -111,7 +111,7 @@ function VirtualizedList<ItemT extends WithDateAndId>({
         )
       }
       ListFooterComponent={() => (
-        <AnimatedAppearance isVisible={false} isInitialVisible>
+        <AnimatedAppearance isInitialVisible>
           <Loader style={{ marginTop: 25 }} isVisible={!data?.data} />
         </AnimatedAppearance>
       )}

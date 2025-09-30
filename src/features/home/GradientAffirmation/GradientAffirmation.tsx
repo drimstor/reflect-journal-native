@@ -1,9 +1,9 @@
-import { createStyles } from "./GradientAffirmation.styles";
-import { Text } from "@/src/shared/ui";
 import { ThemeColors } from "@/src/shared/model/types";
-import { ReactNode } from "react";
-import { LinearGradient } from "expo-linear-gradient";
 import { useThemeStore } from "@/src/shared/store";
+import { Text } from "@/src/shared/ui";
+import { LinearGradient } from "expo-linear-gradient";
+import { ReactNode } from "react";
+import { createStyles } from "./GradientAffirmation.styles";
 
 interface GradientAffirmationProps {
   colors: ThemeColors;
@@ -21,8 +21,8 @@ const GradientAffirmation = ({
   const styles = createStyles(colors);
 
   const gradientColors = {
-    dark: [colors.purple, colors.blue] as const,
-    light: ["#9cfd91", "#47cbff"] as const,
+    dark: [colors.accent, colors.color2] as const,
+    light: [colors.accent, colors.color2] as const,
   };
 
   return (

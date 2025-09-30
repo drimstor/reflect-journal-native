@@ -5,7 +5,7 @@ import { View } from "react-native";
 import { IAdviceWidgetProps } from "./types";
 
 const AdviceWidget = ({ data: externalData }: IAdviceWidgetProps) => {
-  const { colors, theme } = useThemeStore();
+  const { colors } = useThemeStore();
 
   return (
     <GradientAffirmation
@@ -30,10 +30,7 @@ const AdviceWidget = ({ data: externalData }: IAdviceWidgetProps) => {
               justifyContent: "center",
             }}
           >
-            <LampIcon
-              color={theme === "dark" ? colors.purple : "#9cfd91"}
-              size={28}
-            />
+            <LampIcon color={colors.accent} size={28} />
           </View>
         </View>
       }

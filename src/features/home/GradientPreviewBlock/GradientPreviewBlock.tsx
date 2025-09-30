@@ -1,11 +1,11 @@
+import { useGetPadding } from "@/src/shared/lib/hooks";
+import { ThemeColors } from "@/src/shared/model/types";
+import { useThemeStore } from "@/src/shared/store";
+import { ProgressBar, Text, TitleText } from "@/src/shared/ui";
+import { LinearGradient } from "expo-linear-gradient";
+import { ReactNode } from "react";
 import { View } from "react-native";
 import { createStyles } from "./GradientPreviewBlock.styles";
-import { TitleText, Text, ProgressBar } from "@/src/shared/ui";
-import { ThemeColors } from "@/src/shared/model/types";
-import { ReactNode } from "react";
-import { LinearGradient } from "expo-linear-gradient";
-import { useGetPadding } from "@/src/shared/lib/hooks";
-import { useThemeStore } from "@/src/shared/store";
 
 interface GradientPreviewBlockProps {
   colors: ThemeColors;
@@ -29,8 +29,8 @@ const GradientPreviewBlock = ({
   const styles = createStyles(colors, paddingHorizontal);
 
   const gradientColors = {
-    dark: [colors.purple, colors.blue] as const,
-    light: ["#9cfd91", "#47cbff"] as const,
+    dark: [colors.accent, colors.color2] as const,
+    light: [colors.accent, colors.color2] as const,
   };
 
   return (

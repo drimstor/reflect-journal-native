@@ -140,7 +140,7 @@ const CreateSummaryView = ({
   const ITEMS = [
     {
       id: ENTITY_NAME.JOURNALS,
-      colorKey: "blue",
+      colorKey: "accent",
       getIcon: (color: string, size: number) => (
         <BookIcon color={color} size={size} />
       ),
@@ -148,7 +148,7 @@ const CreateSummaryView = ({
     },
     {
       id: ENTITY_NAME.CHATS,
-      colorKey: "purple",
+      colorKey: "color2",
       getIcon: (color: string, size: number) => (
         <MailIcon color={color} size={size} />
       ),
@@ -156,7 +156,7 @@ const CreateSummaryView = ({
     },
     {
       id: "categories",
-      colorKey: "green",
+      colorKey: "color4",
       getIcon: (color: string, size: number) => (
         <CategoryIcon color={color} size={size} />
       ),
@@ -165,7 +165,7 @@ const CreateSummaryView = ({
     },
     {
       id: "topics",
-      colorKey: "orange",
+      colorKey: "color3",
       getIcon: (color: string, size: number) => (
         <DocumentTextIcon color={color} size={size} />
       ),
@@ -174,7 +174,7 @@ const CreateSummaryView = ({
     },
     {
       id: "allData",
-      colorKey: "pink",
+      colorKey: "color1",
       getIcon: (color: string, size: number) => (
         <CpuIcon color={color} size={size} />
       ),
@@ -183,7 +183,7 @@ const CreateSummaryView = ({
     },
     {
       id: "customRequest",
-      colorKey: "error",
+      colorKey: "color5",
       getIcon: (color: string, size: number) => (
         <BrushIcon color={color} size={size} />
       ),
