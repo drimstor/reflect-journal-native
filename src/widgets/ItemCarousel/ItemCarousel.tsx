@@ -25,6 +25,7 @@ interface ItemCarouselProps {
   willCreate?: boolean; // Флаг для отображения иконки создания
   activeIndex?: number; // Активный индекс для программного управления
   onPress?: (item: CarouselItemType) => void; // Обработчик нажатия на элемент
+  colorKey?: string; // Цвет для фонового изображения
 }
 
 export const ItemCarousel = ({
@@ -37,6 +38,7 @@ export const ItemCarousel = ({
   willCreate = false,
   activeIndex,
   onPress,
+  colorKey,
 }: ItemCarouselProps) => {
   const styles = itemCarouselStyles(colors);
 

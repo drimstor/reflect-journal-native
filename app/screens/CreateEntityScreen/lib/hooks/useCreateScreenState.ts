@@ -9,7 +9,11 @@ import {
   useToggle,
 } from "@/src/shared/lib/hooks";
 import { EntityType, NavigationProps } from "@/src/shared/model/types";
-import { useFiltersStore, useScreenInfoStore } from "@/src/shared/store";
+import {
+  useFiltersStore,
+  useScreenInfoStore,
+  useThemeStore,
+} from "@/src/shared/store";
 import { useCarouselConfig } from "@/src/shared/ui";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -36,6 +40,7 @@ export const useCreateScreenState = (getSelectedImages?: () => any[]) => {
   const { resetFilters } = useFiltersStore();
   const scrollViewRef = useRef<ScrollView>(null);
   const [snapPoints, setSnapPoints] = useState<number[]>([580]);
+  const { colors } = useThemeStore();
 
   // Состояния для компонента
   const { value: isBookmarked, toggle: setIsBookmarked } = useToggle();
@@ -156,29 +161,34 @@ export const useCreateScreenState = (getSelectedImages?: () => any[]) => {
         created_at: date,
         entity_type: ENTITY_NAME.JOURNAL_ENTRIES,
         name: t("entities.journalentriesfull.singular"),
+        chipColor: colors.accent,
       },
       {
         created_at: date,
         entity_type: ENTITY_NAME.JOURNALS,
         name: t("entities.journals.singular"),
+        chipColor: colors.color1,
       },
       {
         created_at: date,
         entity_type: ENTITY_NAME.CHATS,
         name: t("entities.chats.singular"),
+        chipColor: colors.color2,
       },
       {
         created_at: date,
         entity_type: ENTITY_NAME.GOALS,
         name: t("entities.goals.singular"),
+        chipColor: colors.color4,
       },
       {
         created_at: date,
         entity_type: ENTITY_NAME.SUMMARIES,
         name: t("entities.summaries.singular"),
+        chipColor: colors.color3,
       },
     ],
-    [date, t]
+    [date, t, colors]
   );
 
   // Отслеживаем изменения navigationScreenInfo для переключения сущности

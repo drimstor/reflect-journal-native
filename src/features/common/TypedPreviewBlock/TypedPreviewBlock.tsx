@@ -116,9 +116,7 @@ export const TypedPreviewBlock = ({
           />
         ) : item?.entity_type ? (
           <Chip
-            color={stringToColor(
-              t(`entities.${item?.entity_type.toLowerCase()}.singular`)
-            )}
+            color={item?.chipColor}
             title={t(`entities.${item?.entity_type.toLowerCase()}.singular`)}
           />
         ) : null
