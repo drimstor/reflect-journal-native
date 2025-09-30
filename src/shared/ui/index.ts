@@ -46,7 +46,6 @@ export { default as SuccessWithHaptic } from "./Loader/SuccessWithHaptic";
 export { default as MarkdownEmojiText } from "./MarkdownEmojiText/MarkdownEmojiText";
 export { default as MenuList } from "./MenuList/MenuList";
 export { default as MenuListItem } from "./MenuList/MenuListItem";
-export { default as MenuListItemReverse } from "./MenuList/MenuListItemReverse";
 export {
   dateToMonthYearValue,
   formatMonthYearValue,

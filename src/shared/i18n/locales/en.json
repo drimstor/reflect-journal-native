@@ -724,7 +724,7 @@
   "notifications": {
     "dailyReminder": {
       "title": "Time for your journal",
-      "body": "Don't forget to write down your thoughts today!"
+      "body": "Don't forget to write down your thoughts"
     },
     "permissions": {
       "title": "Notification Permission",
@@ -735,6 +735,11 @@
     },
     "settings": {
       "title": "Notification Settings",
+      "pushNotifications": "Push Notifications",
+      "regularNotifications": "Regular Notifications",
+      "dailyReminders": "Journal writing",
+      "summaryReports": "Summary",
+      "aiInsights": "Insights from AI assistant",
       "dailyReminderEnabled": "Daily Reminder",
       "reminderTime": "Reminder Time",
       "testNotification": "Test Notification"
@@ -758,6 +763,10 @@
         "title": "Summary creation error",
         "body": "Failed to create analysis. Please try again"
       }
+    },
+    "weeklyReport": {
+      "title": "Time to review your week",
+      "body": "Ready to analyze your week?"
+    }
   }
-}
 } 

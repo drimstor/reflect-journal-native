@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { useThemeStore } from "../../store";
 import Text from "../Text/Text";
 import { createStyles } from "./MenuList.styles";
@@ -7,25 +7,37 @@ import { createStyles } from "./MenuList.styles";
 interface ListItemProps {
   onPress: () => void;
   text: string | ReactNode;
-  IconComponent: (props: { color: string; size: number }) => ReactNode;
+  IconComponent?: (props: { color: string; size: number }) => ReactNode;
+  element?: ReactNode;
+  isDisabled?: boolean;
 }
 
-const MenuListItem: FC<ListItemProps> = ({ onPress, text, IconComponent }) => {
+const MenuListItem: FC<ListItemProps> = ({
+  onPress,
+  text,
+  IconComponent,
+  element,
+  isDisabled,
+}) => {
   const { colors } = useThemeStore();
   const styles = createStyles(colors);
 
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={[styles.listItemBox, styles.listItemDefault]}
+      style={styles.listItemBox}
+      disabled={isDisabled}
     >
-      <Text font="bold" color={colors.contrast} style={{ fontSize: 16 }}>
+      {IconComponent?.({ color: colors.contrast, size: 24 })}
+      <Text
+        font="bold"
+        color={colors.contrast}
+        style={styles.textStyle}
+        withOpacity={isDisabled ? 60 : undefined}
+      >
         {text}
       </Text>
-      {IconComponent({
-        color: colors.contrast,
-        size: 24,
-      })}
+      <View style={styles.elementBox}>{element}</View>
     </TouchableOpacity>
   );
 };

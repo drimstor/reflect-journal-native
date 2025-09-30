@@ -16,8 +16,17 @@ export interface DailyReminderConfig {
   minute: number; // 0-59
 }
 
-// Идентификатор для ежедневного напоминания
+export interface WeeklyReminderConfig {
+  title: string;
+  body: string;
+  weekday: number; // 1-7 (1 = Monday, 7 = Sunday)
+  hour: number; // 0-23
+  minute: number; // 0-59
+}
+
+// Идентификаторы для уведомлений
 const DAILY_REMINDER_ID = "daily-journal-reminder";
+const WEEKLY_REMINDER_ID = "weekly-summary-reminder";
 
 /**
  * Сервис для работы с локальными уведомлениями
@@ -180,6 +189,70 @@ export class NotificationService {
       return true;
     } catch (error) {
       console.error("Ошибка при отмене ежедневного напоминания:", error);
+      return false;
+    }
+  }
+
+  /**
+   * Планирование еженедельного напоминания
+   */
+  public async scheduleWeeklyReminder(
+    config: WeeklyReminderConfig
+  ): Promise<boolean> {
+    try {
+      // Проверяем разрешения
+      const hasPermissions = await this.ensurePermissions();
+      if (!hasPermissions) {
+        console.warn("Нет разрешений на планирование уведомлений");
+        return false;
+      }
+
+      // Отменяем предыдущее еженедельное напоминание
+      await this.cancelWeeklyReminder();
+
+      // Создаем новое еженедельное напоминание
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: config.title,
+          body: config.body,
+          data: { type: "weekly-reminder" },
+        },
+        trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.WEEKLY,
+          weekday: config.weekday,
+          hour: config.hour,
+          minute: config.minute,
+        },
+        identifier: WEEKLY_REMINDER_ID,
+      });
+
+      console.log(
+        `Еженедельное напоминание запланировано на ${
+          config.weekday
+        } день недели в ${config.hour}:${config.minute
+          .toString()
+          .padStart(2, "0")}`
+      );
+      return true;
+    } catch (error) {
+      console.error(
+        "Ошибка при планировании еженедельного напоминания:",
+        error
+      );
+      return false;
+    }
+  }
+
+  /**
+   * Отмена еженедельного напоминания
+   */
+  public async cancelWeeklyReminder(): Promise<boolean> {
+    try {
+      await Notifications.cancelScheduledNotificationAsync(WEEKLY_REMINDER_ID);
+      console.log("Еженедельное напоминание отменено");
+      return true;
+    } catch (error) {
+      console.error("Ошибка при отмене еженедельного напоминания:", error);
       return false;
     }
   }

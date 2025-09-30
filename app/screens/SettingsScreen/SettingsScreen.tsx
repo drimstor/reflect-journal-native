@@ -37,7 +37,7 @@ const SettingsScreen = () => {
   const t = useT();
   const navigation = useNavigation<NavigationProps>();
   const { colors, toggleTheme, theme } = useThemeStore();
-  const { toggleLanguage, locale } = useLang();
+  const { locale } = useLang();
   const { navigateToFlow, setBottomSheetVisible } = useBottomSheetStore();
   const [isVisible, setIsVisible] = useState(true);
   const { setTabBar } = useAnimationStore();
@@ -57,18 +57,28 @@ const SettingsScreen = () => {
     {
       text: t("settings.subscription"),
       IconComponent: CardIcon,
-      onPress: toggleTheme,
+      onPress: () => {},
     },
     {
       text: t("settings.notifications"),
       IconComponent: BellIcon,
-      onPress: toggleLanguage,
+      onPress: () => {
+        setTabBar(0);
+        setIsVisible(false);
+        navigation.navigate(PATHS.SETTINGS_NOTIFICATIONS);
+      },
     },
     {
       text: t("settings.importExport"),
       IconComponent: ArchiveBoxIcon,
-      onPress: toggleLanguage,
-      element: <Chip title={t("shared.info.soon")} color={colors.accent} />,
+      onPress: () => {},
+      element: (
+        <Chip
+          title={t("shared.info.soon")}
+          color={colors.accent}
+          style={{ marginRight: -8, marginVertical: -2 }}
+        />
+      ),
     },
   ];
 
@@ -142,7 +152,11 @@ const SettingsScreen = () => {
     {
       text: t("settings.language"),
       IconComponent: GlobalIcon,
-      onPress: toggleLanguage,
+      onPress: () => {
+        setTabBar(0);
+        setIsVisible(false);
+        navigation.navigate(PATHS.SETTINGS_LANGUAGE);
+      },
       element: (
         <Text
           style={{ textTransform: "uppercase" }}
@@ -157,7 +171,6 @@ const SettingsScreen = () => {
       IconComponent: LogoutIcon,
       onPress: () => {
         navigateToFlow("logout", "areYouSure");
-
         requestAnimationFrame(() => {
           setBottomSheetVisible(true);
         });
@@ -174,12 +187,11 @@ const SettingsScreen = () => {
             <ProfileMenu />
             <MenuList
               title={t("settings.account")}
-              listItemVariant="reverse"
               style={{ marginBottom: 20, marginTop: 30 }}
               items={accountSettings.map(
-                ({ text, IconComponent, element }) => ({
+                ({ text, IconComponent, element, onPress }) => ({
                   text,
-                  onPress: () => {},
+                  onPress,
                   IconComponent: (props) => (
                     <IconComponent {...props} color={props.color} size={22} />
                   ),
@@ -197,7 +209,6 @@ const SettingsScreen = () => {
             />
             <MenuList
               title={t("settings.appearance")}
-              listItemVariant="reverse"
               style={{ marginBottom: 20 }}
               items={appearanceSettings.map(
                 ({ text, IconComponent, onPress, element }) => ({
@@ -212,7 +223,6 @@ const SettingsScreen = () => {
             />
             <MenuList
               title={t("settings.assistant")}
-              listItemVariant="reverse"
               style={{ marginBottom: 20 }}
               items={assistantSettings.map(
                 ({ text, IconComponent, onPress, element }) => ({
@@ -235,7 +245,6 @@ const SettingsScreen = () => {
             />
             <MenuList
               title={t("settings.other")}
-              listItemVariant="reverse"
               items={otherSettings.map(
                 ({ text, IconComponent, onPress, color, element }) => ({
                   text,

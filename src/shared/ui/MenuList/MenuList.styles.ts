@@ -11,7 +11,7 @@ export const createStyles = (colors: ThemeColors) =>
     listItemBox: {
       flexDirection: "row",
       alignItems: "center",
-      gap: 10,
+      gap: 6,
       paddingVertical: 14,
     },
     listTitle: {
@@ -32,5 +32,9 @@ export const createStyles = (colors: ThemeColors) =>
     elementBox: {
       marginLeft: "auto",
       marginRight: 8,
+    },
+    textStyle: {
+      fontSize: 16,
+      marginLeft: 4,
     },
   });

@@ -16,4 +16,6 @@ export enum PATHS {
   TEST = "test",
   SETTINGS_ASSISTANT = "settings-assistant",
   SETTINGS_DEVELOP = "settings-develop",
+  SETTINGS_NOTIFICATIONS = "settings-notifications",
+  SETTINGS_LANGUAGE = "settings-language",
 }

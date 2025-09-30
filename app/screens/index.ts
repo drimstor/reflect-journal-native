@@ -10,5 +10,7 @@ export { default as OverviewScreen } from "./OverviewScreen/OverviewScreen";
 export { default as RelationshipMapScreen } from "./RelationshipMapScreen/RelationshipMapScreen";
 export { default as SettingsAssistantScreen } from "./SettingsAssistantScreen/SettingsAssistantScreen";
 export { default as SettingsGrowthScreen } from "./SettingsGrowthScreen/SettingsGrowthScreen";
+export { default as SettingsLanguageScreen } from "./SettingsLanguageScreen/SettingsLanguageScreen";
+export { default as SettingsNotificationsScreen } from "./SettingsNotificationsScreen/SettingsNotificationsScreen";
 export { default as SettingsScreen } from "./SettingsScreen/SettingsScreen";
 export { default as TestScreen } from "./TestScreen/TestScreen";

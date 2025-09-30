@@ -16,5 +16,7 @@ export { default as LibraryList } from "./LibraryList/LibraryList";
 export { default as OverviewChartSlider } from "./OverviewChartSlider/OverviewChartSlider";
 export { default as AssistantView } from "./settings/AssistantView/AssistantView";
 export { default as GrowthPointsView } from "./settings/GrowthPointsView/GrowthPointsView";
+export { default as LanguageView } from "./settings/LanguageView/LanguageView";
+export { default as NotificationsView } from "./settings/NotificationsView/NotificationsView";
 export { default as TasksWidget } from "./TasksWidget/TasksWidget";
 export { default as TopicsWidget } from "./TopicsWidget/TopicsWidget";

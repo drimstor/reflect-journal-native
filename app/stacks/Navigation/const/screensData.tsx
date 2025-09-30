@@ -10,6 +10,8 @@ import {
   RelationshipMapScreen,
   SettingsAssistantScreen,
   SettingsGrowthScreen,
+  SettingsLanguageScreen,
+  SettingsNotificationsScreen,
   TestScreen,
 } from "@/app/screens";
 import { PATHS } from "@/src/shared/const";
@@ -69,6 +71,16 @@ export const screensData = [
   {
     name: PATHS.SETTINGS_DEVELOP,
     component: SettingsGrowthScreen,
+    options: { animation: "simple_push" },
+  },
+  {
+    name: PATHS.SETTINGS_NOTIFICATIONS,
+    component: SettingsNotificationsScreen,
+    options: { animation: "simple_push" },
+  },
+  {
+    name: PATHS.SETTINGS_LANGUAGE,
+    component: SettingsLanguageScreen,
     options: { animation: "simple_push" },
   },
 ];

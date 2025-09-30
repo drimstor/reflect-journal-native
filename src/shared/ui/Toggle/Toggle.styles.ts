@@ -16,6 +16,6 @@ export const styles = StyleSheet.create({
     marginRight: 12,
   },
   disabledLabel: {
-    opacity: 0.5,
+    opacity: 0.6,
   },
 });
