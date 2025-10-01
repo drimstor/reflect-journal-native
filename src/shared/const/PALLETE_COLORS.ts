@@ -10,12 +10,13 @@ export const PALLETE_COLORS = {
     contrast: "#212529",
     contrastReverse: "#FDFDFD",
 
-    accent: "#85C6CE",
+    accent: "#29C4C8",
+
     black: "#181822",
     white: "#FFFFFF",
     error: "#ff6867",
-    color1: "#B3CFD0",
-    color2: "#C0E3C7",
+    color1: "#9CE2BD",
+    color2: "#B5D8DE",
     color3: "#DAC9A0",
     color4: "#E4EBBD",
     color5: "#A7867A",
@@ -32,6 +33,7 @@ export const PALLETE_COLORS = {
     contrastReverse: "#181822",
 
     accent: "#b9a7f6",
+
     black: "#181822",
     white: "#FFFFFF",
     error: "#ff6867",
@@ -42,5 +44,3 @@ export const PALLETE_COLORS = {
     color5: "#B6904E",
   },
 };
-
-// new secondary #2d3042
