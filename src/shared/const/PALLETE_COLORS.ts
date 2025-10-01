@@ -10,13 +10,14 @@ export const PALLETE_COLORS = {
     contrast: "#212529",
     contrastReverse: "#FDFDFD",
 
-    accent: "#29C4C8",
+    accent: "#41C4CE",
 
     black: "#181822",
     white: "#FFFFFF",
     error: "#ff6867",
+
     color1: "#9CE2BD",
-    color2: "#B5D8DE",
+    color2: "#C1C2CE",
     color3: "#DAC9A0",
     color4: "#E4EBBD",
     color5: "#A7867A",
@@ -37,6 +38,7 @@ export const PALLETE_COLORS = {
     black: "#181822",
     white: "#FFFFFF",
     error: "#ff6867",
+
     color1: "#DDD9E2",
     color2: "#B0C7D4",
     color3: "#C6A07D",
