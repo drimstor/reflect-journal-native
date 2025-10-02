@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { View, TouchableOpacity } from "react-native";
-import { Button, CheckBox, Text, TextField, TrashIcon } from "@/src/shared/ui";
-import { useThemeStore } from "@/src/shared/store";
-import { useT } from "@/src/shared/lib/hooks";
 import { ChecklistItem } from "@/src/entities/goals/model/types";
+import { useT } from "@/src/shared/lib/hooks";
+import { useThemeStore } from "@/src/shared/store";
+import { Button, CheckBox, Text, TextField, TrashIcon } from "@/src/shared/ui";
+import React, { useState } from "react";
+import { TouchableOpacity, View } from "react-native";
 import { styles } from "./CheckListEditor.styles";
 
 interface CheckListEditorProps {

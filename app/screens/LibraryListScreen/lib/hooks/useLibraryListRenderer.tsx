@@ -10,7 +10,7 @@ import { CheckBox } from "@/src/shared/ui";
 import { CalendarIcon, CheckIcon, GalleryIcon } from "@/src/shared/ui/icons";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View } from "react-native";
+import { SectionListRenderItemInfo, View } from "react-native";
 
 // Компонент для рендера записи журнала
 interface JournalEntryItemProps {
@@ -161,17 +161,17 @@ export const useLibraryListRenderer = ({
   entityName,
   related_entities,
 }: UseLibraryListRendererProps) => {
-  const renderItem = (props: { item: any }) => {
+  const renderItem = ({ item }: SectionListRenderItemInfo<any>) => {
     if (entityName === ENTITY_NAME.JOURNAL_ENTRIES) {
       return (
         <JournalEntryItem
-          item={props.item}
+          item={item}
           entityName={entityName}
           related_entities={related_entities}
         />
       );
     } else if (entityName === ENTITY_NAME.TEST_RESULTS) {
-      return <TestResultItem item={props.item} entityName={entityName} />;
+      return <TestResultItem item={item} entityName={entityName} />;
     }
     return null;
   };

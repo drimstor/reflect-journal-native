@@ -23,7 +23,7 @@ import { NavigationProps } from "../../model/types";
 import { VirtualizedListProps, WithDateAndId } from "./model/types";
 import { styles } from "./VirtualizedList.styles";
 
-export const SectionHeader = ({ title }: { title: string }) => {
+const SectionHeaderComponent = ({ title }: { title: string }) => {
   const { colors } = useThemeStore();
   return (
     <View style={styles.dateChip}>
@@ -37,11 +37,19 @@ export const SectionHeader = ({ title }: { title: string }) => {
   );
 };
 
-export const renderSectionHeader = ({
+SectionHeaderComponent.displayName = "SectionHeader";
+
+export const SectionHeader = React.memo(SectionHeaderComponent);
+
+const renderSectionHeaderFunction = ({
   section: { title },
 }: {
   section: { title: string };
 }) => <SectionHeader title={title} />;
+
+renderSectionHeaderFunction.displayName = "renderSectionHeader";
+
+export const renderSectionHeader = renderSectionHeaderFunction;
 
 function VirtualizedList<ItemT extends WithDateAndId>({
   renderItem,
@@ -57,7 +65,7 @@ function VirtualizedList<ItemT extends WithDateAndId>({
   const { setNavigationScreenInfo } = useScreenInfoStore();
   const isFilterActive = isAnyFilterActive(filters);
   const navigation = useNavigation<NavigationProps>();
-  
+
   const loadMore = () => {
     if (data && data.currentPage < data.totalPages && !isFetching) {
       filters.setPage(data.currentPage + 1);
@@ -71,8 +79,8 @@ function VirtualizedList<ItemT extends WithDateAndId>({
 
   // Безопасная обертка для renderItem
   const safeRenderItem = useMemo(() => {
-    if (!renderItem || typeof renderItem !== 'function') {
-      console.warn('VirtualizedList: renderItem is not a valid function');
+    if (!renderItem || typeof renderItem !== "function") {
+      console.warn("VirtualizedList: renderItem is not a valid function");
       return () => null;
     }
     return renderItem;
