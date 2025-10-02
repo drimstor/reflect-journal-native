@@ -74,9 +74,9 @@ export const Toggle: React.FC<ToggleProps> = memo(
       />
     );
 
-    // Если нет лейбла, возвращаем только переключатель в контейнере
+    // Если нет лейбла, возвращаем только переключатель
     if (!label) {
-      return <View style={style?.container}>{toggleElement}</View>;
+      return toggleElement;
     }
 
     return (

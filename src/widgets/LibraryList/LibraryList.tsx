@@ -1,14 +1,14 @@
 import { Chat } from "@/src/entities/chat/model/types";
 import { useGetAnyEntities } from "@/src/entities/common/lib/hooks/useGetAnyEntities";
 import { Journal } from "@/src/entities/journals/model/types";
-import { createTypedPreviewBlockRenderer } from "@/src/features";
 import { getFiltersParams } from "@/src/shared/lib/helpers";
 import { EntityType } from "@/src/shared/model/types";
 import { useFiltersStore, useScreenInfoStore } from "@/src/shared/store";
-import { VirtualizedList } from "@/src/shared/ui";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
-import React, { useCallback } from "react";
+import { useCallback } from "react";
+import { createTypedPreviewBlockRenderer } from "../../features";
 import { ENTITY_NAME } from "../../shared/const/ENTITIES";
+import { VirtualizedList } from "../../shared/ui";
 
 interface LibraryListProps {
   variant: Exclude<EntityType, "JournalEntries">;

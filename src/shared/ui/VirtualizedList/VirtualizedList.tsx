@@ -23,7 +23,7 @@ import { NavigationProps } from "../../model/types";
 import { VirtualizedListProps, WithDateAndId } from "./model/types";
 import { styles } from "./VirtualizedList.styles";
 
-const SectionHeaderComponent = ({ title }: { title: string }) => {
+export const SectionHeader = ({ title }: { title: string }) => {
   const { colors } = useThemeStore();
   return (
     <View style={styles.dateChip}>
@@ -37,19 +37,11 @@ const SectionHeaderComponent = ({ title }: { title: string }) => {
   );
 };
 
-SectionHeaderComponent.displayName = "SectionHeader";
-
-export const SectionHeader = React.memo(SectionHeaderComponent);
-
-const renderSectionHeaderFunction = ({
+export const renderSectionHeader = ({
   section: { title },
 }: {
   section: { title: string };
 }) => <SectionHeader title={title} />;
-
-renderSectionHeaderFunction.displayName = "renderSectionHeader";
-
-export const renderSectionHeader = renderSectionHeaderFunction;
 
 function VirtualizedList<ItemT extends WithDateAndId>({
   renderItem,
@@ -65,7 +57,6 @@ function VirtualizedList<ItemT extends WithDateAndId>({
   const { setNavigationScreenInfo } = useScreenInfoStore();
   const isFilterActive = isAnyFilterActive(filters);
   const navigation = useNavigation<NavigationProps>();
-
   const loadMore = () => {
     if (data && data.currentPage < data.totalPages && !isFetching) {
       filters.setPage(data.currentPage + 1);
@@ -77,15 +68,6 @@ function VirtualizedList<ItemT extends WithDateAndId>({
     return groupByDate<ItemT>(data.data, locale, sortField);
   }, [data?.data, locale, sortField]);
 
-  // Безопасная обертка для renderItem
-  const safeRenderItem = useMemo(() => {
-    if (!renderItem || typeof renderItem !== "function") {
-      console.warn("VirtualizedList: renderItem is not a valid function");
-      return () => null;
-    }
-    return renderItem;
-  }, [renderItem]);
-
   useEffect(() => {
     LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
   }, [data]);
@@ -94,7 +76,7 @@ function VirtualizedList<ItemT extends WithDateAndId>({
     <BottomSheetSectionList
       scrollEnabled
       sections={sections}
-      renderItem={safeRenderItem}
+      renderItem={renderItem}
       showsVerticalScrollIndicator={false}
       renderSectionHeader={renderSectionHeader}
       onEndReached={loadMore}

@@ -17,7 +17,7 @@ import {
   DocumentTextIcon,
   TimerIcon,
 } from "@/src/shared/ui/icons";
-import { SectionListRenderItemInfo, View } from "react-native";
+import { View } from "react-native";
 import { ENTITY_NAME } from "../../../shared/const/ENTITIES";
 
 interface TypedPreviewBlockProps {
@@ -129,9 +129,7 @@ export const TypedPreviewBlock = ({
 export const createTypedPreviewBlockRenderer = (
   props: Omit<TypedPreviewBlockProps, "item">
 ) => {
-  const TypedPreviewBlockRenderer = ({
-    item,
-  }: SectionListRenderItemInfo<any>) => (
+  const TypedPreviewBlockRenderer = ({ item }: { item: any }) => (
     <TypedPreviewBlock {...props} item={item} />
   );
 

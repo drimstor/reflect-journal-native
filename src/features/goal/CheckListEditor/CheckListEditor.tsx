@@ -3,7 +3,7 @@ import { useT } from "@/src/shared/lib/hooks";
 import { useThemeStore } from "@/src/shared/store";
 import { Button, CheckBox, Text, TextField, TrashIcon } from "@/src/shared/ui";
 import React, { useState } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { FlatList, TouchableOpacity, View } from "react-native";
 import { styles } from "./CheckListEditor.styles";
 
 interface CheckListEditorProps {
@@ -82,9 +82,11 @@ export const CheckListEditor: React.FC<CheckListEditorProps> = ({
         </TouchableOpacity>
       </View>
       {checklistItems.length > 0 ? (
-        <View>
-          {checklistItems.map((item) => (
-            <View key={item.id} style={styles.itemContainer}>
+        <FlatList
+          data={checklistItems}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.itemContainer}>
               {editMode ? (
                 <TextField
                   value={item.title}
@@ -105,8 +107,9 @@ export const CheckListEditor: React.FC<CheckListEditorProps> = ({
                 </TouchableOpacity>
               )}
             </View>
-          ))}
-        </View>
+          )}
+          scrollEnabled={false}
+        />
       ) : (
         <Text withOpacity={70} color={colors.contrast} style={styles.emptyText}>
           {t("edit.goals.tasks.empty")}
