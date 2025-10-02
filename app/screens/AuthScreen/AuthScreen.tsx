@@ -58,9 +58,7 @@ const AuthScreen = () => {
   const isAuthVariant = ["signIn", "signUp"].includes(variant);
 
   const { bottomSheetRef, snapToIndex, getSnapPoints, bottomSheetIndex } =
-    useAuthBottomSheet({
-      setVariant,
-    });
+    useAuthBottomSheet({ setVariant });
 
   // -----------  Onboarding  ----------- //
 

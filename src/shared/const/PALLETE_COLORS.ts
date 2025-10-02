@@ -16,8 +16,8 @@ export const PALLETE_COLORS = {
     white: "#FFFFFF",
     error: "#ff6867",
 
-    color1: "#9CE2BD",
-    color2: "#C1C2CE",
+    color1: "#B3CFD0",
+    color2: "#9CE2BD",
     color3: "#DAC9A0",
     color4: "#E4EBBD",
     color5: "#A7867A",

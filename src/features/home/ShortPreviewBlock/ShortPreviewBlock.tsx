@@ -55,7 +55,7 @@ const ShortPreviewBlock = ({
       backgroundColor: interpolateColor(
         animation.value,
         [0, 1],
-        [colors.secondary, colors.alternate]
+        [colors.secondary, colors.secondary]
       ),
       transform: [{ scale }],
     };

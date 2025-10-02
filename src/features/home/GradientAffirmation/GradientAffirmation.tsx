@@ -22,7 +22,7 @@ const GradientAffirmation = ({
 
   const gradientColors = {
     dark: [colors.accent, colors.color2] as const,
-    light: [colors.accent, colors.color1] as const,
+    light: [colors.accent, colors.color2] as const,
   };
 
   return (
