@@ -39,7 +39,8 @@
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE",
         "CAMERA",
-        "POST_NOTIFICATIONS"
+        "POST_NOTIFICATIONS",
+        "com.android.vending.BILLING"
       ]
     },
     "plugins": [
@@ -47,6 +48,7 @@
       "expo-secure-store",
       "expo-web-browser",
       "expo-image-picker",
+      "react-native-iap",
       [
         "expo-splash-screen",
         {
@@ -74,6 +76,7 @@
           "android": {
             "useAndroidX": true,
             "enableJetifier": true,
+            "kotlinVersion": "2.1.20",
             "gradleProperties": {
               "org.gradle.jvmargs": "-Xmx4096m -XX:MaxMetaspaceSize=1024m",
               "android.enableResourceOptimizations": "false"

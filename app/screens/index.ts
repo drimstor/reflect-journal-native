@@ -12,5 +12,6 @@ export { default as SettingsAssistantScreen } from "./SettingsAssistantScreen/Se
 export { default as SettingsGrowthScreen } from "./SettingsGrowthScreen/SettingsGrowthScreen";
 export { default as SettingsLanguageScreen } from "./SettingsLanguageScreen/SettingsLanguageScreen";
 export { default as SettingsNotificationsScreen } from "./SettingsNotificationsScreen/SettingsNotificationsScreen";
+export { default as SettingsPurchaseScreen } from './SettingsPurchaseScreen/SettingsPurchaseScreen/SettingsPurchaseScreen";/SettingsPurchaseScreen';
 export { default as SettingsScreen } from "./SettingsScreen/SettingsScreen";
 export { default as TestScreen } from "./TestScreen/TestScreen";

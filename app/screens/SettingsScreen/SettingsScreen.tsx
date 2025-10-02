@@ -57,7 +57,11 @@ const SettingsScreen = () => {
     {
       text: t("settings.subscription"),
       IconComponent: CardIcon,
-      onPress: () => {},
+      onPress: () => {
+        setTabBar(0);
+        setIsVisible(false);
+        navigation.navigate(PATHS.SETTINGS_PURCHASE);
+      },
     },
     {
       text: t("settings.notifications"),

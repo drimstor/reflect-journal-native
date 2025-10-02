@@ -12,6 +12,7 @@ import {
   SettingsGrowthScreen,
   SettingsLanguageScreen,
   SettingsNotificationsScreen,
+  SettingsPurchaseScreen,
   TestScreen,
 } from "@/app/screens";
 import { PATHS } from "@/src/shared/const";
@@ -81,6 +82,11 @@ export const screensData = [
   {
     name: PATHS.SETTINGS_LANGUAGE,
     component: SettingsLanguageScreen,
+    options: { animation: "simple_push" },
+  },
+  {
+    name: PATHS.SETTINGS_PURCHASE,
+    component: SettingsPurchaseScreen,
     options: { animation: "simple_push" },
   },
 ];
