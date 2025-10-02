@@ -57,6 +57,7 @@ function VirtualizedList<ItemT extends WithDateAndId>({
   const { setNavigationScreenInfo } = useScreenInfoStore();
   const isFilterActive = isAnyFilterActive(filters);
   const navigation = useNavigation<NavigationProps>();
+  
   const loadMore = () => {
     if (data && data.currentPage < data.totalPages && !isFetching) {
       filters.setPage(data.currentPage + 1);
@@ -68,6 +69,15 @@ function VirtualizedList<ItemT extends WithDateAndId>({
     return groupByDate<ItemT>(data.data, locale, sortField);
   }, [data?.data, locale, sortField]);
 
+  // Безопасная обертка для renderItem
+  const safeRenderItem = useMemo(() => {
+    if (!renderItem || typeof renderItem !== 'function') {
+      console.warn('VirtualizedList: renderItem is not a valid function');
+      return () => null;
+    }
+    return renderItem;
+  }, [renderItem]);
+
   useEffect(() => {
     LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
   }, [data]);
@@ -76,7 +86,7 @@ function VirtualizedList<ItemT extends WithDateAndId>({
     <BottomSheetSectionList
       scrollEnabled
       sections={sections}
-      renderItem={renderItem}
+      renderItem={safeRenderItem}
       showsVerticalScrollIndicator={false}
       renderSectionHeader={renderSectionHeader}
       onEndReached={loadMore}

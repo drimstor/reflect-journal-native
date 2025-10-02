@@ -18,6 +18,7 @@ import {
   TimerIcon,
 } from "@/src/shared/ui/icons";
 import { View } from "react-native";
+import { SectionListRenderItemInfo } from "react-native";
 import { ENTITY_NAME } from "../../../shared/const/ENTITIES";
 
 interface TypedPreviewBlockProps {
@@ -129,11 +130,11 @@ export const TypedPreviewBlock = ({
 export const createTypedPreviewBlockRenderer = (
   props: Omit<TypedPreviewBlockProps, "item">
 ) => {
-  const TypedPreviewBlockRenderer = ({ item }: { item: any }) => (
+  const TypedPreviewBlockRenderer = ({ item }: SectionListRenderItemInfo<any>) => (
     <TypedPreviewBlock {...props} item={item} />
   );
-
-  TypedPreviewBlockRenderer.displayName = "TypedPreviewBlockRenderer";
-
+  
+  TypedPreviewBlockRenderer.displayName = 'TypedPreviewBlockRenderer';
+  
   return TypedPreviewBlockRenderer;
 };
