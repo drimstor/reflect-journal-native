@@ -12,7 +12,7 @@ import {
   SettingsGrowthScreen,
   SettingsLanguageScreen,
   SettingsNotificationsScreen,
-  SettingsPurchaseScreen,
+  SettingsSubscriptionScreen,
   TestScreen,
 } from "@/app/screens";
 import { PATHS } from "@/src/shared/const";
@@ -85,8 +85,8 @@ export const screensData = [
     options: { animation: "simple_push" },
   },
   {
-    name: PATHS.SETTINGS_PURCHASE,
-    component: SettingsPurchaseScreen,
+    name: PATHS.SETTINGS_SUBSCRIPTION,
+    component: SettingsSubscriptionScreen,
     options: { animation: "simple_push" },
   },
 ];

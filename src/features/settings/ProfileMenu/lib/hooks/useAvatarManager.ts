@@ -39,7 +39,7 @@ export const useAvatarManager = ({
 
   // Локальное состояние для аватара и загрузки
   const [avatarUrl, setAvatarUrl] = useState(userData?.avatar_url);
-  const [isImageLoading, setIsImageLoading] = useState(true);
+  const [isImageLoading, setIsImageLoading] = useState(false);
   const isProcessingRef = useRef(false);
 
   // Синхронизация с данными пользователя

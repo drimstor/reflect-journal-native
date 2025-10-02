@@ -18,5 +18,5 @@ export enum PATHS {
   SETTINGS_DEVELOP = "settings-develop",
   SETTINGS_NOTIFICATIONS = "settings-notifications",
   SETTINGS_LANGUAGE = "settings-language",
-  SETTINGS_PURCHASE = "settings-purchase",
+  SETTINGS_SUBSCRIPTION = "settings-purchase",
 }

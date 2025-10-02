@@ -60,7 +60,7 @@ const SettingsScreen = () => {
       onPress: () => {
         setTabBar(0);
         setIsVisible(false);
-        navigation.navigate(PATHS.SETTINGS_PURCHASE);
+        navigation.navigate(PATHS.SETTINGS_SUBSCRIPTION);
       },
     },
     {
