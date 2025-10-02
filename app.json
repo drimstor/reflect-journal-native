@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/images/logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#F1F2F3"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -31,7 +31,7 @@
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-logo.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#F1F2F3"
       },
       "permissions": [
         "RECORD_AUDIO",
