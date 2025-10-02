@@ -92,7 +92,7 @@ export const ChipSelector: React.FC<ChipSelectorProps> = ({
           const selected = isSelected(option.value);
           const chipColor = selected
             ? option.activeColor || colors.accent
-            : option.color || colors.lightGray;
+            : option.color || colors.light;
 
           return (
             <TouchableOpacity

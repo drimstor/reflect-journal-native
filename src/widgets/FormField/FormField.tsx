@@ -142,7 +142,7 @@ export const FormField: React.FC<FormFieldProps> = React.memo(
       onChange(field.key, chipValue);
     };
 
-    const backgroundColor = field.backgroundColor || colors.lightGray;
+    const backgroundColor = field.backgroundColor || colors.light;
 
     switch (field.type) {
       case "text":

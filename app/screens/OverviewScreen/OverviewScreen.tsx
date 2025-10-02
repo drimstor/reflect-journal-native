@@ -111,9 +111,8 @@ const OverviewScreen = () => {
               key={index}
               title={block.title}
               value={block.value}
-              backgroundColor={index === 2 ? colors.alternate : colors.light}
+              backgroundColor={index === 2 ? colors.light + 40 : colors.light}
               disableAnimate={index === 2}
-              backgroundColorForAnimate={colors.alternate}
               backgroundIcon={block.backgroundIcon as EntityType}
               onPress={() => onOpenListItem(block.path)}
               element={<Chip color={block.chipColor} title={block.chipTitle} />}

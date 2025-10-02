@@ -94,7 +94,7 @@ const SelectIOS: FC<SelectProps> = ({
           sizeStyles[size],
           {
             height: heightAnim,
-            backgroundColor: backgroundColor ?? colors.lightGray,
+            backgroundColor: backgroundColor ?? colors.light,
           },
         ]}
       >
@@ -137,11 +137,11 @@ const SelectIOS: FC<SelectProps> = ({
               enabled={enabled}
               style={[
                 styles.picker,
-                { backgroundColor: backgroundColor ?? colors.lightGray },
+                { backgroundColor: backgroundColor ?? colors.light },
               ]}
               itemStyle={[
                 styles.picker,
-                { backgroundColor: backgroundColor ?? colors.lightGray },
+                { backgroundColor: backgroundColor ?? colors.light },
               ]}
               dropdownIconColor="transparent" // Скрываем стандартную стрелку
               mode="dropdown"
@@ -152,7 +152,7 @@ const SelectIOS: FC<SelectProps> = ({
                   value=""
                   color={colors.contrast + "80"}
                   style={{
-                    backgroundColor: backgroundColor ?? colors.lightGray,
+                    backgroundColor: backgroundColor ?? colors.light,
                   }}
                 />
               )}
@@ -163,7 +163,7 @@ const SelectIOS: FC<SelectProps> = ({
                   value={option.value}
                   color={colors.contrast}
                   style={{
-                    backgroundColor: backgroundColor ?? colors.lightGray,
+                    backgroundColor: backgroundColor ?? colors.light,
                   }}
                 />
               ))}

@@ -14,7 +14,7 @@ export const createStyles = (colors: any) =>
       borderRadius: 10,
       borderWidth: 1,
       borderColor: colors.alternate,
-      backgroundColor: colors.lightGray,
+      backgroundColor: colors.light,
     },
     selectedMoodButton: {
       borderColor: colors.accent,

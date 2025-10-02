@@ -9,14 +9,15 @@ interface BackgroundLayoutProps {
 }
 
 const BackgroundLayout = ({ children }: BackgroundLayoutProps) => {
-  const { colors, theme, isBackgroundImage } = useThemeStore();
+  const { theme, isBackgroundImage } = useThemeStore();
   const { statusBarHeight, window } = useDeviceStore();
   const insets = useSafeAreaInsets();
+  const backgroundColor = theme === "light" ? "#F1F2F3" : "#181822";
 
   return (
     <View
       style={{
-        backgroundColor: colors.background,
+        backgroundColor,
         height: "100%",
       }}
     >
@@ -24,15 +25,15 @@ const BackgroundLayout = ({ children }: BackgroundLayoutProps) => {
         source={
           isBackgroundImage
             ? theme === "light"
-              ? require("@/assets/images/TopographicLight.png")
-              : require("@/assets/images/TopographicDark.png")
+              ? require("@/assets/images/light.png")
+              : require("@/assets/images/dark.png")
             : require("@/assets/images/Transparent.png")
         }
         style={{ flex: 1, height: window.height + 20 }}
         resizeMode="cover"
       >
         <StatusBarManager
-          backgroundColor={colors.background}
+          backgroundColor={backgroundColor}
           barStyle={theme === "dark" ? "light-content" : "dark-content"}
         />
         <View style={{ flex: 1, paddingTop: insets.top + statusBarHeight }}>

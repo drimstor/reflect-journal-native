@@ -45,7 +45,7 @@ export const BottomSheetHeader = ({
         </View>
       </View>
       <Divider
-        color={colors.light}
+        color={colors.alternate}
         style={isBorderGap ? {} : { marginBottom: -4 }}
       />
     </View>
@@ -64,7 +64,7 @@ export const BottomSheetFooter = ({
   return (
     <View>
       <Divider
-        color={colors.light}
+        color={colors.alternate}
         style={[styles.divider, isBorderGap ? {} : { marginTop: -4 }]}
       />
       <View style={styles.footer}>{children}</View>

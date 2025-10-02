@@ -113,7 +113,7 @@ const AssistantView = ({ chipColor, onExternalSubmit }: AssistantViewProps) => {
         options={templateOptions}
         value={selectedTemplate}
         onValueChange={handleTemplateSelect}
-        backgroundColor={chipColor || colors.lightGray}
+        backgroundColor={chipColor || colors.light}
       />
 
       <Separator />

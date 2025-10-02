@@ -12,11 +12,6 @@ export const createStyles = (theme: ThemeColors) => {
       borderRadius: 27.5, // Половина от width/height (55/2)
       borderWidth: 1,
       borderColor: theme.alternate,
-      shadowColor: "#000000",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.03,
-      shadowRadius: 8,
-      elevation: 1,
     },
     activeIndicator: {
       position: "absolute",

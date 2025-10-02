@@ -6,8 +6,7 @@ import { LoaderProps } from "./model/types";
 
 // Импортируем JSON анимацию
 import { WINDOW_WIDTH } from "@gorhom/bottom-sheet";
-import loadingDarkAnimation from "./animations/slow-spinner-dark.json";
-import loadingLightAnimation from "./animations/slow-spinner-light.json";
+import loadingDarkAnimation from "./animations/slow-spinner.json";
 
 export const Loader: FC<LoaderProps> = ({
   size = WINDOW_WIDTH - 100,
@@ -25,14 +24,13 @@ export const Loader: FC<LoaderProps> = ({
           marginHorizontal: "auto",
           width: size,
           height: size,
+          opacity: theme === "light" ? 0.85 : 1,
         },
         style,
       ]}
     >
       <LottieView
-        source={
-          theme === "light" ? loadingLightAnimation : loadingDarkAnimation
-        }
+        source={loadingDarkAnimation}
         style={{ width: size, height: size }}
         autoPlay
         loop

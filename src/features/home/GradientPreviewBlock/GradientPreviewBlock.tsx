@@ -29,7 +29,7 @@ const GradientPreviewBlock = ({
   const styles = createStyles(colors, paddingHorizontal);
 
   const gradientColors = {
-    dark: [colors.accent, colors.color2] as const,
+    dark: [colors.accent, colors.color4] as const,
     light: [colors.accent, colors.color2] as const,
   };
 

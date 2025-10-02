@@ -1,6 +1,6 @@
+import { useThemeStore } from "@/src/shared/store";
 import { FC } from "react";
 import { View } from "react-native";
-import { useThemeStore } from "@/src/shared/store";
 import { styles } from "./ProgressBar.styles";
 
 interface ProgressBarProps {
@@ -16,7 +16,7 @@ const ProgressBar: FC<ProgressBarProps> = ({
   backgroundColor,
   progressColor,
 }) => {
-  const { colors } = useThemeStore();
+  const { colors, theme } = useThemeStore();
 
   return (
     <View
@@ -24,7 +24,8 @@ const ProgressBar: FC<ProgressBarProps> = ({
         styles.container,
         {
           height,
-          backgroundColor: backgroundColor || colors.alternate,
+          backgroundColor:
+            backgroundColor || theme === "light" ? colors.alternate : "#393841",
         },
       ]}
     >
