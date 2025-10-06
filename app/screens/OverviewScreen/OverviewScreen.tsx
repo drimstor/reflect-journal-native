@@ -1,6 +1,6 @@
 import { PreviewBlock } from "@/src/features";
 import { BOTTOM_SHEET_SCREEN_POINTS, PATHS } from "@/src/shared/const";
-import { formatDate, stringToColor } from "@/src/shared/lib/helpers";
+import { formatDate } from "@/src/shared/lib/helpers";
 import {
   useBottomSheetIndexState,
   useLang,
@@ -44,7 +44,7 @@ const OverviewScreen = () => {
       title: t("overview.analytics.dataOverview.title"),
       value: t("overview.analytics.dataOverview.value"),
       chipTitle: "Charts",
-      chipColor: stringToColor("Charts"),
+      chipColor: colors.color2,
       backgroundIcon: "Charts",
       path: PATHS.CHARTS,
     },
@@ -52,14 +52,14 @@ const OverviewScreen = () => {
       title: t("overview.analytics.relationshipMap.title"),
       value: t("overview.analytics.relationshipMap.value"),
       chipTitle: "Map",
-      chipColor: stringToColor("Map"),
+      chipColor: colors.color5,
       backgroundIcon: "RelationshipMap",
       path: PATHS.RELATIONSHIP_MAP,
     },
     {
       title: t("overview.analytics.timeline.title"),
       value: t("overview.analytics.timeline.value"),
-      chipTitle: "Soon",
+      chipTitle: t("shared.info.soon"),
       chipColor: colors.accent,
       backgroundIcon: "Timeline",
       path: "",

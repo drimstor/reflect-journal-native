@@ -17,7 +17,7 @@ import {
 } from "@/src/shared/ui";
 import { ChartsFiltersPanel, Header } from "@/src/widgets";
 import { WINDOW_HEIGHT } from "@gorhom/bottom-sheet";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, ScrollView, View } from "react-native";
 import VisNetwork, { VisNetworkRef } from "react-native-vis-network";
@@ -25,12 +25,14 @@ import { styles } from "./RelationshipMapScreen.styles";
 
 const RelationshipMapScreen = () => {
   const t = useT();
+  const route = useRoute();
   const { colors, theme } = useThemeStore();
   const visNetworkRef = useRef<VisNetworkRef>(null);
   const [graphLoading, setGraphLoading] = useState<boolean>(true);
   const navigation = useNavigation<NavigationProps>();
   const { LARGE } = BOTTOM_SHEET_SCREEN_POINTS;
   const snapPoints = useMemo(() => [LARGE], [LARGE]);
+  const { isBottomSheetMountAnimate } = (route.params as any) || {};
 
   // Запрос данных графа портрета
   const { data: graphData, isLoading } = useGetPortraitGraphQuery({
@@ -207,12 +209,12 @@ const RelationshipMapScreen = () => {
         //   onPress: () => {},
         // }}
       />
-      <BottomSheetStaticBackdrop />
+      {!isBottomSheetMountAnimate && <BottomSheetStaticBackdrop />}
       <BottomSheet
         snapPoints={snapPoints}
         backgroundColor={colors.secondary}
         borderColor={colors.alternate}
-        animateOnMount={false}
+        animateOnMount={!!isBottomSheetMountAnimate}
         scrollEnabled={false}
         paddingHorizontal={1}
         staticMode

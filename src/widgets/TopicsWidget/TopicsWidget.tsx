@@ -40,7 +40,9 @@ const TopicsWidget: FC<TopicsWidgetProps> = ({ data }) => {
         IconComponent: LinkBoxIcon,
         onPress: () => {
           setBottomSheetVisible(false);
-          navigation.navigate(PATHS.RELATIONSHIP_MAP);
+          navigation.navigate(PATHS.RELATIONSHIP_MAP, {
+            isBottomSheetMountAnimate: true,
+          });
         },
       },
     ];
@@ -67,7 +69,11 @@ const TopicsWidget: FC<TopicsWidgetProps> = ({ data }) => {
           />
           <TouchableOpacity
             style={styles.arrowLeftIconBox}
-            onPress={() => navigation.navigate(PATHS.RELATIONSHIP_MAP)}
+            onPress={() =>
+              navigation.navigate(PATHS.RELATIONSHIP_MAP, {
+                isBottomSheetMountAnimate: true,
+              })
+            }
           >
             <ArrowLeftIcon color={colors.contrast} size={26} />
           </TouchableOpacity>

@@ -14,6 +14,7 @@ import { StackNavigationProps } from "@/src/shared/model/types";
 import { useBottomSheetStore, useThemeStore } from "@/src/shared/store";
 import {
   BottomSheet,
+  BottomSheetStaticBackdrop,
   Button,
   CheckBox,
   CheckboxList,
@@ -61,7 +62,8 @@ const LibraryItemScreen = () => {
   const { subtitle } = useHeaderStore();
   const { setNavigation } = useBottomSheetStore();
   const route = useRoute();
-  const { variant, item } = (route.params as any) || {};
+  const { variant, item, isBottomSheetMountAnimate } =
+    (route.params as any) || {};
   const { LARGE } = BOTTOM_SHEET_SCREEN_POINTS;
   const snapPoints = useMemo(() => [LARGE], [LARGE]);
 
@@ -77,6 +79,7 @@ const LibraryItemScreen = () => {
   const isJournalEntry = variant === ENTITY_NAME.JOURNAL_ENTRIES;
   const isTest = variant === ENTITY_NAME.TESTS;
   const isTestResult = variant === ENTITY_NAME.TEST_RESULTS;
+  const isDocument = variant === ENTITY_NAME.DOCUMENTS;
 
   useEffect(() => {
     setCurrentItem(data || item);
@@ -112,8 +115,6 @@ const LibraryItemScreen = () => {
   const { checkboxes, isUpdatingChecklistItem, handleCheckboxToggle } =
     useChecklistActions(variant, currentItem?.id, currentItem?.checklist || []);
 
-  const isDocument = variant === ENTITY_NAME.DOCUMENTS;
-
   // Hook для отслеживания прогресса просмотра документа (всегда вызываем хук)
   const {
     progress,
@@ -147,12 +148,12 @@ const LibraryItemScreen = () => {
               }
         }
       />
-      {/* <BottomSheetStaticBackdrop /> */}
+      {!isBottomSheetMountAnimate && <BottomSheetStaticBackdrop />}
       <BottomSheet
         snapPoints={snapPoints}
         backgroundColor={colors.secondary}
         borderColor={colors.alternate}
-        animateOnMount={false}
+        animateOnMount={!!isBottomSheetMountAnimate}
         style={{ paddingTop: 25 }}
         initialIndex={0}
         staticMode

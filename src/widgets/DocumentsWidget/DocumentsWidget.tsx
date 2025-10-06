@@ -59,6 +59,7 @@ const DocumentsWidget: FC<DocumentsWidgetProps> = ({
                 navigation.push(PATHS.LIBRARY_ITEM, {
                   variant: ENTITY_NAME.DOCUMENTS,
                   item: document,
+                  isBottomSheetMountAnimate: true,
                 })
               }
             />

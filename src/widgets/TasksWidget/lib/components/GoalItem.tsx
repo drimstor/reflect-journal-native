@@ -15,7 +15,11 @@ const GoalItem: React.FC<GoalItemProps> = ({ goal }) => {
   const { colors, theme } = useThemeStore();
 
   const onPress = () => {
-    navigation.push(PATHS.LIBRARY_ITEM, { variant: "Goals", item: goal });
+    navigation.push(PATHS.LIBRARY_ITEM, {
+      variant: "Goals",
+      item: goal,
+      isBottomSheetMountAnimate: true,
+    });
   };
 
   const renderItem = createTypedPreviewBlockRenderer({

@@ -41,7 +41,9 @@ const CategoriesWidget: FC<CategoriesWidgetProps> = ({ data }) => {
         IconComponent: ChartBoxIcon,
         onPress: () => {
           setBottomSheetVisible(false);
-          navigation.navigate(PATHS.CHARTS);
+          navigation.navigate(PATHS.CHARTS, {
+            isBottomSheetMountAnimate: true,
+          });
         },
       },
     ];
@@ -68,7 +70,11 @@ const CategoriesWidget: FC<CategoriesWidgetProps> = ({ data }) => {
           />
           <TouchableOpacity
             style={styles.arrowLeftIconBox}
-            onPress={() => navigation.navigate(PATHS.CHARTS)}
+            onPress={() =>
+              navigation.navigate(PATHS.CHARTS, {
+                isBottomSheetMountAnimate: true,
+              })
+            }
           >
             <ArrowLeftIcon color={colors.contrast} size={26} />
           </TouchableOpacity>

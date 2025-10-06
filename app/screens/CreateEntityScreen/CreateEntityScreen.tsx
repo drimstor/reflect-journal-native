@@ -16,6 +16,7 @@ import {
   BottomSheetList,
   BottomSheetScreenHeader,
   Divider,
+  OnboardingCounter,
   PaddingLayout,
   Text,
   useAnimatedLoading,
@@ -171,6 +172,18 @@ const CreateEntityScreen = () => {
         />
 
         <Divider color={colors.alternate} />
+
+        <OnboardingCounter
+          steps={[
+            "Create Journal Entry",
+            "Create Chat",
+            "Create Goal",
+            "Create Summary",
+            "Analyze Overview",
+          ]}
+          currentStep={2}
+          style={{ marginBottom: 22, maxWidth: 380, marginHorizontal: "auto" }}
+        />
 
         <View style={{ position: "relative" }}>
           <AnimatedLoader

@@ -1,7 +1,7 @@
 import { PATHS } from "@/src/shared/const/PATHS";
 import { useT } from "@/src/shared/lib/hooks";
 import { NavigationProps } from "@/src/shared/model/types";
-import { useDeviceStore, useFiltersStore } from "@/src/shared/store";
+import { useFiltersStore } from "@/src/shared/store";
 import {
   AnimatedAppearance,
   BottomSheet,
@@ -15,7 +15,8 @@ import {
   PaddingLayout,
 } from "@/src/shared/ui";
 import { ChartsFiltersPanel, Header } from "@/src/widgets";
-import { useNavigation } from "@react-navigation/native";
+import { WINDOW_HEIGHT } from "@gorhom/bottom-sheet";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { ScrollView, View } from "react-native";
 import { styles } from "./ChartsScreen.styles";
 import { useChartBottomSheet } from "./lib/hooks/useChartBottomSheet";
@@ -26,10 +27,11 @@ import { ChartsContainer } from "./ui/ChartsContainer/ChartsContainer";
 
 const ChartsScreen = () => {
   const t = useT();
-  const { window } = useDeviceStore();
+  const route = useRoute();
   const navigation = useNavigation<NavigationProps>();
   const { snapPoints, openBottomSheetList, colors } = useChartBottomSheet();
   const { multi_select_ids, multi_select } = useFiltersStore();
+  const { isBottomSheetMountAnimate } = (route.params as any) || {};
 
   // Хуки для управления данными и состоянием
   const { chartsData, isLoading } = useChartData();
@@ -70,12 +72,12 @@ const ChartsScreen = () => {
             )(multi_select ? multi_select_ids : []),
         }}
       />
-      <BottomSheetStaticBackdrop />
+      {!isBottomSheetMountAnimate && <BottomSheetStaticBackdrop />}
       <BottomSheet
         snapPoints={snapPoints}
         backgroundColor={colors.secondary}
         borderColor={colors.alternate}
-        animateOnMount={false}
+        animateOnMount={!!isBottomSheetMountAnimate}
         paddingHorizontal={1}
         staticMode
         pinnedElement={
@@ -101,7 +103,7 @@ const ChartsScreen = () => {
             <ScrollView
               ref={scrollViewRef}
               style={{
-                maxHeight: window.height - 230,
+                maxHeight: WINDOW_HEIGHT - 230,
                 paddingTop: 25,
                 position: "relative",
               }}
