@@ -15,8 +15,8 @@ export const PALLETE_COLORS = {
 
     color1: "#CDDCFA",
     color2: "#A5BFF5",
-    color3: "#BCD4DA",
-    color4: "#D6A1F5",
+    color3: "#DECBDF",
+    color4: "#BCD4DA",
     color5: "#f7e1b2",
   },
   dark: {
@@ -34,9 +34,9 @@ export const PALLETE_COLORS = {
     error: "#ff6867",
 
     color1: "#E5DFE5",
-    color2: "#B5C2D4",
-    color3: "#D5E0CB",
-    color4: "#DECBDF",
-    color5: "#E3C585",
+    color2: "#A5BFF5",
+    color3: "#DECBDF",
+    color4: "#BCD4DA",
+    color5: "#f7e1b2",
   },
 };

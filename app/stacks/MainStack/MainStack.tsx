@@ -26,7 +26,7 @@ const BottomTabs = createBottomTabNavigator();
 export const MainStack = () => {
   const { colors, theme } = useThemeStore();
   const { isTablet, isAndroid } = useDeviceStore();
-  const { animation } = useTabBarAnimation();
+  const { animation, isItemActive } = useTabBarAnimation();
   const styles = createStyles(colors, theme, isTablet, isAndroid, animation);
 
   const transparentAlternate =
@@ -52,10 +52,13 @@ export const MainStack = () => {
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <HomeIcon
-                size={28}
-                color={focused ? colors.accent : transparentAlternate}
-              />
+              <View>
+                {isItemActive(PATHS.HOME) && <View style={styles.activeDot} />}
+                <HomeIcon
+                  size={28}
+                  color={focused ? colors.accent : transparentAlternate}
+                />
+              </View>
             );
           },
         }}
@@ -67,6 +70,9 @@ export const MainStack = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <View style={styles.leftIconBox}>
+                {isItemActive(PATHS.LIBRARY) && (
+                  <View style={styles.activeDot} />
+                )}
                 <DirectSolidIcon
                   size={28}
                   color={focused ? colors.accent : transparentAlternate}
@@ -102,6 +108,9 @@ export const MainStack = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <View style={styles.rightIconBox}>
+                {isItemActive(PATHS.OVERVIEW) && (
+                  <View style={styles.activeDot} />
+                )}
                 <ChartSolidIcon
                   size={29}
                   color={focused ? colors.accent : transparentAlternate}
@@ -117,10 +126,15 @@ export const MainStack = () => {
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <SettingsSolidIcon
-                size={29}
-                color={focused ? colors.accent : transparentAlternate}
-              />
+              <View>
+                {isItemActive(PATHS.PROFILE) && (
+                  <View style={styles.activeDot} />
+                )}
+                <SettingsSolidIcon
+                  size={29}
+                  color={focused ? colors.accent : transparentAlternate}
+                />
+              </View>
             );
           },
         }}

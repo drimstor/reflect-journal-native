@@ -16,12 +16,15 @@ import {
 } from "@/src/widgets";
 import React, { useEffect } from "react";
 import { ScrollView } from "react-native";
+import { PATHS } from "../../../src/shared/const";
+import { useTabBarStore } from "../../../src/shared/store";
 import { styles } from "./HomeScreen.styles";
 import { useGetDocumentsProgress } from "./lib/hooks/useGetDocumentsProgress";
 import { useHomeScreenData } from "./lib/hooks/useHomeScreenData";
 
 const HomeScreen = () => {
   const t = useT();
+  const { deactivateItem } = useTabBarStore();
 
   // Получение всех данных и состояний загрузки
   const { isLoading, data } = useHomeScreenData();
@@ -37,6 +40,8 @@ const HomeScreen = () => {
 
   useEffect(() => {
     handleScreenLoading();
+    // Деактивируем PATHS.HOME при посещении (обновится lastVisitDate)
+    deactivateItem(PATHS.HOME);
   }, []);
 
   return (

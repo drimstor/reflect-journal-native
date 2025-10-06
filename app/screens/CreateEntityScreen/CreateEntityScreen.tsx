@@ -135,7 +135,7 @@ const CreateEntityScreen = () => {
         doneText={t("shared.actions.done")}
         showDatePicker={isJournalEntry}
         onDateClick={handleDateClickForJournalEntries}
-        isDisabled={isJournalEntry && !journalsDataTransformed.length}
+        isDisabled={isJournalEntry && !journalsDataTransformed?.length}
         showDoneButton={
           ![ENTITY_NAME.GOALS, ENTITY_NAME.SUMMARIES].includes(
             currentEntity as EntityType
@@ -183,7 +183,7 @@ const CreateEntityScreen = () => {
 
         {/* Карусель выбора журнала (только для записей в журнале) */}
         {isJournalEntry &&
-          (journalsDataTransformed.length > 0 ? (
+          (journalsDataTransformed?.length > 0 ? (
             <ItemCarousel
               title={t("addEntry.choose.journals")}
               data={journalsDataTransformed}
@@ -230,7 +230,7 @@ const CreateEntityScreen = () => {
         <View
           style={{
             opacity:
-              isJournalEntry && !journalsDataTransformed.length ? 0.3 : 1,
+              isJournalEntry && !journalsDataTransformed?.length ? 0.3 : 1,
           }}
         >
           <FormContainer
@@ -249,7 +249,7 @@ const CreateEntityScreen = () => {
               paddingHorizontal: 25,
               paddingBottom: 20,
               gap: 14,
-              opacity: !journalsDataTransformed.length ? 0.3 : 1,
+              opacity: !journalsDataTransformed?.length ? 0.3 : 1,
             }}
           >
             <View style={{}}>

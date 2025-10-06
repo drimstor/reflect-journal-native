@@ -1,8 +1,8 @@
 import { useLang, useT } from "@/src/shared/lib/hooks";
 import {
-  useAnimationStore,
   useBottomSheetStore,
   useSettingsStore,
+  useTabBarStore,
   useThemeStore,
 } from "@/src/shared/store";
 import {
@@ -40,7 +40,7 @@ const SettingsScreen = () => {
   const { locale } = useLang();
   const { navigateToFlow, setBottomSheetVisible } = useBottomSheetStore();
   const [isVisible, setIsVisible] = useState(true);
-  const { setTabBar } = useAnimationStore();
+  const { setTabBar } = useTabBarStore();
   const {
     appearance: { isEmoji },
     updateSettings,

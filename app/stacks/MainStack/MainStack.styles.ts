@@ -47,5 +47,15 @@ export const createStyles = (
     rightIconBox: {
       marginLeft: 18,
     },
+    activeDot: {
+      position: "absolute",
+      top: 0,
+      right: 0,
+      width: 8,
+      height: 8,
+      borderRadius: 4,
+      backgroundColor: colors.accent,
+      zIndex: 10,
+    },
   });
 };

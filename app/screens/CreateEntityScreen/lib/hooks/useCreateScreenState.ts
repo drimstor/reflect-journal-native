@@ -12,6 +12,7 @@ import { EntityType, NavigationProps } from "@/src/shared/model/types";
 import {
   useFiltersStore,
   useScreenInfoStore,
+  useTabBarStore,
   useThemeStore,
 } from "@/src/shared/store";
 import { useCarouselConfig } from "@/src/shared/ui";
@@ -41,6 +42,7 @@ export const useCreateScreenState = (getSelectedImages?: () => any[]) => {
   const scrollViewRef = useRef<ScrollView>(null);
   const [snapPoints, setSnapPoints] = useState<number[]>([580]);
   const { colors } = useThemeStore();
+  const { activateItem } = useTabBarStore();
 
   // Состояния для компонента
   const { value: isBookmarked, toggle: setIsBookmarked } = useToggle();
@@ -132,6 +134,8 @@ export const useCreateScreenState = (getSelectedImages?: () => any[]) => {
 
         requestAnimationFrame(() => {
           navigation.navigate(pathConfig[currentEntity], params);
+          // Активируем PATHS.OVERVIEW при создании любой сущности
+          activateItem(PATHS.OVERVIEW, "manual");
         });
       } catch (error) {
         console.error("Ошибка при создании:", error);
@@ -200,7 +204,7 @@ export const useCreateScreenState = (getSelectedImages?: () => any[]) => {
       setCurrentEntity(navigationScreenInfo.name);
       setNavigationScreenInfo({ name: "" });
     }
-  }, [navigationScreenInfo.name]);
+  }, [navigationScreenInfo.name, currentEntity, setNavigationScreenInfo]);
 
   const handleDateSelected = (field: string) => (date: string | null) => {
     if (date) {

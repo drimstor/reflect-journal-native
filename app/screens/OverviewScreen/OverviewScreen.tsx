@@ -7,7 +7,7 @@ import {
   useT,
 } from "@/src/shared/lib/hooks";
 import { EntityType, NavigationProps } from "@/src/shared/model/types";
-import { useThemeStore } from "@/src/shared/store";
+import { useTabBarStore, useThemeStore } from "@/src/shared/store";
 import {
   BottomSheet,
   CalendarIcon,
@@ -18,8 +18,8 @@ import {
 import { SectionHeader } from "@/src/shared/ui/VirtualizedList/VirtualizedList";
 import { Header, OverviewChartSlider } from "@/src/widgets";
 import { WINDOW_HEIGHT } from "@gorhom/bottom-sheet";
-import { useNavigation } from "@react-navigation/native";
-import { useMemo } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useCallback, useMemo } from "react";
 import { View } from "react-native";
 
 const OverviewScreen = () => {
@@ -27,6 +27,8 @@ const OverviewScreen = () => {
   const { colors } = useThemeStore();
   const { locale } = useLang();
   const { LARGE } = BOTTOM_SHEET_SCREEN_POINTS;
+  const { deactivateItem, isItemActive } = useTabBarStore();
+  const navigation = useNavigation<NavigationProps>();
 
   // Используем новый хук для управления индексом BottomSheet
   const { bottomSheetRef, bottomSheetIndex, snapToIndex } =
@@ -34,7 +36,7 @@ const OverviewScreen = () => {
 
   const snapPoints = useMemo(() => {
     return [WINDOW_HEIGHT - 417, LARGE];
-  }, [WINDOW_HEIGHT, LARGE]);
+  }, [LARGE]);
 
   // Конфиг для блоков аналитики
   const analyticsBlocks = [
@@ -64,7 +66,14 @@ const OverviewScreen = () => {
     },
   ];
 
-  const navigation = useNavigation<NavigationProps>();
+  // Деактивируем PATHS.OVERVIEW при посещении
+  useFocusEffect(
+    useCallback(() => {
+      if (isItemActive(PATHS.OVERVIEW)) {
+        deactivateItem(PATHS.OVERVIEW);
+      }
+    }, [isItemActive])
+  );
 
   // --------------------- //
 
