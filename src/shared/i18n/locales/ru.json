@@ -600,7 +600,8 @@
       "progress": "Прогресс",
       "of": "из",
       "type": "Тип",
-      "soon": "Скоро"
+      "soon": "Скоро",
+      "new": "Новое"
     },
     "validation": {
       "required": "Обязательное поле",
@@ -767,6 +768,17 @@
     "weeklyReport": {
       "title": "Время подвести итоги недели",
       "body": "Готовы проанализировать свою неделю?"
+    }
+  },
+  "onboarding": {
+    "title": "Онбординг",
+    "inMainMenuButton": "В главное меню", 
+    "steps": {
+      "create_journal": "Создайте дневник",
+      "create_chat": "Создайте чат",
+      "create_goal": "Создайте цель",
+      "create_summary": "Создайте саммари",
+      "analyze_data": "Анализ данных"
     }
   }
 } 

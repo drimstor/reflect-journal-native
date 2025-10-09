@@ -23,5 +23,7 @@ export const styles = StyleSheet.create({
   },
   mockBlock: {
     minWidth: 22,
+    maxHeight: 22,
+    width: 0,
   },
 });

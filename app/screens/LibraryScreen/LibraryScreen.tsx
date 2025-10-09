@@ -12,10 +12,10 @@ import {
   Layout,
   useCarouselConfig,
 } from "@/src/shared/ui";
-import { CpuIcon, DotsIcon } from "@/src/shared/ui/icons";
+import { DotsIcon, GiftIcon } from "@/src/shared/ui/icons";
 import { FiltersPanel, Header, LibraryList } from "@/src/widgets";
 import { View } from "react-native";
-import { styles } from "./LibraryScreen.styles";
+import { createStyles } from "./LibraryScreen.styles";
 import { LIBRARY_ITEMS } from "./const/static";
 import { useLibraryBottomSheet } from "./lib/hooks/useLibraryBottomSheet";
 import { useLibraryScreenLogic } from "./lib/hooks/useLibraryScreenLogic";
@@ -25,12 +25,14 @@ const LibraryScreen = () => {
   const t = useT();
   const { colors } = useThemeStore();
   const { multi_select_ids } = useFiltersStore();
+  const styles = createStyles(colors);
 
   const { bottomSheetRef, snapToIndex, snapPoints, bottomSheetIndex } =
     useLibraryBottomSheet();
   const { currentIndex, setCurrentIndex, onOpenListItem } =
     useLibraryScreenLogic({ snapToIndex, bottomSheetIndex });
-  const { handleMultiSelectActions, toggleStatusBar } = useMultiSelectActions();
+  const { handleMultiSelectActions, handleGiftIconPress } =
+    useMultiSelectActions();
 
   // Получаем данные для текущего выбранного элемента
   const currentItem = LIBRARY_ITEMS[currentIndex];
@@ -43,8 +45,13 @@ const LibraryScreen = () => {
         <Header
           title={t("library.title")}
           leftIcon={{
-            icon: <CpuIcon color={colors.contrast} size={22} />,
-            onPress: toggleStatusBar,
+            onPress: handleGiftIconPress,
+            icon: (
+              <View>
+                <View style={styles.activeDot} />
+                <GiftIcon color={colors.contrast} size={25} />
+              </View>
+            ),
           }}
           rightIcon={
             multi_select_ids?.length

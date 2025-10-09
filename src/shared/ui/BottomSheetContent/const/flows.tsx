@@ -174,4 +174,14 @@ export const FLOWS: Record<string, FlowConfig> = {
       ),
     },
   },
+  onboarding: {
+    screens: {
+      steps: lazy(
+        () =>
+          import(
+            "@/src/features/bottom-sheet-content/OnboardingStepsView/OnboardingStepsView"
+          )
+      ),
+    },
+  },
 };

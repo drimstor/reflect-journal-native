@@ -13,6 +13,11 @@ export { useBottomSheetStore } from "./zustand/bottomSheet.store";
 export { useDeviceStore } from "./zustand/device.store";
 export { useFiltersStore, type FiltersState } from "./zustand/filters.store";
 export { useI18nStore } from "./zustand/i18n.store";
+export {
+  ONBOARDING_STEP_KEYS,
+  useOnboardingStore,
+  type OnboardingStep,
+} from "./zustand/onboarding.store";
 export { useScreenInfoStore } from "./zustand/screenInfo.store";
 export { useSettingsStore } from "./zustand/settings.store";
 export { useStatusBarStore } from "./zustand/statusBar.store";

@@ -1,9 +1,5 @@
 import { useT } from "@/src/shared/lib/hooks";
-import {
-  useBottomSheetStore,
-  useStatusBarStore,
-  useThemeStore,
-} from "@/src/shared/store";
+import { useBottomSheetStore, useThemeStore } from "@/src/shared/store";
 import { BookmarkCheckIcon, TrashIcon } from "@/src/shared/ui/icons";
 
 export const useMultiSelectActions = () => {
@@ -11,7 +7,6 @@ export const useMultiSelectActions = () => {
   const { colors } = useThemeStore();
   const { navigateToFlow, setBottomSheetVisible, setActions } =
     useBottomSheetStore();
-  const { toggleVisibility } = useStatusBarStore();
 
   // Обработчик действий мульти-выбора
   const handleMultiSelectActions = () => {
@@ -42,8 +37,15 @@ export const useMultiSelectActions = () => {
     });
   };
 
+  const handleGiftIconPress = () => {
+    navigateToFlow("onboarding", "steps");
+    requestAnimationFrame(() => {
+      setBottomSheetVisible(true);
+    });
+  };
+
   return {
     handleMultiSelectActions,
-    toggleStatusBar: toggleVisibility,
+    handleGiftIconPress,
   };
 };

@@ -16,7 +16,6 @@ import {
   BottomSheetList,
   BottomSheetScreenHeader,
   Divider,
-  OnboardingCounter,
   PaddingLayout,
   Text,
   useAnimatedLoading,
@@ -96,9 +95,7 @@ const CreateEntityScreen = () => {
   });
 
   const { isKeyboardVisibleDelayed, keyboardHeight } = useKeyboardAnimateAction(
-    {
-      scrollViewRef,
-    }
+    { scrollViewRef }
   );
 
   const isJournalEntry = currentEntity === ENTITY_NAME.JOURNAL_ENTRIES;
@@ -133,7 +130,7 @@ const CreateEntityScreen = () => {
         onSave={handleSubmit}
         isLoading={isLoading || isImageLoading}
         colors={colors}
-        doneText={t("shared.actions.done")}
+        doneText={t("shared.actions.create")}
         showDatePicker={isJournalEntry}
         onDateClick={handleDateClickForJournalEntries}
         isDisabled={isJournalEntry && !journalsDataTransformed?.length}
@@ -172,18 +169,6 @@ const CreateEntityScreen = () => {
         />
 
         <Divider color={colors.alternate} />
-
-        <OnboardingCounter
-          steps={[
-            "Create Journal Entry",
-            "Create Chat",
-            "Create Goal",
-            "Create Summary",
-            "Analyze Overview",
-          ]}
-          currentStep={2}
-          style={{ marginBottom: 22, maxWidth: 380, marginHorizontal: "auto" }}
-        />
 
         <View style={{ position: "relative" }}>
           <AnimatedLoader

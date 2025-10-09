@@ -8,6 +8,7 @@ interface BottomSheetHeaderProps {
   title: string;
   onClose?: () => void;
   onBack?: () => void;
+  onNext?: () => void;
   isBorderGap?: boolean;
 }
 
@@ -15,6 +16,7 @@ export const BottomSheetHeader = ({
   title,
   onClose,
   onBack,
+  onNext,
   isBorderGap = true,
 }: BottomSheetHeaderProps) => {
   const { colors } = useThemeStore();
@@ -37,9 +39,16 @@ export const BottomSheetHeader = ({
           {title}
         </Text>
         <View style={styles.mockBlock}>
-          {onClose && (
-            <Pressable style={styles.closeButton} onPress={onClose}>
-              <PlusIcon size={26} color={colors.contrast} />
+          {(onClose || onNext) && (
+            <Pressable
+              style={onClose ? styles.closeButton : {}}
+              onPress={onClose || onNext}
+            >
+              {onClose ? (
+                <PlusIcon size={26} color={colors.contrast} />
+              ) : (
+                <ArrowRightLongIcon size={22} color={colors.contrast} />
+              )}
             </Pressable>
           )}
         </View>

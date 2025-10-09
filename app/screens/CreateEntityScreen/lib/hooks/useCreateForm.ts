@@ -89,7 +89,7 @@ export const useCreateForm = (
         }
 
         if (!enhancedData.related_topics?.length) {
-          enhancedData.related_topics = ["New"];
+          enhancedData.related_topics = [t("shared.info.new")];
         }
 
         await onSubmit(enhancedData);
@@ -97,7 +97,7 @@ export const useCreateForm = (
         console.error("Error submitting form:", error);
       }
     }
-  }, [onSubmit, validate, values, entityType, isBookmarked, journalId]);
+  }, [onSubmit, validate, values, entityType, isBookmarked, journalId, t]);
 
   // Сброс формы
   const resetForm = useCallback(() => {

@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
 import { ThemeColors } from "@/src/shared/model/types";
+import { StyleSheet } from "react-native";
 
 export const createStyles = (colors: ThemeColors, padding: number) =>
   StyleSheet.create({
@@ -24,6 +24,7 @@ export const createStyles = (colors: ThemeColors, padding: number) =>
     subTitleBox: {
       marginTop: 6,
       marginBottom: "auto",
+      minHeight: 42,
     },
     progressBarBox: {
       marginTop: 16,

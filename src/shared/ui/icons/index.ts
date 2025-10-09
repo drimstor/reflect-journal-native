@@ -44,6 +44,7 @@ export { default as EmojiIcon } from "./EmojiIcon";
 export { EyeIcon, EyeSlashIcon } from "./EyeIcon";
 export { default as FilterIcon } from "./FilterIcon";
 export { default as GalleryIcon } from "./GalleryIcon";
+export { default as GiftIcon } from "./GiftIcon";
 export { default as GlobalIcon } from "./GlobalIcon";
 export { default as GlobalSolidIcon } from "./GlobalSolidIcon";
 export { default as GoogleIcon } from "./GoogleIcon";

@@ -8,10 +8,12 @@ const OnboardingCounter = ({
   steps,
   currentStep = 0,
   style,
+  secondaryColor,
 }: {
   steps: string[];
   currentStep: number;
   style?: StyleProp<ViewStyle>;
+  secondaryColor?: string;
 }) => {
   const { colors, theme } = useThemeStore();
 
@@ -21,12 +23,13 @@ const OnboardingCounter = ({
         const isActive = currentStep === index;
         const isCompleted = currentStep > index;
 
-        const secondaryColor = theme === "dark" ? colors.light : colors.white;
-        const backgroundColor = isActive ? colors.accent : secondaryColor;
+        const localSecondaryColor =
+          secondaryColor || (theme === "dark" ? colors.light : colors.white);
+        const backgroundColor = isActive ? colors.accent : localSecondaryColor;
 
         const textColor = getContrastColor(backgroundColor);
 
-        const lineColor = isCompleted ? colors.accent : secondaryColor;
+        const lineColor = isCompleted ? colors.accent : localSecondaryColor;
         const isShowLine = index < steps.length - 1;
 
         return (
@@ -47,12 +50,7 @@ const OnboardingCounter = ({
             </View>
             {isShowLine && (
               <View
-                style={[
-                  styles.progressLine,
-                  {
-                    backgroundColor: lineColor,
-                  },
-                ]}
+                style={[styles.progressLine, { backgroundColor: lineColor }]}
               />
             )}
             <Text

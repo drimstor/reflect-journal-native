@@ -576,7 +576,7 @@
       "complete": "Complete",
       "saving": "Saving",
       "copied": "Copied",
-      "reset": "Reset",
+      "reset": "Reset", 
       "resetSearch": "Reset search",
       "yes": "Yes",
       "no": "No",
@@ -600,7 +600,8 @@
       "progress": "Progress",
       "of": "of",
       "type": "Type",
-      "soon": "Soon"
+      "soon": "Soon",
+      "new": "New"
     },
     "validation": {
       "required": "Required field",
@@ -767,6 +768,17 @@
     "weeklyReport": {
       "title": "Time to review your week",
       "body": "Ready to analyze your week?"
+    }
+  },
+  "onboarding": {
+    "title": "Onboarding",
+    "inMainMenuButton": "In Main Menu", 
+    "steps": {
+      "create_journal": "Create Journal",
+      "create_chat": "Create Chat",
+      "create_goal": "Create Goal",
+      "create_summary": "Create Summary",
+      "analyze_data": "Analyze Data"
     }
   }
 } 

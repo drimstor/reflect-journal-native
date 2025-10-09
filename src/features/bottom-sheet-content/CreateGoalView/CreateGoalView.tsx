@@ -196,7 +196,7 @@ const CreateGoalView = ({
         disabled={isDisabled}
         isLoading={isSaving || (!isStandalone && isRelatingEntities)}
       >
-        {t("shared.actions.save")}
+        {t("shared.actions.create")}
       </Button>
     </BottomSheetFooter>
   );
