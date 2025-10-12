@@ -109,7 +109,7 @@ export const useAuthForm = (
           password: values.password,
         }).unwrap();
         onLogin();
-        // return setVariant("profile"); // TODO: temporary
+        return setVariant("profile"); // TODO: temporary
 
         snapToIndex(1);
         setTimeout(() => {

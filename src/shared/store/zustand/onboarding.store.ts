@@ -22,7 +22,7 @@ interface OnboardingState {
   isRewardClaimed: boolean;
 
   // Действия
-  setCurrentStep: (step: number) => void;
+  setCurrentStep: (step: number | undefined) => void;
   completeStep: () => void;
   completeOnboarding: () => void;
   claimReward: () => void;
@@ -41,10 +41,8 @@ export const useOnboardingStore = create<OnboardingState>()(
       ...initialState,
 
       // Установить текущий шаг
-      setCurrentStep: (step: number) => {
-        const maxStep = ONBOARDING_STEP_KEYS.length - 1;
-        const validStep = Math.max(0, Math.min(step, maxStep));
-        set({ currentStep: validStep });
+      setCurrentStep: (step: number | undefined) => {
+        set({ currentStep: step });
       },
 
       // Завершить текущий шаг и перейти к следующему

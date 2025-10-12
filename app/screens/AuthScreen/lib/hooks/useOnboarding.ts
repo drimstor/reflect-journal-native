@@ -3,6 +3,7 @@ import { NavigationProps } from "@/src/shared/model/types";
 import { useNavigation } from "@react-navigation/native";
 import { useRef } from "react";
 import { PATHS } from "../../../../../src/shared/const";
+import { useBottomSheetStore } from "../../../../../src/shared/store";
 import { Variant } from "../../model/types";
 
 interface UseOnboardingProps {
@@ -21,6 +22,7 @@ export const useOnboarding = ({
 }: UseOnboardingProps) => {
   const navigation = useNavigation<NavigationProps>();
   const { prefetchJournals } = usePrefetch();
+  const { navigateToFlow, setBottomSheetVisible } = useBottomSheetStore();
 
   // Состояния онбординга
   const { value: isWelcomeVisible, toggle: toggleWelcomeVisible } =
@@ -77,8 +79,15 @@ export const useOnboarding = ({
             setTimeout(() => {
               navigation.navigate(PATHS.MAIN_STACK);
               toggleSuccessVisible(false);
+
+              setTimeout(() => {
+                navigateToFlow("onboarding", "greeting");
+                requestAnimationFrame(() => {
+                  setBottomSheetVisible(true);
+                });
+              }, 2000);
             }, 200);
-          }, 2500);
+          }, 2000);
         } else {
           // Переходим к следующему шагу
           handleOnboardingStep("next");

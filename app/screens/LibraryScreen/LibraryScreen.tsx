@@ -31,8 +31,11 @@ const LibraryScreen = () => {
     useLibraryBottomSheet();
   const { currentIndex, setCurrentIndex, onOpenListItem } =
     useLibraryScreenLogic({ snapToIndex, bottomSheetIndex });
-  const { handleMultiSelectActions, handleGiftIconPress } =
-    useMultiSelectActions();
+  const {
+    handleMultiSelectActions,
+    handleGiftIconPress,
+    handleGreetingIconPress,
+  } = useMultiSelectActions();
 
   // Получаем данные для текущего выбранного элемента
   const currentItem = LIBRARY_ITEMS[currentIndex];
@@ -59,7 +62,10 @@ const LibraryScreen = () => {
                   icon: <DotsIcon color={colors.contrast} size={22} />,
                   onPress: handleMultiSelectActions,
                 }
-              : undefined
+              : {
+                  icon: <DotsIcon color={colors.contrast} size={22} />,
+                  onPress: handleGreetingIconPress,
+                }
           }
         />
         <Carousel

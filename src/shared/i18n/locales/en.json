@@ -581,7 +581,8 @@
       "yes": "Yes",
       "no": "No",
       "exit": "Exit",
-      "welcome": "Welcome!"
+      "welcome": "Welcome!",
+      "clearData": "Clear data"
     },
     "status": {
       "loading": "Loading",
@@ -773,6 +774,8 @@
   "onboarding": {
     "title": "Onboarding",
     "inMainMenuButton": "In Main Menu", 
+    "inLibraryButton": "In Library",
+    "meeting": "Introduction",
     "steps": {
       "create_journal": "Create Journal",
       "create_chat": "Create Chat",

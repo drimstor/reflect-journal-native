@@ -581,7 +581,8 @@
       "exit": "Выйти",
       "showMore": "Показать еще",
       "showLess": "Показать меньше",
-      "welcome": "Добро пожаловать!"
+      "welcome": "Добро пожаловать!",
+      "clearData": "Очистить данные"
     },
     "status": {
       "loading": "Загрузка",
@@ -773,6 +774,8 @@
   "onboarding": {
     "title": "Онбординг",
     "inMainMenuButton": "В главное меню", 
+    "inLibraryButton": "В библиотеку",
+    "meeting": "Введение", 
     "steps": {
       "create_journal": "Создайте дневник",
       "create_chat": "Создайте чат",

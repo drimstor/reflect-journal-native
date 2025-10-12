@@ -176,6 +176,12 @@ export const FLOWS: Record<string, FlowConfig> = {
   },
   onboarding: {
     screens: {
+      greeting: lazy(
+        () =>
+          import(
+            "@/src/features/bottom-sheet-content/GreetingView/GreetingView"
+          )
+      ),
       steps: lazy(
         () =>
           import(

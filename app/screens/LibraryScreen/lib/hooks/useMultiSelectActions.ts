@@ -44,8 +44,16 @@ export const useMultiSelectActions = () => {
     });
   };
 
+  const handleGreetingIconPress = () => {
+    navigateToFlow("onboarding", "greeting");
+    requestAnimationFrame(() => {
+      setBottomSheetVisible(true);
+    });
+  };
+
   return {
     handleMultiSelectActions,
     handleGiftIconPress,
+    handleGreetingIconPress,
   };
 };

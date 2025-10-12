@@ -10,7 +10,6 @@ import {
   BottomSheetBox,
   BottomSheetFooter,
   BottomSheetHeader,
-  BottomSheetScrollView,
   Button,
   ChartSolidIcon,
   CheckBox,
@@ -23,14 +22,12 @@ import {
   Text,
   TextWithIcon,
 } from "@/src/shared/ui";
-import { WINDOW_HEIGHT } from "@gorhom/bottom-sheet";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Pressable, View } from "react-native";
 
 const OnboardingStepsView = () => {
   const t = useT();
-  const { setBottomSheetVisible, navigateToFlow, setNavigation } =
-    useBottomSheetStore();
+  const { setBottomSheetVisible } = useBottomSheetStore();
   const { colors, theme } = useThemeStore();
 
   const {
@@ -49,14 +46,10 @@ const OnboardingStepsView = () => {
     setBottomSheetVisible(false);
   }, [setBottomSheetVisible]);
 
-  useEffect(() => {
-    setNavigation(false, "");
-  }, [setNavigation]);
-
   const maxStep = ONBOARDING_STEP_KEYS.length - 1;
 
   const handleNextStep = () => {
-    if (!currentStep) {
+    if (!currentStep || currentStep === -1) {
       setCurrentStep(0);
       setLocalStep(0);
       return;
@@ -83,10 +76,13 @@ const OnboardingStepsView = () => {
   const isSteps = localStep >= 0 && localStep <= maxStep;
 
   // useEffect(() => {
-  //   setCurrentStep(4);
+  //   setCurrentStep(-1);
   // }, []);
 
   console.log({ localStep, currentStep, isCompleted, isRewardClaimed });
+
+  const meetingText =
+    "Познакомьтесь с функциями приложения и получите награду - неделю подписки Plus.\n\nЕсли вы уже ознакомились со структурой Библиотеки, предлагаем очистить все данные (это не обязательно).";
 
   const stepsConfig = {
     "0": {
@@ -169,13 +165,11 @@ const OnboardingStepsView = () => {
 
   const analyzeInstructionText = `1. Выйдите в главное меню\n2. Нажмите на [ICON_COMPONENT] в панели навигации снизу\n3. Вы попали на страницу "Обзор"\n4. Выберите инструмент анализа`;
 
-  const meetingText =
-    "Привет, это Reflexity - твой лайф-менеджер с персонализированным ИИ-ассистентом.\n\nПознакомься с функциями приложения и получи награду - неделю подписки Plus.";
-
   const rewardText =
-    "Вы завершили онбординг! Пожалуйста, получите свою награду.";
+    "Поздравляем! Вы завершили онбординг!\n\nПожалуйста, получите свою награду.";
 
-  const thankYouText = "Спасибо за прохождение онбординга!";
+  const thankYouText =
+    "Вы ознакомились с основным функционалом приложения! С каждой новой записью в дневнике или сообщением, приложение узнает вас ближе и дает более точные и персонализированные инсайты. Представьте какой уровень понимания может быть, если регулярно записывать интересующие вас темы в приложении.";
 
   return (
     <BottomSheetBox>
@@ -186,127 +180,140 @@ const OnboardingStepsView = () => {
         onNext={isDontHaveNext || isMeetStep ? undefined : handleNextStep}
         // onClose={isMeetStep ? handleClose : undefined}
       />
-      <BottomSheetScrollView
-        customMaxHeight={WINDOW_HEIGHT - 270}
-        additionalHeight={225}
-      >
-        {isMeetStep && (
+      {isMeetStep && (
+        <PaddingLayout style={{ gap: 12, paddingVertical: 18 }}>
+          <Text
+            size="normal"
+            color={colors.contrast}
+            style={{ textAlign: "center" }}
+          >
+            {meetingText}
+          </Text>
+        </PaddingLayout>
+      )}
+      {isSteps && (
+        <>
+          <OnboardingCounter
+            steps={ONBOARDING_STEP_KEYS.map((key) => t(key))}
+            currentStep={localStep}
+            secondaryColor={theme === "dark" ? colors.light : colors.alternate}
+            style={{
+              marginTop: 24,
+              marginBottom: 22,
+              maxWidth: 400,
+              marginHorizontal: "auto",
+            }}
+          />
+          <Divider color={colors.alternate} style={{ marginVertical: 0 }} />
           <PaddingLayout style={{ gap: 12, paddingVertical: 18 }}>
+            <MarkdownEmojiText color={colors.contrast}>
+              {stepsConfig[localStep]?.description}
+            </MarkdownEmojiText>
+          </PaddingLayout>
+          <Divider color={colors.alternate} style={{ marginVertical: 0 }} />
+          <PaddingLayout style={{ gap: 12, paddingVertical: 18 }}>
+            <CheckboxList style={{ paddingVertical: 0, gap: 12 }}>
+              {stepsConfig[localStep]?.checklist.map((item, index) => (
+                <CheckBox text={item.text} checked={item.checked} key={index} />
+              ))}
+            </CheckboxList>
+          </PaddingLayout>
+          <Divider color={colors.alternate} style={{ marginVertical: 0 }} />
+          <PaddingLayout
+            style={{ gap: 12, paddingVertical: 18, paddingTop: 15 }}
+          >
+            <Pressable
+              style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
+              onPress={() => toggleInstructionVisible()}
+            >
+              <Text size="normal" font="bold" color={colors.contrast}>
+                {stepsConfig[localStep]?.instruction}
+              </Text>
+              <View
+                style={{
+                  marginTop: 3,
+                  transform: [
+                    { rotate: isInstructionVisible ? "90deg" : "-90deg" },
+                  ],
+                }}
+              >
+                <ArrowLeftIcon color={colors.contrast} size={16} />
+              </View>
+            </Pressable>
+            {isInstructionVisible && (
+              <TextWithIcon
+                text={
+                  stepsConfig[localStep]?.type === "analyze"
+                    ? analyzeInstructionText
+                    : instructionText
+                }
+                elements={[
+                  {
+                    placeholder: "[ICON_COMPONENT]",
+                    element:
+                      stepsConfig[localStep]?.type === "analyze" ? (
+                        <ChartSolidIcon color={colors.contrast} size={26} />
+                      ) : (
+                        <View
+                          style={{
+                            backgroundColor: colors.contrast,
+                            borderRadius: 13,
+                            marginHorizontal: 2,
+                          }}
+                        >
+                          <PlusIcon color={colors.secondary} size={26} />
+                        </View>
+                      ),
+                  },
+                ]}
+              />
+            )}
+          </PaddingLayout>
+        </>
+      )}
+      {isCompleted && (
+        <PaddingLayout>
+          {isRewardClaimed ? (
             <Text
               size="normal"
               color={colors.contrast}
               style={{ textAlign: "center" }}
             >
-              {meetingText}
+              {thankYouText}
             </Text>
-          </PaddingLayout>
-        )}
-        {isSteps && (
-          <>
-            <OnboardingCounter
-              steps={ONBOARDING_STEP_KEYS.map((key) => t(key))}
-              currentStep={localStep}
-              secondaryColor={
-                theme === "dark" ? colors.light : colors.alternate
-              }
-              style={{
-                marginTop: 24,
-                marginBottom: 22,
-                maxWidth: 400,
-                marginHorizontal: "auto",
-              }}
-            />
-            <Divider color={colors.alternate} style={{ marginVertical: 0 }} />
-            <PaddingLayout style={{ gap: 12, paddingVertical: 18 }}>
-              <MarkdownEmojiText color={colors.contrast}>
-                {stepsConfig[localStep]?.description}
-              </MarkdownEmojiText>
-            </PaddingLayout>
-            <Divider color={colors.alternate} style={{ marginVertical: 0 }} />
-            <PaddingLayout style={{ gap: 12, paddingVertical: 18 }}>
-              <CheckboxList style={{ paddingVertical: 0, gap: 12 }}>
-                {stepsConfig[localStep]?.checklist.map((item, index) => (
-                  <CheckBox
-                    text={item.text}
-                    checked={item.checked}
-                    key={index}
-                  />
-                ))}
-              </CheckboxList>
-            </PaddingLayout>
-            <Divider color={colors.alternate} style={{ marginVertical: 0 }} />
-            <PaddingLayout
-              style={{ gap: 12, paddingVertical: 18, paddingTop: 15 }}
+          ) : (
+            <Text
+              size="normal"
+              color={colors.contrast}
+              style={{ textAlign: "center" }}
             >
-              <Pressable
-                style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
-                onPress={() => toggleInstructionVisible()}
-              >
-                <Text size="normal" font="bold" color={colors.contrast}>
-                  {stepsConfig[localStep]?.instruction}
-                </Text>
-                <View
-                  style={{
-                    marginTop: 3,
-                    transform: [
-                      { rotate: isInstructionVisible ? "90deg" : "-90deg" },
-                    ],
-                  }}
-                >
-                  <ArrowLeftIcon color={colors.contrast} size={16} />
-                </View>
-              </Pressable>
-              {isInstructionVisible && (
-                <TextWithIcon
-                  text={
-                    stepsConfig[localStep]?.type === "analyze"
-                      ? analyzeInstructionText
-                      : instructionText
-                  }
-                  element={
-                    stepsConfig[localStep]?.type === "analyze" ? (
-                      <ChartSolidIcon color={colors.contrast} size={26} />
-                    ) : (
-                      <View
-                        style={{
-                          backgroundColor: colors.contrast,
-                          borderRadius: 13,
-                          marginHorizontal: 2,
-                        }}
-                      >
-                        <PlusIcon color={colors.secondary} size={26} />
-                      </View>
-                    )
-                  }
-                />
-              )}
-            </PaddingLayout>
-          </>
-        )}
-        {isCompleted && (
-          <PaddingLayout>
-            {isRewardClaimed ? (
-              <Text
-                size="normal"
-                color={colors.contrast}
-                style={{ textAlign: "center" }}
-              >
-                {thankYouText}
-              </Text>
-            ) : (
-              <Text
-                size="normal"
-                color={colors.contrast}
-                style={{ textAlign: "center" }}
-              >
-                {rewardText}
-              </Text>
-            )}
-          </PaddingLayout>
-        )}
-      </BottomSheetScrollView>
+              {rewardText}
+            </Text>
+          )}
+        </PaddingLayout>
+      )}
 
       <BottomSheetFooter isBorderGap={false}>
+        {isMeetStep && (
+          <Button
+            backgroundColor={colors.alternate}
+            onPress={() => {}}
+            isLoading={false}
+            disabled={false}
+          >
+            {t("shared.actions.clearData")}
+          </Button>
+        )}
+        {isCompleted && !isRewardClaimed && (
+          <Button
+            backgroundColor={colors.alternate}
+            onPress={() => {}}
+            isLoading={false}
+            disabled={false}
+          >
+            {t("shared.actions.claimReward")}
+          </Button>
+        )}
         <Button
           backgroundColor={theme === "dark" ? colors.accent : colors.primary}
           textColor={theme === "dark" ? colors.primary : colors.white}
