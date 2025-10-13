@@ -1,7 +1,11 @@
 import { PreviewCard } from "@/src/features";
 import { useT } from "@/src/shared/lib/hooks";
 import { EntityType } from "@/src/shared/model/types";
-import { useFiltersStore, useThemeStore } from "@/src/shared/store";
+import {
+  useFiltersStore,
+  useOnboardingStore,
+  useThemeStore,
+} from "@/src/shared/store";
 import {
   AnimatedAppearance,
   BottomSheet,
@@ -26,16 +30,14 @@ const LibraryScreen = () => {
   const { colors } = useThemeStore();
   const { multi_select_ids } = useFiltersStore();
   const styles = createStyles(colors);
+  const { isCompleted } = useOnboardingStore();
 
   const { bottomSheetRef, snapToIndex, snapPoints, bottomSheetIndex } =
     useLibraryBottomSheet();
   const { currentIndex, setCurrentIndex, onOpenListItem } =
     useLibraryScreenLogic({ snapToIndex, bottomSheetIndex });
-  const {
-    handleMultiSelectActions,
-    handleGiftIconPress,
-    handleGreetingIconPress,
-  } = useMultiSelectActions();
+  const { handleMultiSelectActions, handleGiftIconPress } =
+    useMultiSelectActions();
 
   // Получаем данные для текущего выбранного элемента
   const currentItem = LIBRARY_ITEMS[currentIndex];
@@ -47,25 +49,26 @@ const LibraryScreen = () => {
       <AnimatedAppearance isInitialVisible>
         <Header
           title={t("library.title")}
-          leftIcon={{
-            onPress: handleGiftIconPress,
-            icon: (
-              <View>
-                <View style={styles.activeDot} />
-                <GiftIcon color={colors.contrast} size={25} />
-              </View>
-            ),
-          }}
+          leftIcon={
+            isCompleted
+              ? undefined
+              : {
+                  onPress: handleGiftIconPress,
+                  icon: (
+                    <View>
+                      <View style={styles.activeDot} />
+                      <GiftIcon color={colors.contrast} size={25} />
+                    </View>
+                  ),
+                }
+          }
           rightIcon={
             multi_select_ids?.length
               ? {
                   icon: <DotsIcon color={colors.contrast} size={22} />,
                   onPress: handleMultiSelectActions,
                 }
-              : {
-                  icon: <DotsIcon color={colors.contrast} size={22} />,
-                  onPress: handleGreetingIconPress,
-                }
+              : undefined
           }
         />
         <Carousel

@@ -33,11 +33,11 @@ const OnboardingStepsView = () => {
     currentStep,
     isCompleted,
     isRewardClaimed,
+    checklists,
     setCurrentStep,
-    completeStep,
     completeOnboarding,
     claimReward,
-    resetOnboarding,
+    isStepCompleted,
   } = useOnboardingStore();
 
   // Обработчик закрытия
@@ -54,7 +54,9 @@ const OnboardingStepsView = () => {
       return;
     }
 
-    if (localStep < maxStep && localStep + 1 <= currentStep) {
+    // Навигация по стрелкам с учетом локального 5-го шага
+    const maxAllowedStep = isCompleted ? maxStep + 1 : currentStep;
+    if (localStep < maxAllowedStep) {
       setLocalStep(localStep + 1);
     }
   };
@@ -68,107 +70,123 @@ const OnboardingStepsView = () => {
   const { value: isInstructionVisible, toggle: toggleInstructionVisible } =
     useToggle(false);
 
-  const [localStep, setLocalStep] = useState(currentStep ?? -1);
+  // Инициализация localStep с учетом локального 5-го шага
+  const [localStep, setLocalStep] = useState(() => {
+    const step = currentStep ?? -1;
+    // Если онбординг завершен, добавляем локальный 5-й шаг
+    if (isCompleted && step === maxStep) {
+      return maxStep + 1;
+    }
+    return step;
+  });
 
   const isMeetStep = localStep === -1;
-  const isDontHaveNext = localStep === currentStep;
   const isSteps = localStep >= 0 && localStep <= maxStep;
+
+  // Локальный 5-й шаг (для награды и благодарности)
+  const isLocalFinalStep = localStep === maxStep + 1;
+
+  // Определяем максимальный доступный шаг (с учетом локального 5-го)
+  const maxAllowedStep = isCompleted ? maxStep + 1 : currentStep ?? -1;
+  const isDontHaveNext = localStep >= maxAllowedStep;
+
+  // Проверяем, выполнен ли текущий шаг
+  const isCurrentStepCompleted =
+    localStep >= 0 && localStep <= maxStep ? isStepCompleted(localStep) : false;
+
+  // Получаем актуальный чек-лист для текущего шага
+  const currentChecklist =
+    localStep >= 0 && localStep <= maxStep ? checklists[localStep] || [] : [];
+
+  // Определяем состояния экранов (только для локального 5-го шага)
+  const isRewardScreen = isLocalFinalStep && isCompleted && !isRewardClaimed;
+  const isThankYouScreen = isLocalFinalStep && isCompleted && isRewardClaimed;
 
   // useEffect(() => {
   //   setCurrentStep(-1);
   // }, []);
 
-  console.log({ localStep, currentStep, isCompleted, isRewardClaimed });
-
-  const meetingText =
-    "Познакомьтесь с функциями приложения и получите награду — неделю подписки **Plus** бесплатно!";
-
+  // Типы для каждого шага
   const stepsConfig = {
-    "0": {
-      description:
-        "Создайте **Дневник** и сделайте первую запись. 📔\nКаждая запись формирует ваш личный портрет — чем больше деталей, тем точнее инсайты. ✨",
-      instruction: "Как создать дневник?",
-      type: "journals",
-      checklist: [
-        {
-          text: "Создайте дневник",
-          checked: true,
-        },
-        {
-          text: "Сделайте первую запись",
-          checked: false,
-        },
-      ],
-    },
-    "1": {
-      description:
-        "Создайте **Чат** и напишите первое сообщение. 💬\nС каждым сообщением приложение узнаёт вас лучше и помогает вам глубже понять себя. ✨",
-      instruction: "Как создать чат?",
-      type: "chats",
-      checklist: [
-        {
-          text: "Создайте чат",
-          checked: true,
-        },
-        {
-          text: "Напишите первое сообщение",
-          checked: false,
-        },
-      ],
-    },
-    "2": {
-      description:
-        "Создайте первую **Цель**. 🎯\nДобавьте шаги вручную или используйте умную генерацию — приложение поможет составить план достижения. ✨",
-      instruction: "Как создать цель?",
-      type: "goals",
-      checklist: [
-        {
-          text: "Создайте цель",
-          checked: true,
-        },
-      ],
-    },
-    "3": {
-      description:
-        "Создайте первое **Саммари**.🪞\nПодведите итоги за период или по конкретным темам — приложение поможет увидеть связи и понять, как вы меняетесь.✨",
-      instruction: "Как создать саммари?",
-      type: "summaries",
-      checklist: [
-        {
-          text: "Создайте саммари",
-          checked: true,
-        },
-      ],
-    },
-    "4": {
-      description:
-        "Перейдите к анализу данных. 📊\nВ разделе **Обзор данных** вы увидите, какие темы важнее всего в вашей жизни.\nА в **Карте взаимосвязей** — как они связаны между собой. ✨",
-      instruction: "Как проанализировать данные?",
-      type: "analyze",
-      checklist: [
-        {
-          text: 'Откройте "Обзор данных"',
-          checked: true,
-        },
-        {
-          text: 'Откройте "Карту взаимосвязей"',
-          checked: true,
-        },
-      ],
-    },
+    "0": { type: "journals" },
+    "1": { type: "chats" },
+    "2": { type: "goals" },
+    "3": { type: "summaries" },
+    "4": { type: "analyze" },
   };
 
-  const instructionText = `1. Выйдите в главное меню\n2. Нажмите на [ICON_COMPONENT] в панели навигации снизу\n3. Выберите тип **${t(
-    `entities.${stepsConfig[localStep]?.type}.singular`
-  )}** и заполните поля\n4. Нажмите **${t("shared.actions.create")}**`;
+  // Получение переводов
+  const meetingText = t("onboarding.meetingText");
 
-  const analyzeInstructionText = `1. Выйдите в главное меню\n2. Нажмите на [ICON_COMPONENT] в панели навигации снизу\n3. Вы попали на страницу **Обзор**\n4. Выберите инструмент анализа`;
+  const getStepDescription = (step: number) =>
+    t(`onboarding.stepsView.${step}.description`);
 
-  const rewardText =
-    "Поздравляем! Вы завершили онбординг!\n\nЗаберите свою награду!";
+  const getStepInstruction = (step: number) =>
+    t(`onboarding.stepsView.${step}.instruction`);
 
-  const thankYouText =
-    "Вы освоили основной функционал! 🎉\n\nТеперь начинается самое интересное. Каждая запись — это шаг к пониманию себя. Приложение становится вашим внимательным зеркалом, отражая то, что вы не видели раньше. Будьте открыты — и откройте себя заново. ✨";
+  const instructionText = t("onboarding.stepsView.instructionText")
+    .replace(
+      "{entityType}",
+      t(`entities.${stepsConfig[localStep]?.type}.singular`)
+    )
+    .replace("{createAction}", t("shared.actions.create"));
+
+  const analyzeInstructionText = t(
+    "onboarding.stepsView.analyzeInstructionText"
+  );
+
+  const rewardText = t("onboarding.congratulations.rewardText");
+  const thankYouText = t("onboarding.congratulations.thankYouText");
+
+  // Конфигурация основной кнопки
+  const getButtonConfig = () => {
+    // Обработчик нажатия
+    const handlePress = () => {
+      if (isMeetStep) {
+        return handleNextStep();
+      }
+
+      if (isRewardScreen) {
+        return claimReward();
+      }
+
+      if (isThankYouScreen) {
+        return handleClose();
+      }
+
+      if (isCurrentStepCompleted) {
+        const nextStep = localStep + 1;
+        if (nextStep <= maxStep) {
+          setCurrentStep(nextStep);
+          setLocalStep(nextStep);
+        } else {
+          completeOnboarding();
+          setLocalStep(maxStep + 1);
+        }
+        return;
+      }
+
+      handleClose();
+    };
+
+    // Текст кнопки
+    const getButtonText = () => {
+      if (isMeetStep || isCurrentStepCompleted)
+        return "shared.actions.continue";
+      if (isRewardScreen) return "onboarding.actions.takeReward";
+      if (isThankYouScreen) return "onboarding.actions.toMainMenu";
+      return "onboarding.actions.toMainMenu";
+    };
+
+    return {
+      onPress: handlePress,
+      text: t(getButtonText()),
+      backgroundColor: theme === "dark" ? colors.accent : colors.primary,
+      textColor: theme !== "dark" ? colors.white : colors.primary,
+    };
+  };
+
+  const buttonConfig = getButtonConfig();
 
   return (
     <BottomSheetBox>
@@ -177,7 +195,6 @@ const OnboardingStepsView = () => {
         title={t("onboarding.title")}
         onBack={isMeetStep ? undefined : handlePreviousStep}
         onNext={isDontHaveNext || isMeetStep ? undefined : handleNextStep}
-        // onClose={isMeetStep ? handleClose : undefined}
       />
       {isMeetStep && (
         <PaddingLayout style={{ gap: 12, paddingVertical: 18 }}>
@@ -205,14 +222,18 @@ const OnboardingStepsView = () => {
           <Divider color={colors.alternate} style={{ marginVertical: 0 }} />
           <PaddingLayout style={{ gap: 12, paddingVertical: 18 }}>
             <MarkdownEmojiText color={colors.contrast}>
-              {stepsConfig[localStep]?.description}
+              {getStepDescription(localStep)}
             </MarkdownEmojiText>
           </PaddingLayout>
           <Divider color={colors.alternate} style={{ marginVertical: 0 }} />
           <PaddingLayout style={{ gap: 12, paddingVertical: 18 }}>
             <CheckboxList style={{ paddingVertical: 0, gap: 12 }}>
-              {stepsConfig[localStep]?.checklist.map((item, index) => (
-                <CheckBox text={item.text} checked={item.checked} key={index} />
+              {currentChecklist.map((item, index) => (
+                <CheckBox
+                  text={t(`onboarding.checklist.${item.id}`)}
+                  checked={item.completed}
+                  key={index}
+                />
               ))}
             </CheckboxList>
           </PaddingLayout>
@@ -225,7 +246,7 @@ const OnboardingStepsView = () => {
               onPress={() => toggleInstructionVisible()}
             >
               <Text size="normal" font="bold" color={colors.contrast}>
-                {stepsConfig[localStep]?.instruction}
+                {getStepInstruction(localStep)}
               </Text>
               <View
                 style={{
@@ -269,51 +290,40 @@ const OnboardingStepsView = () => {
           </PaddingLayout>
         </>
       )}
-      {isCompleted && (
-        <PaddingLayout>
-          {isRewardClaimed ? (
-            <Text
-              size="normal"
-              color={colors.contrast}
-              style={{ textAlign: "center" }}
-            >
-              {thankYouText}
-            </Text>
-          ) : (
-            <Text
-              size="normal"
-              color={colors.contrast}
-              style={{ textAlign: "center" }}
-            >
-              {rewardText}
-            </Text>
-          )}
+
+      {/* Экран награды */}
+      {isRewardScreen && (
+        <PaddingLayout style={{ gap: 12, paddingVertical: 18 }}>
+          <MarkdownEmojiText
+            color={colors.contrast}
+            style={{ textAlign: "center" }}
+          >
+            {rewardText}
+          </MarkdownEmojiText>
+        </PaddingLayout>
+      )}
+
+      {/* Экран благодарности */}
+      {isThankYouScreen && (
+        <PaddingLayout style={{ gap: 12, paddingVertical: 18 }}>
+          <MarkdownEmojiText
+            color={colors.contrast}
+            style={{ textAlign: "center" }}
+          >
+            {thankYouText}
+          </MarkdownEmojiText>
         </PaddingLayout>
       )}
 
       <BottomSheetFooter isBorderGap={false}>
-        {isCompleted && !isRewardClaimed && (
-          <Button
-            backgroundColor={colors.alternate}
-            onPress={() => {}}
-            isLoading={false}
-            disabled={false}
-          >
-            {t("shared.actions.takeReward")}
-          </Button>
-        )}
         <Button
-          backgroundColor={theme === "dark" ? colors.accent : colors.primary}
-          textColor={theme === "dark" ? colors.primary : colors.white}
-          onPress={isMeetStep ? handleNextStep : handleClose}
+          backgroundColor={buttonConfig.backgroundColor}
+          textColor={buttonConfig.textColor}
+          onPress={buttonConfig.onPress}
           isLoading={false}
           disabled={false}
         >
-          {t(
-            isMeetStep
-              ? "shared.actions.continue"
-              : "onboarding.inMainMenuButton"
-          )}
+          {buttonConfig.text}
         </Button>
       </BottomSheetFooter>
     </BottomSheetBox>

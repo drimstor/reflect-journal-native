@@ -14,6 +14,7 @@ import { useKeyboard } from "./useKeyboard";
 import { useKeyboardAnimateAction } from "./useKeyboardAnimateAction";
 import { useLang, useT } from "./useLang";
 import { useNotifications } from "./useNotifications";
+import { useOnboardingChecklistUpdate } from "./useOnboardingChecklistUpdate";
 import usePopup from "./usePopup";
 import { usePrefetch } from "./usePrefetch";
 import { usePullToAction } from "./usePullToAction";
@@ -36,6 +37,7 @@ export {
   useKeyboardAnimateAction,
   useLang,
   useNotifications,
+  useOnboardingChecklistUpdate,
   usePopup,
   usePrefetch,
   usePullToAction,

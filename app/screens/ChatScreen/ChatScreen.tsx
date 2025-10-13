@@ -28,6 +28,7 @@ const ChatScreen: FC = () => {
   const { colors } = useThemeStore();
   const styles = createStyles(colors);
   const route = useRoute();
+
   const { item, requestAssistantMessage: initialRequestAssistantMessage } =
     route.params as any;
 

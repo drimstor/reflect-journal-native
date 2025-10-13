@@ -3,7 +3,7 @@ import { BOTTOM_SHEET_SCREEN_POINTS } from "@/src/shared/const";
 import { PATHS } from "@/src/shared/const/PATHS";
 import { stringToColor } from "@/src/shared/lib/helpers";
 import { getContrastColor } from "@/src/shared/lib/helpers/getContrastColor";
-import { useT } from "@/src/shared/lib/hooks";
+import { useOnboardingChecklistUpdate, useT } from "@/src/shared/lib/hooks";
 import { NavigationProps } from "@/src/shared/model/types";
 import { useThemeStore } from "@/src/shared/store";
 import {
@@ -17,8 +17,18 @@ import {
 } from "@/src/shared/ui";
 import { ChartsFiltersPanel, Header } from "@/src/widgets";
 import { WINDOW_HEIGHT } from "@gorhom/bottom-sheet";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { Pressable, ScrollView, View } from "react-native";
 import VisNetwork, { VisNetworkRef } from "react-native-vis-network";
 import { styles } from "./RelationshipMapScreen.styles";
@@ -33,6 +43,9 @@ const RelationshipMapScreen = () => {
   const { LARGE } = BOTTOM_SHEET_SCREEN_POINTS;
   const snapPoints = useMemo(() => [LARGE], [LARGE]);
   const { isBottomSheetMountAnimate } = (route.params as any) || {};
+
+  // Хук для обновления чек-листов онбординга
+  const { updateChecklist } = useOnboardingChecklistUpdate();
 
   // Запрос данных графа портрета
   const { data: graphData, isLoading } = useGetPortraitGraphQuery({
@@ -197,6 +210,13 @@ const RelationshipMapScreen = () => {
 
     return subscription.remove;
   }, [graphLoading, graphData?.nodes]);
+
+  // Обновляем чек-лист онбординга при посещении карты связей
+  useFocusEffect(
+    useCallback(() => {
+      updateChecklist(4, "relationship_map_visited");
+    }, [updateChecklist])
+  );
 
   return (
     <Layout>

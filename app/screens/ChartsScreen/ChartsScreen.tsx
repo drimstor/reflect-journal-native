@@ -1,5 +1,5 @@
 import { PATHS } from "@/src/shared/const/PATHS";
-import { useT } from "@/src/shared/lib/hooks";
+import { useOnboardingChecklistUpdate, useT } from "@/src/shared/lib/hooks";
 import { NavigationProps } from "@/src/shared/model/types";
 import { useFiltersStore } from "@/src/shared/store";
 import {
@@ -16,7 +16,12 @@ import {
 } from "@/src/shared/ui";
 import { ChartsFiltersPanel, Header } from "@/src/widgets";
 import { WINDOW_HEIGHT } from "@gorhom/bottom-sheet";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import { useCallback } from "react";
 import { ScrollView, View } from "react-native";
 import { styles } from "./ChartsScreen.styles";
 import { useChartBottomSheet } from "./lib/hooks/useChartBottomSheet";
@@ -32,6 +37,7 @@ const ChartsScreen = () => {
   const { snapPoints, openBottomSheetList, colors } = useChartBottomSheet();
   const { multi_select_ids, multi_select } = useFiltersStore();
   const { isBottomSheetMountAnimate } = (route.params as any) || {};
+  const { updateChecklist } = useOnboardingChecklistUpdate();
 
   // Хуки для управления данными и состоянием
   const { chartsData, isLoading } = useChartData();
@@ -56,6 +62,14 @@ const ChartsScreen = () => {
 
   const mainChartData = chartsData[mainChart as keyof typeof chartsData]?.data;
   const subChartData = chartsData[subChart as keyof typeof chartsData]?.data;
+
+  // Хук для обновления чек-листов онбординга
+  // Обновляем чек-лист онбординга при посещении обзора
+  useFocusEffect(
+    useCallback(() => {
+      updateChecklist(4, "overview_visited");
+    }, [updateChecklist])
+  );
 
   return (
     <Layout>

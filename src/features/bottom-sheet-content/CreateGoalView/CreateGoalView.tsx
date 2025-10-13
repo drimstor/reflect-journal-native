@@ -12,7 +12,7 @@ import {
   ENTITY_WITH_PARENT,
   ENTITY_WITH_PARENT_CONFIG,
 } from "@/src/shared/const/ENTITIES";
-import { useT } from "@/src/shared/lib/hooks";
+import { useOnboardingChecklistUpdate, useT } from "@/src/shared/lib/hooks";
 import {
   useBottomSheetStore,
   useDeviceStore,
@@ -64,6 +64,9 @@ const CreateGoalView = ({
   const [relateEntities, { isLoading: isRelatingEntities }] =
     useRelateEntitiesMutation();
 
+  // Хук для обновления чек-листов онбординга
+  const { updateChecklist } = useOnboardingChecklistUpdate();
+
   useEffect(() => {
     if (!isStandalone && flowData.requestAssistantMessage) {
       predictGoal(flowData.requestAssistantMessage)
@@ -95,6 +98,9 @@ const CreateGoalView = ({
           : (formData as SaveGoalRequest);
 
         const result = await saveGoal(saveData).unwrap();
+
+        // Обновляем чек-лист онбординга при создании цели
+        updateChecklist(2, "goal_created");
 
         if (isStandalone) {
           navigationBack?.();

@@ -6,6 +6,7 @@ import {
 import { messagesApi } from "@/src/entities/chat/api/messagesApi";
 import { MessageGiftedChat } from "@/src/entities/chat/model/types";
 import { normalizeGiftedChatDate } from "@/src/shared/lib/helpers/normalizeGiftedChatDate";
+import { useOnboardingChecklistUpdate } from "@/src/shared/lib/hooks";
 import { ImagePickerResult } from "@/src/shared/lib/hooks/useImagePicker";
 import { useAppDispatch, useAppSelector } from "@/src/shared/store";
 import { useCallback, useState } from "react";
@@ -28,6 +29,9 @@ export const useMessageSender = ({
   const [text, setText] = useState("");
   const [createMessageWithImages, { isLoading: isLoadingCreateMessage }] =
     useCreateMessageWithImagesMutation();
+
+  // Хук для обновления чек-листов онбординга
+  const { updateChecklist } = useOnboardingChecklistUpdate();
 
   const handleSend = useCallback(
     (images?: ImagePickerResult[]) => {
@@ -110,6 +114,9 @@ export const useMessageSender = ({
 
       sendRequest.then((response) => {
         if ("data" in response && response.data) {
+          // Обновляем чек-лист онбординга при отправке сообщения
+          updateChecklist(1, "message_sent");
+
           const newMessage: MessageGiftedChat = {
             _id: response.data.id.toString(),
             text: response.data.content,
@@ -177,7 +184,7 @@ export const useMessageSender = ({
         });
       }, 800);
     },
-    [text, user?.id, chatId, createMessageWithImages]
+    [text, user?.id, chatId, createMessageWithImages, updateChecklist, dispatch]
   );
 
   return {

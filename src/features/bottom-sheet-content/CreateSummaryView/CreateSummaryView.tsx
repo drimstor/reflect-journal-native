@@ -8,6 +8,7 @@ import { PATHS } from "@/src/shared/const/PATHS";
 import {
   useBackgroundSummary,
   useKeyboard,
+  useOnboardingChecklistUpdate,
   useT,
 } from "@/src/shared/lib/hooks";
 import { formatDateRange } from "@/src/shared/lib/utils/dateFormatters";
@@ -79,6 +80,9 @@ const CreateSummaryView = ({
   const { colors, theme } = useThemeStore();
   const { window } = useDeviceStore();
   const { keyboardHeight, isKeyboardVisible } = useKeyboard();
+
+  // Хук для обновления чек-листов онбординга
+  const { updateChecklist } = useOnboardingChecklistUpdate();
   const [currentItemIndex, setCurrentItemIndex] = useState<number>(
     entityType ? CAROUSEL_ITEMS_WITH_CATEGORIES.indexOf(entityType) : 0
   );
@@ -235,6 +239,9 @@ const CreateSummaryView = ({
         // Запускаем создание в фоне
         await createSummaryInBackground(summaryRequest, {
           onSuccess: (result) => {
+            // Обновляем чек-лист онбординга при создании саммари
+            updateChecklist(3, "summary_created");
+
             // При успешном создании переходим к просмотру
             requestAnimationFrame(() => {
               const params = { item: result, variant: ENTITY_NAME.SUMMARIES };

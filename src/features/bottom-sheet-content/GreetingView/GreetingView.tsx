@@ -97,7 +97,7 @@ const OnboardingStepsView = () => {
           {t(
             localStep !== maxStep
               ? "shared.actions.continue"
-              : "onboarding.inLibraryButton"
+              : "onboarding.actions.toLibrary"
           )}
         </Button>
       </BottomSheetFooter>

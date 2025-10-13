@@ -582,8 +582,7 @@
       "no": "No",
       "exit": "Exit",
       "welcome": "Welcome!",
-      "clearData": "Clear data",
-      "takeReward": "Take reward"
+      "clearData": "Clear data"
     },
     "status": {
       "loading": "Loading",
@@ -774,20 +773,75 @@
   },
   "onboarding": {
     "title": "Onboarding",
-    "inMainMenuButton": "In Main Menu", 
-    "inLibraryButton": "In Library",
     "meeting": "Introduction",
+    "meetingText": "Get to know the app features and receive a reward — a week of **Plus** subscription for free!",
     "greetingSteps": {
       "0":  "**Reflexity** [APP_LOGO] — Your Personal AI Life Manager.\n\nTo show the capabilities of the application, we have filled the **Library** with data for example[INFO].",
       "1": "In the **Library** all your records are stored:\n\n📔 **Journals** — for thoughts and events\n💬 **Chats** — for discussing details\n🎯 **Goals** — for planning and progress\n🪞 **Summaries** — for analysis and insights"
     },
     "greetingStepsInfo": "You can clear all data in the settings",
+    "stepsView": {
+      "0": {
+        "description": "Create a **Journal** and make your first entry. 📔\nEach entry forms your personal portrait — the more details, the more accurate the insights. ✨",
+        "instruction": "How to create a journal?"
+      },
+      "1": {
+        "description": "Create a **Chat** and write your first message. 💬\nWith each message, the app gets to know you better and helps you understand yourself deeper. ✨",
+        "instruction": "How to create a chat?"
+      },
+      "2": {
+        "description": "Create your first **Goal**. 🎯\nAdd steps manually or use smart generation — the app will help you create an achievement plan. ✨",
+        "instruction": "How to create a goal?"
+      },
+      "3": {
+        "description": "Create your first **Summary**.🪞\nSummarize a period or specific topics — the app will help you see connections and understand how you're changing.✨",
+        "instruction": "How to create a summary?"
+      },
+      "4": {
+        "description": "Go to data analysis. 📊\nIn the **Data Overview** section, you'll see which topics are most important in your life.\nAnd in the **Relationship Map** — how they're connected to each other. ✨",
+        "instruction": "How to analyze data?"
+      },
+      "instructionText": "1. Go to the main menu\n2. Tap on [ICON_COMPONENT] in the bottom navigation bar\n3. Select type **{entityType}** and fill in the fields\n4. Tap **{createAction}**",
+      "analyzeInstructionText": "1. Go to the main menu\n2. Tap on [ICON_COMPONENT] in the bottom navigation bar\n3. You're now on the **Overview** page\n4. Select an analysis tool"
+    },
     "steps": {
       "create_journal": "Create Journal",
       "create_chat": "Create Chat",
       "create_goal": "Create Goal",
       "create_summary": "Create Summary",
       "analyze_data": "Analyze Data"
+    },
+    "congratulations": {
+      "title": "Congratulations! 🎉",
+      "rewardTitle": "Claim your reward!",
+      "rewardText": "Congratulations! You've completed onboarding! 🎉\n\nClaim your reward!",
+      "thankYou": "Thank you for getting to know the app!",
+      "thankYouText": "You've mastered the main functionality! 🎉\n\nNow the most interesting part begins. Each entry is a step towards self-understanding. The app becomes your attentive mirror, reflecting what you haven't seen before. Be open — and rediscover yourself. ✨"
+    },
+    "snackbars": {
+      "journal_created": "Excellent! Journal created! 📔",
+      "journal_entry_created": "Perfect! First entry completed! ✨",
+      "chat_created": "Great! Chat created! 💬",
+      "message_sent": "Good job! Message sent! 🎯",
+      "goal_created": "Wonderful! Goal created! 🎯",
+      "summary_created": "Excellent! Summary ready! 🪞",
+      "overview_visited": "Awesome! Data overview opened! 📊",
+      "relationship_map_visited": "Amazing! Relationship map opened! 🗺️"
+    },
+    "checklist": {
+      "journal_created": "Create a journal",
+      "journal_entry_created": "Make your first entry",
+      "chat_created": "Create a chat",
+      "message_sent": "Send your first message",
+      "goal_created": "Create a goal",
+      "summary_created": "Create a summary",
+      "overview_visited": "Open \"Data Overview\"",
+      "relationship_map_visited": "Open \"Relationship Map\""
+    },
+    "actions": {
+      "toMainMenu": "To Main Menu",
+      "takeReward": "Take Reward",
+      "toLibrary": "To Library"
     }
   }
 } 

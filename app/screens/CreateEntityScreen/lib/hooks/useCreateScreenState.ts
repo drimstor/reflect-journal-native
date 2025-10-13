@@ -5,6 +5,7 @@ import { formatDate, getWeekDay } from "@/src/shared/lib/helpers";
 import {
   useBottomSheetIndexState,
   useLang,
+  useOnboardingChecklistUpdate,
   useT,
   useToggle,
 } from "@/src/shared/lib/hooks";
@@ -43,6 +44,9 @@ export const useCreateScreenState = (getSelectedImages?: () => any[]) => {
   const [snapPoints, setSnapPoints] = useState<number[]>([580]);
   const { colors } = useThemeStore();
   const { activateItem } = useTabBarStore();
+
+  // Хук для обновления чек-листов онбординга
+  const { updateChecklist } = useOnboardingChecklistUpdate();
 
   // Состояния для компонента
   const { value: isBookmarked, toggle: setIsBookmarked } = useToggle();
@@ -117,6 +121,16 @@ export const useCreateScreenState = (getSelectedImages?: () => any[]) => {
         }
 
         const item = await createEntity(formData);
+
+        // Обновляем чек-листы онбординга в зависимости от типа сущности
+        if (currentEntity === ENTITY_NAME.JOURNALS) {
+          updateChecklist(0, "journal_created");
+        } else if (currentEntity === ENTITY_NAME.JOURNAL_ENTRIES) {
+          updateChecklist(0, "journal_entry_created");
+        } else if (currentEntity === ENTITY_NAME.CHATS) {
+          updateChecklist(1, "chat_created");
+        }
+
         navigation.goBack();
 
         const params = {
