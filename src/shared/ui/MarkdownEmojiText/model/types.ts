@@ -1,5 +1,11 @@
-import { ReactNode } from "react";
+import { ReactElement, ReactNode } from "react";
 import { StyleProp, TextStyle } from "react-native";
+
+export interface ElementPlaceholder {
+  placeholder: string;
+  element: ReactElement;
+  elementSize?: number;
+}
 
 export interface MarkdownEmojiTextProps {
   children: ReactNode;
@@ -18,6 +24,7 @@ export interface MarkdownEmojiTextProps {
   style?: StyleProp<TextStyle>;
   numberOfLines?: number;
   ellipsizeMode?: "head" | "middle" | "tail" | "clip";
+  elements?: ElementPlaceholder[]; // Опциональные элементы для замены placeholder'ов
 }
 
 export interface ParsedElement {

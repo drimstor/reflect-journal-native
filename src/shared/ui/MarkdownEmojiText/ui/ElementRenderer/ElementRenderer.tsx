@@ -1,6 +1,12 @@
+import React, { Fragment } from "react";
 import Text from "../../../Text/Text";
+import { replaceElementsMarkers } from "../../lib/helpers/replaceElementsMarkers";
 import { getHeaderSize } from "../../lib/helpers/sizeUtils";
-import { MarkdownEmojiTextProps, ParsedElement } from "../../model/types";
+import {
+  ElementPlaceholder,
+  MarkdownEmojiTextProps,
+  ParsedElement,
+} from "../../model/types";
 
 interface ElementRendererProps {
   element: ParsedElement;
@@ -10,6 +16,7 @@ interface ElementRendererProps {
   color?: string;
   withOpacity?: number | string;
   isEmoji?: boolean;
+  placeholderMap?: Record<string, ElementPlaceholder>; // Карта маркеров для замены
 }
 
 // Компонент для рендера отдельного элемента
@@ -21,7 +28,10 @@ const ElementRenderer = ({
   color,
   withOpacity,
   isEmoji,
+  placeholderMap,
 }: ElementRendererProps) => {
+  const content = replaceElementsMarkers(element.content, placeholderMap);
+
   switch (element.type) {
     case "bold":
       return (
@@ -32,7 +42,9 @@ const ElementRenderer = ({
           color={color}
           withOpacity={withOpacity}
         >
-          {element.content}
+          {content.map((item, idx) => (
+            <Fragment key={`bold-${index}-${idx}`}>{item}</Fragment>
+          ))}
         </Text>
       );
 
@@ -45,7 +57,9 @@ const ElementRenderer = ({
           color={color}
           withOpacity={withOpacity}
         >
-          {element.content}
+          {content.map((item, idx) => (
+            <Fragment key={`header-${index}-${idx}`}>{item}</Fragment>
+          ))}
         </Text>
       );
 
@@ -73,7 +87,9 @@ const ElementRenderer = ({
           color={color}
           withOpacity={withOpacity}
         >
-          {element.content}
+          {content.map((item, idx) => (
+            <Fragment key={`text-${index}-${idx}`}>{item}</Fragment>
+          ))}
         </Text>
       );
   }

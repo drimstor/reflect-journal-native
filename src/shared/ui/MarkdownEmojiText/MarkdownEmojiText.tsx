@@ -11,6 +11,7 @@ import ElementRenderer from "./ui/ElementRenderer/ElementRenderer";
  * - жирный текст (**text**)
  * - заголовки разных уровней (# text, ## text, ### text, и т.д.)
  * - ненумерованные списки (- text)
+ * - вставку элементов через placeholder'ы (опционально)
  */
 const MarkdownEmojiText = ({
   children,
@@ -21,6 +22,7 @@ const MarkdownEmojiText = ({
   style,
   numberOfLines,
   ellipsizeMode,
+  elements,
 }: MarkdownEmojiTextProps) => {
   const {
     appearance: { isEmoji },
@@ -28,29 +30,15 @@ const MarkdownEmojiText = ({
 
   // Хуки должны вызываться всегда, до условных возвратов
   const isString = typeof children === "string";
-  const { shouldParse, parsedElements } = useMarkdownParser(
-    isString ? children : ""
+
+  // Парсим текст с учетом placeholder'ов
+  const { shouldParse, parsedElements, placeholderMap } = useMarkdownParser(
+    isString ? (children as string) : "",
+    { elements }
   );
 
-  // Если не строка, возвращаем обычный Text
-  if (!isString) {
-    return (
-      <Text
-        size={size}
-        font={font}
-        color={color}
-        withOpacity={withOpacity}
-        style={style}
-        numberOfLines={numberOfLines}
-        ellipsizeMode={ellipsizeMode}
-      >
-        {children}
-      </Text>
-    );
-  }
-
-  // Если парсинг не нужен, возвращаем обычный Text
-  if (!shouldParse || !parsedElements) {
+  // Если не строка или парсинг не нужен, возвращаем обычный Text
+  if (!isString || !shouldParse || !parsedElements) {
     return (
       <Text
         size={size}
@@ -86,6 +74,7 @@ const MarkdownEmojiText = ({
           color={color}
           withOpacity={withOpacity}
           isEmoji={isEmoji}
+          placeholderMap={placeholderMap}
         />
       ))}
     </Text>

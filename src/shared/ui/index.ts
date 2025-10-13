@@ -16,7 +16,7 @@ export { default as Chip } from "./Chip/Chip";
 export {
   default as ChipSelector,
   type ChipSelectorOption,
-  type ChipSelectorProps
+  type ChipSelectorProps,
 } from "./ChipSelector/ChipSelector";
 export { default as Divider } from "./Divider/Divider";
 export { default as DynamicIsland } from "./DynamicIsland/DynamicIsland";
@@ -53,11 +53,11 @@ export {
   isMonthYearValueEmpty,
   monthYearValueToDate,
   monthYearValueToTimestamp,
-  timestampToMonthYearValue
+  timestampToMonthYearValue,
 } from "./MonthYearPicker/lib/helpers/dateConverters";
 export type {
   MonthYearPickerProps,
-  MonthYearValue
+  MonthYearValue,
 } from "./MonthYearPicker/model/types";
 export { default as MonthYearPicker } from "./MonthYearPicker/MonthYearPicker";
 export { MoodSelector } from "./MoodSelector/MoodSelector";
@@ -82,4 +82,3 @@ export { TextWithIcon } from "./TextWithIcon/TextWithIcon";
 export { Toggle } from "./Toggle/Toggle";
 export { default as Tooltip } from "./Tooltip/Tooltip";
 export { default as VirtualizedList } from "./VirtualizedList/VirtualizedList";
-

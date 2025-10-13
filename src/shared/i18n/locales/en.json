@@ -582,7 +582,8 @@
       "no": "No",
       "exit": "Exit",
       "welcome": "Welcome!",
-      "clearData": "Clear data"
+      "clearData": "Clear data",
+      "takeReward": "Take reward"
     },
     "status": {
       "loading": "Loading",
@@ -776,6 +777,11 @@
     "inMainMenuButton": "In Main Menu", 
     "inLibraryButton": "In Library",
     "meeting": "Introduction",
+    "greetingSteps": {
+      "0":  "**Reflexity** [APP_LOGO] — Your Personal AI Life Manager.\n\nTo show the capabilities of the application, we have filled the **Library** with data for example[INFO].",
+      "1": "In the **Library** all your records are stored:\n\n📔 **Journals** — for thoughts and events\n💬 **Chats** — for discussing details\n🎯 **Goals** — for planning and progress\n🪞 **Summaries** — for analysis and insights"
+    },
+    "greetingStepsInfo": "You can clear all data in the settings",
     "steps": {
       "create_journal": "Create Journal",
       "create_chat": "Create Chat",

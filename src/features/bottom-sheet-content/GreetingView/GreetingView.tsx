@@ -6,6 +6,7 @@ import {
   BottomSheetHeader,
   Button,
   Info,
+  MarkdownEmojiText,
   PaddingLayout,
   TextWithIcon,
 } from "@/src/shared/ui";
@@ -24,7 +25,7 @@ const OnboardingStepsView = () => {
 
   const stepsConfig = [
     {
-      text: "Reflexity [APP_LOGO] — ваш персональный ИИ-лайф-менеджер.\n\nДля примера, мы наполнили приложение данными от лица человека, который ищет новую работу[INFO].\n\nИзучите, как эффективно вести записи в приложении.",
+      text: t("onboarding.greetingSteps.0"),
       elements: [
         {
           placeholder: "[APP_LOGO]",
@@ -40,16 +41,13 @@ const OnboardingStepsView = () => {
           placeholder: "[INFO]",
           elementSize: 13,
           element: (
-            <Info
-              gap={0}
-              tooltipText="Вы можете очистить все данные в настройках"
-            />
+            <Info gap={0} tooltipText={t("onboarding.greetingStepsInfo")} />
           ),
         },
       ],
     },
     {
-      text: "В Библиотеке хранятся все ваши записи: Дневники, Чаты, Цели и Саммари. Они могут быть связаны между собой.\n\nНа примере поиска работы:\n• Создайте Цель — «Найти работу мечты»\n• Фиксируйте прогресс в Дневнике\n• Обсуждайте детали в Чате\n• Проводите ретроспективы в Саммари",
+      text: t("onboarding.greetingSteps.1"),
       elements: [],
     },
   ];
@@ -59,15 +57,11 @@ const OnboardingStepsView = () => {
   const maxStep = stepsConfig.length - 1;
 
   const handleNextStep = () => {
-    if (localStep < maxStep && localStep + 1 <= maxStep) {
-      setLocalStep(localStep + 1);
-    }
+    setLocalStep(localStep + 1);
   };
 
   const handlePreviousStep = () => {
-    if (localStep > 0) {
-      setLocalStep(localStep - 1);
-    }
+    setLocalStep(localStep - 1);
   };
 
   return (
@@ -76,14 +70,22 @@ const OnboardingStepsView = () => {
         isBorderGap={false}
         title={t("onboarding.meeting")}
         onBack={localStep > 0 ? handlePreviousStep : undefined}
-        // onNext={isDontHaveNext || localStep >= 0 ? undefined : handleNextStep}
-        // onClose={isMeetStep ? handleClose : undefined}
       />
-      <PaddingLayout style={{ gap: 12, paddingVertical: 20 }}>
-        <TextWithIcon
-          text={stepsConfig[localStep].text}
-          elements={stepsConfig[localStep].elements}
-        />
+      <PaddingLayout style={{ paddingVertical: 20 }}>
+        {localStep === 0 && (
+          <TextWithIcon
+            text={stepsConfig[localStep].text}
+            elements={stepsConfig[localStep].elements}
+          />
+        )}
+        {localStep === 1 && (
+          <MarkdownEmojiText
+            color={colors.contrast}
+            elements={stepsConfig[localStep].elements}
+          >
+            {stepsConfig[localStep].text}
+          </MarkdownEmojiText>
+        )}
       </PaddingLayout>
 
       <BottomSheetFooter isBorderGap={false}>
@@ -91,8 +93,6 @@ const OnboardingStepsView = () => {
           backgroundColor={theme === "dark" ? colors.accent : colors.primary}
           textColor={theme === "dark" ? colors.primary : colors.white}
           onPress={localStep !== maxStep ? handleNextStep : handleClose}
-          isLoading={false}
-          disabled={false}
         >
           {t(
             localStep !== maxStep
