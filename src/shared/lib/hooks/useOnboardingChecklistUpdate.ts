@@ -9,8 +9,7 @@ import { useT } from "./useLang";
 export const useOnboardingChecklistUpdate = () => {
   const t = useT();
   const dispatch = useAppDispatch();
-  const { isCompleted, checklists, updateChecklistItem, resetOnboarding } =
-    useOnboardingStore();
+  const { isCompleted, checklists, updateChecklistItem } = useOnboardingStore();
 
   /**
    * Обновить пункт чек-листа если он еще не выполнен

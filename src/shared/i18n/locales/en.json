@@ -779,6 +779,10 @@
       "0":  "**Reflexity** [APP_LOGO] — Your Personal AI Life Manager.\n\nTo show the capabilities of the application, we have filled the **Library** with data for example[INFO].",
       "1": "In the **Library** all your records are stored:\n\n📔 **Journals** — for thoughts and events\n💬 **Chats** — for discussing details\n🎯 **Goals** — for planning and progress\n🪞 **Summaries** — for analysis and insights"
     },
+    "banner": {
+      "title": "Open a gift!",
+      "text": "A week of **Plus** subscription awaits you for completing the onboarding"
+    },
     "greetingStepsInfo": "You can clear all data in the settings",
     "stepsView": {
       "0": {
@@ -816,7 +820,7 @@
       "rewardTitle": "Claim your reward!",
       "rewardText": "Congratulations! You've completed onboarding! 🎉\n\nClaim your reward!",
       "thankYou": "Thank you for getting to know the app!",
-      "thankYouText": "You've mastered the main functionality! 🎉\n\nNow the most interesting part begins. Each entry is a step towards self-understanding. The app becomes your attentive mirror, reflecting what you haven't seen before. Be open — and rediscover yourself. ✨"
+      "thankYouText": "You've mastered the main functionality! 🎉\n\nNow the most interesting part begins — be open and rediscover yourself. ✨"
     },
     "snackbars": {
       "journal_created": "Excellent! Journal created! 📔",

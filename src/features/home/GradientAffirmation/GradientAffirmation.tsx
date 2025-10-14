@@ -22,14 +22,14 @@ const GradientAffirmation = ({
 
   const gradientColors = {
     dark: [colors.accent, colors.color4] as const,
-    light: [colors.accent, colors.color2] as const,
+    light: [colors.accent, colors.color3] as const,
   };
 
   return (
     <LinearGradient
       colors={gradientColors[theme]}
-      start={{ x: 0.1, y: 0.7 }}
-      end={{ x: 0.5, y: 1.9 }}
+      start={{ x: 0.1, y: 0.1 }}
+      end={{ x: 0.3, y: 2.5 }}
       style={styles.globalBox}
     >
       {icon}

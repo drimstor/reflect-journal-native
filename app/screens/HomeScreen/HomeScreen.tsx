@@ -16,6 +16,7 @@ import {
 } from "@/src/widgets";
 import React, { useEffect } from "react";
 import { ScrollView } from "react-native";
+import GiftBanner from "../../../src/features/home/GiftBanner/GiftBanner";
 import { PATHS } from "../../../src/shared/const";
 import { useTabBarStore } from "../../../src/shared/store";
 import { styles } from "./HomeScreen.styles";
@@ -76,6 +77,8 @@ const HomeScreen = () => {
             data={data.documents}
             getDocumentProgress={getDocumentProgress}
           />
+
+          <GiftBanner />
 
           {/* <PreviewBlock
           backgroundColor={colors.secondary}

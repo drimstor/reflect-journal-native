@@ -20,7 +20,7 @@ export interface ChecklistItem {
 }
 
 // Структура чек-листов для всех шагов
-const initialChecklists: { [stepIndex: number]: ChecklistItem[] } = {
+const INITIAL_CHECK_LIST: { [stepIndex: number]: ChecklistItem[] } = {
   0: [
     { id: "journal_created", completed: false },
     { id: "journal_entry_created", completed: false },
@@ -62,7 +62,7 @@ const initialState = {
   currentStep: -1,
   isCompleted: false,
   isRewardClaimed: false,
-  checklists: initialChecklists,
+  checklists: INITIAL_CHECK_LIST,
 };
 
 export const useOnboardingStore = create<OnboardingState>()(

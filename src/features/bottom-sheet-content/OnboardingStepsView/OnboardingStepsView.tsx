@@ -21,7 +21,7 @@ import {
   PlusIcon,
   Text,
 } from "@/src/shared/ui";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Pressable, View } from "react-native";
 
 const OnboardingStepsView = () => {
@@ -38,6 +38,7 @@ const OnboardingStepsView = () => {
     completeOnboarding,
     claimReward,
     isStepCompleted,
+    resetOnboarding,
   } = useOnboardingStore();
 
   // Обработчик закрытия
@@ -102,9 +103,11 @@ const OnboardingStepsView = () => {
   const isRewardScreen = isLocalFinalStep && isCompleted && !isRewardClaimed;
   const isThankYouScreen = isLocalFinalStep && isCompleted && isRewardClaimed;
 
-  // useEffect(() => {
-  //   setCurrentStep(-1);
-  // }, []);
+  useEffect(() => {
+    // completeOnboarding();
+    // claimReward();
+    // setCurrentStep(-1);
+  }, []);
 
   // Типы для каждого шага
   const stepsConfig = {

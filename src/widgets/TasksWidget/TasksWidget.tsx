@@ -1,6 +1,6 @@
 import { GoalResponse } from "@/src/entities/goals/model/types";
 import { PATHS } from "@/src/shared/const";
-import { useGetPadding, useT } from "@/src/shared/lib/hooks";
+import { useGetPadding, useLang, useT } from "@/src/shared/lib/hooks";
 import { useScreenInfoStore, useThemeStore } from "@/src/shared/store";
 import { NoData, PaddingLayout, TitleText } from "@/src/shared/ui";
 import Chip from "@/src/shared/ui/Chip/Chip";
@@ -25,6 +25,7 @@ interface TasksWidgetProps {
 const TasksWidget = ({ data: externalData }: TasksWidgetProps) => {
   const navigation = useNavigation<NavigationProp<any>>();
   const t = useT();
+  const { locale } = useLang();
   const { colors } = useThemeStore();
   const { paddingHorizontal } = useGetPadding();
   const styles = createStyles();
@@ -50,7 +51,7 @@ const TasksWidget = ({ data: externalData }: TasksWidgetProps) => {
         value: "complete" as const,
       },
     ],
-    [t]
+    [t, locale]
   );
 
   // Подсчет количества целей по статусам для отображения в чипах
