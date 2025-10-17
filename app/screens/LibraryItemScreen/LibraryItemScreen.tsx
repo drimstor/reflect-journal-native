@@ -37,9 +37,7 @@ import {
   ClipboardTextIcon,
   DocumentTextIcon,
   DotsIcon,
-  LinkSquareIcon,
   TimerIcon,
-  TrashIcon,
 } from "@/src/shared/ui/icons";
 import {
   CommandWidget,
@@ -52,6 +50,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect, useMemo, useState } from "react";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import { useChecklistActions } from "./lib/hooks/useChecklistActions";
+import { useItemDotsActions } from "./lib/hooks/useItemDotsActions";
 import { useParentEntity } from "./lib/hooks/useParentEntity";
 import { useSetDocumentProgress } from "./lib/hooks/useSetDocumentProgress";
 import { createStyles } from "./LibraryItemScreen.styles";
@@ -62,13 +61,7 @@ const LibraryItemScreen = () => {
   const { colors, theme } = useThemeStore();
   const styles = createStyles(colors);
   const { subtitle } = useHeaderStore();
-  const {
-    setNavigation,
-    setActions,
-    navigateToFlow,
-    setFlowData,
-    setBottomSheetVisible,
-  } = useBottomSheetStore();
+  const { setNavigation } = useBottomSheetStore();
   const route = useRoute();
   const { variant, item, isBottomSheetMountAnimate } =
     (route.params as any) || {};
@@ -89,27 +82,36 @@ const LibraryItemScreen = () => {
   const isTestResult = variant === ENTITY_NAME.TEST_RESULTS;
   const isDocument = variant === ENTITY_NAME.DOCUMENTS;
 
+  const chipColorsConfig = {
+    [ENTITY_NAME.JOURNALS]: colors.accent,
+    [ENTITY_NAME.CHATS]: colors.color2,
+    [ENTITY_NAME.GOALS]: colors.color4,
+    [ENTITY_NAME.SUMMARIES]: colors.color3,
+  };
+
   useEffect(() => {
     setCurrentItem(data || item);
   }, [item, data]);
 
   useEffect(() => {
     setNavigation(false, PATHS.LIBRARY);
-  }, [variant]);
+  }, [variant, setNavigation]);
 
   // ------------------------------------------------------------ //
 
   // Получение родительской сущности
   const { parentJournal, parentTest } = useParentEntity(variant, item);
 
+  const parentRelatedEntities = (parentJournal as Journal)?.related_entities;
+
   useEffect(() => {
     if (isJournalEntry && data) {
       setCurrentItem({
         ...data,
-        related_entities: (parentJournal as Journal)?.related_entities as any,
+        related_entities: parentRelatedEntities as any,
       });
     }
-  }, [(parentJournal as Journal)?.related_entities, data]);
+  }, [isJournalEntry, data, parentRelatedEntities]);
 
   const carouselConfig = useCarouselConfig(
     25,
@@ -122,6 +124,12 @@ const LibraryItemScreen = () => {
 
   const { checkboxes, isUpdatingChecklistItem, handleCheckboxToggle } =
     useChecklistActions(variant, currentItem?.id, currentItem?.checklist || []);
+
+  const { handleRelatedEntityDotsPress, handleEditPress } = useItemDotsActions(
+    variant,
+    item,
+    currentItem
+  );
 
   // Hook для отслеживания прогресса просмотра документа (всегда вызываем хук)
   const {
@@ -139,75 +147,13 @@ const LibraryItemScreen = () => {
     });
   };
 
-  // Обработчик клика на DotsIcon в карусели related_entities
-  const handleRelatedEntityDotsPress = (relatedItem: any) => {
-    // Устанавливаем действия для связей
-    setActions([
-      {
-        text: t("relatedEntries.create"),
-        IconComponent: LinkSquareIcon,
-        onPress: () => {
-          navigateToFlow("relation", "create");
-        },
-      },
-      {
-        text: t("relatedEntries.delete"),
-        IconComponent: TrashIcon,
-        iconColor: colors.error,
-        iconSize: 26,
-        onPress: () => {
-          navigateToFlow("relation", "delete");
-        },
-      },
-    ]);
-
-    // Для записей дневника используем parent journal
-    const sourceType = isJournalEntry ? ENTITY_NAME.JOURNALS : variant;
-    const sourceId = isJournalEntry ? item.journal_id : item.id;
-
-    // Устанавливаем данные для flow
-    setFlowData({
-      variant: sourceType,
-      id: sourceId,
-      related_entities: currentItem?.related_entities,
-    });
-
-    // Открываем BottomSheet
-    navigateToFlow("common", "list");
-    requestAnimationFrame(() => {
-      setBottomSheetVisible(true);
-    });
-  };
-
-  // Обработчик клика на DotsIcon для редактирования записи
-  const handleEditPress = () => {
-    // Устанавливаем данные для редактирования
-    setFlowData({
-      variant,
-      id: currentItem?.id,
-      ...currentItem,
-    });
-
-    // Открываем flow редактирования
-    navigateToFlow("main", "edit");
-    requestAnimationFrame(() => {
-      setBottomSheetVisible(true);
-    });
-  };
-
   // Переиспользуемый компонент DotsIcon с TouchableOpacity
-  const EditableDotsIcon = () => (
-    <TouchableOpacity onPress={handleEditPress}>
-      <DotsIcon color={colors.contrast} size={22} />
-    </TouchableOpacity>
-  );
-
-  const chipColorsConfig = {
-    [ENTITY_NAME.JOURNALS]: colors.accent,
-    [ENTITY_NAME.CHATS]: colors.color2,
-    [ENTITY_NAME.GOALS]: colors.color4,
-    [ENTITY_NAME.SUMMARIES]: colors.color3,
-  };
+  const EditableDotsIcon = () =>
+    isTest ? null : (
+      <TouchableOpacity onPress={handleEditPress}>
+        <DotsIcon color={colors.contrast} size={22} />
+      </TouchableOpacity>
+    );
 
   return (
     <Layout>
