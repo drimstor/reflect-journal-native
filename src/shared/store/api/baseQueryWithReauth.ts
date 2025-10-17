@@ -26,7 +26,6 @@ export const baseQueryWithReauth: BaseQueryFn<
   await mutex.waitForUnlock();
   let result = await baseQuery(args, api, extraOptions);
   if (result.error && result.error.status === 401) {
-    console.log("🚨 Получена ошибка 401, пытаемся обновить токен");
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
       try {
@@ -50,7 +49,6 @@ export const baseQueryWithReauth: BaseQueryFn<
         );
 
         if (refreshResult.data) {
-          console.log("✅ Токен успешно обновлен, повторяем запрос");
           const { access_token, refresh_token } = refreshResult.data as {
             access_token: string;
             refresh_token: string;

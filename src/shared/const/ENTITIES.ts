@@ -6,6 +6,7 @@ export const ENTITY_NAME: Record<string, EntityType> = {
   JOURNALS: "Journals",
   SUMMARIES: "Summaries",
   JOURNAL_ENTRIES: "JournalEntries",
+  CHAT: "Chat",
   MESSAGES: "Messages",
   DOCUMENTS: "Documents",
   TESTS: "Tests",

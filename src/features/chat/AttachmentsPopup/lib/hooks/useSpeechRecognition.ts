@@ -12,8 +12,6 @@
 //   const [isListening, setIsListening] = useState(false);
 //   const [recognizedText, setRecognizedText] = useState("");
 
-//   console.log({ recognizedText });
-
 //   // Слушатель событий распознавания речи
 //   useSpeechRecognitionEvent("start", () => {
 //     setIsListening(true);

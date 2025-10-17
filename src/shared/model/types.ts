@@ -30,6 +30,7 @@ export type SortField = "name" | "created_at" | "updated_at" | "count";
 export type SortOrder = "asc" | "desc";
 
 export type EntityType =
+  | "Chat"
   | "Journals"
   | "Chats"
   | "Goals"

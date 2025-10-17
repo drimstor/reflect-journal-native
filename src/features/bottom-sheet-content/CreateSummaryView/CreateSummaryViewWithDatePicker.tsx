@@ -1,4 +1,4 @@
-import { useKeyboard, useT } from "@/src/shared/lib/hooks";
+import { useT } from "@/src/shared/lib/hooks";
 import { useBottomSheetStore, useFiltersStore } from "@/src/shared/store";
 import React, { useEffect } from "react";
 import CreateSummaryView from "./CreateSummaryView";
@@ -11,10 +11,6 @@ const CreateSummaryViewWithDatePicker = () => {
   const { setMultiSelectIds } = useFiltersStore();
 
   const { startDate, endDate } = flowData.datePickerProps || {};
-
-  const { keyboardHeight, isKeyboardVisible } = useKeyboard();
-
-  console.log({ keyboardHeight, isKeyboardVisible });
 
   const handleDateRangeChange = (dates: {
     startDate: string | null;

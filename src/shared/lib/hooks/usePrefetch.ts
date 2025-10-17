@@ -65,8 +65,6 @@ export const usePrefetch = () => {
       limit: 50,
     });
 
-    console.log("prefetchTestResults", params);
-
     try {
       // Запускаем префетч результатов теста
       dispatch(

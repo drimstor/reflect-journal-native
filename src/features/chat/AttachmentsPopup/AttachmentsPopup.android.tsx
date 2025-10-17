@@ -26,7 +26,6 @@ const AttachmentsPopup: FC<AttachmentsPopupProps> = ({
   onSpeechRecognized,
 }) => {
   const { colors, theme } = useThemeStore();
-  console.log("AttachmentsPopup Android");
 
   // Используем кастомный хук для распознавания речи
   const { isListening, startListening, stopListening } =

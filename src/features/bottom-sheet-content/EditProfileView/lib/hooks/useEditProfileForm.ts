@@ -103,10 +103,6 @@ export const useEditProfileForm = (
         }
       });
 
-      console.log(
-        "Отправляем FormData со всеми полями:",
-        Object.fromEntries(formData.entries())
-      );
       await onSubmit(formData);
     } catch (error) {
       console.error("Ошибка при отправке формы:", error);

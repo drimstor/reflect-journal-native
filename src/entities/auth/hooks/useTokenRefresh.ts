@@ -1,9 +1,9 @@
-import { useCallback, useEffect } from "react";
-import { tokenService } from "@/src/shared/store";
 import { useRefreshMutation } from "@/src/entities/auth/api/authApi";
-import { useNavigation } from "@react-navigation/native";
 import { PATHS } from "@/src/shared/const";
 import { NavigationProps } from "@/src/shared/model/types";
+import { tokenService } from "@/src/shared/store";
+import { useNavigation } from "@react-navigation/native";
+import { useCallback, useEffect } from "react";
 
 export const useTokenRefresh = () => {
   const navigation = useNavigation<NavigationProps>();

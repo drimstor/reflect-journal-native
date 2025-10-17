@@ -774,6 +774,9 @@
         "body": "Failed to create analysis. Please try again"
       }
     },
+    "message": {
+      "received": "You have received a new message!"
+    },
     "weeklyReport": {
       "title": "Time to review your week",
       "body": "Ready to analyze your week?"

@@ -6,11 +6,17 @@ import {
 import { messagesApi } from "@/src/entities/chat/api/messagesApi";
 import { MessageGiftedChat } from "@/src/entities/chat/model/types";
 import { normalizeGiftedChatDate } from "@/src/shared/lib/helpers/normalizeGiftedChatDate";
-import { useOnboardingChecklistUpdate } from "@/src/shared/lib/hooks";
+import { useOnboardingChecklistUpdate, useT } from "@/src/shared/lib/hooks";
 import { ImagePickerResult } from "@/src/shared/lib/hooks/useImagePicker";
-import { useAppDispatch, useAppSelector } from "@/src/shared/store";
+import {
+  addSnackbar,
+  useAppDispatch,
+  useAppSelector,
+} from "@/src/shared/store";
+import { useScreenInfoStore } from "@/src/shared/store/zustand/screenInfo.store";
 import { useCallback, useState } from "react";
 import { GiftedChat, IMessage } from "react-native-gifted-chat";
+import { ENTITY_NAME } from "../../../../../src/shared/const/ENTITIES";
 
 export const useMessageSender = ({
   chatId,
@@ -23,6 +29,7 @@ export const useMessageSender = ({
   lastMessageId?: string;
   setMessages: React.Dispatch<React.SetStateAction<MessageGiftedChat[]>>;
 }) => {
+  const t = useT();
   const dispatch = useAppDispatch();
   const endpointParams = useAppSelector(getMessagesEndpointParams(chatId));
   const { data: user } = useGetCurrentUserQuery();
@@ -137,6 +144,21 @@ export const useMessageSender = ({
             )
           );
 
+          // Проверяем, находится ли пользователь в чате
+          // Получаем актуальное значение из стора в момент получения ответа
+          const currentScreenInfo = useScreenInfoStore.getState().screenInfo;
+          const isUserInChat = currentScreenInfo?.name === ENTITY_NAME.CHAT;
+
+          // Если пользователь не в чате, показываем снекбар
+          if (!isUserInChat) {
+            dispatch(
+              addSnackbar({
+                text: t("notifications.message.received"),
+                type: "success",
+              })
+            );
+          }
+
           // Удаляем временный лоадер и добавляем ответ ассистента
           setMessages((previousMessages) => {
             const filteredMessages = previousMessages.filter(
@@ -184,7 +206,19 @@ export const useMessageSender = ({
         });
       }, 800);
     },
-    [text, user?.id, chatId, createMessageWithImages, updateChecklist, dispatch]
+    [
+      text,
+      user?.id,
+      chatId,
+      createMessageWithImages,
+      updateChecklist,
+      dispatch,
+      t,
+      resetFilters,
+      lastMessageId,
+      endpointParams,
+      setMessages,
+    ]
   );
 
   return {

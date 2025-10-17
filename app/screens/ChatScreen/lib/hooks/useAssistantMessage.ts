@@ -1,13 +1,20 @@
-import { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/src/shared/store";
 import { getMessagesEndpointParams } from "@/src/entities";
 import {
   messagesApi,
   useCreateAIMessageFromEntityMutation,
 } from "@/src/entities/chat/api/messagesApi";
-import { GiftedChat, IMessage } from "react-native-gifted-chat";
 import { MessageGiftedChat } from "@/src/entities/chat/model/types";
 import { normalizeGiftedChatDate } from "@/src/shared/lib/helpers/normalizeGiftedChatDate";
+import { useT } from "@/src/shared/lib/hooks";
+import {
+  addSnackbar,
+  useAppDispatch,
+  useAppSelector,
+} from "@/src/shared/store";
+import { useScreenInfoStore } from "@/src/shared/store/zustand/screenInfo.store";
+import { useEffect, useState } from "react";
+import { GiftedChat, IMessage } from "react-native-gifted-chat";
+import { ENTITY_NAME } from "../../../../../src/shared/const/ENTITIES";
 
 interface UseAssistantMessageProps {
   item: any;
@@ -22,6 +29,7 @@ export const useAssistantMessage = ({
   isLoadingMessages,
   setMessages,
 }: UseAssistantMessageProps) => {
+  const t = useT();
   const dispatch = useAppDispatch();
   const endpointParams = useAppSelector(getMessagesEndpointParams(item.id));
   const [createAIMessageFromEntity] = useCreateAIMessageFromEntityMutation();
@@ -57,6 +65,21 @@ export const useAssistantMessage = ({
               }
             )
           );
+
+          // Проверяем, находится ли пользователь в чате
+          // Получаем актуальное значение из стора в момент получения ответа
+          const currentScreenInfo = useScreenInfoStore.getState().screenInfo;
+          const isUserInChat = currentScreenInfo?.name === ENTITY_NAME.CHAT;
+
+          // Если пользователь не в чате, показываем снекбар
+          if (!isUserInChat) {
+            dispatch(
+              addSnackbar({
+                text: t("notifications.message.received"),
+                type: "success",
+              })
+            );
+          }
 
           setMessages((previousMessages) => {
             const filteredMessages = previousMessages.filter(
@@ -108,7 +131,16 @@ export const useAssistantMessage = ({
     } else {
       setIsHandled(false);
     }
-  }, [requestAssistantMessage, isLoadingMessages]);
+  }, [
+    requestAssistantMessage,
+    isLoadingMessages,
+    createAIMessageFromEntity,
+    dispatch,
+    endpointParams,
+    item.id,
+    setMessages,
+    t,
+  ]);
 
   return { isHandled };
 };

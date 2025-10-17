@@ -156,21 +156,11 @@ export const useImagePicker = (
         selectionLimit: config.selectionLimit,
       });
 
-      console.log("ImagePicker result:", {
-        canceled: result.canceled,
-        assetsCount: result.assets?.length || 0,
-        allowsMultipleSelection: config.allowsMultipleSelection,
-        allowsEditing: config.allowsEditing,
-        selectionLimit: config.selectionLimit,
-      });
-
       const newImages = processImageResults(result);
-      console.log("Processed images count:", newImages.length);
 
       if (newImages.length > 0) {
         setSelectedImages((prev) => {
           const updated = [...prev, ...newImages];
-          console.log("Total selected images:", updated.length);
           return updated;
         });
       }
