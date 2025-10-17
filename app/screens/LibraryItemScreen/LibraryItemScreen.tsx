@@ -50,7 +50,7 @@ import {
 import { WINDOW_HEIGHT } from "@gorhom/bottom-sheet";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect, useMemo, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 import { useChecklistActions } from "./lib/hooks/useChecklistActions";
 import { useParentEntity } from "./lib/hooks/useParentEntity";
 import { useSetDocumentProgress } from "./lib/hooks/useSetDocumentProgress";
@@ -178,6 +178,29 @@ const LibraryItemScreen = () => {
       setBottomSheetVisible(true);
     });
   };
+
+  // Обработчик клика на DotsIcon для редактирования записи
+  const handleEditPress = () => {
+    // Устанавливаем данные для редактирования
+    setFlowData({
+      variant,
+      id: currentItem?.id,
+      ...currentItem,
+    });
+
+    // Открываем flow редактирования
+    navigateToFlow("main", "edit");
+    requestAnimationFrame(() => {
+      setBottomSheetVisible(true);
+    });
+  };
+
+  // Переиспользуемый компонент DotsIcon с TouchableOpacity
+  const EditableDotsIcon = () => (
+    <TouchableOpacity onPress={handleEditPress}>
+      <DotsIcon color={colors.contrast} size={22} />
+    </TouchableOpacity>
+  );
 
   return (
     <Layout>
@@ -347,7 +370,7 @@ const LibraryItemScreen = () => {
                   <TitleText
                     text={t("libraryItem.content")}
                     textColor={colors.contrast}
-                    element={<DotsIcon color={colors.contrast} size={22} />}
+                    element={<EditableDotsIcon />}
                     variant="subTitle"
                     style={styles.titleText}
                   />
@@ -402,7 +425,7 @@ const LibraryItemScreen = () => {
                   <TitleText
                     text={t("libraryItem.relatedTopics")}
                     textColor={colors.contrast}
-                    element={<DotsIcon color={colors.contrast} size={22} />}
+                    element={<EditableDotsIcon />}
                     variant="subTitle"
                     style={styles.titleText}
                   />
@@ -424,7 +447,7 @@ const LibraryItemScreen = () => {
                   <TitleText
                     text={t("libraryItem.aiResponse")}
                     textColor={colors.contrast}
-                    element={<DotsIcon color={colors.contrast} size={22} />}
+                    element={<EditableDotsIcon />}
                     variant="subTitle"
                     style={styles.titleText}
                   />
@@ -451,7 +474,7 @@ const LibraryItemScreen = () => {
                   <TitleText
                     text={t("libraryItem.checklist")}
                     textColor={colors.contrast}
-                    element={<DotsIcon color={colors.contrast} size={22} />}
+                    element={<EditableDotsIcon />}
                     variant="subTitle"
                     style={styles.titleText}
                   />
