@@ -7,6 +7,7 @@ import {
   BookmarkCheckIcon,
   DirectIcon,
   EditPencilIcon,
+  LinkSquareIcon,
   TrashIcon,
 } from "@/src/shared/ui/icons";
 
@@ -26,6 +27,12 @@ export const useBottomSheetActions = <T extends { id: string }>(
   const { colors } = useThemeStore();
   const { multi_select_ids } = useFiltersStore();
   const variantsForSummary = [ENTITY_NAME.JOURNALS, ENTITY_NAME.CHATS];
+  const variantsForRelation = [
+    ENTITY_NAME.JOURNALS,
+    ENTITY_NAME.CHATS,
+    ENTITY_NAME.GOALS,
+    ENTITY_NAME.SUMMARIES,
+  ];
 
   /**
    * Обработчик нажатия на кнопку с тремя точками (опции)
@@ -40,6 +47,18 @@ export const useBottomSheetActions = <T extends { id: string }>(
               IconComponent: DirectIcon,
               onPress: () => {
                 navigateToFlow("summary", "create");
+              },
+            },
+          ]
+        : []),
+      // Показываем пункт создания связи для журналов, чатов, целей и саммари
+      ...(variantsForRelation.includes(variant)
+        ? [
+            {
+              text: t("relatedEntries.create"),
+              IconComponent: LinkSquareIcon,
+              onPress: () => {
+                navigateToFlow("relation", "create");
               },
             },
           ]

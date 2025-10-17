@@ -190,4 +190,20 @@ export const FLOWS: Record<string, FlowConfig> = {
       ),
     },
   },
+  relation: {
+    screens: {
+      create: lazy(
+        () =>
+          import(
+            "@/src/features/bottom-sheet-content/CreateRelationView/CreateRelationView"
+          )
+      ),
+      delete: lazy(
+        () =>
+          import(
+            "@/src/features/bottom-sheet-content/DeleteRelationView/DeleteRelationView"
+          )
+      ),
+    },
+  },
 };

@@ -37,7 +37,9 @@ import {
   ClipboardTextIcon,
   DocumentTextIcon,
   DotsIcon,
+  LinkSquareIcon,
   TimerIcon,
+  TrashIcon,
 } from "@/src/shared/ui/icons";
 import {
   CommandWidget,
@@ -60,7 +62,13 @@ const LibraryItemScreen = () => {
   const { colors, theme } = useThemeStore();
   const styles = createStyles(colors);
   const { subtitle } = useHeaderStore();
-  const { setNavigation } = useBottomSheetStore();
+  const {
+    setNavigation,
+    setActions,
+    navigateToFlow,
+    setFlowData,
+    setBottomSheetVisible,
+  } = useBottomSheetStore();
   const route = useRoute();
   const { variant, item, isBottomSheetMountAnimate } =
     (route.params as any) || {};
@@ -128,6 +136,46 @@ const LibraryItemScreen = () => {
   const handleStartTest = () => {
     navigation.navigate(PATHS.TEST, {
       testId: currentItem?.id,
+    });
+  };
+
+  // Обработчик клика на DotsIcon в карусели related_entities
+  const handleRelatedEntityDotsPress = (relatedItem: any) => {
+    // Устанавливаем действия для связей
+    setActions([
+      {
+        text: t("relatedEntries.create"),
+        IconComponent: LinkSquareIcon,
+        onPress: () => {
+          navigateToFlow("relation", "create");
+        },
+      },
+      {
+        text: t("relatedEntries.delete"),
+        IconComponent: TrashIcon,
+        iconColor: colors.error,
+        iconSize: 26,
+        onPress: () => {
+          navigateToFlow("relation", "delete");
+        },
+      },
+    ]);
+
+    // Для записей дневника используем parent journal
+    const sourceType = isJournalEntry ? ENTITY_NAME.JOURNALS : variant;
+    const sourceId = isJournalEntry ? item.journal_id : item.id;
+
+    // Устанавливаем данные для flow
+    setFlowData({
+      variant: sourceType,
+      id: sourceId,
+      related_entities: currentItem?.related_entities,
+    });
+
+    // Открываем BottomSheet
+    navigateToFlow("common", "list");
+    requestAnimationFrame(() => {
+      setBottomSheetVisible(true);
     });
   };
 
@@ -481,6 +529,7 @@ const LibraryItemScreen = () => {
                       });
                     }
                   }}
+                  onDotsPress={handleRelatedEntityDotsPress}
                   modeConfig={{
                     ...carouselConfig,
                     parallaxAdjacentItemScale: 0.79,

@@ -1,9 +1,9 @@
 import { baseApi } from "@/src/shared/api/baseApi";
-import { EntityType } from "@/src/shared/model/types";
 import {
   ENTITY_WITH_PARENT,
   ENTITY_WITH_PARENT_CONFIG,
 } from "@/src/shared/const/ENTITIES";
+import { EntityType } from "@/src/shared/model/types";
 import { getEntitiesIds } from "../../common/lib/helpers/getEntitiesIds";
 
 interface RelateEntitiesRequest {

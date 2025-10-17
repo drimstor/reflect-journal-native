@@ -227,6 +227,14 @@
     "relatedEntries": "Related Entries",
     "images": "Images"
   },
+  "relatedEntries": {
+    "create": "Create Relation",
+    "delete": "Delete Relation",
+    "createTitle": "Creating Relation",
+    "deleteTitle": "Deleting Relation",
+    "selectType": "Choose entry type",
+    "selectEntity": "Choose entry"
+  },
   "sort": {
     "sortBy": "Sort by",
     "sortByName": "Name",

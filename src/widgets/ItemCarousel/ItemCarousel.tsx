@@ -2,7 +2,7 @@ import { createTypedPreviewBlockRenderer } from "@/src/features";
 import { ThemeColors } from "@/src/shared/model/types";
 import { Carousel, DotsIcon, PaddingLayout, TitleText } from "@/src/shared/ui";
 import React from "react";
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { itemCarouselStyles } from "./ItemCarousel.styles";
 
 // Тип элемента для карусели
@@ -26,6 +26,7 @@ interface ItemCarouselProps {
   activeIndex?: number; // Активный индекс для программного управления
   onPress?: (item: CarouselItemType) => void; // Обработчик нажатия на элемент
   colorKey?: string; // Цвет для фонового изображения
+  onDotsPress?: (item: CarouselItemType) => void; // Обработчик нажатия на DotsIcon
 }
 
 export const ItemCarousel = ({
@@ -39,6 +40,7 @@ export const ItemCarousel = ({
   activeIndex,
   onPress,
   colorKey,
+  onDotsPress,
 }: ItemCarouselProps) => {
   const styles = itemCarouselStyles(colors);
 
@@ -51,7 +53,13 @@ export const ItemCarousel = ({
         <TitleText
           text={title}
           textColor={colors.contrast}
-          element={<DotsIcon color={colors.contrast} size={22} />}
+          element={
+            onDotsPress ? (
+              <TouchableOpacity onPress={() => onDotsPress(data[activeIndex])}>
+                <DotsIcon color={colors.contrast} size={22} />
+              </TouchableOpacity>
+            ) : undefined
+          }
           variant="subTitle"
           style={styles.carouselTitleText}
         />

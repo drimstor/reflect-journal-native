@@ -1,7 +1,7 @@
-import { useState, useMemo } from "react";
-import { useGetAnyEntities } from "./useGetAnyEntities";
-import { useCarouselConfig } from "@/src/shared/ui";
 import { EntityType } from "@/src/shared/model/types";
+import { useCarouselConfig } from "@/src/shared/ui";
+import { useMemo, useState } from "react";
+import { useGetAnyEntities } from "./useGetAnyEntities";
 
 /**
  * Тип конфигурации карусели
@@ -47,6 +47,7 @@ export const useEntitiesData = ({
       ...(item as any),
       description: "",
       entity_type: entityType,
+      checklist: undefined,
     }));
   }, [entitiesData]);
 

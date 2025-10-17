@@ -60,6 +60,7 @@ export { default as LampIcon } from "./LampIcon";
 export { default as LifebuoySolidIcon } from "./LifebuoySolidIcon";
 export { default as LinkBoxIcon } from "./LinkBoxIcon";
 export { default as LinkSolidIcon } from "./LinkSolidIcon";
+export { default as LinkSquareIcon } from "./LinkSquareIcon";
 export { default as LogoutIcon } from "./LogoutIcon";
 export { default as MailIcon } from "./MailIcon";
 export { default as MailSolidIcon } from "./MailSolidIcon";

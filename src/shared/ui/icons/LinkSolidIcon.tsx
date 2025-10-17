@@ -1,6 +1,6 @@
+import { PALLETE_COLORS } from "@/src/shared/const";
 import { FC } from "react";
 import Svg, { Path } from "react-native-svg";
-import { PALLETE_COLORS } from "@/src/shared/const";
 import { IconProps } from "../../model/types";
 
 const LinkSolidIcon: FC<IconProps> = ({
