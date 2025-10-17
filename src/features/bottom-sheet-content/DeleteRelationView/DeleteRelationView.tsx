@@ -18,6 +18,7 @@ import {
 import { ItemCarousel } from "@/src/widgets";
 import { useEffect, useMemo, useState } from "react";
 import { View } from "react-native";
+import { ENTITY_NAME } from "../../../shared/const/ENTITIES";
 
 const DeleteRelationView = () => {
   const t = useT();
@@ -48,13 +49,21 @@ const DeleteRelationView = () => {
     setNavigation(false, "");
   }, [setNavigation]);
 
+  const chipColorsConfig = {
+    [ENTITY_NAME.JOURNALS]: colors.accent,
+    [ENTITY_NAME.CHATS]: colors.color2,
+    [ENTITY_NAME.GOALS]: colors.color4,
+    [ENTITY_NAME.SUMMARIES]: colors.color3,
+  };
+
   // Трансформируем related_entities для отображения в карусели
   const entitiesData = useMemo(() => {
     return relatedEntities.map((entity: any) => ({
       ...entity,
       description: "",
+      chipColor: chipColorsConfig[entity.entity_type],
     }));
-  }, [relatedEntities]);
+  }, [relatedEntities, chipColorsConfig]);
 
   // Мутация для удаления связи
   const [unrelateEntities, { isLoading: isDeleting }] =

@@ -202,6 +202,13 @@ const LibraryItemScreen = () => {
     </TouchableOpacity>
   );
 
+  const chipColorsConfig = {
+    [ENTITY_NAME.JOURNALS]: colors.accent,
+    [ENTITY_NAME.CHATS]: colors.color2,
+    [ENTITY_NAME.GOALS]: colors.color4,
+    [ENTITY_NAME.SUMMARIES]: colors.color3,
+  };
+
   return (
     <Layout>
       <Header
@@ -534,7 +541,10 @@ const LibraryItemScreen = () => {
               <View style={styles.carouselBox}>
                 <ItemCarousel
                   title={t("libraryItem.relatedEntries")}
-                  data={currentItem?.related_entities}
+                  data={currentItem?.related_entities.map((entity: any) => ({
+                    ...entity,
+                    chipColor: chipColorsConfig[entity.entity_type],
+                  }))}
                   onPress={(item) => {
                     if (item.entity_type === ENTITY_NAME.CHATS) {
                       navigation.navigate(PATHS.CHAT, {

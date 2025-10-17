@@ -46,13 +46,21 @@ const CreateRelationView = () => {
 
   const currentType = RELATION_TYPES[currentTypeIndex];
 
+  const chipColorsConfig = {
+    [ENTITY_NAME.JOURNALS]: colors.accent,
+    [ENTITY_NAME.CHATS]: colors.color2,
+    [ENTITY_NAME.GOALS]: colors.color4,
+    [ENTITY_NAME.SUMMARIES]: colors.color3,
+  };
+
   // Трансформируем типы для отображения в карусели
   const typesData = useMemo(() => {
     return RELATION_TYPES.map((type) => ({
       id: type,
-      name: t(`entities.${type.toLowerCase()}.plural`),
+      name: t(`entities.${type.toLowerCase()}.singular`),
       entity_type: type,
       created_at: new Date().toISOString(),
+      chipColor: chipColorsConfig[type],
     }));
   }, [t]);
 
