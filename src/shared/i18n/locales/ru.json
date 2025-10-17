@@ -715,14 +715,6 @@
       "country": {
         "label": "Страна",
         "placeholder": "Введите страну"
-      },
-      "occupation": {
-        "label": "Профессия",
-        "placeholder": "Введите профессию"
-      },
-      "workplaceOrStudy": {
-        "label": "Место работы/учебы",
-        "placeholder": "Введите место работы или учебы"
       }
     },
     "gender": {
@@ -857,6 +849,64 @@
       "toMainMenu": "В главное меню",
       "takeReward": "Забрать награду",
       "toLibrary": "В библиотеку"
+    }
+  },
+  "subscription": {
+    "plans": {
+      "free": "Free",
+      "premium": "Premium"
+    },
+    "limits": {
+      "reached": "Достигнут лимит",
+      "journals": "Дневники",
+      "journal_entries": "Записи в дневник",
+      "chats": "Чаты",
+      "messages": "Сообщения",
+      "goals": "Цели",
+      "goal_generations": "Генерации целей",
+      "summaries": "Саммари",
+      "tests": "Тесты",
+      "perDay": "в день",
+      "total": "всего",
+      "unlimited": "Безлимитно"
+    },
+    "actions": {
+      "upgrade": "Улучшить план",
+      "close": "Закрыть"
+    },
+    "messages": {
+      "limitReached": "Достигнут лимит",
+      "upgradeToUnlock": "Улучшите план для продолжения",
+      "currentPlan": "Текущий план",
+      "expiresAt": "Действует до",
+      "periodLimit": "Период не более",
+      "days": "дней"
+    },
+    "features": {
+      "attachments": "Вложения",
+      "voice": "Запись голоса",
+      "premiumAI": "Мощная AI модель",
+      "analytics": "Расширенная аналитика",
+      "support": "Приоритет поддержки"
+    },
+    "planFeatures": {
+      "free": {
+        "journals": "2 дневника",
+        "entries": "2 записи в день",
+        "chats": "2 чата",
+        "messages": "10 сообщений в день",
+        "goals": "3 цели",
+        "summaries": "1 саммари в день",
+        "tests": "1 тест в день"
+      },
+      "premium": {
+        "unlimited": "Всё безлимитно",
+        "attachments": "Вложения",
+        "voice": "Запись голоса",
+        "insights": "Персонализированные инсайты",
+        "premiumAI": "Самая мощная AI модель",
+        "analytics": "Расширенная аналитика"
+      }
     }
   }
 } 

@@ -5,8 +5,10 @@ import {
   LoginRequest,
   RegisterRequest,
   SocialAuthRequest,
+  SubscriptionResponse,
   TokenResponse,
   UserResponse,
+  VerifyReceiptRequest,
 } from "../model/types";
 
 export const authApi = baseApi.injectEndpoints({
@@ -109,6 +111,16 @@ export const authApi = baseApi.injectEndpoints({
         } catch {}
       },
     }),
+    verifyReceipt: builder.mutation<SubscriptionResponse, VerifyReceiptRequest>(
+      {
+        query: (data) => ({
+          url: "/subscription/verify",
+          method: "POST",
+          body: data,
+        }),
+        invalidatesTags: ["User"],
+      }
+    ),
   }),
 });
 
@@ -121,4 +133,5 @@ export const {
   useDeleteAvatarMutation,
   useSocialAuthMutation,
   useLogoutMutation,
+  useVerifyReceiptMutation,
 } = authApi;

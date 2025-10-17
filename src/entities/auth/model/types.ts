@@ -32,6 +32,13 @@ export interface SocialAuthRequest {
   avatar_url?: string;
 }
 
+export type SubscriptionPlan = "free" | "premium";
+
+export interface SubscriptionInfo {
+  plan: SubscriptionPlan;
+  exp: number;
+}
+
 export interface UserResponse {
   id: string;
   email: string;
@@ -40,9 +47,19 @@ export interface UserResponse {
   birth_date?: number;
   gender?: string;
   country?: string;
-  occupation?: string;
-  workplace_or_study?: string;
+  subscription?: SubscriptionInfo;
   created_at: number;
+}
+
+export interface VerifyReceiptRequest {
+  receipt_data: string;
+  platform: "apple" | "google";
+  product_id?: string;
+}
+
+export interface SubscriptionResponse {
+  message: string;
+  subscription: SubscriptionInfo;
 }
 
 export interface UpdateProfileRequest {
@@ -51,6 +68,4 @@ export interface UpdateProfileRequest {
   birth_date?: number;
   gender?: string;
   country?: string;
-  occupation?: string;
-  workplace_or_study?: string;
 }

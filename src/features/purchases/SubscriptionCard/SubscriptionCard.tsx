@@ -41,11 +41,9 @@ export const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
 
   const getPeriodText = () => {
     switch (subscriptionType) {
-      case SUBSCRIPTION_TYPES.PLUS_MONTHLY:
-      case SUBSCRIPTION_TYPES.ULTIMATE_MONTHLY:
+      case SUBSCRIPTION_TYPES.PREMIUM_MONTHLY:
         return "/месяц";
-      case SUBSCRIPTION_TYPES.PLUS_YEARLY:
-      case SUBSCRIPTION_TYPES.ULTIMATE_YEARLY:
+      case SUBSCRIPTION_TYPES.PREMIUM_YEARLY:
         return "/год";
       default:
         return "";

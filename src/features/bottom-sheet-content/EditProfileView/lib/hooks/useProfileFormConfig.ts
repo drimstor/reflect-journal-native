@@ -69,23 +69,6 @@ export const useProfileFormConfig = (
         showDay: true,
         showMonth: true,
         showYear: true,
-        // monthYearPlaceholders: {
-        //   day: t("date.picker.placeholders.day"),
-        //   month: t("date.picker.placeholders.month"),
-        //   year: t("date.picker.placeholders.year"),
-        // },
-      },
-      {
-        key: "occupation",
-        type: "text",
-        label: t("profile.edit.occupation.label"),
-        placeholder: t("profile.edit.occupation.placeholder"),
-      },
-      {
-        key: "workplace_or_study",
-        type: "textarea",
-        label: t("profile.edit.workplaceOrStudy.label"),
-        placeholder: t("profile.edit.workplaceOrStudy.placeholder"),
       },
     ];
 

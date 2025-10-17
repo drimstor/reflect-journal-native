@@ -715,14 +715,6 @@
       "country": {
         "label": "Country",
         "placeholder": "Enter country"
-      },
-      "occupation": {
-        "label": "Occupation",
-        "placeholder": "Enter occupation"
-      },
-      "workplaceOrStudy": {
-        "label": "Workplace/Study",
-        "placeholder": "Enter workplace or study"
       }
     },
     "gender": {
@@ -857,6 +849,64 @@
       "toMainMenu": "To Main Menu",
       "takeReward": "Take Reward",
       "toLibrary": "To Library"
+    }
+  },
+  "subscription": {
+    "plans": {
+      "free": "Free",
+      "premium": "Premium"
+    },
+    "limits": {
+      "reached": "Limit Reached",
+      "journals": "Journals",
+      "journal_entries": "Journal Entries",
+      "chats": "Chats",
+      "messages": "Messages",
+      "goals": "Goals",
+      "goal_generations": "Goal Generations",
+      "summaries": "Summaries",
+      "tests": "Tests",
+      "perDay": "per day",
+      "total": "total",
+      "unlimited": "Unlimited"
+    },
+    "actions": {
+      "upgrade": "Upgrade Plan",
+      "close": "Close"
+    },
+    "messages": {
+      "limitReached": "Limit Reached",
+      "upgradeToUnlock": "Upgrade your plan to continue",
+      "currentPlan": "Current Plan",
+      "expiresAt": "Valid Until",
+      "periodLimit": "Period no more than",
+      "days": "days"
+    },
+    "features": {
+      "attachments": "Attachments",
+      "voice": "Voice Recording",
+      "premiumAI": "Premium AI Model",
+      "analytics": "Advanced Analytics",
+      "support": "Priority Support"
+    },
+    "planFeatures": {
+      "free": {
+        "journals": "2 journals",
+        "entries": "2 entries per day",
+        "chats": "2 chats",
+        "messages": "10 messages per day",
+        "goals": "3 goals",
+        "summaries": "1 summary per day",
+        "tests": "1 test per day"
+      },
+      "premium": {
+        "unlimited": "Everything Unlimited",
+        "attachments": "Attachments",
+        "voice": "Voice Recording",
+        "insights": "Personalized Insights",
+        "premiumAI": "Most Powerful AI Model",
+        "analytics": "Advanced Analytics"
+      }
     }
   }
 } 

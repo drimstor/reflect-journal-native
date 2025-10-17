@@ -158,49 +158,25 @@ export const SubscriptionWidget: React.FC = () => {
 
       <ScrollView style={styles.scrollContainer}>
         <View style={styles.productsContainer}>
-          {/* Plus Yearly (популярная) */}
-          {getSubscriptionByType(SUBSCRIPTION_TYPES.PLUS_YEARLY) && (
+          {/* Premium Yearly (популярная) */}
+          {getSubscriptionByType(SUBSCRIPTION_TYPES.PREMIUM_YEARLY) && (
             <SubscriptionCard
               subscription={
-                getSubscriptionByType(SUBSCRIPTION_TYPES.PLUS_YEARLY)!
+                getSubscriptionByType(SUBSCRIPTION_TYPES.PREMIUM_YEARLY)!
               }
-              subscriptionType={SUBSCRIPTION_TYPES.PLUS_YEARLY}
+              subscriptionType={SUBSCRIPTION_TYPES.PREMIUM_YEARLY}
               isLoading={isLoading}
               onPurchase={handlePurchase}
             />
           )}
 
-          {/* Ultimate Yearly */}
-          {getSubscriptionByType(SUBSCRIPTION_TYPES.ULTIMATE_YEARLY) && (
+          {/* Premium Monthly */}
+          {getSubscriptionByType(SUBSCRIPTION_TYPES.PREMIUM_MONTHLY) && (
             <SubscriptionCard
               subscription={
-                getSubscriptionByType(SUBSCRIPTION_TYPES.ULTIMATE_YEARLY)!
+                getSubscriptionByType(SUBSCRIPTION_TYPES.PREMIUM_MONTHLY)!
               }
-              subscriptionType={SUBSCRIPTION_TYPES.ULTIMATE_YEARLY}
-              isLoading={isLoading}
-              onPurchase={handlePurchase}
-            />
-          )}
-
-          {/* Plus Monthly */}
-          {getSubscriptionByType(SUBSCRIPTION_TYPES.PLUS_MONTHLY) && (
-            <SubscriptionCard
-              subscription={
-                getSubscriptionByType(SUBSCRIPTION_TYPES.PLUS_MONTHLY)!
-              }
-              subscriptionType={SUBSCRIPTION_TYPES.PLUS_MONTHLY}
-              isLoading={isLoading}
-              onPurchase={handlePurchase}
-            />
-          )}
-
-          {/* Ultimate Monthly */}
-          {getSubscriptionByType(SUBSCRIPTION_TYPES.ULTIMATE_MONTHLY) && (
-            <SubscriptionCard
-              subscription={
-                getSubscriptionByType(SUBSCRIPTION_TYPES.ULTIMATE_MONTHLY)!
-              }
-              subscriptionType={SUBSCRIPTION_TYPES.ULTIMATE_MONTHLY}
+              subscriptionType={SUBSCRIPTION_TYPES.PREMIUM_MONTHLY}
               isLoading={isLoading}
               onPurchase={handlePurchase}
             />
