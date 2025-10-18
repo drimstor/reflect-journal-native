@@ -1,6 +1,7 @@
 import { useBulkUpdateChecklistItemsMutation } from "@/src/entities/goals/api/goalsApi";
 import { ChecklistItem } from "@/src/entities/goals/model/types";
 import useDebounce from "@/src/shared/lib/hooks/useDebounce";
+import * as Haptics from "expo-haptics";
 import { useEffect, useState } from "react";
 
 /**
@@ -80,6 +81,7 @@ export const useChecklistActions = (
    * @param {string} id - ID элемента чеклиста
    */
   const handleCheckboxToggle = (id: string) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
     // Находим текущий элемент чеклиста
     const checklistItem = checkboxes.find((item) => item.id === id);
 

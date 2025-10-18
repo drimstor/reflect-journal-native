@@ -53,8 +53,8 @@ export interface PurchaseState {
 
 // Константы для типов подписок
 export const SUBSCRIPTION_TYPES = {
-  PREMIUM_MONTHLY: "premium_monthly",
-  PREMIUM_YEARLY: "premium_yearly",
+  PRO_MONTHLY: "pro_monthly",
+  PRO_YEARLY: "pro_yearly",
 } as const;
 
 export type SubscriptionType =

@@ -280,16 +280,16 @@ class PurchaseService {
       // Проверяем наличие активных подписок
       const hasActiveSubscription = purchases.some((purchase) => {
         const platform = Platform.OS as "android" | "ios";
-        const premiumMonthlyId = getSubscriptionSku(
-          SUBSCRIPTION_TYPES.PREMIUM_MONTHLY,
+        const proMonthlyId = getSubscriptionSku(
+          SUBSCRIPTION_TYPES.PRO_MONTHLY,
           platform
         );
-        const premiumYearlyId = getSubscriptionSku(
-          SUBSCRIPTION_TYPES.PREMIUM_YEARLY,
+        const proYearlyId = getSubscriptionSku(
+          SUBSCRIPTION_TYPES.PRO_YEARLY,
           platform
         );
 
-        return [premiumMonthlyId, premiumYearlyId].includes(purchase.productId);
+        return [proMonthlyId, proYearlyId].includes(purchase.productId);
       });
 
       return hasActiveSubscription;

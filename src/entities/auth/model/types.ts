@@ -32,7 +32,7 @@ export interface SocialAuthRequest {
   avatar_url?: string;
 }
 
-export type SubscriptionPlan = "free" | "premium";
+export type SubscriptionPlan = "free" | "pro";
 
 export interface SubscriptionInfo {
   plan: SubscriptionPlan;

@@ -26,7 +26,7 @@ export interface PlanLimits {
     attachments: boolean;
     voiceRecording: boolean;
     advancedAnalytics?: boolean;
-    premiumAI?: boolean;
+    proAI?: boolean;
   };
 }
 
@@ -48,7 +48,7 @@ export const SUBSCRIPTION_LIMITS: Record<SubscriptionPlan, PlanLimits> = {
       advancedAnalytics: false,
     },
   },
-  premium: {
+  pro: {
     [ENTITY_NAME.JOURNALS]: { total: -1, perDay: -1 },
     [ENTITY_NAME.JOURNAL_ENTRIES]: { total: -1, perDay: -1 },
     [ENTITY_NAME.CHATS]: { total: -1, perDay: -1 },
@@ -61,7 +61,7 @@ export const SUBSCRIPTION_LIMITS: Record<SubscriptionPlan, PlanLimits> = {
       attachments: true,
       voiceRecording: true,
       advancedAnalytics: true,
-      premiumAI: true,
+      proAI: true,
     },
   },
 };
