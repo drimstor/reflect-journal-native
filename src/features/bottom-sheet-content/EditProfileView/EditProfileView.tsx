@@ -107,7 +107,7 @@ const EditProfileView = ({
   }
 
   return (
-    <BottomSheetBox>
+    <BottomSheetBox isDelayedAnimation>
       <BottomSheetHeader
         isBorderGap={false}
         title={formConfig.title}

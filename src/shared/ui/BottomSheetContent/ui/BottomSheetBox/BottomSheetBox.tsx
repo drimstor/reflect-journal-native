@@ -5,14 +5,31 @@ import { LayoutChangeEvent, View, ViewStyle } from "react-native";
 interface BottomSheetBoxProps {
   children: React.ReactNode;
   style?: ViewStyle;
+  isDelayedAnimation?: boolean;
 }
 
-const BottomSheetBox = ({ children, style }: BottomSheetBoxProps) => {
+const BottomSheetBox = ({
+  children,
+  style,
+  isDelayedAnimation,
+}: BottomSheetBoxProps) => {
   const { setBottomSheetHeight } = useBottomSheetStore();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Debounce для плавного изменения высоты после анимаций
   const handleLayout = useCallback(
+    (e: LayoutChangeEvent) => {
+      const newHeight = e.nativeEvent.layout.height;
+
+      if (newHeight > 0) {
+        setBottomSheetHeight(newHeight);
+      }
+    },
+    [setBottomSheetHeight]
+  );
+
+  // Debounce для плавного изменения высоты после анимаций
+  const handleDelayedLayout = useCallback(
     (e: LayoutChangeEvent) => {
       const newHeight = e.nativeEvent.layout.height;
 
@@ -27,7 +44,7 @@ const BottomSheetBox = ({ children, style }: BottomSheetBoxProps) => {
           requestAnimationFrame(() => {
             setBottomSheetHeight(newHeight);
           });
-        }, 50); // Немного больше чем duration анимации селекта (300ms)
+        }, 100); // Немного больше чем duration анимации селекта (300ms)
       }
     },
     [setBottomSheetHeight]
@@ -36,7 +53,7 @@ const BottomSheetBox = ({ children, style }: BottomSheetBoxProps) => {
   return (
     <View
       style={[{ gap: 4, paddingBottom: 60 }, style]}
-      onLayout={handleLayout}
+      onLayout={isDelayedAnimation ? handleDelayedLayout : handleLayout}
     >
       {children}
     </View>
