@@ -11,7 +11,7 @@ interface BottomSheetBoxProps {
 const BottomSheetBox = ({
   children,
   style,
-  isDelayedAnimation,
+  isDelayedAnimation = true,
 }: BottomSheetBoxProps) => {
   const { setBottomSheetHeight } = useBottomSheetStore();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);

@@ -1,12 +1,12 @@
-import { ListItemPreview } from "@/src/features";
-import { FC } from "react";
-import { Pressable, TouchableOpacity, View } from "react-native";
-import { useFiltersStore, useThemeStore } from "../../store";
-import { stringToColor } from "../../lib/helpers";
 import { PortraitNode } from "@/src/entities";
+import { ListItemPreview } from "@/src/features";
 import { useT } from "@/src/shared/lib/hooks";
 import { DotsIcon } from "@/src/shared/ui/icons";
+import { FC } from "react";
+import { TouchableOpacity, View } from "react-native";
 import { CheckBox } from "..";
+import { stringToColor } from "../../lib/helpers";
+import { useFiltersStore, useThemeStore } from "../../store";
 
 interface FullScreenChartLegendProps {
   data: PortraitNode[];

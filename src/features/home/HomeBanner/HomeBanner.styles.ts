@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 export const createStyles = (colors: ThemeColors, theme: Theme) =>
   StyleSheet.create({
     globalBox: {
-      paddingTop: 10,
+      paddingTop: 15,
     },
     bannerBox: {
       borderRadius: 18,

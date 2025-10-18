@@ -80,6 +80,7 @@ const NotificationsView = () => {
               title={t("shared.info.soon")}
               color={colors.accent}
               style={{ marginRight: -6, marginVertical: -2 }}
+              textColor={colors.secondary}
             />
           ) : (
             <Toggle

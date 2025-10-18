@@ -1,14 +1,14 @@
-import { View, Pressable } from "react-native";
-import { createStyles } from "./ListItemPreview.styles";
 import { useGetPadding } from "@/src/shared/lib/hooks";
 import { useThemeStore } from "@/src/shared/store";
-import { useColorsAnimate } from "./lib/hooks/useColorsAnimate";
-import { ListItemPreviewProps } from "./model/types";
 import { AnimatedText, Text } from "@/src/shared/ui";
+import { Pressable, View } from "react-native";
 import Animated, {
-  useAnimatedStyle,
   interpolateColor,
+  useAnimatedStyle,
 } from "react-native-reanimated";
+import { useColorsAnimate } from "./lib/hooks/useColorsAnimate";
+import { createStyles } from "./ListItemPreview.styles";
+import { ListItemPreviewProps } from "./model/types";
 
 const { contrast, contrastReverse } = useThemeStore.getState().colors;
 
@@ -19,6 +19,7 @@ const ListItemPreview = ({
   customComponent,
   backgroundColor = contrastReverse,
   backgroundColorForAnimate = contrast,
+  borderColor,
   onPress,
   element,
 }: ListItemPreviewProps) => {
@@ -67,7 +68,9 @@ const ListItemPreview = ({
       onPressOut={() => animate(0)}
       onPress={onPress}
     >
-      <Animated.View style={[styles.globalBox, bgStyle]}>
+      <Animated.View
+        style={[styles.globalBox, bgStyle, borderColor && { borderColor }]}
+      >
         <View style={styles.iconBox}>
           {customComponent}
           {IconComponent?.({

@@ -18,7 +18,7 @@ export const createStyles = (colors: any) =>
     },
     selectedMoodButton: {
       borderColor: colors.accent,
-      backgroundColor: colors.accent + "20",
+      backgroundColor: colors.accent + "30",
     },
     emoji: {
       fontSize: 24,

@@ -38,8 +38,7 @@ export const useMultiSelectActions = () => {
   };
 
   const handleGiftIconPress = () => {
-    // navigateToFlow("onboarding", "steps");
-    navigateToFlow("subscription", "limit");
+    navigateToFlow("onboarding", "steps");
     requestAnimationFrame(() => {
       setBottomSheetVisible(true);
     });

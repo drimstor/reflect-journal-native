@@ -80,6 +80,7 @@ const SettingsScreen = () => {
         <Chip
           title={t("shared.info.soon")}
           color={colors.accent}
+          textColor={colors.secondary}
           style={{ marginRight: -8, marginVertical: -2 }}
         />
       ),

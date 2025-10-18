@@ -783,6 +783,64 @@
       "body": "Ready to analyze your week?"
     }
   },
+  "subscription": {
+    "title": "Unlock All Features",
+    "plans": {
+      "yearly": {
+        "title": "Annual",
+        "price": "$5.99/month ($71.99/year)",
+        "discount": "-40%"
+      },
+      "monthly": {
+        "title": "Monthly",
+        "price": "$9.99/month"
+      }
+    },
+    "button": {
+      "freeTrial": "Start Free Trial"
+    },
+    "links": {
+      "restore": "Restore Purchase",
+      "terms": "Terms of Use",
+      "privacy": "Privacy Policy"
+    },
+    "features": {
+      "free": "Free",
+      "pro": "Pro",
+      "unlimited": "∞",
+      "journals": {
+        "label": "Journals",
+        "free": "2 journals, 2 entries per day"
+      },
+      "goals": {
+        "label": "Goals",
+        "free": "3 goals, 3 generations per day"
+      },
+      "chats": {
+        "label": "Chats",
+        "free": "2 chats, 10 messages per day"
+      },
+      "summaries": {
+        "label": "Summaries",
+        "free": "1 per day"
+      },
+      "tests": {
+        "label": "Tests",
+        "free": "1 per day"
+      },
+      "assistant": {
+        "label": "Assistant",
+        "free": "basic",
+        "pro": "AI+"
+      },
+      "attachments": {
+        "label": "Attachments"
+      },
+      "voiceInput": {
+        "label": "Voice Input"
+      }
+    }
+  },
   "onboarding": {
     "title": "Onboarding",
     "meeting": "Introduction",

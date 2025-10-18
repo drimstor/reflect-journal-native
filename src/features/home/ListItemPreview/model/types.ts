@@ -8,6 +8,7 @@ export interface ListItemPreviewProps {
   customComponent?: ReactNode;
   backgroundColor?: string;
   backgroundColorForAnimate?: string;
+  borderColor?: string;
   onPress?: () => void;
   element?: ReactNode;
 }

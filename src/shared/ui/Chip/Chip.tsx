@@ -1,13 +1,13 @@
 import { getContrastColor } from "@/src/shared/lib/helpers/getContrastColor";
 import { Info, Text } from "@/src/shared/ui";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { StyleProp, View, ViewStyle } from "react-native";
 import { capitalizeText } from "../../lib/helpers";
 import { styles } from "./Chip.styles";
 
 interface ChipProps {
   color: string;
-  title: string;
+  title: string | ReactNode;
   textColor?: string;
   borderColor?: string;
   size?: "small" | "medium" | "base";
@@ -36,7 +36,7 @@ const Chip: FC<ChipProps> = ({
       ]}
     >
       <Text size={size} color={textColor || contrastTextColor}>
-        {capitalizeText(title)}
+        {typeof title === "string" ? capitalizeText(title) : title}
       </Text>
       {tooltipText && (
         <View style={styles.infoBox}>
