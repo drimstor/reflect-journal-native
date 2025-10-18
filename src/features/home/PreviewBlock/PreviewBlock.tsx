@@ -115,8 +115,6 @@ const PreviewBlock = ({
     TestResults: <ClipboardSolidIcon color={colors.contrast} size={160} />,
   };
 
-  console.log({ checklist });
-
   return (
     <Pressable
       onPressIn={() => animate(1)}
