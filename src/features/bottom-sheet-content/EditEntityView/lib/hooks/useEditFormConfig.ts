@@ -176,6 +176,12 @@ export const useEditFormConfig = (
             required: true,
           },
           {
+            key: "description",
+            type: "text",
+            label: t("edit.goals.description.label"),
+            placeholder: t("edit.goals.description.placeholder"),
+          },
+          {
             key: "related_topics",
             type: "tags",
             label: t("edit.common.relatedTopics.label"),

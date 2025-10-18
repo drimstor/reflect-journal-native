@@ -2,8 +2,8 @@ import { ENTITY_NAME } from "@/src/shared/const/ENTITIES";
 import { useT } from "@/src/shared/lib/hooks";
 import { useBottomSheetStore, useThemeStore } from "@/src/shared/store";
 import { LinkSquareIcon, TrashIcon } from "@/src/shared/ui/icons";
+import * as Haptics from "expo-haptics";
 import { useCallback } from "react";
-
 /**
  * Хук для управления действиями BottomSheet в экране просмотра элемента
  * Обрабатывает открытие BottomSheet для редактирования и управления связями
@@ -22,6 +22,8 @@ export const useItemDotsActions = (
 
   // Открытие BottomSheet для управления связями (создание/удаление)
   const handleRelatedEntityDotsPress = useCallback(() => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+
     // Устанавливаем действия для связей
     setActions([
       {
@@ -74,6 +76,7 @@ export const useItemDotsActions = (
 
   // Открытие BottomSheet для редактирования записи
   const handleEditPress = useCallback(() => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
     // Устанавливаем данные для редактирования
     setFlowData({
       variant,

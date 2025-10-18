@@ -15,6 +15,7 @@ export interface Goal {
   id: string;
   user_id: string;
   name: string;
+  description: string;
   checklist: ChecklistItem[];
   created_at: string;
   updated_at: string | null;
@@ -37,6 +38,7 @@ export interface CreateGoalRequest {
 
 export interface UpdateGoalRequest {
   name?: string;
+  description?: string;
   bookmarked?: boolean;
   related_topics?: string[];
   checklist?: ChecklistItem[];
@@ -68,6 +70,8 @@ export interface PredictGoalRequest {
 export interface GenerateGoalRequest {
   /** Название цели */
   name: string;
+  /** Описание цели */
+  description?: string;
   /** Дополнительная информация для генерации задач */
   additional_info?: string;
   /** Список связанных тем */
@@ -80,8 +84,10 @@ export interface GenerateGoalRequest {
 export interface SaveGoalRequest {
   /** Название цели */
   name: string;
-  /** Список элементов чек-листа */
-  checklist: {
+  /** Описание цели */
+  description?: string;
+  /** Опциональный список элементов чек-листа */
+  checklist?: {
     title: string;
   }[];
   /** Список связанных тем */

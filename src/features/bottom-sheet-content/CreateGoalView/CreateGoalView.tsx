@@ -89,6 +89,7 @@ const CreateGoalView = ({
     handleSubmit,
     handleSecondarySubmit,
     resetForm,
+    updateValues,
   } = useEditForm(
     formConfig,
     async (formData) => {
@@ -96,6 +97,11 @@ const CreateGoalView = ({
         const saveData = isStandalone
           ? ({ ...formData, bookmarked: isBookmarked } as SaveGoalRequest)
           : (formData as SaveGoalRequest);
+
+        // Добавляем дефолтную тему "New" если related_topics пустой
+        if (!saveData.related_topics?.length) {
+          saveData.related_topics = [t("shared.info.new")];
+        }
 
         const result = await saveGoal(saveData).unwrap();
 
@@ -145,8 +151,13 @@ const CreateGoalView = ({
           related_topics: formData.related_topics,
         }).unwrap();
 
-        // Обновляем форму с новыми задачами
-        setGoal(result);
+        // Обновляем только непустые поля в форме
+        updateValues({
+          name: result.name,
+          description: result.description,
+          checklist: result.checklist,
+          related_topics: result.related_topics,
+        });
       } catch (error) {
         console.error("Ошибка при генерации задач:", error);
       }

@@ -1,7 +1,6 @@
-import { EntityType } from "@/src/shared/model/types";
-import { useState, useEffect } from "react";
-import { useT } from "@/src/shared/lib/hooks/useLang";
 import { Goal } from "@/src/entities/goals/model/types";
+import { useT } from "@/src/shared/lib/hooks/useLang";
+import { useEffect, useState } from "react";
 
 /**
  * Тип поля формы редактирования
@@ -61,6 +60,12 @@ export const useEditFormConfig = (entityData?: Goal): EditFormConfig => {
         type: "textarea",
         label: t("edit.goals.additionalInfo.label"),
         placeholder: t("edit.goals.additionalInfo.placeholder"),
+      },
+      {
+        key: "description",
+        type: "text",
+        label: t("edit.goals.description.label"),
+        placeholder: t("edit.goals.description.placeholder"),
       },
       {
         key: "related_topics",

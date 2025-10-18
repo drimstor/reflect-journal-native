@@ -220,6 +220,7 @@
     "emptyFilteredDescription": "Try selecting a different status or create a new goal"
   },
   "libraryItem": {
+    "description": "Description",
     "relatedTopics": "Related Topics",
     "content": "Content",
     "checklist": "Checklist",
@@ -383,6 +384,10 @@
       "name": {
         "label": "Name",
         "placeholder": "Enter goal name"
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Enter goal description"
       },
       "additionalInfo": {
         "label": "Additional information",

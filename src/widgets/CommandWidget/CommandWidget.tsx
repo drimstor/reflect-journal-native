@@ -91,10 +91,9 @@ export const CommandWidget: FC<CommandWidgetProps> = ({
     createChat({
       name: `${t(config.nameKey)} "${findingEntity?.name}"`,
       description: t(config.descriptionKey),
-      related_topics:
-        sourceType === ENTITY_NAME.JOURNAL_ENTRIES
-          ? currentItem?.related_topics
-          : currentItem?.related_topics,
+      related_topics: !!currentItem?.related_topics?.length
+        ? currentItem?.related_topics
+        : [t("shared.info.new")],
     })
       .unwrap()
       .then((chat) => {

@@ -220,6 +220,7 @@
     "emptyFilteredDescription": "Попробуйте выбрать другой статус или создайте новую цель"
   },
   "libraryItem": {
+    "description": "Описание",
     "relatedTopics": "Связанные темы",
     "content": "Содержимое",
     "checklist": "Чек-лист",
@@ -382,6 +383,10 @@
       "name": {
         "label": "Название",
         "placeholder": "Введите название цели"
+      },
+      "description": {
+        "label": "Описание",
+        "placeholder": "Введите описание цели"
       },
       "additionalInfo": {
         "label": "Дополнительная информация",

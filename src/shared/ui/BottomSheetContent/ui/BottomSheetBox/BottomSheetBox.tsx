@@ -1,4 +1,5 @@
 import { useBottomSheetStore } from "@/src/shared/store/zustand/bottomSheet.store";
+import { useCallback, useRef } from "react";
 import { LayoutChangeEvent, View, ViewStyle } from "react-native";
 
 interface BottomSheetBoxProps {
@@ -8,12 +9,29 @@ interface BottomSheetBoxProps {
 
 const BottomSheetBox = ({ children, style }: BottomSheetBoxProps) => {
   const { setBottomSheetHeight } = useBottomSheetStore();
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleLayout = (e: LayoutChangeEvent) => {
-    if (e.nativeEvent.layout.height > 0) {
-      setBottomSheetHeight(e.nativeEvent.layout.height);
-    }
-  };
+  // Debounce для плавного изменения высоты после анимаций
+  const handleLayout = useCallback(
+    (e: LayoutChangeEvent) => {
+      const newHeight = e.nativeEvent.layout.height;
+
+      if (newHeight > 0) {
+        // Очищаем предыдущий таймер
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+
+        // Устанавливаем новый таймер
+        timeoutRef.current = setTimeout(() => {
+          requestAnimationFrame(() => {
+            setBottomSheetHeight(newHeight);
+          });
+        }, 50); // Немного больше чем duration анимации селекта (300ms)
+      }
+    },
+    [setBottomSheetHeight]
+  );
 
   return (
     <View

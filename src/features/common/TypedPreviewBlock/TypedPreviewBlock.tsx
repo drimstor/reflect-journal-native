@@ -91,7 +91,7 @@ export const TypedPreviewBlock = ({
     <PreviewBlock
       key={item?.id}
       title={item?.name}
-      value={item?.description}
+      value={variant === ENTITY_NAME.GOALS ? undefined : item?.description}
       backgroundColor={backgroundColor}
       backgroundIcon={variant || item?.entity_type}
       bookmarked={item?.bookmarked}

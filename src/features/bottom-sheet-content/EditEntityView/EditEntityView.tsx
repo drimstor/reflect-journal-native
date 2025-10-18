@@ -16,13 +16,14 @@ import {
 } from "@/src/shared/ui";
 import { FormField } from "@/src/widgets";
 import { useEffect } from "react";
+import { ENTITY_NAME } from "../../../shared/const/ENTITIES";
 import { useEditForm } from "./lib/hooks/useEditForm";
 import { useEditFormConfig } from "./lib/hooks/useEditFormConfig";
 
 const EditEntityView = () => {
   const t = useT();
   const { window } = useDeviceStore();
-  const { navigateToFlow, flowData, setBottomSheetVisible } =
+  const { navigateToFlow, flowData, setBottomSheetVisible, setNavigation } =
     useBottomSheetStore();
   const { colors, theme } = useThemeStore();
   const { resetFilters } = useFiltersStore();
@@ -65,6 +66,12 @@ const EditEntityView = () => {
     setBottomSheetVisible(false);
   };
 
+  useEffect(() => {
+    if (![ENTITY_NAME.CHATS, ENTITY_NAME.JOURNALS].includes(flowData.variant)) {
+      setNavigation(false, "");
+    }
+  }, []);
+
   return (
     <BottomSheetBox>
       <BottomSheetHeader
@@ -74,7 +81,7 @@ const EditEntityView = () => {
         isBorderGap={false}
       />
       <BottomSheetScrollView
-        customMaxHeight={window.height - 270}
+        customMaxHeight={window.height - 255}
         additionalHeight={225}
       >
         <PaddingLayout style={{ gap: 12, paddingVertical: 16 }}>

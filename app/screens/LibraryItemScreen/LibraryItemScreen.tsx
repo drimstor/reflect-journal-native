@@ -350,6 +350,24 @@ const LibraryItemScreen = () => {
                   <Divider style={styles.divider} color={colors.alternate} />
                 </>
               )}
+              {variant === ENTITY_NAME.GOALS && currentItem?.description && (
+                <>
+                  <TitleText
+                    text={t("libraryItem.description")}
+                    textColor={colors.contrast}
+                    element={<EditableDotsIcon />}
+                    variant="subTitle"
+                    style={styles.titleText}
+                  />
+                  <MarkdownEmojiText
+                    color={colors.contrast}
+                    style={styles.contentText}
+                  >
+                    {currentItem?.description}
+                  </MarkdownEmojiText>
+                  <Divider style={styles.divider} color={colors.alternate} />
+                </>
+              )}
               {currentItem?.images && currentItem.images.length > 0 && (
                 <>
                   <TitleText
@@ -371,6 +389,39 @@ const LibraryItemScreen = () => {
                     style={{ marginVertical: 20 }}
                     color={colors.alternate}
                   />
+                </>
+              )}
+              {!!(checkboxes?.length || 0) && (
+                <>
+                  <TitleText
+                    text={t("libraryItem.checklist")}
+                    textColor={colors.contrast}
+                    element={<EditableDotsIcon />}
+                    variant="subTitle"
+                    style={styles.titleText}
+                  />
+                  <CheckboxList>
+                    {(checkboxes || []).map((item: ChecklistItem) => (
+                      <CheckBox
+                        textDecoration
+                        key={item.id}
+                        checked={item.is_completed}
+                        onPress={() => handleCheckboxToggle(item.id)}
+                        text={item.title}
+                      />
+                    ))}
+                  </CheckboxList>
+                  {isUpdatingChecklistItem && (
+                    <Text
+                      style={{ marginBottom: -16 }}
+                      color={colors.contrast}
+                      size="small"
+                      withOpacity={70}
+                    >
+                      {t("shared.actions.saving")}...
+                    </Text>
+                  )}
+                  <Divider style={styles.divider} color={colors.alternate} />
                 </>
               )}
               {!!(currentItem?.related_topics?.length || 0) && (
@@ -422,39 +473,7 @@ const LibraryItemScreen = () => {
                   <Divider style={styles.divider} color={colors.alternate} />
                 </>
               )}
-              {!!(checkboxes?.length || 0) && (
-                <>
-                  <TitleText
-                    text={t("libraryItem.checklist")}
-                    textColor={colors.contrast}
-                    element={<EditableDotsIcon />}
-                    variant="subTitle"
-                    style={styles.titleText}
-                  />
-                  <CheckboxList>
-                    {(checkboxes || []).map((item: ChecklistItem) => (
-                      <CheckBox
-                        textDecoration
-                        key={item.id}
-                        checked={item.is_completed}
-                        onPress={() => handleCheckboxToggle(item.id)}
-                        text={item.title}
-                      />
-                    ))}
-                  </CheckboxList>
-                  {isUpdatingChecklistItem && (
-                    <Text
-                      style={{ marginBottom: -16 }}
-                      color={colors.contrast}
-                      size="small"
-                      withOpacity={70}
-                    >
-                      {t("shared.actions.saving")}...
-                    </Text>
-                  )}
-                  <Divider style={styles.divider} color={colors.alternate} />
-                </>
-              )}
+
               {/* Добавляем блок с вопросами и ответами для результатов тестов */}
               {isTestResult &&
                 parentTest &&

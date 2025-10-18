@@ -1,6 +1,6 @@
-import { useState, useCallback } from "react";
-import { EditFormConfig } from "./useEditFormConfig";
 import { useT } from "@/src/shared/lib/hooks";
+import { useCallback, useState } from "react";
+import { EditFormConfig } from "./useEditFormConfig";
 
 /**
  * Хук для управления формой редактирования
@@ -99,6 +99,28 @@ export const useEditForm = (
     setErrors({});
   }, [config.initialValues]);
 
+  // Обновление нескольких значений формы (только непустые)
+  const updateValues = useCallback((newValues: Record<string, any>) => {
+    setValues((prev) => {
+      const updated = { ...prev };
+      Object.keys(newValues).forEach((key) => {
+        const value = newValues[key];
+        // Обновляем только если значение не пустое
+        if (value !== undefined && value !== null && value !== "") {
+          // Для массивов проверяем длину
+          if (Array.isArray(value)) {
+            if (value.length > 0) {
+              updated[key] = value;
+            }
+          } else {
+            updated[key] = value;
+          }
+        }
+      });
+      return updated;
+    });
+  }, []);
+
   return {
     values,
     errors,
@@ -106,5 +128,6 @@ export const useEditForm = (
     handleSubmit,
     handleSecondarySubmit,
     resetForm,
+    updateValues,
   };
 };
