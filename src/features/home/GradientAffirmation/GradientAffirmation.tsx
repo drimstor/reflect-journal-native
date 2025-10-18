@@ -1,4 +1,3 @@
-import { ThemeColors } from "@/src/shared/model/types";
 import { useThemeStore } from "@/src/shared/store";
 import { Text } from "@/src/shared/ui";
 import { LinearGradient } from "expo-linear-gradient";
@@ -6,19 +5,14 @@ import { ReactNode } from "react";
 import { createStyles } from "./GradientAffirmation.styles";
 
 interface GradientAffirmationProps {
-  colors: ThemeColors;
   value: string;
   element?: ReactNode;
   icon?: ReactNode;
 }
 
-const GradientAffirmation = ({
-  colors,
-  value,
-  icon,
-}: GradientAffirmationProps) => {
-  const { theme } = useThemeStore();
-  const styles = createStyles(colors);
+const GradientAffirmation = ({ value, icon }: GradientAffirmationProps) => {
+  const { theme, colors } = useThemeStore();
+  const styles = createStyles(colors, theme);
 
   const gradientColors = {
     dark: [colors.accent, colors.color4] as const,

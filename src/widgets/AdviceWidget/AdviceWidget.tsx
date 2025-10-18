@@ -9,7 +9,6 @@ const AdviceWidget = ({ data: externalData }: IAdviceWidgetProps) => {
 
   return (
     <GradientAffirmation
-      colors={colors}
       value={externalData?.content ?? ""}
       icon={
         <View

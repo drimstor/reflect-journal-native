@@ -1,7 +1,7 @@
-import { ThemeColors } from "@/src/shared/model/types";
+import { Theme, ThemeColors } from "@/src/shared/model/types";
 import { StyleSheet } from "react-native";
 
-export const createStyles = (colors: ThemeColors) =>
+export const createStyles = (colors: ThemeColors, theme: Theme) =>
   StyleSheet.create({
     globalBox: {
       paddingTop: 10,
@@ -14,6 +14,8 @@ export const createStyles = (colors: ThemeColors) =>
       height: 100,
       overflow: "hidden",
       paddingRight: 115,
+      borderWidth: 1,
+      borderColor: theme === "light" ? "#f2f2f2" : "#cfcfcf",
     },
     giftImage: {
       width: 150,

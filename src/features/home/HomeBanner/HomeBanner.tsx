@@ -23,7 +23,7 @@ type HomeBannerProps = {
 const HomeBanner = ({ type }: HomeBannerProps) => {
   const t = useT();
   const { theme, colors } = useThemeStore();
-  const styles = createStyles(colors);
+  const styles = createStyles(colors, theme);
   const { navigateToFlow, setBottomSheetVisible } = useBottomSheetStore();
   const { isRewardClaimed } = useOnboardingStore();
   const animation = useSharedValue(0);
@@ -56,7 +56,7 @@ const HomeBanner = ({ type }: HomeBannerProps) => {
       image: require("@/assets/images/gift.png"),
       title: "onboarding.giftBanner.title",
       text: "onboarding.giftBanner.text",
-      isHidden: isRewardClaimed,
+      isHidden: !isRewardClaimed,
       onPressPath: "onboarding",
       onPressAction: "steps",
     },
@@ -64,7 +64,7 @@ const HomeBanner = ({ type }: HomeBannerProps) => {
       image: require("@/assets/images/star.png"),
       title: "onboarding.starBanner.title",
       text: "onboarding.starBanner.text",
-      isHidden: !isRewardClaimed || user?.subscription?.plan === "pro",
+      isHidden: !!isRewardClaimed || user?.subscription?.plan === "pro",
       onPressPath: "subscription",
       onPressAction: "limit",
     },
