@@ -791,9 +791,13 @@
       "0":  "**Reflexity** [APP_LOGO] — Your Personal AI Life Manager.\n\nTo show the capabilities of the application, we have filled the **Library** with data for example[INFO].",
       "1": "In the **Library** all your records are stored:\n\n📔 **Journals** — for thoughts and events\n💬 **Chats** — for discussing details\n🎯 **Goals** — for planning and progress\n🪞 **Summaries** — for analysis and insights"
     },
-    "banner": {
+    "giftBanner": {
       "title": "Open a gift!",
       "text": "Get a reward for completing the onboarding"
+    },
+    "starBanner": {
+      "title": "Unlock everything",
+      "text": "✓ Unlimited features\n✓ Attachments and voice input\n✓ Advanced AI+"
     },
     "greetingStepsInfo": "You can clear all data in the settings",
     "stepsView": {

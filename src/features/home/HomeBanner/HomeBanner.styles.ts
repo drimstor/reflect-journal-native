@@ -15,11 +15,17 @@ export const createStyles = (colors: ThemeColors) =>
       overflow: "hidden",
       paddingRight: 115,
     },
-    giftImage: {
+    bannerImage: {
       width: 150,
       height: 150,
       position: "absolute",
       right: -25,
       bottom: -45,
+    },
+    star: {
+      height: 118,
+    },
+    starText: {
+      marginLeft: -2,
     },
   });

@@ -16,7 +16,7 @@ import {
 } from "@/src/widgets";
 import React, { useEffect } from "react";
 import { ScrollView } from "react-native";
-import GiftBanner from "../../../src/features/home/GiftBanner/GiftBanner";
+import { HomeBanner } from "../../../src/features";
 import { PATHS } from "../../../src/shared/const";
 import { useTabBarStore } from "../../../src/shared/store";
 import { styles } from "./HomeScreen.styles";
@@ -41,7 +41,6 @@ const HomeScreen = () => {
 
   useEffect(() => {
     handleScreenLoading();
-    // Деактивируем PATHS.HOME при посещении (обновится lastVisitDate)
     deactivateItem(PATHS.HOME);
   }, []);
 
@@ -60,14 +59,14 @@ const HomeScreen = () => {
           contentContainerStyle={styles.globalViewHorizontal}
         >
           {/* <PaddingLayout style={styles.globalBox}>
-          <GradientPreviewBlock
-            colors={colors}
-            title="7 tasks to complete today"
-            value="You productivity for the day is shown here"
-            caption="Complete"
-            captionValue="2/7"
-          />
-        </PaddingLayout> */}
+            <GradientPreviewBlockWithProgress
+              colors={colors}
+              title="7 tasks to complete today"
+              value="You productivity for the day is shown here"
+              caption="Complete"
+              captionValue="2/7"
+            />
+          </PaddingLayout> */}
 
           <PaddingLayout style={styles.globalBox}>
             <AffirmationWidget data={data.affirmation} />
@@ -78,32 +77,35 @@ const HomeScreen = () => {
             getDocumentProgress={getDocumentProgress}
           />
 
-          <GiftBanner />
+          <HomeBanner type="gift" />
+          <HomeBanner type="star" />
 
-          {/* <PreviewBlock
-          backgroundColor={colors.secondary}
-          title="Plan for the next month"
-          value="Prepare a content plan for Dribbble for September"
-          element={
-            <Chip
-              textColor={colors.white}
-              color={colors.error}
-              title="High Priority"
+          {/* <PaddingLayout style={styles.globalBox}>
+            <PreviewBlock
+              backgroundColor={colors.secondary}
+              title="Plan for the next month"
+              value="Prepare a content plan for Dribbble for September"
+              element={
+                <Chip
+                  textColor={colors.white}
+                  color={colors.error}
+                  title="High Priority"
+                />
+              }
+              infoBoxes={[
+                {
+                  label: "Due date",
+                  value: "Aug 25",
+                  icon: <CalendarIcon color={colors.contrast} />,
+                },
+                {
+                  label: "Assigned to",
+                  value: "Tony Ware",
+                  icon: <UserBorderIcon color={colors.contrast} />,
+                },
+              ]}
             />
-          }
-          infoBoxes={[
-            {
-              label: "Due date",
-              value: "Aug 25",
-              icon: <CalendarIcon color={colors.contrast} />,
-            },
-            {
-              label: "Assigned to",
-              value: "Tony Ware",
-              icon: <UserBorderIcon color={colors.contrast} />,
-            },
-          ]}
-        /> */}
+          </PaddingLayout> */}
 
           <TasksWidget data={data.goals} />
 

@@ -11,7 +11,8 @@ export {
 } from "./common/TypedPreviewBlock/TypedPreviewBlock";
 export { CheckListEditor } from "./goal/CheckListEditor/CheckListEditor";
 export { default as GradientAffirmation } from "./home/GradientAffirmation/GradientAffirmation";
-export { default as GradientPreviewBlock } from "./home/GradientPreviewBlock/GradientPreviewBlock";
+export { default as GradientPreviewBlockWithProgress } from "./home/GradientPreviewBlock/GradientPreviewBlockWithProgress";
+export { default as HomeBanner } from "./home/HomeBanner/HomeBanner";
 export { default as ListItemPreview } from "./home/ListItemPreview/ListItemPreview";
 export { default as PreviewBlock } from "./home/PreviewBlock/PreviewBlock";
 export { default as PreviewCard } from "./home/PreviewCard/PreviewCard";

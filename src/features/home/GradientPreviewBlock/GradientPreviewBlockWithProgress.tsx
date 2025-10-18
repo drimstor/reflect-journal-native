@@ -5,9 +5,9 @@ import { ProgressBar, Text, TitleText } from "@/src/shared/ui";
 import { LinearGradient } from "expo-linear-gradient";
 import { ReactNode } from "react";
 import { View } from "react-native";
-import { createStyles } from "./GradientPreviewBlock.styles";
+import { createStyles } from "./GradientPreviewBlockWithProgress.styles";
 
-interface GradientPreviewBlockProps {
+interface GradientPreviewBlockWithProgressProps {
   colors: ThemeColors;
   title: string;
   value: string;
@@ -16,14 +16,14 @@ interface GradientPreviewBlockProps {
   captionValue?: string;
 }
 
-const GradientPreviewBlock = ({
+const GradientPreviewBlockWithProgress = ({
   colors,
   title,
   element,
   value,
   caption,
   captionValue,
-}: GradientPreviewBlockProps) => {
+}: GradientPreviewBlockWithProgressProps) => {
   const { paddingHorizontal } = useGetPadding();
   const { theme } = useThemeStore();
   const styles = createStyles(colors, paddingHorizontal);
@@ -76,7 +76,7 @@ const GradientPreviewBlock = ({
           </View>
           <ProgressBar
             progressColor={colors.primary}
-            backgroundColor={colors.secondary + 30}
+            backgroundColor={colors.alternate}
             progress={25}
           />
         </View>
@@ -85,4 +85,4 @@ const GradientPreviewBlock = ({
   );
 };
 
-export default GradientPreviewBlock;
+export default GradientPreviewBlockWithProgress;
