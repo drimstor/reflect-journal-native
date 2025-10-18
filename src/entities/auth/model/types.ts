@@ -47,6 +47,7 @@ export interface UserResponse {
   birth_date?: number;
   gender?: string;
   country?: string;
+  about?: string;
   subscription?: SubscriptionInfo;
   created_at: number;
 }
@@ -68,4 +69,5 @@ export interface UpdateProfileRequest {
   birth_date?: number;
   gender?: string;
   country?: string;
+  about?: string;
 }

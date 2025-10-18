@@ -70,6 +70,12 @@ export const useProfileFormConfig = (
         showMonth: true,
         showYear: true,
       },
+      {
+        key: "about",
+        type: "textarea",
+        label: t("profile.edit.about.label"),
+        placeholder: t("profile.edit.about.placeholder"),
+      },
     ];
 
     // Начальные значения из данных профиля

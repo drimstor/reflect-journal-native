@@ -720,6 +720,10 @@
       "country": {
         "label": "Страна",
         "placeholder": "Введите страну"
+      },
+      "about": {
+        "label": "О себе",
+        "placeholder": "Расскажите о себе"
       }
     },
     "gender": {

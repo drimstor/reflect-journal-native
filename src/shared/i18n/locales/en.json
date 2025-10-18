@@ -720,6 +720,10 @@
       "country": {
         "label": "Country",
         "placeholder": "Enter country"
+      },
+      "about": {
+        "label": "About",
+        "placeholder": "Tell us about yourself"
       }
     },
     "gender": {
