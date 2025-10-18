@@ -108,7 +108,7 @@ const HomeBanner = ({ type }: HomeBannerProps) => {
             >
               {t(text)}
             </MarkdownEmojiText>
-            <Image source={image} style={styles.bannerImage} />
+            <Image source={image} style={styles[`${type}Image`]} />
           </LinearGradient>
         </Animated.View>
       </Pressable>
