@@ -206,4 +206,14 @@ export const FLOWS: Record<string, FlowConfig> = {
       ),
     },
   },
+  subscription: {
+    screens: {
+      limit: lazy(
+        () =>
+          import(
+            "@/src/features/bottom-sheet-content/SubscriptionLimitView/SubscriptionLimitView"
+          )
+      ),
+    },
+  },
 };

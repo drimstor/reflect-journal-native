@@ -48,7 +48,7 @@ export const SUBSCRIPTION_CONFIG = {
     badge: null,
     popular: false,
     hasFreeTrial: true,
-    trialDays: 3,
+    trialDays: 7,
   },
   [SUBSCRIPTION_TYPES.PRO_YEARLY]: {
     title: "Pro",
@@ -65,6 +65,6 @@ export const SUBSCRIPTION_CONFIG = {
     badge: "Скидка 30%",
     popular: true,
     hasFreeTrial: true,
-    trialDays: 3,
+    trialDays: 7,
   },
 } as const;

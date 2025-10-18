@@ -3,7 +3,6 @@ import { ChecklistItem } from "@/src/entities/goals/model/types";
 import useDebounce from "@/src/shared/lib/hooks/useDebounce";
 import * as Haptics from "expo-haptics";
 import { useEffect, useState } from "react";
-
 /**
  * Хук для управления чеклистами с дебаунсированным обновлением на сервере.
  * Обеспечивает мгновенное обновление UI и отправку изменений на сервер после периода бездействия.
@@ -33,11 +32,13 @@ export const useChecklistActions = (
 
   useEffect(() => {
     setCheckboxes(initialChecklist);
-  }, [itemId]);
+  }, [itemId, initialChecklist]);
 
-  // Обновляем чекбоксы при изменении initialChecklist (в том числе когда становится пустым)
+  // Обновляем чекбоксы при изменении initialChecklist
   useEffect(() => {
-    setCheckboxes(initialChecklist || []);
+    if ((initialChecklist?.length || 0) > 0) {
+      setCheckboxes(initialChecklist);
+    }
   }, [initialChecklist]);
 
   // Эффект для отправки изменений на сервер после дебаунса
