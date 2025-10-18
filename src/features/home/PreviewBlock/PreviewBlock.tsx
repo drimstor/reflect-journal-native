@@ -115,6 +115,8 @@ const PreviewBlock = ({
     TestResults: <ClipboardSolidIcon color={colors.contrast} size={160} />,
   };
 
+  console.log({ checklist });
+
   return (
     <Pressable
       onPressIn={() => animate(1)}
@@ -165,7 +167,7 @@ const PreviewBlock = ({
           </View>
         )}
 
-        {checklist && (
+        {!!checklist?.length && (
           <View style={styles.progressBarBox}>
             <Text withOpacity={70} size="small" color={colors.contrast}>
               {`${calculateProgress(checklist)}% ${t(

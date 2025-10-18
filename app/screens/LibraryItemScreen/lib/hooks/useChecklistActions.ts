@@ -34,11 +34,9 @@ export const useChecklistActions = (
     setCheckboxes(initialChecklist);
   }, [itemId]);
 
-  // Обновляем чекбоксы при изменении initialChecklist
+  // Обновляем чекбоксы при изменении initialChecklist (в том числе когда становится пустым)
   useEffect(() => {
-    if ((initialChecklist?.length || 0) > 0) {
-      setCheckboxes(initialChecklist);
-    }
+    setCheckboxes(initialChecklist || []);
   }, [initialChecklist]);
 
   // Эффект для отправки изменений на сервер после дебаунса
